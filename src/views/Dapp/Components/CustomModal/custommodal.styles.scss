@@ -1,0 +1,232 @@
+#custom__modal {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: 1000;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: rgba(0, 0, 0, 0.4);
+	cursor: pointer;
+
+	.custom__modal__content {
+		width: 90%;
+		max-width: 597px;
+		min-height: 381px;
+		max-height: 500px;
+		background: linear-gradient(
+			247.99deg,
+			rgba(52, 49, 102, 0.17) 0%,
+			rgba(41, 39, 84, 0.78) 48.89%,
+			rgba(27, 25, 67, 0.71) 98.46%
+		);
+		box-shadow: 28px 50px 90px rgba(23, 18, 43, 0.7);
+		border-radius: 12px;
+		overflow: hidden;
+
+		@supports (backdrop-filter: blur(26.3971px)) {
+			backdrop-filter: blur(26.3971px);
+		}
+
+		.background {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			display: flex;
+			align-items: flex-end;
+			z-index: 1;
+		}
+
+		.modal__connect,
+		.modal__disconnect {
+			padding: 34px 16px;
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			min-height: 381px;
+			max-height: 500px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			z-index: 2;
+			overflow: auto;
+
+			@supports (backdrop-filter: blur(2.3971px)) {
+				backdrop-filter: blur(2.3971px);
+			}
+		}
+
+		.modal__connect {
+			.title {
+				font-style: normal;
+				font-weight: 600;
+				font-size: 20px;
+				line-height: 30px;
+				color: #ffffff;
+				margin-bottom: 5px;
+			}
+
+			.sub__title {
+				font-style: normal;
+				font-weight: 500;
+				font-size: 14px;
+				line-height: 21px;
+				color: rgba(255, 255, 255, 0.48);
+				margin-bottom: 35px;
+			}
+
+			.wallet__options {
+				width: 100%;
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+				gap: 22px 14px;
+
+				.wallet {
+					border: none;
+					outline: none;
+					width: 160px;
+					height: 100px;
+					background: linear-gradient(
+						180deg,
+						rgba(51, 47, 103, 0.443218) 2.1%,
+						rgba(61, 60, 125, 0.401268) 98.26%
+					);
+					box-shadow: 0px 12px 14px rgba(32, 30, 66, 0.506567);
+					border-radius: 8px;
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					align-items: center;
+					cursor: pointer;
+					margin: 0 auto;
+					transition: border 0.1s ease-in-out;
+
+					@supports (backdrop-filter: blur(18.5547px)) {
+						backdrop-filter: blur(18.5547px);
+					}
+
+					.wallet__name {
+						font-family: Poppins;
+						font-style: normal;
+						font-weight: 500;
+						font-size: 14px;
+						line-height: 21px;
+						color: #ffffff;
+						margin-top: 5px;
+					}
+
+					&:hover,
+					&:focus {
+						border: 1px solid #fff;
+					}
+
+				}
+			}
+		}
+
+		.modal__disconnect {
+			.title {
+				font-style: normal;
+				font-weight: 600;
+				font-size: 20px;
+				line-height: 30px;
+				color: #ffffff;
+				margin-bottom: 5px;
+			}
+
+			.sub__title {
+				font-style: normal;
+				font-weight: 500;
+				font-size: 14px;
+				line-height: 21px;
+				color: rgba(255, 255, 255, 0.48);
+				margin-bottom: 35px;
+			}
+
+			.account__balance {
+				font-family: Poppins;
+				font-style: normal;
+				font-weight: 600;
+				font-size: 28px;
+				line-height: 42px;
+				color: #ffffff;
+			}
+
+			.account__balance__text {
+				font-family: Poppins;
+				font-style: normal;
+				font-weight: 500;
+				font-size: 12px;
+				line-height: 18px;
+				color: rgba(255, 255, 255, 0.48);
+				margin-bottom: 17px;
+			}
+
+			button {
+				border: none;
+				outline: none;
+				border-radius: 8px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				margin-bottom: 16px;
+
+				svg {
+					transform: scale(0.6);
+					margin-right: 26px;
+				}
+
+				p {
+					font-style: normal;
+					font-weight: 500;
+					font-size: 14px;
+					line-height: 21px;
+					color: #ffffff;
+				}
+
+				&.disconnect__wallet {
+					background: #c8304d;
+					min-width: 188px;
+					max-width: 188px;
+					min-height: 40px;
+					max-height: 40px;
+				}
+
+				&.wallet__address {
+					padding: 0 18px;
+					width: 176px;
+					height: 54px;
+					background: linear-gradient(
+						180deg,
+						#50e3c2 2.1%,
+						rgba(61, 60, 125, 0.401268) 98.26%
+					);
+					box-shadow: 0px 12px 14px rgba(32, 30, 66, 0.506567);
+					margin-bottom: 35px;
+
+					@supports (backdrop-filter: blur(18.5547px)) {
+						backdrop-filter: blur(18.5547px);
+					}
+				}
+
+				&.buy__pred {
+					background: none;
+					color: rgba(255, 255, 255, 0.48);
+					text-decoration: underline;
+					margin-bottom: 18px;
+					font-family: Poppins;
+					font-style: normal;
+					font-weight: 500;
+					font-size: 14px;
+					line-height: 21px;
+				}
+			}
+		}
+	}
+}

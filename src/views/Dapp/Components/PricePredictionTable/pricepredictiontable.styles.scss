@@ -1,0 +1,152 @@
+.price__prediction__table {
+	width: 100%;
+	overflow: auto;
+	max-height: 60vh;
+
+	#table {
+		position: relative;
+		display: table;
+		white-space: nowrap;
+		border-collapse: collapse;
+		text-align: center;
+		width: 100%;
+		margin-bottom: 30px;
+
+		.gZOAy {
+			background: radial-gradient(
+				123.22% 129.67% at 100.89% -5.6%,
+				#201d47 0%,
+				#17153a 100%
+			);
+		}
+
+		.table__head,
+		.table__data {
+			padding: 2rem 1rem;
+			min-width: 120px;
+		}
+
+		.table__header {
+			background: #17153a;
+			width: 100%;
+			position: sticky;
+			top: 0;
+			z-index: 2;
+
+			.table__head {
+				position: sticky;
+				top: 0;
+				z-index: 2;
+				font-style: normal;
+				font-weight: 500;
+				font-size: 14px;
+				line-height: 21px;
+				color: #ffffff;
+				opacity: 0.2;
+
+				svg {
+					cursor: pointer;
+					transform: scale(1.2);
+					margin-left: 8px;
+				}
+			}
+		}
+
+		.table__body {
+			.table__row {
+				position: relative;
+
+				.table__row__options {
+					position: absolute;
+					display: block;
+					top: 0;
+					left: 0;
+					width: 100%;
+					height: 100%;
+					background: rgba($color: #000000, $alpha: 0.2);
+				}
+
+				.table__data {
+					font-style: normal;
+					font-weight: normal;
+					font-size: 14px;
+					line-height: 21px;
+					text-align: center;
+					letter-spacing: 0.392857px;
+					text-transform: uppercase;
+					color: #ffffff;
+					padding: 12px 1rem;
+
+					&:nth-child(1) {
+						img {
+							margin-right: 13px;
+						}
+					}
+
+					&:nth-child(2) {
+						p {
+							&.up {
+								svg {
+									color: #50e3c2;
+								}
+							}
+
+							&.down {
+								svg {
+									color: #e3507a;
+								}
+							}
+
+							&.stay {
+								color: #59588d;
+
+								svg {
+									color: #fff;
+								}
+							}
+						}
+					}
+
+					&:nth-child(5) {
+						.down__statistics {
+							color: #e3507a;
+						}
+
+						.up__statistics {
+							color: #50e3c2;
+						}
+					}
+
+					&:nth-child(6) {
+						text-transform: capitalize;
+					}
+
+					button {
+						background: none;
+						outline: none;
+						border: none;
+						font-style: normal;
+						font-weight: normal;
+						font-size: 14px;
+						line-height: 21px;
+						letter-spacing: 0.392857px;
+						text-decoration-line: underline;
+						color: #e3507a;
+						cursor: pointer;
+
+						&.no__earn {
+							text-decoration: none;
+							cursor: not-allowed;
+						}
+
+						&.earned {
+							text-decoration: none;
+							opacity: 0.5;
+							cursor: not-allowed;
+						}
+					}
+				}
+			}
+		}
+	}
+}

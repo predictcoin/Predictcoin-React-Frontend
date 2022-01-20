@@ -1,0 +1,208 @@
+.coin__tab {
+	min-width: 195px;
+	max-width: 190px;
+	height: 74px;
+	padding: 12px;
+	border: 1px solid #312f62;
+	border-radius: 10px;
+	display: flex;
+	align-items: center;
+	margin-right: 20px;
+	cursor: pointer;
+
+	.coin__logo {
+		font-size: 24px;
+		color: #494767;
+		margin-right: 18px;
+
+		img {
+			width: 23px;
+			height: 23px;
+		}
+	}
+
+	.coin__details {
+		width: 100%;
+
+		.value__name,
+		.chart__rise__fall {
+			width: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		.value__name {
+			margin-bottom: 9px;
+			font-style: normal;
+			font-weight: normal;
+			color: #ffffff;
+
+			.value {
+				font-size: 17px;
+				line-height: 25px;
+				letter-spacing: -0.05em;
+				opacity: 0.7;
+			}
+
+			.name {
+				font-family: HelveticaNeue;
+				font-weight: 600;
+				font-size: 12px;
+				line-height: 14px;
+				opacity: 0.2;
+			}
+		}
+
+		.chart__rise__fall {
+			.chart {
+				height: 12px;
+				width: 49px;
+
+				&.up {
+					path {
+						stroke: #3acc8a;
+					}
+
+					span:first-child {
+						background: #3acc8a !important;
+					}
+				}
+
+				&.down {
+					path {
+						stroke: #df5f67;
+					}
+
+					span:first-child {
+						background: #df5f67 !important;
+					}
+				}
+			}
+
+			.rise__fall {
+				font-style: normal;
+				font-weight: normal;
+				font-size: 11px;
+				line-height: 16px;
+
+				span {
+					&.up {
+						color: #50e3c2;
+					}
+
+					&.down {
+						color: #e3507a;
+					}
+				}
+			}
+		}
+	}
+
+	&.active {
+		border: none;
+		box-shadow: rgba(255, 255, 255, 0.05) 0px 1px 0px,
+			rgba(255, 255, 255, 0.1) 0px 0px 8px;
+
+		&.bitcoin {
+			background: linear-gradient(
+				135deg,
+				#f0b90b 0%,
+				#d7a60b 19.24%,
+				#f7931a 68.64%,
+				#fead4c 81.77%,
+				#cf7406 100%
+			);
+		}
+
+		&.ethereum {
+			background: linear-gradient(
+				135deg,
+				#c99d66 0%,
+				rgb(133, 137, 138) 19.24%,
+				#3c3c3d 29.24%,
+				#737376 68.64%,
+				#c99d66 90%
+			);
+		}
+
+		&.litecoin {
+			background: linear-gradient(
+				135deg,
+				#b8b8b8 0%,
+				#4ab0df 19.24%,
+				#00aeff 29.24%,
+				#077ab0 68.64%,
+				#4d4d4d 90%
+			);
+		}
+
+		&.dogecoin {
+			background: linear-gradient(
+				135deg,
+				#000000 0%,
+				#cb9800 19.24%,
+				#cb9800 29.24%,
+				#e1b303 68.64%,
+				#000000 90%
+			);
+		}
+
+		&.crypto-com-chain {
+			background: #1a2b58;
+		}
+
+		.coin__logo {
+			color: #fff;
+		}
+
+		.coin__details {
+			.value__name {
+				.value {
+					opacity: 1;
+				}
+
+				.name {
+					opacity: 0.5;
+				}
+			}
+		}
+
+		.chart__rise__fall {
+			.chart {
+				height: 12px;
+				width: 49px;
+
+				&.up {
+					path {
+						stroke: #fff;
+					}
+
+					span:first-child {
+						background: #fff !important;
+					}
+				}
+
+				&.down {
+					path {
+						stroke: #fff;
+					}
+
+					span:first-child {
+						background: #fff !important;
+					}
+				}
+			}
+
+			.rise__fall {
+				span {
+					color: #fff;
+
+					svg {
+						color: #fff;
+					}
+				}
+			}
+		}
+	}
+}

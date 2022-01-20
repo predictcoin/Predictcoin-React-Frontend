@@ -1,0 +1,273 @@
+.ptc__navbar-icon {
+  margin: 0 0.5rem;
+}
+
+.ptc__navbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 6rem;
+  background: #ffff;
+
+  position: sticky;
+  top: 0;
+  z-index: 1;
+
+  padding: 0 10rem;
+}
+
+.ptc__navbar-links {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ptc__navbar-links_logo {
+  margin-right: 2rem;
+  max-width: 100%;
+}
+
+.ptc__navbar-links_logo img {
+  width: 50%;
+  height: auto;
+
+  max-width: 300px;
+}
+
+.ptc__navbar-links_container {
+  display: flex;
+  flex-direction: row;
+
+  /* Add when making changes */
+  justify-content: flex-start;
+  align-items: center;
+  margin-right: 10rem;
+}
+
+.ptc__navbar-links_container p,
+.ptc__navbar-menu_container p {
+  color: #000;
+  font-family: var(--font-family);
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: 0.3s;
+  padding: 10px 0 10px 30px;
+}
+
+.ptc__navbar-links_container a {
+  text-decoration: none;
+}
+
+.ptc__navbar-launch {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin: 2rem;
+}
+
+.ptc__navbar-launch a {
+  color: #ffff;
+  background: var(--gradient-launch);
+  padding: 18px 56px 18px 56px;
+  white-space: nowrap;
+  transition: 0.3s;
+  font-size: 14px;
+  display: inline-block;
+  border-radius: 30px;
+  border: 0;
+  cursor: pointer;
+}
+
+.ptc__navbar-launch a:hover {
+  color: #000;
+  background: #ffc451;
+  padding: 18px 56px 18px 56px;
+  white-space: nowrap;
+  transition: 0.3s;
+  font-size: 14px;
+  display: inline-block;
+  border-radius: 30px;
+  border: 0;
+  cursor: pointer;
+}
+
+.ptc__navbar-menu {
+  margin: 1rem;
+  display: none;
+  position: relative;
+}
+
+.ptc__navbar-menu svg {
+  cursor: pointer;
+}
+
+.ptc__navbar-menu_container {
+  background: #ffff;
+  position: fixed;
+  width: 100vw;
+  height: 50vh;
+  top: 10rem;
+  left: 0;
+  right: 0;
+  margin: 0 0;
+}
+
+.ptc__navbar-menu_container p {
+  color: black;
+  font-family: var(--font-family);
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: 0.3s;
+  padding: 10px 0 10px 30px;
+}
+
+.ptc__navbar-menu-container p {
+  margin: 1rem 0;
+}
+
+.ptc__navbar-menu-container-launch {
+  display: none;
+}
+
+@media screen and (max-width: 320px) {
+  .ptc__navbar-links_container {
+    display: none;
+  }
+
+  .ptc__navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 0 0;
+  }
+
+  .ptc__navbar-menu {
+    display: flex;
+  }
+
+  .ptc__navbar-launch a {
+    padding: 1px 5px 1px 5px;
+    width: 100;
+  }
+
+  .ptc__navbar-links_logo {
+    margin-right: 0;
+    padding: 0;
+  }
+
+  .ptc__navbar-links_logo img {
+    width: 100%;
+    height: auto;
+
+    max-width: 300px;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .ptc__navbar-links_container {
+    display: none;
+  }
+
+  .ptc__navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 0;
+  }
+
+  .ptc__navbar-menu {
+    display: flex;
+  }
+
+  .ptc__navbar-launch a {
+    padding: 5px 10px 5px 10px;
+    width: 100;
+  }
+
+  .ptc__navbar-links_logo {
+    margin-right: 0;
+    padding: 0;
+  }
+
+  .ptc__navbar-links_logo img {
+    width: 70%;
+    height: auto;
+
+    margin-left: 2rem;
+    padding: 0;
+    max-width: 300px;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .section__padding {
+    padding-top: 4rem;
+  }
+
+  .ptc__navbar-links_container {
+    display: none;
+  }
+
+  .ptc__navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 0;
+  }
+
+  .ptc__navbar-menu {
+    display: flex;
+  }
+
+  .ptc__navbar-launch a {
+    padding: 10px 20px 10px 20px;
+    width: 100;
+  }
+
+  .ptc__navbar-links_logo img {
+    width: 70%;
+    height: auto;
+
+    margin-left: 1rem;
+    padding: 0;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .ptc__navbar-links_container {
+    display: none;
+  }
+
+  .ptc__navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    padding: 0 2rem 0 0;
+  }
+
+  .ptc__navbar-menu {
+    display: flex;
+  }
+
+  .ptc__navbar-links_logo img {
+    width: 80%;
+    height: auto;
+
+    max-width: 350px;
+    margin-left: -20rem;
+  }
+
+  .ptc__navbar-launch a {
+    padding: 10px 25px 10px 25px;
+
+    margin-right: -25rem;
+  }
+}

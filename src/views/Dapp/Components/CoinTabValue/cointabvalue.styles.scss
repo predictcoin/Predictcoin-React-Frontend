@@ -1,0 +1,16 @@
+.coin__tab__value {
+    display: flex;
+    align-items: center;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 27px;
+	text-transform: uppercase;
+	color: #ffffff;
+	opacity: 0.9;
+
+    svg{
+        font-size: 30px;
+        margin-right: 8px;
+    }
+}
