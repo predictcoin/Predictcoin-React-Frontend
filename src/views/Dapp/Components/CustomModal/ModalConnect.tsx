@@ -2,8 +2,11 @@ import { Dispatch, FC, SetStateAction, useEffect } from 'react';
 
 import CustomModal from './index';
 import MetamaskIcon from '../../../../assets/appSvgs/MetamaskIcon';
+import WalletConnectIcon from '../../../../assets/appSvgs/WalletConnect';
 import TrustwalletIcon from '../../../../assets/pics/Trustwallet.png';
 import SafepalIcon from '../../../../assets/pics/Safepal.png';
+import {walletViewModel} from "../../application/controllers/walletViewModel";
+import {useWalletStore} from "../../infrastructure/redux/stores/wallet";
 
 interface ModalConnectProps {
 	closeModal: Dispatch<SetStateAction<boolean>>;
@@ -13,6 +16,9 @@ const ModalConnect: FC<ModalConnectProps> = ({ closeModal }) => {
 	const closeModalFunc = (e: any) => {
 		if (e.target?.id === 'custom__modal') closeModal(false);
 	};
+
+	const store = useWalletStore();
+	const {connect} = walletViewModel(store);
 
 	useEffect(() => {
 		window.addEventListener('click', (e) => closeModalFunc(e));
@@ -29,15 +35,15 @@ const ModalConnect: FC<ModalConnectProps> = ({ closeModal }) => {
 				<p className='sub__title'>Connect crypto wallet of your choice</p>
 
 				<div className='wallet__options'>
-					<button className='wallet'>
+					<button className='wallet' onClick={() => connect("metamask")}>
 						<MetamaskIcon />
 						<p className='wallet__name'>Metamask</p>
 					</button>
-					<button className='wallet'>
-						<img src={TrustwalletIcon} alt='trustwalleticon' />
-						<p className='wallet__name'>Trustwallet</p>
+					<button className='wallet' onClick={() => connect("walletconnect")}>
+						<WalletConnectIcon />
+						<p className='wallet__name'>WalletConnect</p>
 					</button>
-					<button className='wallet'>
+					{/* <button className='wallet'>
 						<img src={SafepalIcon} alt='safepalicon' />
 						<p className='wallet__name'>Safepal</p>
 					</button>
@@ -52,7 +58,7 @@ const ModalConnect: FC<ModalConnectProps> = ({ closeModal }) => {
 					<button className='wallet'>
 						<img src={SafepalIcon} alt='safepalicon' />
 						<p className='wallet__name'>Safepal</p>
-					</button>
+					</button> */}
 				</div>
 			</div>
 		</CustomModal>

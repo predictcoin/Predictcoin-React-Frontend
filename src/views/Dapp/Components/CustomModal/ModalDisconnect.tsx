@@ -1,5 +1,8 @@
 import React, { Dispatch, FC, SetStateAction, useEffect } from 'react';
 import MetamaskIcon from '../../../../assets/appSvgs/MetamaskIcon';
+import {walletViewModel} from "../../application/controllers/walletViewModel";
+import {useWalletStore} from "../../infrastructure/redux/stores/wallet";
+import { shortenAddress } from '../../lib/utils/address';
 
 import CustomModal from './index';
 
@@ -11,6 +14,9 @@ const ModalDisconnect: FC<ModalDisconnectProps> = ({ closeModal }) => {
 	const closeModalFunc = (e: any) => {
 		if (e.target?.id === 'custom__modal') closeModal(false);
 	};
+
+	const store = useWalletStore();
+	const {disconnect, address} = walletViewModel(store);
 
 	useEffect(() => {
 		window.addEventListener('click', (e) => closeModalFunc(e));
@@ -28,7 +34,7 @@ const ModalDisconnect: FC<ModalDisconnectProps> = ({ closeModal }) => {
 
 				<button className='wallet__address'>
 					<MetamaskIcon />
-					<p>0xgh...t573</p>
+					<p>{shortenAddress(address)}</p>
 				</button>
 
 				<p className='account__balance'>23.9 PRED</p>
@@ -38,7 +44,7 @@ const ModalDisconnect: FC<ModalDisconnectProps> = ({ closeModal }) => {
 
 				<button
 					className='disconnect__wallet'
-					onClick={() => closeModal(false)}
+					onClick={() => {disconnect(); closeModal(false)}}
 				>
 					<p>Disconnect Wallet</p>
 				</button>

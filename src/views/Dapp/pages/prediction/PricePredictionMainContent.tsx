@@ -9,6 +9,9 @@ import PricePredictionPast from './PricePredictionPast';
 import PricePredictionOngoing from './PricePredictionOngoing';
 import ModalConnect from '../../Components/CustomModal/ModalConnect';
 import ModalDisconnect from '../../Components/CustomModal/ModalDisconnect';
+import { walletViewModel } from "../../application/controllers/walletViewModel";
+import { useWalletStore } from "../../infrastructure/redux/stores/wallet";
+import { shortenAddress } from "../../lib/utils/address";
 
 interface PricePredictionMainContentProps {
 	isSidebarExpanded: boolean;
@@ -22,6 +25,12 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
 	const { pathname } = useLocation();
 	const [activeCard, setActiveCard] = useState<string>(coinTabData[0].id);
 	const [modalOpened, setModalOpened] = useState<boolean>(false);
+	const store = useWalletStore();
+	const { active, address } = walletViewModel(store);
+	const modal = active 
+		? <ModalDisconnect closeModal={() => setModalOpened(false)}/>
+		: <ModalConnect closeModal={() => setModalOpened(false)}/>;
+	// active && setModalOpened(false);
 
 	useEffect(() => {
 		
@@ -29,7 +38,7 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
 
 	return (
 		<section className='price__prediction__main__content'>
-			{modalOpened && <ModalConnect closeModal={() => setModalOpened(false)} />}
+			{modalOpened && modal}
 
 			<div className='container'>
 				<header>
@@ -57,12 +66,9 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
 							<p>25.08 PRED</p>
 						</div>
 						{/* add 'not__connected class if wallet is not connected' */}
-						<button
-							className='address not__connected'
-							onClick={() => setModalOpened(true)}
-						>
+						<button className={`address ${ !active && "not__connected" }`} onClick={() => setModalOpened(true)}>
 							<WalletIcon />
-							<span>Connect Wallet</span>
+							{active ? <span>{shortenAddress(address)}</span> : <span>Connect Wallet</span>}
 						</button>
 					</div>
 				</header>
