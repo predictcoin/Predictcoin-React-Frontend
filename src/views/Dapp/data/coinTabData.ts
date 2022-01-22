@@ -1,4 +1,4 @@
-import CoinTabDataModel, { Status } from '../models/CoinDataModel';
+import CoinTabDataModel from '../models/CoinDataModel';
 
 const coinTabData: CoinTabDataModel[] = [
 	{

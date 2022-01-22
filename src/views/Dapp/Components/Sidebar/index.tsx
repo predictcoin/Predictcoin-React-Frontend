@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction } from 'react';
+import { Dispatch, FC, SetStateAction, useRef } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
 import FarmingIcon from '../../../../assets/appSvgs/FarmingIcon';
@@ -23,6 +23,22 @@ const Sidebar: FC<SidebarProps> = ({
 	setIsSidebarExpanded,
 }) => {
 	const { pathname } = useLocation();
+	const copyButtonRef = useRef<HTMLButtonElement>(null);
+
+	const copyToClipboard = (containerId: string) => {
+		let range = document.createRange();
+		range.selectNode(document.querySelector(containerId)!);
+		window.getSelection()!.removeAllRanges();
+		window.getSelection()!.addRange(range);
+		document.execCommand('copy');
+		window.getSelection()!.removeAllRanges();
+		copyButtonRef.current!.innerHTML = 'Address copied';
+
+	
+		setTimeout(() => {
+			copyButtonRef.current!.innerHTML = 'click to copy CA';
+		}, 800);
+	};
 
 	return (
 		<section id='sidebar' className={isSidebarExpanded ? 'expand' : ''}>
@@ -69,7 +85,9 @@ const Sidebar: FC<SidebarProps> = ({
 					<li>
 						<NavLink
 							to='##'
-							className={({ isActive }) => (isActive ? 'active not__available' : '')}
+							className={({ isActive }) =>
+								isActive ? 'active not__available' : ''
+							}
 						>
 							<div className='icon'>
 								<SwapIcon />
@@ -84,7 +102,9 @@ const Sidebar: FC<SidebarProps> = ({
 					<li>
 						<NavLink
 							to='##'
-							className={({ isActive }) => (isActive ? 'active not__available' : '')}
+							className={({ isActive }) =>
+								isActive ? 'active not__available' : ''
+							}
 						>
 							<div className='icon'>
 								<VotingIcon />
@@ -111,7 +131,9 @@ const Sidebar: FC<SidebarProps> = ({
 					<li>
 						<NavLink
 							to='##'
-							className={({ isActive }) => (isActive ? 'active not__available' : '')}
+							className={({ isActive }) =>
+								isActive ? 'active not__available' : ''
+							}
 						>
 							<div className='icon'>
 								<PredictBidIcon />
@@ -126,7 +148,9 @@ const Sidebar: FC<SidebarProps> = ({
 					<li>
 						<NavLink
 							to='##'
-							className={({ isActive }) => (isActive ? 'active not__available' : '')}
+							className={({ isActive }) =>
+								isActive ? 'active not__available' : ''
+							}
 						>
 							<div className='icon'>
 								<SportPredictionIcon />
@@ -141,7 +165,9 @@ const Sidebar: FC<SidebarProps> = ({
 					<li>
 						<NavLink
 							to='##'
-							className={({ isActive }) => (isActive ? 'active not__available' : '')}
+							className={({ isActive }) =>
+								isActive ? 'active not__available' : ''
+							}
 						>
 							<div className='icon'>
 								<IPOIcon />
@@ -161,8 +187,16 @@ const Sidebar: FC<SidebarProps> = ({
 						<CACoins />
 					</div>
 					<div className='CA__section__content'>
-						<p className='address'>0xbdd2e3...323f226ba22</p>
-						<button className='copy__CA'>click to copy CA</button>
+						<p id='address' className='address'>
+							0xbdd2e3...323f226ba22
+						</p>
+						<button
+							className='copy__CA'
+							onClick={() => copyToClipboard('#address')}
+							ref={copyButtonRef}
+						>
+							click to copy CA
+						</button>
 						<img src={PredictLogoSidebar} alt='predict-logo-sidebar' />
 					</div>
 				</div>

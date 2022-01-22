@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 import { Link, Route, Routes, useLocation } from 'react-router-dom';
 
 import coinTabData from '../../data/coinTabData';
@@ -20,12 +20,16 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
 	setIsSidebarExpanded,
 }) => {
 	const { pathname } = useLocation();
-	const [activeCard, setActiveCard] = useState<string>('bitcoin');
+	const [activeCard, setActiveCard] = useState<string>(coinTabData[0].id);
 	const [modalOpened, setModalOpened] = useState<boolean>(false);
+
+	useEffect(() => {
+		
+	}, [activeCard]);
 
 	return (
 		<section className='price__prediction__main__content'>
-			{modalOpened && <ModalConnect closeModal={() => setModalOpened(false)}/>}
+			{modalOpened && <ModalConnect closeModal={() => setModalOpened(false)} />}
 
 			<div className='container'>
 				<header>
@@ -53,7 +57,10 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
 							<p>25.08 PRED</p>
 						</div>
 						{/* add 'not__connected class if wallet is not connected' */}
-						<button className='address not__connected' onClick={() => setModalOpened(true)}>
+						<button
+							className='address not__connected'
+							onClick={() => setModalOpened(true)}
+						>
 							<WalletIcon />
 							<span>Connect Wallet</span>
 						</button>

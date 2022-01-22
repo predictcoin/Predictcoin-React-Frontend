@@ -32,6 +32,7 @@ const CoinTab: FC<CoinTabProps> = ({
 		setLoadingDetails(true);
 		try {
 			const coin = await client.coins.fetch(id, {});
+			console.log(coin);
 			const coinData = coin.data;
 			setCoinImage(coinData.image.small);
 			setCoinDetails(coinData.market_data);
@@ -42,12 +43,11 @@ const CoinTab: FC<CoinTabProps> = ({
 	};
 
 	const searchCoinChart = async () => {
-		console.log(Date.now(), Date.now() - 180000000000);
 		setLoadingChart(true);
 		try {
 			const coin = await client.coins.fetchMarketChartRange(id, {
 				vs_currency: 'usd',
-				from: Date.now() - 380000000000,
+				from: Date.now() - 330000000,
 				to: Date.now(),
 			});
 			const coinData = coin.data;
