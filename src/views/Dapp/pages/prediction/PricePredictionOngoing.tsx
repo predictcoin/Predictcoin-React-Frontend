@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import PredictionGraph from '../../Components/PredictionGraph';
-import PredictionDetails, { RoundStatus } from '../../Components/PredictionDetails';
+import PredictionDetails from '../../Components/PredictionDetails';
 
 const data: {
 	id: string;
@@ -54,7 +54,7 @@ const PricePredictionOngoing: FC = () => {
 				<PredictionGraph data={data} />
 			</div>
 			<div className='prediction__details'>
-				<PredictionDetails status={RoundStatus.Ongoing} />
+				<PredictionDetails />
 			</div>
 		</div>
 	);

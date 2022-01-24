@@ -3,6 +3,7 @@ import { FC, useState } from 'react';
 import Sidebar from '../../Components/Sidebar';
 import PricePredictionMainContent from './PricePredictionMainContent';
 import './prediction.styles.scss';
+import { toast } from 'react-toastify';
 
 const Prediction: FC = () => {
 	const [isSidebarExpanded, setIsSidebarExpanded] = useState<boolean>(false);

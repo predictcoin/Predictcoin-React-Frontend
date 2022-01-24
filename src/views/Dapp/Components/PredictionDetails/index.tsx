@@ -9,20 +9,41 @@ import UnsuccessfulIllo from '../../../../assets/appSvgs/UnsuccessfulIllo';
 import DropdownOptions from './DropdownOptions';
 import { coinPredictionOptions } from '../../data/options';
 import './predictiondetails.styles.scss';
+import useNextRoundCountdown from '../../lib/prediction/hooks/useNextRoundCountdown';
+import { predictionViewModel } from '../../application/controllers/predictionViewModel';
+import { usePredictionStore } from '../../infrastructure/redux/stores/prediction';
+import { useWalletStore } from '../../models/infrastructure/redux/stores/wallet';
+import { getPrediction } from '../../application/usecases/prediction.ts/getPrediction';
+import { PREDICTIONSTATE } from '../../application/domain/prediction/entity';
 
-export enum RoundStatus {
-	Ongoing = 'ongoing',
-	Ended = 'ended',
-	Unsuccessful = 'unsuccessful',
-}
-
-interface PredictionDetailsProps {
-	status: RoundStatus;
-}
 
 // NOTE: The three options for the details are Ongoing, Ended and Unsuccessful.
 
-const PredictionDetails: FC<PredictionDetailsProps> = ({ status }) => {
+const PredictionDetails: FC = () => {
+	let status = PREDICTIONSTATE.ROUND_ENDED_SUCCESSFULLY;
+	let time, width;
+	const nextRoundCountdown = useNextRoundCountdown();
+
+	const predictionStore = usePredictionStore()
+	const walletStore = useWalletStore();
+
+	const {available, prediction, getPrediction} = predictionViewModel(walletStore, predictionStore);
+	if(!available){ getPrediction() };
+	if(prediction && !prediction.currentRound.eq(0)){
+		switch(prediction.state){
+			case(PREDICTIONSTATE.BETTING_ONGOING):
+				time = prediction.bet
+				width = 
+		}
+	}
+
+	if(status !== "ongoing" ){
+		time = nextRoundCountdown.countdown;
+		width = nextRoundCountdown.width;
+	}else{
+
+	}
+
 	return (
 		<div className='prediction__details__content'>
 			<p className='title'>start prediction</p>
@@ -42,10 +63,10 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({ status }) => {
 							? 'LIVE ROUND ENDS IN:'
 							: 'NEXT ROUND BEGINS IN:'}
 					</span>
-					<span className='time'>02h:34m:23s</span>
+					<span className='time'>{time}</span>
 				</p>
 				<div className='progress__bar'>
-					<div className='elapsed'></div>
+					<div className='elapsed' style={{width}}></div>
 				</div>
 			</div>
 

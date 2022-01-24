@@ -1,0 +1,171 @@
+.coin__tab {
+  min-width: 195px;
+  max-width: 190px;
+  height: 74px;
+  padding: 12px;
+  border: 1px solid #312f62;
+  border-radius: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.coin__tab .coin__logo {
+  font-size: 24px;
+  color: #494767;
+  margin-right: 18px;
+}
+
+.coin__tab .coin__logo img {
+  width: 23px;
+  height: 23px;
+}
+
+.coin__tab .coin__details {
+  width: 100%;
+}
+
+.coin__tab .coin__details .value__name,
+.coin__tab .coin__details .chart__rise__fall {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.coin__tab .coin__details .value__name {
+  margin-bottom: 9px;
+  font-style: normal;
+  font-weight: normal;
+  color: #ffffff;
+}
+
+.coin__tab .coin__details .value__name .value {
+  font-size: 17px;
+  line-height: 25px;
+  letter-spacing: -0.05em;
+  opacity: 0.7;
+}
+
+.coin__tab .coin__details .value__name .name {
+  font-family: HelveticaNeue;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 14px;
+  opacity: 0.2;
+}
+
+.coin__tab .coin__details .chart__rise__fall .chart {
+  height: 12px;
+  width: 49px;
+}
+
+.coin__tab .coin__details .chart__rise__fall .chart.up path {
+  stroke: #3acc8a;
+}
+
+.coin__tab .coin__details .chart__rise__fall .chart.up span:first-child {
+  background: #3acc8a !important;
+}
+
+.coin__tab .coin__details .chart__rise__fall .chart.down path {
+  stroke: #df5f67;
+}
+
+.coin__tab .coin__details .chart__rise__fall .chart.down span:first-child {
+  background: #df5f67 !important;
+}
+
+.coin__tab .coin__details .chart__rise__fall .rise__fall {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 11px;
+  line-height: 16px;
+}
+
+.coin__tab .coin__details .chart__rise__fall .rise__fall span.up {
+  color: #50e3c2;
+}
+
+.coin__tab .coin__details .chart__rise__fall .rise__fall span.down {
+  color: #e3507a;
+}
+
+.coin__tab.active {
+  border: none;
+  -webkit-box-shadow: rgba(255, 255, 255, 0.05) 0px 1px 0px, rgba(255, 255, 255, 0.1) 0px 0px 8px;
+          box-shadow: rgba(255, 255, 255, 0.05) 0px 1px 0px, rgba(255, 255, 255, 0.1) 0px 0px 8px;
+}
+
+.coin__tab.active.bitcoin {
+  background: linear-gradient(135deg, #f0b90b 0%, #d7a60b 19.24%, #f7931a 68.64%, #fead4c 81.77%, #cf7406 100%);
+}
+
+.coin__tab.active.ethereum {
+  background: linear-gradient(135deg, #c99d66 0%, #85898a 19.24%, #3c3c3d 29.24%, #737376 68.64%, #c99d66 90%);
+}
+
+.coin__tab.active.litecoin {
+  background: linear-gradient(135deg, #b8b8b8 0%, #4ab0df 19.24%, #00aeff 29.24%, #077ab0 68.64%, #4d4d4d 90%);
+}
+
+.coin__tab.active.dogecoin {
+  background: linear-gradient(135deg, #000000 0%, #cb9800 19.24%, #cb9800 29.24%, #e1b303 68.64%, #000000 90%);
+}
+
+.coin__tab.active.crypto-com-chain {
+  background: #1a2b58;
+}
+
+.coin__tab.active .coin__logo {
+  color: #fff;
+}
+
+.coin__tab.active .coin__details .value__name .value {
+  opacity: 1;
+}
+
+.coin__tab.active .coin__details .value__name .name {
+  opacity: 0.5;
+}
+
+.coin__tab.active .chart__rise__fall .chart {
+  height: 12px;
+  width: 49px;
+}
+
+.coin__tab.active .chart__rise__fall .chart.up path {
+  stroke: #fff;
+}
+
+.coin__tab.active .chart__rise__fall .chart.up span:first-child {
+  background: #fff !important;
+}
+
+.coin__tab.active .chart__rise__fall .chart.down path {
+  stroke: #fff;
+}
+
+.coin__tab.active .chart__rise__fall .chart.down span:first-child {
+  background: #fff !important;
+}
+
+.coin__tab.active .chart__rise__fall .rise__fall span {
+  color: #fff;
+}
+
+.coin__tab.active .chart__rise__fall .rise__fall span svg {
+  color: #fff;
+}
+/*# sourceMappingURL=cointab.styles.css.map */

@@ -1,0 +1,112 @@
+.staking__table {
+  width: 100%;
+  overflow: auto;
+  max-height: 60vh;
+}
+
+.staking__table #table {
+  position: relative;
+  display: table;
+  white-space: nowrap;
+  border-collapse: collapse;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.staking__table #table .gZOAy {
+  background: radial-gradient(123.22% 129.67% at 100.89% -5.6%, #201d47 0%, #17153a 100%);
+}
+
+.staking__table #table .table__head,
+.staking__table #table .table__data {
+  padding: 2rem 1rem;
+  min-width: 100px;
+}
+
+.staking__table #table .table__header {
+  background: #17153a;
+  width: 100%;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.staking__table #table .table__header .table__head {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  color: #ffffff;
+  opacity: 0.2;
+}
+
+.staking__table #table .table__header .table__head svg {
+  cursor: pointer;
+  -webkit-transform: scale(1.2);
+          transform: scale(1.2);
+  margin-left: 8px;
+}
+
+.staking__table #table .table__body .table__row {
+  position: relative;
+  height: 10px;
+}
+
+.staking__table #table .table__body .table__row .table__row__options {
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.staking__table #table .table__body .table__row .table__data {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 21px;
+  text-align: center;
+  letter-spacing: 0.392857px;
+  text-transform: uppercase;
+  color: #ffffff;
+  padding: 12px 1rem;
+}
+
+.staking__table #table .table__body .table__row .table__data:nth-child(2) img {
+  margin-right: 13px;
+}
+
+.staking__table #table .table__body .table__row .table__data button {
+  background: none;
+  outline: none;
+  border: none;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 21px;
+  letter-spacing: 0.392857px;
+  -webkit-text-decoration-line: underline;
+          text-decoration-line: underline;
+  color: #e3507a;
+}
+
+.staking__table #table .table__body .table__row .table__data button.no__withdraw {
+  color: #fff;
+  text-decoration: none;
+  cursor: not-allowed;
+}
+
+.staking__table #table .table__body .table__row .table__data button.withdrawn {
+  text-decoration: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+/*# sourceMappingURL=stakingtable.styles.css.map */

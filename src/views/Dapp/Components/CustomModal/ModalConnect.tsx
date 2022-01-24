@@ -6,7 +6,7 @@ import WalletConnectIcon from '../../../../assets/appSvgs/WalletConnect';
 import TrustwalletIcon from '../../../../assets/pics/Trustwallet.png';
 import SafepalIcon from '../../../../assets/pics/Safepal.png';
 import {walletViewModel} from "../../application/controllers/walletViewModel";
-import {useWalletStore} from "../../infrastructure/redux/stores/wallet";
+import {useWalletStore} from "../../models/infrastructure/redux/stores/wallet";
 
 interface ModalConnectProps {
 	closeModal: Dispatch<SetStateAction<boolean>>;

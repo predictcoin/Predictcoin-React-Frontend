@@ -1,0 +1,45 @@
+.toast_body {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+.toast_body .image {
+  padding-right: 1rem;
+}
+
+.toast_body .text {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 100%;
+}
+
+.toast_body .text .status {
+  font-size: 10px;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.toast_body .text .message {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.toast_body .close {
+  -ms-flex-item-align: end;
+      align-self: flex-end;
+  text-align: end;
+}
+/*# sourceMappingURL=ToastBody.styles.css.map */

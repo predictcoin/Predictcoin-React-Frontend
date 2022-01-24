@@ -19,4 +19,4 @@ export const walletViewModel = (store: WalletStore) => {
     disconnect,
     explorer: store.explorer
   }
-}
+};

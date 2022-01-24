@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,iBAAiB,CAAC;EACd,OAAO,EAAE,IAAI;EACb,WAAW,EAAE,MAAM;EACtB,UAAU,EAAE,MAAM;EAClB,WAAW,EAAE,GAAG;EAChB,SAAS,EAAE,IAAI;EACf,WAAW,EAAE,IAAI;EACjB,cAAc,EAAE,SAAS;EACzB,KAAK,EAAE,OAAO;EACd,OAAO,EAAE,GAAG;CAMZ;;AAfD,AAWI,iBAXa,CAWb,GAAG,CAAA;EACC,SAAS,EAAE,IAAI;EACf,YAAY,EAAE,GAAG;CACpB",
+    "sources": [
+        "cointabvalue.styles.scss"
+    ],
+    "names": [],
+    "file": "cointabvalue.styles.css"
+}

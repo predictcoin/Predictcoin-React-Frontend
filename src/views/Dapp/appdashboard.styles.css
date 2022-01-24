@@ -1,0 +1,34 @@
+.app__dashboard {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 99;
+}
+
+.app__dashboard p {
+  margin: 0;
+}
+
+.app__dashboard .Toastify__toast {
+  background: linear-gradient(268.95deg, rgba(41, 37, 88, 0.536345) 4.06%, rgba(38, 35, 83, 0.866791) 42.35%, rgba(40, 38, 89, 0.50218) 99.53%);
+  -webkit-box-shadow: -30.8563px 42.0768px 84.1535px #17122B;
+          box-shadow: -30.8563px 42.0768px 84.1535px #17122B;
+  border-radius: 11.0388px;
+  -webkit-backdrop-filter: blur(22.9152px);
+          backdrop-filter: blur(22.9152px);
+}
+
+.app__dashboard .Toastify__toast-body {
+  padding: 0;
+  margin: 0;
+}
+
+body,
+html {
+  overflow-x: hidden;
+}
+
+iframe {
+  z-index: 0 !important;
+}
+/*# sourceMappingURL=appdashboard.styles.css.map */

@@ -9,7 +9,7 @@ import {
 } from "../actions/wallet";
 import { AppRootState } from "./index";
 
-const walletSelector = (state: AppRootState) => state.wallet;
+export const walletSelector = (state: AppRootState) => state.wallet;
 
 export const useWalletStore = (): WalletStore => {
   const {wallet, chainId, explorer, name, isConnecting, active, } = useSelector(walletSelector);

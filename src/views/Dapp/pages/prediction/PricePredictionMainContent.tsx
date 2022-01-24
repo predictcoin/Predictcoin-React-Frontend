@@ -10,8 +10,10 @@ import PricePredictionOngoing from './PricePredictionOngoing';
 import ModalConnect from '../../Components/CustomModal/ModalConnect';
 import ModalDisconnect from '../../Components/CustomModal/ModalDisconnect';
 import { walletViewModel } from "../../application/controllers/walletViewModel";
-import { useWalletStore } from "../../infrastructure/redux/stores/wallet";
+import { useWalletStore } from "../../models/infrastructure/redux/stores/wallet";
 import { shortenAddress } from "../../lib/utils/address";
+import { toast } from 'react-toastify';
+import { ToastBody, STATUS, TYPE } from "../../Components/Toast";
 
 interface PricePredictionMainContentProps {
 	isSidebarExpanded: boolean;
@@ -36,6 +38,8 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
 		
 	}, [activeCard]);
 
+	const Body = ToastBody("Moving slowly", STATUS.PENDING, TYPE.SUCCESSFULL);
+
 	return (
 		<section className='price__prediction__main__content'>
 			{modalOpened && modal}
@@ -56,7 +60,7 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
 					</button>
 
 					<div className='header__text'>
-						<h1>Price prediction</h1>
+						<h1 onClick={() => toast(Body)}>Price prediction</h1>
 						<p>Predict with $PRED, earn in $PRED or $BNB</p>
 					</div>
 
