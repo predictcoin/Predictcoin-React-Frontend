@@ -1,28 +1,52 @@
-import './Home.css';
+import { useEffect } from 'react';
+import Aos from 'aos';
 
 import Header from './header';
-import About from './about';
+import Hero from './hero';
 import Footer from './footer';
-import Market from './market';
-import RoadMap from './roadmap';
-import Navbar from './navbar';
-import WhitePaper from './whitepaper';
-import Partner from './partner';
-import FAQ from './FAQ';
+import CTA from './cta';
+import Partone from './partone';
+
+import './Home.styles.scss';
 
 function Home() {
+	useEffect(() => {
+		Aos.init({
+			duration: 1000,
+			easing: 'ease-in-out',
+			once: true,
+			mirror: false,
+		});
+
+		/**
+		 * Easy on scroll event listener
+		 */
+		const onscroll = (el: HTMLElement | Document, listener: any) => {
+			el.addEventListener('scroll', listener);
+		};
+
+		let selectHeader = document.querySelector('#header');
+		if (selectHeader) {
+			const headerScrolled = () => {
+				if (window.scrollY > 100) {
+					selectHeader!.classList.add('header-scrolled');
+				} else {
+					selectHeader!.classList.remove('header-scrolled');
+				}
+			};
+			window.addEventListener('load', headerScrolled);
+			onscroll(document, headerScrolled);
+		}
+	}, []);
+
 	return (
-		<div className='App'>
-			<Navbar />
+		<div id='home'>
 			<Header />
-			<Market />
-			<div className='gradient__bg'>
-				<About />
-				<WhitePaper />
-				<RoadMap />
-			</div>
-			<Partner />
-			<FAQ />
+			<Hero />
+			<main>
+				<Partone />
+				<CTA />
+			</main>
 			<Footer />
 		</div>
 	);
