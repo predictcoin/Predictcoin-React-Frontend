@@ -1,8 +1,10 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
 import Logo from '../../../assets/img/logo.png';
 
 const Header: FC = () => {
+	const [navbarOpen, setNavbarOpen] = useState<boolean>(false);
+
 	return (
 		<header id='header' className='fixed-top '>
 			<div className='container d-flex align-items-center'>
@@ -10,7 +12,10 @@ const Header: FC = () => {
 					<img src={Logo} alt='' className='img-fluid' />
 				</a>
 
-				<nav id='navbar' className='navbar'>
+				<nav
+					id='navbar'
+					className={`navbar ${navbarOpen ? 'navbar-mobile' : ''}`}
+				>
 					<ul>
 						<li>
 							<a className='nav-link scrollto active' href='#hero'>
@@ -32,7 +37,12 @@ const Header: FC = () => {
 							</a>
 						</li>
 					</ul>
-					<i className='bi bi-list mobile-nav-toggle'></i>
+					<i
+						className={`bx bx-menu mobile-nav-toggle ${
+							navbarOpen ? 'bx-x' : ''
+						}`}
+						onClick={() => setNavbarOpen((navbarOpen) => !navbarOpen)}
+					></i>
 				</nav>
 			</div>
 		</header>

@@ -17,7 +17,7 @@ const Hero: FC = () => {
 							Predict crypto-assets, sports games and have fun in the arena.
 						</h1>{' '}
 						<br />
-						<div className='d-flex justify-content-center justify-content-lg-start'>
+						<div className='d-flex flex-wrap justify-content-center justify-content-lg-start button-bb'>
 							<Link to='/app/staking' className='btn-get-started'>
 								Launch DApp
 							</Link>

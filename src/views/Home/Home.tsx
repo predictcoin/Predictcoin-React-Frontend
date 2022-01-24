@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import Aos from 'aos';
+import AOS from 'aos';
 
 import Header from './header';
 import Hero from './hero';
@@ -7,11 +7,12 @@ import Footer from './footer';
 import CTA from './cta';
 import Partone from './partone';
 
+import 'aos/dist/aos.css';
 import './Home.styles.scss';
 
 function Home() {
 	useEffect(() => {
-		Aos.init({
+		AOS.init({
 			duration: 1000,
 			easing: 'ease-in-out',
 			once: true,
