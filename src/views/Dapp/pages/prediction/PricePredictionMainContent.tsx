@@ -1,5 +1,7 @@
 import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 import { Link, Route, Routes, useLocation } from 'react-router-dom';
+import CoinGecko from 'coingecko-api';
+import g from 'date-fns';
 
 import coinTabData from '../../data/coinTabData';
 import CoinTab from '../../Components/CoinTab';
@@ -9,9 +11,9 @@ import PricePredictionPast from './PricePredictionPast';
 import PricePredictionOngoing from './PricePredictionOngoing';
 import ModalConnect from '../../Components/CustomModal/ModalConnect';
 import ModalDisconnect from '../../Components/CustomModal/ModalDisconnect';
-import { walletViewModel } from "../../application/controllers/walletViewModel";
-import { useWalletStore } from "../../infrastructure/redux/stores/wallet";
-import { shortenAddress } from "../../lib/utils/address";
+import { walletViewModel } from '../../application/controllers/walletViewModel';
+import { useWalletStore } from '../../infrastructure/redux/stores/wallet';
+import { shortenAddress } from '../../lib/utils/address';
 
 interface PricePredictionMainContentProps {
 	isSidebarExpanded: boolean;
@@ -23,17 +25,63 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
 	setIsSidebarExpanded,
 }) => {
 	const { pathname } = useLocation();
+	const [loadingChart, setLoadingChart] = useState<boolean>(true);
 	const [activeCard, setActiveCard] = useState<string>(coinTabData[0].id);
+	const [graphMin, setGraphMin] = useState<number>(0);
+	const [graphMax, setGraphMax] = useState<number>(40000);
+	const [graphData, setGraphData] = useState<{ x: string; y: number }[]>([]);
 	const [modalOpened, setModalOpened] = useState<boolean>(false);
 	const store = useWalletStore();
 	const { active, address } = walletViewModel(store);
-	const modal = active 
-		? <ModalDisconnect closeModal={() => setModalOpened(false)}/>
-		: <ModalConnect closeModal={() => setModalOpened(false)}/>;
+	const modal = active ? (
+		<ModalDisconnect closeModal={() => setModalOpened(false)} />
+	) : (
+		<ModalConnect closeModal={() => setModalOpened(false)} />
+	);
+	const client = new CoinGecko();
 	// active && setModalOpened(false);
 
+	const searchCoin = async () => {
+		try {
+			const coin = await client.coins.fetch(activeCard, {});
+			const coinData = coin.data;
+			// @ts-ignore
+			setGraphMin(coinData.market_data.atl.usd);
+			// @ts-ignore
+			setGraphMax(coinData.market_data.ath.usd);
+			// @ts-ignore
+			console.log(coinData.market_data.atl.usd);
+			// @ts-ignore
+			console.log(coinData.market_data.ath.usd);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const searchCoinChart = async () => {
+		setLoadingChart(true);
+		try {
+			const coin = await client.coins.fetchMarketChart(activeCard, {
+				vs_currency: 'usd',
+				days: '1',
+			});
+			const marketPriceData = coin.data.prices;
+			const truncatedMarketPriceData = marketPriceData.slice(250);
+			const newGraphData: { x: string; y: number }[] = [];
+			truncatedMarketPriceData.forEach((data) => {
+				newGraphData.push({ x: data[0].toString(), y: data[1] });
+			});
+			setGraphData(newGraphData);
+			console.log(newGraphData);
+		} catch (error) {
+			console.log(error);
+		}
+		setLoadingChart(false);
+	};
+
 	useEffect(() => {
-		
+		searchCoin();
+		searchCoinChart();
 	}, [activeCard]);
 
 	return (
@@ -66,9 +114,16 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
 							<p>25.08 PRED</p>
 						</div>
 						{/* add 'not__connected class if wallet is not connected' */}
-						<button className={`address ${ !active && "not__connected" }`} onClick={() => setModalOpened(true)}>
+						<button
+							className={`address ${!active && 'not__connected'}`}
+							onClick={() => setModalOpened(true)}
+						>
 							<WalletIcon />
-							{active ? <span>{shortenAddress(address)}</span> : <span>Connect Wallet</span>}
+							{active ? (
+								<span>{shortenAddress(address)}</span>
+							) : (
+								<span>Connect Wallet</span>
+							)}
 						</button>
 					</div>
 				</header>
@@ -117,7 +172,15 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
 								<Route
 									key={index}
 									path={path}
-									element={<PricePredictionOngoing />}
+									element={
+										<PricePredictionOngoing
+											graphData={graphData}
+											graphMin={graphMin}
+											graphMax={graphMax}
+											activeCard={activeCard}
+											setActive={setActiveCard}
+										/>
+									}
 								/>
 							);
 						})}

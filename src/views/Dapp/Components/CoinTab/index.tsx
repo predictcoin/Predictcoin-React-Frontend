@@ -23,7 +23,6 @@ const CoinTab: FC<CoinTabProps> = ({
 	setActive,
 }) => {
 	const [loadingDetails, setLoadingDetails] = useState<boolean>(true);
-	const [loadingChart, setLoadingChart] = useState<boolean>(true);
 	const [coinImage, setCoinImage] = useState<string>('');
 	const [coinDetails, setCoinDetails] = useState<any>();
 	const client = new CoinGecko();
@@ -32,7 +31,6 @@ const CoinTab: FC<CoinTabProps> = ({
 		setLoadingDetails(true);
 		try {
 			const coin = await client.coins.fetch(id, {});
-			console.log(coin);
 			const coinData = coin.data;
 			setCoinImage(coinData.image.small);
 			setCoinDetails(coinData.market_data);
@@ -42,25 +40,10 @@ const CoinTab: FC<CoinTabProps> = ({
 		setLoadingDetails(false);
 	};
 
-	const searchCoinChart = async () => {
-		setLoadingChart(true);
-		try {
-			const coin = await client.coins.fetchMarketChartRange(id, {
-				vs_currency: 'usd',
-				from: Date.now() - 330000000,
-				to: Date.now(),
-			});
-			const coinData = coin.data;
-			console.log(coinData);
-		} catch (error) {
-			console.log(error);
-		}
-		setLoadingChart(false);
-	};
+	
 
 	useEffect(() => {
 		searchCoin();
-		searchCoinChart();
 	}, []);
 
 	return (

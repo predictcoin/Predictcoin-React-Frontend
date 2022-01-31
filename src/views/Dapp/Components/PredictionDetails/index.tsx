@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { Dispatch, FC, SetStateAction } from 'react';
 import { Link } from 'react-router-dom';
 import { IoMdStopwatch } from 'react-icons/io';
 import { RiArrowRightDownFill, RiArrowRightUpFill } from 'react-icons/ri';
@@ -18,11 +18,17 @@ export enum RoundStatus {
 
 interface PredictionDetailsProps {
 	status: RoundStatus;
+	activeCard: string;
+	setActive: Dispatch<SetStateAction<string>>;
 }
 
 // NOTE: The three options for the details are Ongoing, Ended and Unsuccessful.
 
-const PredictionDetails: FC<PredictionDetailsProps> = ({ status }) => {
+const PredictionDetails: FC<PredictionDetailsProps> = ({
+	status,
+	activeCard,
+	setActive,
+}) => {
 	return (
 		<div className='prediction__details__content'>
 			<p className='title'>start prediction</p>
@@ -61,7 +67,12 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({ status }) => {
 								<p>Select coin to predict</p>
 								<DropdownOptions
 									options={coinPredictionOptions}
-									value={coinPredictionOptions[0]}
+									value={
+										coinPredictionOptions.filter(
+											(coin) => coin.id === activeCard
+										)[0]
+									}
+									onChange={setActive}
 								/>
 							</div>
 

@@ -2,6 +2,8 @@ import { FC } from 'react';
 import { ResponsiveLine } from '@nivo/line';
 
 interface PredictionGraphProps {
+	min: number;
+	max: number;
 	data: {
 		id: string;
 		data: {
@@ -11,14 +13,14 @@ interface PredictionGraphProps {
 	}[];
 }
 
-const PredictionGraph: FC<PredictionGraphProps> = ({ data }) => {
+const PredictionGraph: FC<PredictionGraphProps> = ({ min, max, data }) => {
 	return (
 		<ResponsiveLine
 			data={data}
 			yScale={{
 				type: 'linear',
-				min: 2000,
-				max: 6500,
+				min: min,
+				max: max,
 				stacked: true,
 				reverse: false,
 			}}
@@ -47,18 +49,18 @@ const PredictionGraph: FC<PredictionGraphProps> = ({ data }) => {
 				legend: '',
 				legendPosition: 'middle',
 				legendOffset: -60,
-				tickValues: [
-					'2000',
-					'2500',
-					'3000',
-					'3500',
-					'4000',
-					'4500',
-					'5000',
-					'5500',
-					'6000',
-					'6500',
-				],
+				// tickValues: [
+				// 	'2000',
+				// 	'2500',
+				// 	'3000',
+				// 	'3500',
+				// 	'4000',
+				// 	'4500',
+				// 	'5000',
+				// 	'5500',
+				// 	'6000',
+				// 	'6500',
+				// ],
 			}}
 			margin={{ top: 40, right: 40, bottom: 123, left: 70 }}
 			axisRight={null}
