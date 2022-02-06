@@ -15,6 +15,8 @@ import { walletViewModel } from '../../application/controllers/walletViewModel';
 import { useWalletStore } from '../../infrastructure/redux/stores/wallet';
 import { shortenAddress } from '../../lib/utils/address';
 
+// "start": "yarn run type && react-scripts start",
+
 interface PricePredictionMainContentProps {
 	isSidebarExpanded: boolean;
 	setIsSidebarExpanded: Dispatch<SetStateAction<boolean>>;
@@ -39,7 +41,6 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
 		<ModalConnect closeModal={() => setModalOpened(false)} />
 	);
 	const client = new CoinGecko();
-	// active && setModalOpened(false);
 
 	const searchCoin = async () => {
 		try {
@@ -49,10 +50,6 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
 			setGraphMin(coinData.market_data.atl.usd);
 			// @ts-ignore
 			setGraphMax(coinData.market_data.ath.usd);
-			// @ts-ignore
-			console.log(coinData.market_data.atl.usd);
-			// @ts-ignore
-			console.log(coinData.market_data.ath.usd);
 		} catch (error) {
 			console.log(error);
 		}
@@ -61,18 +58,25 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
 	const searchCoinChart = async () => {
 		setLoadingChart(true);
 		try {
-			const coin = await client.coins.fetchMarketChart(activeCard, {
+			const d = new Date();
+			d.setMonth(d.getMonth() - 6);
+			const sixMonthsAgo = d.getTime();
+
+			console.log(sixMonthsAgo, Date.now());
+
+			const coin = await client.coins.fetchMarketChartRange('bitcoin', {
 				vs_currency: 'usd',
-				days: '1',
+				from: 1627769310000,
+				to: Date.now(),
 			});
-			const marketPriceData = coin.data.prices;
-			const truncatedMarketPriceData = marketPriceData.slice(250);
-			const newGraphData: { x: string; y: number }[] = [];
-			truncatedMarketPriceData.forEach((data) => {
-				newGraphData.push({ x: data[0].toString(), y: data[1] });
-			});
-			setGraphData(newGraphData);
-			console.log(newGraphData);
+			// const marketPriceData = coin.data.prices;
+			// const truncatedMarketPriceData = marketPriceData.slice(250);
+			// const newGraphData: { x: string; y: number }[] = [];
+			// truncatedMarketPriceData.forEach((data) => {
+			// 	newGraphData.push({ x: data[0].toString(), y: data[1] });
+			// });
+			// setGraphData(newGraphData);
+			console.log(coin);
 		} catch (error) {
 			console.log(error);
 		}

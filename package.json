@@ -47,7 +47,7 @@
   },
   "scripts": {
     "type": "typechain --target ethers-v5 --out-dir src/views/Dapp/typechain src/views/Dapp/abis/*.json",
-    "start": "yarn run type && react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
