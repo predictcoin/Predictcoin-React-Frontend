@@ -19,7 +19,7 @@ const PredictionGraph: FC<PredictionGraphProps> = ({ min, max, data }) => {
 
 	const LineTooltip: SliceTooltip = (props) => {
 		return (
-			<p>x:3, y:there</p>
+			<p>x:3, y:there {props.axis}</p>
 		);
 	};
 
@@ -33,7 +33,7 @@ const PredictionGraph: FC<PredictionGraphProps> = ({ min, max, data }) => {
 				stacked: true,
 				reverse: false,
 			}}
-			yFormat=' >-.2f'
+			yFormat={value => `$${Number(value).toFixed(2)}`}
 			curve='natural'
 			lineWidth={3}
 			pointSize={0}
@@ -44,6 +44,12 @@ const PredictionGraph: FC<PredictionGraphProps> = ({ min, max, data }) => {
 			enableGridY={false}
 			axisTop={null}
 			sliceTooltip={LineTooltip}
+			xFormat={(value) => {
+				const year = new Date(Number(value)).getFullYear();
+				const month = new Date(Number(value)).getMonth();
+				const day = new Date(Number(value)).getDay();
+				return format(new Date(year, month, day), 'dd MMM Y');
+			}}
 			axisBottom={{
 				tickValues: 'every 1 month',
 				tickSize: 0,
