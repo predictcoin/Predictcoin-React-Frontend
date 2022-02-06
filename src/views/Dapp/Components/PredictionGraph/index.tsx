@@ -1,5 +1,6 @@
 import { FC } from 'react';
-import { ResponsiveLine } from '@nivo/line';
+import { ResponsiveLine, SliceTooltip } from '@nivo/line';
+import { format } from 'date-fns';
 
 interface PredictionGraphProps {
 	min: number;
@@ -14,6 +15,14 @@ interface PredictionGraphProps {
 }
 
 const PredictionGraph: FC<PredictionGraphProps> = ({ min, max, data }) => {
+	const mergedDates: number[] = [];
+
+	const LineTooltip: SliceTooltip = (props) => {
+		return (
+			<p>x:3, y:there</p>
+		);
+	};
+
 	return (
 		<ResponsiveLine
 			data={data}
@@ -34,13 +43,26 @@ const PredictionGraph: FC<PredictionGraphProps> = ({ min, max, data }) => {
 			enableGridX={false}
 			enableGridY={false}
 			axisTop={null}
+			sliceTooltip={LineTooltip}
 			axisBottom={{
+				tickValues: 'every 1 month',
 				tickSize: 0,
 				tickPadding: 26,
-				tickRotation: 0,
+				tickRotation: 90,
 				legend: '',
 				legendPosition: 'middle',
 				legendOffset: 32,
+				format: (value) => {
+					const year = new Date(Number(value)).getFullYear();
+					const month = new Date(Number(value)).getMonth();
+					const day = new Date(Number(value)).getDay();
+					// if (mergedDates.includes(month)) {
+					// 	return '';
+					// } else {
+					// 	mergedDates.push(month);
+					// }
+					return format(new Date(year, month, day), 'MMM');
+				},
 			}}
 			axisLeft={{
 				tickSize: 0,
@@ -49,20 +71,9 @@ const PredictionGraph: FC<PredictionGraphProps> = ({ min, max, data }) => {
 				legend: '',
 				legendPosition: 'middle',
 				legendOffset: -60,
-				// tickValues: [
-				// 	'2000',
-				// 	'2500',
-				// 	'3000',
-				// 	'3500',
-				// 	'4000',
-				// 	'4500',
-				// 	'5000',
-				// 	'5500',
-				// 	'6000',
-				// 	'6500',
-				// ],
+				format: (value) => `$${value}`,
 			}}
-			margin={{ top: 40, right: 40, bottom: 123, left: 70 }}
+			margin={{ top: 40, right: 40, bottom: 123, left: 75 }}
 			axisRight={null}
 			useMesh={true}
 		/>

@@ -1,7 +1,6 @@
 import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 import { Link, Route, Routes, useLocation } from 'react-router-dom';
 import CoinGecko from 'coingecko-api';
-import g from 'date-fns';
 
 import coinTabData from '../../data/coinTabData';
 import CoinTab from '../../Components/CoinTab';
@@ -30,7 +29,7 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
 	const [loadingChart, setLoadingChart] = useState<boolean>(true);
 	const [activeCard, setActiveCard] = useState<string>(coinTabData[0].id);
 	const [graphMin, setGraphMin] = useState<number>(0);
-	const [graphMax, setGraphMax] = useState<number>(40000);
+	const [graphMax, setGraphMax] = useState<number>(0);
 	const [graphData, setGraphData] = useState<{ x: string; y: number }[]>([]);
 	const [modalOpened, setModalOpened] = useState<boolean>(false);
 	const store = useWalletStore();
@@ -58,25 +57,17 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
 	const searchCoinChart = async () => {
 		setLoadingChart(true);
 		try {
-			const d = new Date();
-			d.setMonth(d.getMonth() - 6);
-			const sixMonthsAgo = d.getTime();
-
-			console.log(sixMonthsAgo, Date.now());
-
-			const coin = await client.coins.fetchMarketChartRange('bitcoin', {
-				vs_currency: 'usd',
-				from: 1627769310000,
-				to: Date.now(),
+			const response = await fetch(
+				`https://api.coingecko.com/api/v3/coins/${activeCard}/market_chart?vs_currency=usd&days=180&interval=monthly`
+			);
+			const coin = await response.json();
+			const marketPriceData = coin.prices;
+			const truncatedMarketPriceData = marketPriceData;
+			const newGraphData: { x: string; y: number }[] = [];
+			truncatedMarketPriceData.forEach((data: any) => {
+				newGraphData.push({ x: data[0].toString(), y: data[1] });
 			});
-			// const marketPriceData = coin.data.prices;
-			// const truncatedMarketPriceData = marketPriceData.slice(250);
-			// const newGraphData: { x: string; y: number }[] = [];
-			// truncatedMarketPriceData.forEach((data) => {
-			// 	newGraphData.push({ x: data[0].toString(), y: data[1] });
-			// });
-			// setGraphData(newGraphData);
-			console.log(coin);
+			setGraphData(newGraphData);
 		} catch (error) {
 			console.log(error);
 		}
@@ -148,6 +139,7 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
 							))}
 						</div>
 					</div>
+
 					<div className='tab'>
 						<Link
 							to='ongoing-round'
