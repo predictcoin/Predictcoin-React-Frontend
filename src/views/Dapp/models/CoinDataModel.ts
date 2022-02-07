@@ -6,7 +6,6 @@ export enum Status {
 interface CoinTabDataModel {
 	id: string;
 	coinName: string;
-	data: { id: string; color: string; data: { x: string; y: number }[] }[];
 }
 
 export default CoinTabDataModel;

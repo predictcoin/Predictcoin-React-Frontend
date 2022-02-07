@@ -9,19 +9,16 @@ import { ResponsiveLine } from '@nivo/line';
 import CoinTabDataModel from '../../models/CoinDataModel';
 import './cointab.styles.scss';
 import numFormatter from '../../helpers/numFormatter';
+import { format } from 'date-fns';
 
 interface CoinTabProps extends CoinTabDataModel {
 	active: boolean;
 	setActive: Dispatch<SetStateAction<string>>;
 }
 
-const CoinTab: FC<CoinTabProps> = ({
-	id,
-	data,
-	coinName,
-	active,
-	setActive,
-}) => {
+const CoinTab: FC<CoinTabProps> = ({ id, coinName, active, setActive }) => {
+	const [loadingChart, setLoadingChart] = useState<boolean>(true);
+	const [graphData, setGraphData] = useState<{ x: string; y: number }[]>([]);
 	const [loadingDetails, setLoadingDetails] = useState<boolean>(true);
 	const [coinImage, setCoinImage] = useState<string>('');
 	const [coinDetails, setCoinDetails] = useState<any>();
@@ -40,10 +37,29 @@ const CoinTab: FC<CoinTabProps> = ({
 		setLoadingDetails(false);
 	};
 
-	
+	const searchCoinChart = async () => {
+		setLoadingChart(true);
+		try {
+			const response = await fetch(
+				`https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=usd&days=7&interval=daily`
+			);
+			const coin = await response.json();
+			const marketPriceData = coin.prices;
+			const truncatedMarketPriceData = marketPriceData;
+			const newGraphData: { x: string; y: number }[] = [];
+			truncatedMarketPriceData.forEach((data: any) => {
+				newGraphData.push({ x: data[0].toString(), y: data[1] });
+			});
+			setGraphData(newGraphData);
+		} catch (error) {
+			console.log(error);
+		}
+		setLoadingChart(false);
+	};
 
 	useEffect(() => {
 		searchCoin();
+		searchCoinChart();
 	}, []);
 
 	return (
@@ -75,11 +91,10 @@ const CoinTab: FC<CoinTabProps> = ({
 								: 'down'
 						}`}
 					>
-						{!loadingDetails && (
+						{!loadingChart && (
 							<ResponsiveLine
-								data={data}
+								data={[{ id: 'Coin Prediction Graph', data: graphData }]}
 								margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
-								xScale={{ type: 'linear' }}
 								yScale={{
 									type: 'linear',
 									min: 'auto',
@@ -87,7 +102,6 @@ const CoinTab: FC<CoinTabProps> = ({
 									stacked: true,
 									reverse: false,
 								}}
-								yFormat=' >-.2f'
 								axisTop={null}
 								axisRight={null}
 								axisBottom={null}
@@ -99,6 +113,35 @@ const CoinTab: FC<CoinTabProps> = ({
 								pointBorderColor={{ from: 'serieColor' }}
 								pointLabelYOffset={-12}
 								useMesh={true}
+								xFormat={(value) => {
+									const year = new Date(Number(value)).getFullYear();
+									const month = new Date(Number(value)).getMonth();
+									const day = new Date(Number(value)).getDay();
+									return format(new Date(year, month, day), 'dd MMM Y');
+								}}
+								yFormat={(value) => `$${Number(value).toFixed(2)}`}
+								tooltip={(value) => {
+									return (
+										<div
+											style={{
+												padding: '2px 0px',
+												color: '#000',
+												background: '#fff',
+												width: '212px',
+												display: 'flex',
+												justifyContent: 'center'
+											}}
+										>
+											<span>
+												Data: &nbsp;<b>{value.point.data.xFormatted}</b>
+											</span>
+											&nbsp;
+											<span>
+												Price: &nbsp;<b>{value.point.data.yFormatted}</b>
+											</span>
+										</div>
+									);
+								}}
 							/>
 						)}
 					</div>

@@ -1,6 +1,8 @@
 import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 import { Link, Route, Routes, useLocation } from 'react-router-dom';
 import CoinGecko from 'coingecko-api';
+import { format } from 'date-fns';
+
 
 import coinTabData from '../../data/coinTabData';
 import CoinTab from '../../Components/CoinTab';
@@ -65,7 +67,7 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
 			const truncatedMarketPriceData = marketPriceData;
 			const newGraphData: { x: string; y: number }[] = [];
 			truncatedMarketPriceData.forEach((data: any) => {
-				newGraphData.push({ x: data[0].toString(), y: data[1] });
+				newGraphData.push({ x: format(new Date(data[0]), 'yyyy-MM-dd'), y: data[1] });
 			});
 			setGraphData(newGraphData);
 		} catch (error) {
@@ -132,7 +134,6 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
 									key={coin.id}
 									id={coin.id}
 									coinName={coin.coinName}
-									data={coin.data}
 									active={activeCard === coin.id}
 									setActive={setActiveCard}
 								/>
