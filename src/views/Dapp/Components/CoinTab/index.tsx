@@ -79,7 +79,8 @@ const CoinTab: FC<CoinTabProps> = ({ id, coinName, active, setActive }) => {
 					<p className='value'>
 						{loadingDetails
 							? '...'
-							: numFormatter(coinDetails!.current_price?.usd)}
+							: `$${numFormatter(coinDetails!.current_price?.usd)}`
+						}
 					</p>
 					<p className='name'>{coinName}</p>
 				</div>
@@ -129,7 +130,7 @@ const CoinTab: FC<CoinTabProps> = ({ id, coinName, active, setActive }) => {
 												background: '#fff',
 												width: '212px',
 												display: 'flex',
-												justifyContent: 'center'
+												justifyContent: 'center',
 											}}
 										>
 											<span>
