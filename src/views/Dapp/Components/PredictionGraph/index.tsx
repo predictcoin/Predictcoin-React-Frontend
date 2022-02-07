@@ -14,11 +14,7 @@ interface PredictionGraphProps {
 	}[];
 }
 
-let count = 0;
-
 const PredictionGraph: FC<PredictionGraphProps> = ({ min, max, data }) => {
-	const [mergedDates, setMergedDates] = useState<number[]>([]);
-
 	return (
 		<ResponsiveLine
 			data={data}
@@ -70,34 +66,27 @@ const PredictionGraph: FC<PredictionGraphProps> = ({ min, max, data }) => {
 				tickValues: 'every 1 month',
 				tickSize: 0,
 				tickPadding: 26,
-				tickRotation: 0,
+				tickRotation: 90,
 				legend: '',
 				legendPosition: 'middle',
 				legendOffset: 32,
-				format: (value: string) => {
+				format: function (value: string) {
 					const date = new Date(value);
 					const year = date.getFullYear();
 					const month = date.getMonth();
 					const day = date.getDay();
-					// if(idx === 0){
-					// 	return format(new Date(year, month, day), 'MMM');
-					// } else {
-					// 	return
-					// }
-					count += 1;
-					console.log(count);
-					if (count === 1 || count === 32 || count === 62) {
-						return format(new Date(year, month, day), 'MMM');
-					} else {
+					//@ts-ignore
+					if (this.mergedDates === month) {
 						return '';
+					} else {
+						// @ts-ignore
+						// console.log(this.mergedDates, month);
+						// @ts-ignore
+						this.mergedDates = month;
+						// return 'test';
+						return format(new Date(year, month, day), 'MMM');
 					}
-					// if (mergedDates.includes(month)) {
-					// 	return;
-					// } else {
-					// 	setMergedDates([...mergedDates, month]);
-					// 	return format(new Date(year, month, day), 'MMM');
-					// }
-				},
+				}.bind({ mergedDates: undefined }),
 			}}
 			axisLeft={{
 				tickSize: 0,
