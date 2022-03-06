@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { Dispatch, FC, SetStateAction } from 'react';
 import { Link } from 'react-router-dom';
 import { IoMdStopwatch } from 'react-icons/io';
 import { RiArrowRightDownFill, RiArrowRightUpFill } from 'react-icons/ri';
@@ -14,10 +14,16 @@ import { usePredictionViewModel } from '../../application/controllers/prediction
 import { PREDICTIONSTATE } from '../../application/domain/prediction/entity';
 import useCountdown from '../../hooks/prediction/hooks/useCountdown';
 
+interface PredictionDetailsProps {
+	activeCard: string;
+	setActive: Dispatch<SetStateAction<string>>;
+}
 
 // NOTE: The three options for the details are Ongoing, Ended and Unsuccessful.
 
-const PredictionDetails: FC = () => {
+const PredictionDetails: FC<PredictionDetailsProps> = ({
+	activeCard, setActive
+}) => {
 	const { available, currentRound, betSeconds, initPrediction, state } = usePredictionViewModel();
 	if(!available) initPrediction();
 	// let status = PREDICTIONSTATE.ROUND_ENDED_SUCCESSFULLY;
@@ -32,7 +38,6 @@ const PredictionDetails: FC = () => {
 				currentRound ? currentRound.lockedTimestamp.toNumber(): 0, 
 				currentRound ? betSeconds.add(currentRound.lockedTimestamp).toNumber(): 0
 			);
-
 
 	if(available && !currentRound.epoch.eq(0)){
 		switch(state){
@@ -55,6 +60,7 @@ const PredictionDetails: FC = () => {
 				status = "next__round";
 		}
 	}
+	status = "ongoing";
 
 
 	return (

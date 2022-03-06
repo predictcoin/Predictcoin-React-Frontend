@@ -28,7 +28,10 @@ const PricePredictionOngoing: FC<PredictionPriceProps> = ({
 				/>
 			</div>
 			<div className='prediction__details'>
-				<PredictionDetails />
+				<PredictionDetails 
+					activeCard={activeCard}
+					setActive={setActive}
+				/>
 			</div>
 		</div>
 	);
