@@ -11,8 +11,6 @@ import { coinPredictionOptions } from '../../data/options';
 import './predictiondetails.styles.scss';
 import useNextRoundCountdown from '../../hooks/prediction/hooks/useNextRoundCountdown';
 import { usePredictionViewModel } from '../../application/controllers/predictionViewModel';
-import { usePredictionStore } from '../../application/infrastructure/redux/stores/prediction';
-import { useWalletStore } from '../../models/infrastructure/redux/stores/wallet';
 import { PREDICTIONSTATE } from '../../application/domain/prediction/entity';
 import useCountdown from '../../hooks/prediction/hooks/useCountdown';
 
@@ -20,8 +18,6 @@ import useCountdown from '../../hooks/prediction/hooks/useCountdown';
 // NOTE: The three options for the details are Ongoing, Ended and Unsuccessful.
 
 const PredictionDetails: FC = () => {
-	// const predictionStore = usePredictionStore()
-	// const walletStore = useWalletStore();
 	const { available, currentRound, betSeconds, initPrediction, state } = usePredictionViewModel();
 	if(!available) initPrediction();
 	// let status = PREDICTIONSTATE.ROUND_ENDED_SUCCESSFULLY;
@@ -97,7 +93,12 @@ const PredictionDetails: FC = () => {
 								<p>Select coin to predict</p>
 								<DropdownOptions
 									options={coinPredictionOptions}
-									value={coinPredictionOptions[0]}
+									value={
+										coinPredictionOptions.filter(
+											(coin) => coin.id === activeCard
+										)[0]
+									}
+									onChange={setActive}
 								/>
 							</div>
 

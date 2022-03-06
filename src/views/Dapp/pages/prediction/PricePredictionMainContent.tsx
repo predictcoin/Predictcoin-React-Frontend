@@ -1,5 +1,8 @@
 import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 import { Link, Route, Routes, useLocation } from 'react-router-dom';
+import CoinGecko from 'coingecko-api';
+import { format } from 'date-fns';
+
 
 import coinTabData from '../../data/coinTabData';
 import CoinTab from '../../Components/CoinTab';
@@ -25,17 +28,57 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
 	setIsSidebarExpanded,
 }) => {
 	const { pathname } = useLocation();
+	const [loadingChart, setLoadingChart] = useState<boolean>(true);
 	const [activeCard, setActiveCard] = useState<string>(coinTabData[0].id);
+	const [graphMin, setGraphMin] = useState<number>(0);
+	const [graphMax, setGraphMax] = useState<number>(0);
+	const [graphData, setGraphData] = useState<{ x: string; y: number }[]>([]);
 	const [modalOpened, setModalOpened] = useState<boolean>(false);
 	const store = useWalletStore();
 	const { active, address } = walletViewModel(store);
-	const modal = active 
-		? <ModalDisconnect closeModal={() => setModalOpened(false)}/>
-		: <ModalConnect closeModal={() => setModalOpened(false)}/>;
-	// active && setModalOpened(false);
+	const modal = active ? (
+		<ModalDisconnect closeModal={() => setModalOpened(false)} />
+	) : (
+		<ModalConnect closeModal={() => setModalOpened(false)} />
+	);
+	const client = new CoinGecko();
+
+	const searchCoin = async () => {
+		try {
+			const coin = await client.coins.fetch(activeCard, {});
+			const coinData = coin.data;
+			// @ts-ignore
+			setGraphMin(coinData.market_data.atl.usd);
+			// @ts-ignore
+			setGraphMax(coinData.market_data.ath.usd);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const searchCoinChart = async () => {
+		setLoadingChart(true);
+		try {
+			const response = await fetch(
+				`https://api.coingecko.com/api/v3/coins/${activeCard}/market_chart?vs_currency=usd&days=180&interval=monthly`
+			);
+			const coin = await response.json();
+			const marketPriceData = coin.prices;
+			const truncatedMarketPriceData = marketPriceData;
+			const newGraphData: { x: string; y: number }[] = [];
+			truncatedMarketPriceData.forEach((data: any) => {
+				newGraphData.push({ x: format(new Date(data[0]), 'yyyy-MM-dd'), y: data[1] });
+			});
+			setGraphData(newGraphData);
+		} catch (error) {
+			console.log(error);
+		}
+		setLoadingChart(false);
+	};
 
 	useEffect(() => {
-		
+		searchCoin();
+		searchCoinChart();
 	}, [activeCard]);
 
 	const Body = ToastBody("Moving slowly", STATUS.PENDING, TYPE.SUCCESSFULL);
@@ -70,9 +113,16 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
 							<p>25.08 PRED</p>
 						</div>
 						{/* add 'not__connected class if wallet is not connected' */}
-						<button className={`address ${ !active && "not__connected" }`} onClick={() => setModalOpened(true)}>
+						<button
+							className={`address ${!active && 'not__connected'}`}
+							onClick={() => setModalOpened(true)}
+						>
 							<WalletIcon />
-							{active ? <span>{shortenAddress(address)}</span> : <span>Connect Wallet</span>}
+							{active ? (
+								<span>{shortenAddress(address)}</span>
+							) : (
+								<span>Connect Wallet</span>
+							)}
 						</button>
 					</div>
 				</header>
@@ -86,13 +136,13 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
 									key={coin.id}
 									id={coin.id}
 									coinName={coin.coinName}
-									data={coin.data}
 									active={activeCard === coin.id}
 									setActive={setActiveCard}
 								/>
 							))}
 						</div>
 					</div>
+
 					<div className='tab'>
 						<Link
 							to='ongoing-round'
@@ -121,7 +171,15 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
 								<Route
 									key={index}
 									path={path}
-									element={<PricePredictionOngoing />}
+									element={
+										<PricePredictionOngoing
+											graphData={graphData}
+											graphMin={graphMin}
+											graphMax={graphMax}
+											activeCard={activeCard}
+											setActive={setActiveCard}
+										/>
+									}
 								/>
 							);
 						})}

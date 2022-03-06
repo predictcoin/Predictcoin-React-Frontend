@@ -1,48 +1,49 @@
-import React from "react";
-import "./footer.css";
+import { FC } from 'react';
 
-import BscScan from "../../../assets/partners/BscScan.png";
-
-const Footer = () => {
-  return (
-    <div className="ptc__footer">
-      <img src={BscScan} alt="Logo" className="ptc__footer-image" />
-
-      <div className="ptc__footer-links">
-        <a href={process.env.REACT_APP_TWITTER}>
-          <i className="fa fa-twitter" />
-        </a>
-
-        <a href={process.env.REACT_APP_TELEGRAM}>
-          <i className="fa fa-telegram" />
-        </a>
-
-        <a href={process.env.REACT_APP_GITHUB}>
-          <i className="fa fa-github" />
-        </a>
-
-        <a href={process.env.REACT_APP_IG}>
-          <i className="fa fa-instagram" />
-        </a>
-
-        <a href={process.env.REACT_APP_MEDIUM}>
-          <i className="fa fa-medium" />
-        </a>
-
-        <a href={process.env.REACT_APP_GMAIL}>
-          <i className="fa fa-envelope" />
-        </a>
-
-        <a href={process.env.REACT_APP_REDDIT}>
-          <i className="fa fa-reddit" />
-        </a>
-      </div>
-
-      <div className="ptc__footer-copy">
-        Copyright ©Predictcoin 2021
-      </div>
-    </div>
-  );
+const Footer: FC = () => {
+	return (
+		<footer id='footer'>
+			<div className='footer-top'>
+				<div className='container socials'>
+					<div className='social-links mt-3'>
+						<a
+							href='https://twitter.com/CROPredict'
+							className='twitter'
+							target='_blank'
+							rel='noreferrer'
+						>
+							<i className='bx bxl-twitter'></i>
+						</a>
+						<a
+							href='https://t.me/CROPredict'
+							className='telegram'
+							target='_blank'
+							rel='noreferrer'
+						>
+							<i className='bx bxl-telegram'></i>
+						</a>
+						<a
+							href='https://cropredict.medium.com/'
+							className='medium'
+							target='_blank'
+							rel='noreferrer'
+						>
+							<i className='bx bxl-medium'></i>
+						</a>
+					</div>
+				</div>{' '}
+				<br />
+				<p className='copyright'>
+					{' '}
+					&copy; Copyright{' '}
+					<strong>
+						<span>CRO Predict</span>
+					</strong>
+					. All Rights Reserved{' '}
+				</p>
+			</div>
+		</footer>
+	);
 };
 
 export default Footer;

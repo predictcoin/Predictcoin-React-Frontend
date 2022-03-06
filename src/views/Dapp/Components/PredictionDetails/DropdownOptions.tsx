@@ -3,19 +3,49 @@ import Dropdown, { Option } from 'react-dropdown';
 import { RiArrowDownSLine, RiArrowUpSLine } from 'react-icons/ri';
 
 import 'react-dropdown/style.css';
-import { CoinTabValueProps } from '../CoinTabValue';
 
 type DropdownOptionsProps = {
-	options: Array<{ value: string; label: ReactElement<any, any> | null }>;
-	value?: { value: string; label: ReactElement<any, any> | null };
-	// onChange?: Dispatch<SetStateAction<string>>;
+	options: Array<{
+		id: string;
+		value: string;
+		label: ReactElement<any, any> | null;
+	}>;
+	value?: { id: string; value: string; label: ReactElement<any, any> | null };
+	onChange: Dispatch<SetStateAction<string>>;
 };
 
 const DropdownOptions: FC<DropdownOptionsProps> = ({
 	options,
 	value,
-	// onChange,
+	onChange,
 }) => {
+	const changeCard = (value: string) => {
+		let id: string;
+
+		switch (value) {
+			case 'BTC':
+				id = 'bitcoin';
+				break;
+			case 'ETH':
+				id = 'ethereum';
+				break;
+			case 'LTC':
+				id = 'litecoin';
+				break;
+			case 'CRO':
+				id = 'crypto-com-chain';
+				break;
+			case 'DOGE':
+				id = 'dogecoin';
+				break;
+			default:
+				id = '';
+				break;
+		}
+
+		onChange(id);
+	};
+
 	return (
 		<div className='dropdown'>
 			<Dropdown
@@ -25,9 +55,7 @@ const DropdownOptions: FC<DropdownOptionsProps> = ({
 				controlClassName='custom__dropdown__control'
 				arrowClosed={<RiArrowDownSLine />}
 				arrowOpen={<RiArrowUpSLine />}
-				// onChange={(option: Option) =>
-				// 	onChange ? onChange(option.value) : null
-				// }
+				onChange={(option: Option) => changeCard(option.value)}
 			/>
 		</div>
 	);

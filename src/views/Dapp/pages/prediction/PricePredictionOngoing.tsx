@@ -1,57 +1,31 @@
-import { FC } from 'react';
+import { Dispatch, FC, SetStateAction, useState } from 'react';
 
 import PredictionGraph from '../../Components/PredictionGraph';
 import PredictionDetails from '../../Components/PredictionDetails';
 
-const data: {
-	id: string;
-	color: string;
-	data: {
-		x: string;
-		y: number;
-	}[];
-}[] = [
-	{
-		id: 'Prediction Graph',
-		color: '#fb49c0',
-		data: [
-			{
-				x: '10:59PM',
-				y: 3000,
-			},
-			{
-				x: '11:59PM',
-				y: 3500,
-			},
-			{
-				x: '12:59PM',
-				y: 3700,
-			},
-			{
-				x: '1:59PM',
-				y: 3500,
-			},
-			{
-				x: '2:59PM',
-				y: 3300,
-			},
-			{
-				x: '3:59PM',
-				y: 4000,
-			},
-			{
-				x: '4:59PM',
-				y: 4200,
-			},
-		],
-	},
-];
+interface PredictionPriceProps {
+	graphData: { x: string; y: number }[];
+	graphMin: number;
+	graphMax: number;
+	activeCard: string;
+	setActive: Dispatch<SetStateAction<string>>;
+}
 
-const PricePredictionOngoing: FC = () => {
+const PricePredictionOngoing: FC<PredictionPriceProps> = ({
+	graphData,
+	graphMin,
+	graphMax,
+	activeCard,
+	setActive,
+}) => {
 	return (
 		<div className='price__prediction__ongoing'>
 			<div className='prediction__graph'>
-				<PredictionGraph data={data} />
+				<PredictionGraph
+					min={graphMin}
+					max={graphMax}
+					data={[{ id: 'Prediction Graph', data: graphData }]}
+				/>
 			</div>
 			<div className='prediction__details'>
 				<PredictionDetails />

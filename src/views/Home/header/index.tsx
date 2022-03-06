@@ -1,49 +1,52 @@
-import React from "react";
-import "./header.css";
+import { FC, useState } from 'react';
 
-import vr from "../../../assets/pics/onlaptop.png";
+import Logo from '../../../assets/img/logo.png';
 
-const Header = () => {
-  console.log("Page render");
-  return (
-    <div className="ptc__header section__padding">
-      <div className="ptc__header-content" id="slideMeLeft">
-        <div className="">
-          <h1>
-            Discover Predictcoin, <br /> Price Prediction Redefined
-          </h1>
+const Header: FC = () => {
+	const [navbarOpen, setNavbarOpen] = useState<boolean>(false);
 
-          <h2>
-            Predictcoin is the World's First Crypto-Assets Price Prediction DAO<br />{" "}
-            where Winners & Losers earn.
-          </h2>
-        </div>
+	return (
+		<header id='header' className='fixed-top '>
+			<div className='container d-flex align-items-center'>
+				<a href='index.html' className='logo me-auto'>
+					<img src={Logo} alt='' className='img-fluid' />
+				</a>
 
-        {/* Links */}
-        <div className="ptc__header-content_button">
-          <a className="ptc__header-button_out ptc__header-button" href='/prediction'>
-            Start Predicting
-          </a>
-
-          <a className="ptc__header-button_pred ptc__header-button" href='/farming'>
-            Earn PRED
-          </a>
-         
-          <a className="ptc__header-button_bid ptc__header-button" href="/stacking">
-            Earn BID
-          </a>
-
-          <a className="ptc__header-button_bnb ptc__header-button" href="/">
-            Earn BNB
-          </a>
-        </div>
-      </div>
-
-      <div className="ptc__header-content-image">
-        <img src={vr} alt="vr" className="image__fluid" id='slideMeRight'/>
-      </div>
-    </div>
-  );
+				<nav
+					id='navbar'
+					className={`navbar ${navbarOpen ? 'navbar-mobile' : ''}`}
+				>
+					<ul>
+						<li>
+							<a className='nav-link scrollto active' href='#hero'>
+								Home
+							</a>
+						</li>
+						<li>
+							<a
+								className='nav-link'
+								href='CroPredict_whitepaper.pdf'
+								target='_blank'
+							>
+								Whitepaper
+							</a>
+						</li>
+						<li>
+							<a className='getstarted scrollto' href='#cta'>
+								Launch DApp
+							</a>
+						</li>
+					</ul>
+					<i
+						className={`bx bx-menu mobile-nav-toggle ${
+							navbarOpen ? 'bx-x' : ''
+						}`}
+						onClick={() => setNavbarOpen((navbarOpen) => !navbarOpen)}
+					></i>
+				</nav>
+			</div>
+		</header>
+	);
 };
 
 export default Header;
