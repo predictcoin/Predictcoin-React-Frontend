@@ -1,13 +1,13 @@
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { PREDICTION_ADDRESSES } from "../../../constants/addresses";
-import { Prediction__factory } from "../../../typechain";
+import { Prediction, Prediction__factory } from "../../../typechain";
 import { WalletStore } from "../../domain/wallet/walletStore";
 
 interface Params {
   walletStore: WalletStore,
 }
 
-export const getPastUserRounds = async (params: Params) => {
+export const getPastUserRounds = async (params: Params): Promise<[BigNumber[], Prediction.BetInfoStructOutput[]]> => {
   const {walletStore} = params;
   let {wallet: {provider, address: userAddress}, chainId} = walletStore;
   provider = new ethers.providers.Web3Provider(provider);

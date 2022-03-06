@@ -1,18 +1,14 @@
 import { Dispatch } from "react"
-import { BetInfo, Prediction, Round } from "../../../application/domain/prediction/entity";
 import * as actionTypes from "../actionTypes/prediction";
-import { getPastRounds as getPastRoundsUsecase } from "../../../application/usecases/prediction.ts/getPastRounds";
-import { getPrediction as getPredictionUsecase } from "../../../application/usecases/prediction.ts/getPrediction";
-import { getPastUserRounds } from "../../../application/usecases/prediction.ts/getPastUserRounds";
-import { WalletStore } from "../../../application/domain/wallet/walletStore";
-import { PredictionStore } from "../../../application/domain/prediction/predictionStore";
+import { getPastRounds as getPastRoundsUsecase } from "../../../usecases/prediction.ts/getPastRounds";
+import { initPrediction as initPredictionUsecase } from "../../../usecases/prediction.ts/initPrediction";
+import { getPastUserRounds } from "../../../usecases/prediction.ts/getPastUserRounds";
+import { WalletStore } from "../../../domain/wallet/walletStore";
+import { PredictionStore } from "../../../domain/prediction/predictionStore";
 
 export const getPastRounds = (walletStore: WalletStore) => async (dispatch: Dispatch<{type:string, data?: any}>) => {
   dispatch({
     type: actionTypes.GET_PAST_ROUNDS,
-    data: {
-      isLoadingPast: true
-    }
   });
   let _pastRounds;
   try{
@@ -23,7 +19,7 @@ export const getPastRounds = (walletStore: WalletStore) => async (dispatch: Disp
       _pastRounds = pastRounds.map(round =>{
         const index = _userRounds.indexOf(round.epoch.toString());
         if(index !== -1){
-          round.user = betInfo[index] as unknown as BetInfo;
+          round.user = betInfo[index];
         }
         return round;
       })
@@ -42,23 +38,23 @@ export const getPastRounds = (walletStore: WalletStore) => async (dispatch: Disp
   return _pastRounds;
 }
 
-export const getPrediction = (walletStore: WalletStore) => async (dispatch: Dispatch<{type:string, data?: any}>) => {
+export const initPrediction = (walletStore: WalletStore) => async (dispatch: Dispatch<{type:string, data?: any}>) => {
   dispatch({
-    type: actionTypes.GET_PREDICTION,
+    type: actionTypes.INIT_PREDICTION,
   })
 
   try{
-    const prediction = await getPredictionUsecase({walletStore});
+    const initState = await initPredictionUsecase({walletStore});
     dispatch({
-      type: actionTypes.GET_PREDICTION,
+      type: actionTypes.INIT_PREDICTION_SUCCESS,
       data:{
         isLoadingCurrent: true,
-        prediction
+        initState
       }
     })
   }catch(err){
     dispatch({
-      type: actionTypes.GET_PREDICTION_FAILED,
+      type: actionTypes.INIT_PREDICTION_FAILED,
     })
   }
 

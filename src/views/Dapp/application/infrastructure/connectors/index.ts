@@ -2,9 +2,9 @@ import { AbstractConnector } from '@web3-react/abstract-connector';
 import { InjectedConnector } from '@web3-react/injected-connector';
 import { NetworkConnector } from '@web3-react/network-connector';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
-import { supportedChainIds } from '../../constants/chainIds';
-import { RPC_URLS } from '../../constants/rpcURLs';
-import { Explorers } from '../../constants/explorers';
+import { supportedChainIds } from '../../../constants/chainIds';
+import { RPC_URLS } from '../../../constants/rpcURLs';
+import { Explorers } from '../../../constants/explorers';
 import { ethers } from 'ethers';
 
 

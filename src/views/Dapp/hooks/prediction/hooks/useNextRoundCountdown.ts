@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { getCountdown } from "../../utils/time";
+import { getCountdown } from "../../../lib/utils/time";
 
 const useNextRoundCountdown = (): {countdown: string, width: string} => {
   const [state, setState] = useState({countdown:"00d:00h:00m:00s", width: "0"});

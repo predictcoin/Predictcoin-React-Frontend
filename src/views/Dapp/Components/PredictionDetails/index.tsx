@@ -9,40 +9,57 @@ import UnsuccessfulIllo from '../../../../assets/appSvgs/UnsuccessfulIllo';
 import DropdownOptions from './DropdownOptions';
 import { coinPredictionOptions } from '../../data/options';
 import './predictiondetails.styles.scss';
-import useNextRoundCountdown from '../../lib/prediction/hooks/useNextRoundCountdown';
-import { predictionViewModel } from '../../application/controllers/predictionViewModel';
-import { usePredictionStore } from '../../infrastructure/redux/stores/prediction';
+import useNextRoundCountdown from '../../hooks/prediction/hooks/useNextRoundCountdown';
+import { usePredictionViewModel } from '../../application/controllers/predictionViewModel';
+import { usePredictionStore } from '../../application/infrastructure/redux/stores/prediction';
 import { useWalletStore } from '../../models/infrastructure/redux/stores/wallet';
-import { getPrediction } from '../../application/usecases/prediction.ts/getPrediction';
 import { PREDICTIONSTATE } from '../../application/domain/prediction/entity';
+import useCountdown from '../../hooks/prediction/hooks/useCountdown';
 
 
 // NOTE: The three options for the details are Ongoing, Ended and Unsuccessful.
 
 const PredictionDetails: FC = () => {
-	let status = PREDICTIONSTATE.ROUND_ENDED_SUCCESSFULLY;
-	let time, width;
+	// const predictionStore = usePredictionStore()
+	// const walletStore = useWalletStore();
+	const { available, currentRound, betSeconds, initPrediction, state } = usePredictionViewModel();
+	if(!available) initPrediction();
+	// let status = PREDICTIONSTATE.ROUND_ENDED_SUCCESSFULLY;
+	let status;
+	let time, width, message;
 	const nextRoundCountdown = useNextRoundCountdown();
+	const currentRoundCountdown = useCountdown(
+			currentRound ? currentRound.lockedTimestamp.toNumber(): 0,
+			currentRound ? currentRound.closeTimestamp.toNumber(): 0,
+		);
+	const betCountdown = useCountdown(
+				currentRound ? currentRound.lockedTimestamp.toNumber(): 0, 
+				currentRound ? betSeconds.add(currentRound.lockedTimestamp).toNumber(): 0
+			);
 
-	const predictionStore = usePredictionStore()
-	const walletStore = useWalletStore();
 
-	const {available, prediction, getPrediction} = predictionViewModel(walletStore, predictionStore);
-	if(!available){ getPrediction() };
-	if(prediction && !prediction.currentRound.eq(0)){
-		switch(prediction.state){
+	if(available && !currentRound.epoch.eq(0)){
+		switch(state){
 			case(PREDICTIONSTATE.BETTING_ONGOING):
-				time = prediction.bet
-				width = 
+				time = betCountdown.countdown
+				width = betCountdown.width
+				message = "PREDICTION ENDS IN:";
+				status = "ongoing";
+				break;
+			case(PREDICTIONSTATE.ROUND_ONGOING):
+				message = "LIVE ROUND ENDS IN:";
+				time = currentRoundCountdown.countdown;
+				width = currentRoundCountdown.width;
+				status = "ongoing";
+				break;
+			default:
+				message = "NEXT ROUND BEGINS IN";
+				time = nextRoundCountdown.countdown;
+				width= nextRoundCountdown.width;
+				status = "next__round";
 		}
 	}
 
-	if(status !== "ongoing" ){
-		time = nextRoundCountdown.countdown;
-		width = nextRoundCountdown.width;
-	}else{
-
-	}
 
 	return (
 		<div className='prediction__details__content'>
@@ -59,9 +76,7 @@ const PredictionDetails: FC = () => {
 				<p className='time__counter'>
 					<span>
 						<IoMdStopwatch />
-						{status === 'ongoing'
-							? 'LIVE ROUND ENDS IN:'
-							: 'NEXT ROUND BEGINS IN:'}
+						{message}
 					</span>
 					<span className='time'>{time}</span>
 				</p>

@@ -29,7 +29,7 @@ export const predict = (params: Params) => {
   const contract = Prediction__factory.connect(PREDICTION_ADDRESSES[chainId], provider);
   const method = direction === DIRECTION.BEAR ? contract.predictBear : contract.predictBull;
   const message = `Predicting ${token} would go ${direction === DIRECTION.BEAR ? "down" : "up"}`;
-  const methodParams = [predictionStore.prediction.currentRound, PREDICTION_TOKEN_ADDRESSES[token]];
+  const methodParams = [predictionStore.currentRound, PREDICTION_TOKEN_ADDRESSES[token]];
 
   send({method, methodParams, message});
 };

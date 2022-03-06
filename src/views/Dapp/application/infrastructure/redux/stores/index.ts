@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { PredictionStore } from '../../../application/domain/prediction/predictionStore';
-import { WalletStore } from '../../../application/domain/wallet/walletStore';
+import { PredictionStore } from '../../../domain/prediction/predictionStore';
+import { WalletStore } from '../../../domain/wallet/walletStore';
 import { predictionReducer } from '../reducers/prediction';
 import { walletReducer } from '../reducers/wallet';
 

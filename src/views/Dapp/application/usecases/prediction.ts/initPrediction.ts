@@ -1,26 +1,32 @@
-import { Prediction__factory } from "../../../typechain";
-import { Prediction, PREDICTIONSTATE } from "../../domain/prediction/entity";
-import { PredictionStore } from "../../domain/prediction/predictionStore";
+import { Prediction, Prediction__factory } from "../../../typechain";
 import { WalletStore } from "../../domain/wallet/walletStore";
 import { PREDICTION_ADDRESSES } from "../../../constants/addresses";
 import { ethers } from "ethers";
 import { getPastUserRounds } from "./getPastUserRounds";
+import { PredictionStore } from "../../domain/prediction/predictionStore";
+import { PREDICTIONSTATE } from "../../domain/prediction/entity";
 
 interface Params{
   walletStore: WalletStore
 }
 
-export const getPrediction = async (params: Params): Promise<Prediction> => {
+export const initPrediction = async (params: Params): 
+  Promise<Pick<PredictionStore, 
+    "state" | "currentRound" | "contract" 
+    | "betAmount" | "tokenMaxBet" | "intervalSeconds"
+    | "betSeconds" | "bufferSeconds"
+    >> => {
   const { walletStore } = params;
   let { wallet: {provider}, chainId } = walletStore;
   provider = new ethers.providers.Web3Provider(provider);
   const contract = Prediction__factory.connect(PREDICTION_ADDRESSES[chainId], provider);
-  const currentRound = (await contract.currentEpoch());
-  if(currentRound.eq(0)){
-    return {currentRound} as unknown as Prediction;
+  const currentRoundNo = (await contract.currentEpoch());
+
+  if(currentRoundNo.eq(0)){
+    return {currentRoundNo} as unknown as PredictionStore;
   }
 
-  const round = await contract.getRound(currentRound.toString());
+  const currentRound = await contract.getRound(currentRoundNo.toString());
   const betAmount = (await contract.betAmount());
   const tokenMaxBet = (await contract.tokenMaxBet());
   const intervalSeconds = (await contract.intervalSeconds());
@@ -28,7 +34,7 @@ export const getPrediction = async (params: Params): Promise<Prediction> => {
   const bufferSeconds = (await contract.bufferSeconds());
   const [userRounds, betInfos] = await getPastUserRounds({walletStore});
   let _userRounds = userRounds.map(round => userRounds.toString());
-  let index = _userRounds.indexOf(round.epoch.toString());
+  let index = _userRounds.indexOf(currentRound.epoch.toString());
   if( index !== -1){
     // @ts-ignore
     round.user = betInfos[index];
@@ -36,13 +42,13 @@ export const getPrediction = async (params: Params): Promise<Prediction> => {
   let state;
 
   state = PREDICTIONSTATE.ROUND_ENDED_SUCCESSFULLY;
-  if(round.lockedTimestamp.add(betSeconds).lt(Math.trunc(Date.now()/1000))){
+  if(currentRound.lockedTimestamp.add(betSeconds).lt(Math.trunc(Date.now()/1000))){
     state = PREDICTIONSTATE.BETTING_ONGOING
-  }else if(round.lockedTimestamp.add(intervalSeconds).lt(Math.trunc(Date.now()/1000))){
+  }else if(currentRound.lockedTimestamp.add(intervalSeconds).lt(Math.trunc(Date.now()/1000))){
     state = PREDICTIONSTATE.ROUND_ONGOING
   }else if(
-    round.lockedTimestamp.add(intervalSeconds).add(bufferSeconds).lt(Math.trunc(Date.now()/1000)) &&
-    !round.oraclesCalled
+    currentRound.lockedTimestamp.add(intervalSeconds).add(bufferSeconds).lt(Math.trunc(Date.now()/1000)) &&
+    !currentRound.oraclesCalled
     ){
     state = PREDICTIONSTATE.ROUND_ENDED_UNSUCCESSFULLY
   }
@@ -51,12 +57,11 @@ export const getPrediction = async (params: Params): Promise<Prediction> => {
   return {
     state,
     currentRound,
+    contract,
     betAmount,
     tokenMaxBet,
     intervalSeconds,
     betSeconds,
     bufferSeconds,
-    // @ts-ignore
-    round,
   };
 }
