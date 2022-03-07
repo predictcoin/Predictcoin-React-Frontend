@@ -27,4 +27,32 @@ const coinTabData: CoinTabDataModel[] = [
 	},
 ];
 
+export const coinMinMax: {id: string; min: number; max: number}[] = [
+	{
+		id: 'bitcoin',
+		min: 5000,
+		max: 65000
+	},
+	{
+		id: 'etheruem',
+		min: 5000,
+		max: 65000
+	},
+	{
+		id: 'crypto-com-chain',
+		min: 0.4,
+		max: 0.9
+	},
+	{
+		id: 'litecoin',
+		min: 5000,
+		max: 65000
+	},
+	{
+		id: 'dogecoin',
+		min: 5000,
+		max: 65000
+	},
+]
+
 export default coinTabData

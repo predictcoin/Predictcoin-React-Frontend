@@ -131,6 +131,7 @@ const CoinTab: FC<CoinTabProps> = ({ id, coinName, active, setActive }) => {
 												width: '212px',
 												display: 'flex',
 												justifyContent: 'center',
+												zIndex: 100
 											}}
 										>
 											<span>

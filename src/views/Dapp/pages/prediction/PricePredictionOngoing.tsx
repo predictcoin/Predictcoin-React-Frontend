@@ -8,6 +8,8 @@ interface PredictionPriceProps {
 	graphMin: number;
 	graphMax: number;
 	activeCard: string;
+	loadingChart: boolean;
+	loadingChartValues: boolean;
 	setActive: Dispatch<SetStateAction<string>>;
 }
 
@@ -16,6 +18,8 @@ const PricePredictionOngoing: FC<PredictionPriceProps> = ({
 	graphMin,
 	graphMax,
 	activeCard,
+	loadingChart,
+	loadingChartValues,
 	setActive,
 }) => {
 	return (
@@ -24,6 +28,8 @@ const PricePredictionOngoing: FC<PredictionPriceProps> = ({
 				<PredictionGraph
 					min={graphMin}
 					max={graphMax}
+					loadingChart={loadingChart}
+					loadingChartValues={loadingChartValues}
 					data={[{ id: 'Prediction Graph', data: graphData }]}
 				/>
 			</div>
