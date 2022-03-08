@@ -1,7 +1,9 @@
 import { FC } from "react";
+import { BsFunnel } from "react-icons/bs";
 import { ResponsiveLine } from "@nivo/line";
 import { format } from "date-fns";
 import Loader from "../Loader/index.component";
+import numFormatter from "../../helpers/numFormatter";
 
 interface PredictionGraphProps {
     min: number;
@@ -22,7 +24,7 @@ const PredictionGraph: FC<PredictionGraphProps> = ({
     max,
     data,
     loadingChart,
-	loadingChartValues
+    loadingChartValues
 }) => {
     return loadingChart || loadingChartValues ? (
         <div className="loader__container">
@@ -56,22 +58,23 @@ const PredictionGraph: FC<PredictionGraphProps> = ({
                 return format(new Date(year, month, day), "dd MMM Y");
             }}
             tooltip={(value) => {
+                const date = new Date(value.point.data.xFormatted);
+                const year = date.getFullYear();
+                const month = date.getMonth();
+                const day = date.getDay();
+                const formattedTime = format(new Date(year, month, day), "dd/MM/Y");
+
                 return (
-                    <div
-                        style={{
-                            padding: "12px 24px",
-                            color: "#000",
-                            background: "#fff"
-                        }}
-                    >
-                        <br />
-                        <span>
-                            Data: &nbsp;<b>{value.point.data.xFormatted}</b>
-                        </span>
-                        <br />
-                        <span>
-                            Price: &nbsp;<b>{value.point.data.yFormatted}</b>
-                        </span>
+                    <div className="graph__tooltip">
+                        <div className="time">
+                            <p>Date: {formattedTime}</p>
+                        </div>
+                        <div className="panel">
+                            <p>
+                                Price: &nbsp;
+                                <b>{`$${numFormatter(+value.point.data.y)}`}</b>
+                            </p>
+                        </div>
                     </div>
                 );
             }}
