@@ -19,4 +19,5 @@ export interface PredictionStore{
   isLoadingPast: boolean;
   pastAvailable: boolean;
   hasBet: boolean;
+  address: string;
 };
