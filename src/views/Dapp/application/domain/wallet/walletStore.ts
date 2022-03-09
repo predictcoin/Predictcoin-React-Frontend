@@ -1,16 +1,13 @@
+import { ethers } from "ethers";
 import { Wallet } from "./entity";
 
 export interface WalletStore{
   // State
-  wallet: Wallet;
+  address: string,
+  externalProvider: ethers.providers.ExternalProvider,
   active: boolean;
   chainId: number;
   explorer: string;
   name: string;
   isConnecting: boolean;
-
-  // Actions
-  connect: (name:string) => Promise<void>;
-  disconnect: () => void;
-  // store: (wallet: Wallet) => void;
 }

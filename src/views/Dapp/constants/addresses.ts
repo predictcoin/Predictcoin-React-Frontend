@@ -1,8 +1,8 @@
 import { supportedChainIds } from "./chainIds"
 
 export const PREDICTION_ADDRESSES = {
-  [supportedChainIds.Mainnet] : "",
-  [supportedChainIds.Testnet] : ""
+  [supportedChainIds.Mainnet] : "0xC80c40C49a66a930ef42652FFCcBE37b5ed43D67",
+  [supportedChainIds.Testnet] : "0xB09A1F4ee02a803A6c618aBd7e5F791ca8D9b936"
 }
 
 export const PREDICTION_TOKEN_ADDRESSES = {

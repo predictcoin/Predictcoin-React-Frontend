@@ -1,6 +1,6 @@
 import React, { Dispatch, FC, SetStateAction, useEffect } from 'react';
 import MetamaskIcon from '../../../../assets/appSvgs/MetamaskIcon';
-import {walletViewModel} from "../../application/controllers/walletViewModel";
+import {useWalletViewModel} from "../../application/controllers/walletViewModel";
 import {useWalletStore} from "../../models/infrastructure/redux/stores/wallet";
 import { shortenAddress } from '../../lib/utils/address';
 
@@ -15,8 +15,7 @@ const ModalDisconnect: FC<ModalDisconnectProps> = ({ closeModal }) => {
 		if (e.target?.id === 'custom__modal') closeModal(false);
 	};
 
-	const store = useWalletStore();
-	const {disconnect, address} = walletViewModel(store);
+	const {disconnect, address} = useWalletViewModel();
 
 	useEffect(() => {
 		window.addEventListener('click', (e) => closeModalFunc(e));

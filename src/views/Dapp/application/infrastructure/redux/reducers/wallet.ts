@@ -1,10 +1,12 @@
 import { WalletStore } from "../../../domain/wallet/walletStore"
 import * as actionTypes from "../actionTypes/wallet";
 
-type INITIAL_STATE = Omit<WalletStore, "connect" | "disconnect" | "explorer" | "name" | "chainId">
+type INITIAL_STATE = {
+  isConnecting: boolean,
+  active: boolean
+}
 
 const initial: INITIAL_STATE = {
-  wallet: { address: "", provider: undefined},
   isConnecting: false,
   active: false,
 }

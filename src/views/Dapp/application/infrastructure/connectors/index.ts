@@ -5,18 +5,19 @@ import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { supportedChainIds } from '../../../constants/chainIds';
 import { RPC_URLS } from '../../../constants/rpcURLs';
 import { Explorers } from '../../../constants/explorers';
-import { ethers } from 'ethers';
 
 
+// web3js connectors
 const injected = new InjectedConnector({ supportedChainIds: Object.values(supportedChainIds) })
 const network = new NetworkConnector({ 
   urls: { 25: RPC_URLS[25], 338: RPC_URLS[338] },
   defaultChainId: process.env.NODE_ENV === "production" 
     ? 25 : 338  
 });
-const rpc = process.env.NODE_ENV === "production" ? {25: RPC_URLS[25]} : {338: RPC_URLS[338]};
+
+const rpc = process.env.NODE_ENV === "production" ? 25 : 338;
 const walletConnect = new WalletConnectConnector({
-  rpc: {25: RPC_URLS[25]},
+  rpc: {25: RPC_URLS[rpc]},
   bridge: "https://bridge.walletconnect.org",
   qrcode: true,
 });
@@ -35,7 +36,7 @@ export const connect = async (name: string) =>{
       connector = walletConnect;
       break;
     default:
-      connector = injected;
+      connector = network;
   }
 
   try{

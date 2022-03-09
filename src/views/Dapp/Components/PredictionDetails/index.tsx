@@ -24,7 +24,7 @@ interface PredictionDetailsProps {
 const PredictionDetails: FC<PredictionDetailsProps> = ({
 	activeCard, setActive
 }) => {
-	const { available, currentRound, betSeconds, initPrediction, state } = usePredictionViewModel();
+	const { available, currentRound, betSeconds, state, initPrediction } = usePredictionViewModel();
 	if(!available) initPrediction();
 	// let status = PREDICTIONSTATE.ROUND_ENDED_SUCCESSFULLY;
 	let status;

@@ -1,56 +1,38 @@
 import * as actionTypes from "../actionTypes/wallet";
-import { connectWalletParams } from "../../../usecases/wallet/connect";
+import { connectWalletParams, connectWallet } from "../../../usecases/wallet/connect";
+import { disconnectWallet } from "../../../usecases/wallet/disconnect";
 import { Dispatch } from "react";
-import { connect, disconnect } from "../../connectors";
 
-const connectWallet = (name:string) => (dispatch: Dispatch<{type: string, data?: any}>) => {
+const connectWalletAction = (name:string) => async (dispatch: Dispatch<{type: string, data?: any}>) => {
   dispatch({
     type: actionTypes.CONNECT_WALLET
   });
 
-  return connect(name).then((args) => {
-    if(args !== undefined){
-      const {chainId, address, explorer, provider} = args;
-        provider.on("accountsChanged", ([address]: string[]) => {
-          window.location.reload();
-          // dispatch({
-          //   type: actionTypes.SET_WALLET,
-          //   data: {
-          //     wallet: {address, provider}
-          //   }
-          // })
-        })
-        provider.on("chainsChanged", () => {
-          window.location.reload();
-        })
-
-
-        dispatch({
-        type: actionTypes.CONNECT_WALLET_SUCCESS,
-        data: {
-          chainId,
-          wallet: {address, provider},
-          explorer
-        } 
-      })
-    } else {
+  const walletData = await connectWallet({name});
+  if(walletData !== undefined){
+    dispatch({
+      type: actionTypes.CONNECT_WALLET_SUCCESS,
+      data: {
+        ...walletData
+      } 
+  })} 
+  else{
       dispatch({
         type: actionTypes.CONNECT_WALLET_FAILED
       })
-    }
-  })
+  }
 }
 
-const setWallet = ( params: connectWalletParams ) => (dispatch: Dispatch<{type: string, data:any}>) => {
+const setWalletAction = ( params: connectWalletParams ) => (dispatch: Dispatch<{type: string, data:any}>) => {
   dispatch({
     type: actionTypes.SET_WALLET,
     data: params,
   });
 }
 
-const disconnectWallet = () => (dispatch: Dispatch<{type: string}>) => {
+const disconnectWalletAction = () => (dispatch: Dispatch<{type: string}>) => {
+  disconnectWallet(); 
   dispatch({type: actionTypes.DISCONNECT_WALLET});
-  disconnect(); 
 }
 
-export {disconnectWallet, connectWallet, setWallet};
+export {disconnectWalletAction, connectWalletAction, setWalletAction};

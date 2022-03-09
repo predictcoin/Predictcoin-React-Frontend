@@ -3,18 +3,17 @@ import * as actionTypes from "../actionTypes/prediction";
 import { getPastRounds as getPastRoundsUsecase } from "../../../usecases/prediction.ts/getPastRounds";
 import { initPrediction as initPredictionUsecase } from "../../../usecases/prediction.ts/initPrediction";
 import { getPastUserRounds } from "../../../usecases/prediction.ts/getPastUserRounds";
-import { WalletStore } from "../../../domain/wallet/walletStore";
-import { PredictionStore } from "../../../domain/prediction/predictionStore";
+import { Prediction } from "../../../../typechain";
 
-export const getPastRounds = (walletStore: WalletStore) => async (dispatch: Dispatch<{type:string, data?: any}>) => {
+export const getPastRounds = (contract: Prediction, address: string, active: boolean) => async (dispatch: Dispatch<{type:string, data?: any}>) => {
   dispatch({
     type: actionTypes.GET_PAST_ROUNDS,
   });
   let _pastRounds;
   try{
-    const pastRounds = await getPastRoundsUsecase({ walletStore });
-    if(walletStore.active){
-      const [userRounds, betInfo] = await getPastUserRounds({ walletStore });
+    const pastRounds = await getPastRoundsUsecase({ contract });
+    if(active){
+      const [userRounds, betInfo] = await getPastUserRounds({ contract, address });
       const _userRounds = userRounds.map((round) => round.toString());
       _pastRounds = pastRounds.map(round =>{
         const index = _userRounds.indexOf(round.epoch.toString());
@@ -38,13 +37,13 @@ export const getPastRounds = (walletStore: WalletStore) => async (dispatch: Disp
   return _pastRounds;
 }
 
-export const initPrediction = (walletStore: WalletStore) => async (dispatch: Dispatch<{type:string, data?: any}>) => {
+export const initPrediction = ( contract: Prediction, address: string, active: boolean ) => async (dispatch: Dispatch<{type:string, data?: any}>) => {
   dispatch({
     type: actionTypes.INIT_PREDICTION,
   })
 
   try{
-    const initState = await initPredictionUsecase({walletStore});
+    const initState = await initPredictionUsecase({active, address, contract});
     dispatch({
       type: actionTypes.INIT_PREDICTION_SUCCESS,
       data:{
@@ -57,5 +56,4 @@ export const initPrediction = (walletStore: WalletStore) => async (dispatch: Dis
       type: actionTypes.INIT_PREDICTION_FAILED,
     })
   }
-
 };

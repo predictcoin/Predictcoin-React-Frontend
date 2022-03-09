@@ -12,7 +12,7 @@ import PricePredictionPast from './PricePredictionPast';
 import PricePredictionOngoing from './PricePredictionOngoing';
 import ModalConnect from '../../Components/CustomModal/ModalConnect';
 import ModalDisconnect from '../../Components/CustomModal/ModalDisconnect';
-import { walletViewModel } from "../../application/controllers/walletViewModel";
+import { useWalletViewModel } from "../../application/controllers/walletViewModel";
 import { useWalletStore } from "../../models/infrastructure/redux/stores/wallet";
 import { shortenAddress } from "../../lib/utils/address";
 import { toast } from 'react-toastify';
@@ -34,8 +34,7 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
 	const [graphMax, setGraphMax] = useState<number>(0);
 	const [graphData, setGraphData] = useState<{ x: string; y: number }[]>([]);
 	const [modalOpened, setModalOpened] = useState<boolean>(false);
-	const store = useWalletStore();
-	const { active, address } = walletViewModel(store);
+	const { active, address } = useWalletViewModel();
 	const modal = active ? (
 		<ModalDisconnect closeModal={() => setModalOpened(false)} />
 	) : (

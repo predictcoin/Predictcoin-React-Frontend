@@ -1,7 +1,5 @@
-import { WalletStore } from "../../domain/wallet/walletStore";
+import { disconnect } from "../../infrastructure/connectors";
 
-export const disconnectWallet = (store: WalletStore): Promise<void> | void => {
-  if(store.active){
-    return store.disconnect();
-  }
+export const disconnectWallet = (): Promise<void> | void => {
+  disconnect();
 }

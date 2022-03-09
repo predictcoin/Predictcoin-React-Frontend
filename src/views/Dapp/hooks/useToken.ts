@@ -1,8 +1,6 @@
-import { BigNumber, ethers } from "ethers"
-import useProvider from "./useProvider"
+import { useWalletViewModel } from "../application/controllers/walletViewModel";
 import {ERC20__factory} from "../typechain/factories/ERC20__factory";
 import { useState } from "react";
-import { useWalletStore } from "../models/infrastructure/redux/stores/wallet";
 import useTransaction from "./useTransaction";
 
 interface Token {
@@ -15,13 +13,12 @@ interface Token {
 }
 
 const useToken = (address: string): Token => {
-  const provider = useProvider();
+  const { provider , address: userAddress, active} = useWalletViewModel();
   const contract = ERC20__factory.connect(address, provider);
   const {send: sendTransaction} = useTransaction();
 
   const [decimals, setDecimals] = useState(0);
   const [symbol, setSymbol] = useState("");
-  const {wallet: {address: userAddress}, active} = useWalletStore()
 
   const getDecimals = async () => {
     if(decimals !== 0) return decimals;
