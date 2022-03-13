@@ -8,7 +8,7 @@ import Staking from './pages/staking';
 import Prediction from './pages/prediction';
 import './appdashboard.styles.scss';
 import { Provider } from 'react-redux';
-import { store } from './models/infrastructure/redux/stores';
+import { store } from './application/infrastructure/redux/stores';
 
 const AppDashboard: FC = () => {
 	return (

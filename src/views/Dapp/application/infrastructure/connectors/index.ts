@@ -5,17 +5,17 @@ import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { supportedChainIds } from '../../../constants/chainIds';
 import { RPC_URLS } from '../../../constants/rpcURLs';
 import { Explorers } from '../../../constants/explorers';
+import { getChainId } from '../../../lib/utils/chain';
 
 
 // web3js connectors
 const injected = new InjectedConnector({ supportedChainIds: Object.values(supportedChainIds) })
 const network = new NetworkConnector({ 
   urls: { 25: RPC_URLS[25], 338: RPC_URLS[338] },
-  defaultChainId: process.env.NODE_ENV === "production" 
-    ? 25 : 338  
+  defaultChainId: getChainId()
 });
 
-const rpc = process.env.NODE_ENV === "production" ? 25 : 338;
+const rpc = getChainId();
 const walletConnect = new WalletConnectConnector({
   rpc: {25: RPC_URLS[rpc]},
   bridge: "https://bridge.walletconnect.org",
@@ -44,7 +44,7 @@ export const connect = async (name: string) =>{
     const chainId = Number(await connector.getChainId()) as keyof typeof Explorers;
     if(!Object.values(supportedChainIds).includes(chainId)){
       throw new Error(
-        `Chain is not supported, connect to the Cronos chain ${process.env.NODE_ENV === "production" ? "mainnet" : "testnet"}`
+        `Chain is not supported, connect to the Cronos chain ${process.env.REACT_APP_ENVIRONMENT}`
       );
     }
 

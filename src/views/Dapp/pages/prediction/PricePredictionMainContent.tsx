@@ -7,16 +7,19 @@ import { format } from 'date-fns';
 import coinTabData from '../../data/coinTabData';
 import CoinTab from '../../Components/CoinTab';
 import WalletIcon from '../../../../assets/appSvgs/WalletIcon';
-import PredictLogoSidebar from '../../../../assets/pics/PredictLogoSidebar.png';
+import CRPLogo from '../../../../assets/pics/CRP.png';
 import PricePredictionPast from './PricePredictionPast';
 import PricePredictionOngoing from './PricePredictionOngoing';
 import ModalConnect from '../../Components/CustomModal/ModalConnect';
 import ModalDisconnect from '../../Components/CustomModal/ModalDisconnect';
 import { useWalletViewModel } from "../../application/controllers/walletViewModel";
-import { useWalletStore } from "../../models/infrastructure/redux/stores/wallet";
 import { shortenAddress } from "../../lib/utils/address";
 import { toast } from 'react-toastify';
 import { ToastBody, STATUS, TYPE } from "../../Components/Toast";
+import useToken from '../../hooks/useToken';
+import { TOKENS } from '../../constants/addresses';
+import { ethers } from 'ethers';
+import { displayDecimals } from '../../lib/utils/number';
 
 interface PricePredictionMainContentProps {
 	isSidebarExpanded: boolean;
@@ -34,7 +37,8 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
 	const [graphMax, setGraphMax] = useState<number>(0);
 	const [graphData, setGraphData] = useState<{ x: string; y: number }[]>([]);
 	const [modalOpened, setModalOpened] = useState<boolean>(false);
-	const { active, address } = useWalletViewModel();
+	const { active, address, chainId } = useWalletViewModel();
+	const { balance, decimals } = useToken(TOKENS[chainId].CRP)
 	const modal = active ? (
 		<ModalDisconnect closeModal={() => setModalOpened(false)} />
 	) : (
@@ -107,10 +111,12 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
 					</div>
 
 					<div className='header__ctas'>
-						<div className='wallet__price'>
-							<img src={PredictLogoSidebar} alt='predict-coin-logo' />
-							<p>25.08 PRED</p>
-						</div>
+						{active && 
+							<div className='wallet__price'>
+								<img src={CRPLogo} alt='predict-coin-logo' />
+								<p>{displayDecimals(ethers.utils.formatUnits(balance, decimals), 5)}</p>
+							</div>
+						}	
 						{/* add 'not__connected class if wallet is not connected' */}
 						<button
 							className={`address ${!active && 'not__connected'}`}

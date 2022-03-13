@@ -19,7 +19,6 @@ export const initPrediction = async (params: Params):
 
   const {contract, active, address} = params;
   const currentRoundNo = (await contract.currentEpoch());
-
   if(currentRoundNo.eq(0)){
     return { currentRoundNo } as unknown as PredictionStore;
   }
@@ -36,18 +35,30 @@ export const initPrediction = async (params: Params):
   }
   let state;
 
-  state = PREDICTIONSTATE.ROUND_ENDED_SUCCESSFULLY;
-  if(currentRound.lockedTimestamp.add(betSeconds).lt(Math.trunc(Date.now()/1000))){
-    state = PREDICTIONSTATE.BETTING_ONGOING
-  }else if(currentRound.lockedTimestamp.add(intervalSeconds).lt(Math.trunc(Date.now()/1000))){
+  state = PREDICTIONSTATE.ROUND_ONGOING;
+  
+  if(currentRound.lockedTimestamp.add(intervalSeconds).gt(Math.trunc(Date.now()/1000))){
+    console.log(state, "1");
     state = PREDICTIONSTATE.ROUND_ONGOING
-  }else if(
+  }
+  if(currentRound.lockedTimestamp.add(betSeconds).gt(Math.trunc(Date.now()/1000))){
+    console.log(state, "2");
+    state = PREDICTIONSTATE.BETTING_ONGOING
+  }
+  if(
     currentRound.lockedTimestamp.add(intervalSeconds).add(bufferSeconds).lt(Math.trunc(Date.now()/1000)) &&
     !currentRound.oraclesCalled
     ){
+      console.log(state, "3");
     state = PREDICTIONSTATE.ROUND_ENDED_UNSUCCESSFULLY
   }
-
+  else if(
+    currentRound.lockedTimestamp.add(intervalSeconds).add(bufferSeconds).lt(Math.trunc(Date.now()/1000)) &&
+    currentRound.oraclesCalled
+  ){
+    console.log(state, "4");
+    state = PREDICTIONSTATE.ROUND_ENDED_SUCCESSFULLY
+  }
 
   return {
     state,

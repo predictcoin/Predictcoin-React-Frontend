@@ -1,9 +1,12 @@
 import { Dispatch } from "react"
 import * as actionTypes from "../actionTypes/prediction";
-import { getPastRounds as getPastRoundsUsecase } from "../../../usecases/prediction.ts/getPastRounds";
-import { initPrediction as initPredictionUsecase } from "../../../usecases/prediction.ts/initPrediction";
-import { getPastUserRounds } from "../../../usecases/prediction.ts/getPastUserRounds";
+import { getPastRounds as getPastRoundsUsecase } from "../../../usecases/prediction/getPastRounds";
+import { initPrediction as initPredictionUsecase } from "../../../usecases/prediction/initPrediction";
+import { getPastUserRounds } from "../../../usecases/prediction/getPastUserRounds";
 import { Prediction } from "../../../../typechain";
+import { predict as predictUsecase} from "../../../usecases/prediction/predict"
+import { DIRECTION } from "../../../domain/prediction/entity";
+import { PREDICTION_ADDRESSES, PREDICTION_TOKEN_ADDRESSES } from "../../../../constants/addresses";
 
 export const getPastRounds = (contract: Prediction, address: string, active: boolean) => async (dispatch: Dispatch<{type:string, data?: any}>) => {
   dispatch({
@@ -47,13 +50,17 @@ export const initPrediction = ( contract: Prediction, address: string, active: b
     dispatch({
       type: actionTypes.INIT_PREDICTION_SUCCESS,
       data:{
-        isLoadingCurrent: true,
-        initState
+        ...initState
       }
     })
   }catch(err){
+    console.log(err);
     dispatch({
       type: actionTypes.INIT_PREDICTION_FAILED,
     })
   }
 };
+
+// export const predict = (direction: DIRECTION, token: keyof typeof PREDICTION_TOKEN_ADDRESSES) => async() => {
+//   predictUsecase({direction, token})
+// }

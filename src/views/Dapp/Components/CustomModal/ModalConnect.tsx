@@ -3,10 +3,7 @@ import { Dispatch, FC, SetStateAction, useEffect } from 'react';
 import CustomModal from './index';
 import MetamaskIcon from '../../../../assets/appSvgs/MetamaskIcon';
 import WalletConnectIcon from '../../../../assets/appSvgs/WalletConnect';
-import TrustwalletIcon from '../../../../assets/pics/Trustwallet.png';
-import SafepalIcon from '../../../../assets/pics/Safepal.png';
 import {useWalletViewModel} from "../../application/controllers/walletViewModel";
-import {useWalletStore} from "../../models/infrastructure/redux/stores/wallet";
 
 interface ModalConnectProps {
 	closeModal: Dispatch<SetStateAction<boolean>>;

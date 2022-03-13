@@ -1,7 +1,6 @@
-import React, { Dispatch, FC, SetStateAction, useEffect } from 'react';
+import { Dispatch, FC, SetStateAction, useEffect } from 'react';
 import MetamaskIcon from '../../../../assets/appSvgs/MetamaskIcon';
 import {useWalletViewModel} from "../../application/controllers/walletViewModel";
-import {useWalletStore} from "../../models/infrastructure/redux/stores/wallet";
 import { shortenAddress } from '../../lib/utils/address';
 
 import CustomModal from './index';

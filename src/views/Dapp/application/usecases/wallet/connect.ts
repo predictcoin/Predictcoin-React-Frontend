@@ -24,7 +24,7 @@ export const connectWallet = async (params: connectWalletParams) => {
       window.location.reload();
     });
   
-  return {chainId, address, explorer, provider};
+  return {chainId, address, explorer, externalProvider: provider};
   }
 
   return undefined;

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { getCountdown } from "../../../lib/utils/time";
+import { useEffect, useState } from "react";
+import { getCountdown } from "../../lib/utils/time";
 
 const useNextRoundCountdown = (): {countdown: string, width: string} => {
   const [state, setState] = useState({countdown:"00d:00h:00m:00s", width: "0"});
@@ -20,13 +20,18 @@ const useNextRoundCountdown = (): {countdown: string, width: string} => {
     }
 
     duration = futureStamp - Math.trunc(Date.now()/1000);
-    width = `${(interval-duration)/interval*100}%`
+    width = `${Math.trunc((interval-duration)/interval*100)}%`
     // const duration = (1639400400000 - Date.now())/1000
     const {days, hours, minutes, seconds} = getCountdown(duration);
     setState({countdown: `${days}d:${hours}h:${minutes}m:${seconds}s`, width});
   }
   // if(duration === 0) repeat();
-  setInterval(repeat, 2000);
+  useEffect(() => {
+    const intervalFunc = setInterval(repeat, 2000);
+    return () => {
+      clearInterval(intervalFunc);
+    }
+  }, [])
   return state ;
 }
 

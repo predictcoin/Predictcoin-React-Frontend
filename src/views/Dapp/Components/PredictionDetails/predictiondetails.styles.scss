@@ -274,6 +274,20 @@
 					line-height: 15px;
 					color: #5b5a99;
 				}
+				
+				.crp-logo {
+					width: 2rem;
+				}
+			}
+
+			.enable {
+				border: 1px solid #0E56C0;
+				background: #0E56C099;
+				width: 100%;
+				border-radius: 8px;
+				color: #ffffff;
+				justify-self: stretch;
+				padding: 10px 16px;
 			}
 
 			.buttons {
@@ -282,6 +296,7 @@
 				justify-content: space-between;
 				flex-wrap: wrap;
 				align-items: center;
+
 
 				button {
 					border: none;
@@ -310,6 +325,14 @@
 						border: 1px solid #e3507a;
 						color: #e3507a;
 						margin-right: 16px;
+					}
+
+					&.disabled{
+						background: #FFFFFF8F;
+						pointer-events: none;
+						color: #ffffff;
+						border: 1px solid #FFFFFF8F;
+						cursor: not-allowed;
 					}
 
 					svg {
@@ -368,5 +391,13 @@
 				color: #ffffff;
 			}
 		}
+	}
+}
+
+
+.prediction_skeleton {
+	.buttons {
+		display: flex;
+		justify-content: space-between;
 	}
 }

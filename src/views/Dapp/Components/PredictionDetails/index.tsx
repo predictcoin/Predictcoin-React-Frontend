@@ -1,18 +1,54 @@
-import { Dispatch, FC, SetStateAction } from 'react';
+import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { IoMdStopwatch } from 'react-icons/io';
 import { RiArrowRightDownFill, RiArrowRightUpFill } from 'react-icons/ri';
 
-import PredShadow from '../../../../assets/pics/PredShadow.png';
+import CRPShadow from '../../../../assets/pics/CRP.png';
 import EndedIllo from '../../../../assets/appSvgs/EndedIllo';
 import UnsuccessfulIllo from '../../../../assets/appSvgs/UnsuccessfulIllo';
 import DropdownOptions from './DropdownOptions';
 import { coinPredictionOptions } from '../../data/options';
 import './predictiondetails.styles.scss';
-import useNextRoundCountdown from '../../hooks/prediction/hooks/useNextRoundCountdown';
+import useNextRoundCountdown from '../../hooks/prediction/useNextRoundCountdown';
 import { usePredictionViewModel } from '../../application/controllers/predictionViewModel';
-import { PREDICTIONSTATE } from '../../application/domain/prediction/entity';
-import useCountdown from '../../hooks/prediction/hooks/useCountdown';
+import { DIRECTION, PREDICTIONSTATE } from '../../application/domain/prediction/entity';
+import useCountdown from '../../hooks/prediction/useCountdown';
+import { useWalletViewModel } from '../../application/controllers/walletViewModel';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
+import useToken from '../../hooks/useToken';
+import { PREDICTION_ADDRESSES, PREDICTION_TOKEN_ADDRESSES, TOKENS } from '../../constants/addresses';
+import { getChainId } from '../../lib/utils/chain';
+import { ethers } from 'ethers';
+import useTransaction from '../../hooks/useTransaction';
+import { displayDecimals } from '../../lib/utils/number';
+
+const PredictionSkeleton = ({active}: {active: boolean}) => {
+	return <SkeletonTheme enableAnimation={true} baseColor="#22204c" highlightColor="#363277">
+		<div className="prediction_skeleton">
+			<Skeleton width="40%"/>
+			<Skeleton width="80%"/>
+			<br/>
+			<Skeleton height="4.5rem"/>
+			<br />
+			<div className="buttons" >
+				<Skeleton height="3rem" width="6rem"/>
+				<Skeleton height="3rem" width="6rem"/>
+			</div>
+			{active && 
+				<>
+					<br/>
+					<Skeleton height="4.7rem"/>
+					<br />
+					<div className="buttons" >
+						<Skeleton height="2.5rem" width="10rem"/>
+						<Skeleton height="2.5rem" width="10rem"/>
+					</div>
+				</>
+			}
+		</div>
+	</SkeletonTheme>
+}
 
 interface PredictionDetailsProps {
 	activeCard: string;
@@ -20,26 +56,36 @@ interface PredictionDetailsProps {
 }
 
 // NOTE: The three options for the details are Ongoing, Ended and Unsuccessful.
-
 const PredictionDetails: FC<PredictionDetailsProps> = ({
 	activeCard, setActive
 }) => {
-	const { available, currentRound, betSeconds, state, initPrediction } = usePredictionViewModel();
-	if(!available) initPrediction();
+	const { available, currentRound, betSeconds, state, initPrediction, isLoadingCurrent, predict, betAmount } = usePredictionViewModel();
+	if(!available && !isLoadingCurrent) initPrediction();
+	const { active, chainId, address: userAddress } = useWalletViewModel();
+	const { balance, decimals, approve, getAllowance, allowance: CRPAllowance, getBalance } = useToken(TOKENS[chainId].CRP);
+	const {send} = useTransaction();
+
 	// let status = PREDICTIONSTATE.ROUND_ENDED_SUCCESSFULLY;
 	let status;
 	let time, width, message;
 	const nextRoundCountdown = useNextRoundCountdown();
+
 	const currentRoundCountdown = useCountdown(
 			currentRound ? currentRound.lockedTimestamp.toNumber(): 0,
 			currentRound ? currentRound.closeTimestamp.toNumber(): 0,
 		);
 	const betCountdown = useCountdown(
-				currentRound ? currentRound.lockedTimestamp.toNumber(): 0, 
-				currentRound ? betSeconds.add(currentRound.lockedTimestamp).toNumber(): 0
-			);
+			currentRound ? currentRound.lockedTimestamp.toNumber(): 0, 
+			currentRound ? betSeconds.add(currentRound.lockedTimestamp).toNumber(): 0
+		);
 
-	if(available && !currentRound.epoch.eq(0)){
+	useEffect( () => {
+		if(active){
+			getAllowance(PREDICTION_ADDRESSES[process.env.REACT_APP_ENVIRONMENT as keyof typeof PREDICTION_ADDRESSES])
+		}	
+	}, [CRPAllowance, userAddress])
+
+	if(available){
 		switch(state){
 			case(PREDICTIONSTATE.BETTING_ONGOING):
 				time = betCountdown.countdown
@@ -53,18 +99,39 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({
 				width = currentRoundCountdown.width;
 				status = "ongoing";
 				break;
+			case(PREDICTIONSTATE.ROUND_ENDED_UNSUCCESSFULLY):
+				message = "NEXT ROUND BEGINS IN:";
+				time = nextRoundCountdown.countdown;
+				width = nextRoundCountdown.width;
+				status = "";
+				break;
 			default:
-				message = "NEXT ROUND BEGINS IN";
+				message = "NEXT ROUND BEGINS IN:";
 				time = nextRoundCountdown.countdown;
 				width= nextRoundCountdown.width;
-				status = "next__round";
+				status = "ended";
 		}
 	}
-	status = "ongoing";
 
 
+	const activeCoin = coinPredictionOptions.filter(
+											(coin) => coin.id === activeCard
+										)[0]
+	const lockedPrice = currentRound 
+		? currentRound[
+			state === PREDICTIONSTATE.BETTING_ONGOING || state === PREDICTIONSTATE.ROUND_ONGOING ? "lockedPrices" : "closePrices"
+		][currentRound._tokens.indexOf(activeCoin.address)].toNumber()/10**8 : 0;
+
+	const predictCallbacks = {
+		"successfull": () => getBalance()
+	}
+	
 	return (
-		<div className='prediction__details__content'>
+		!available
+		?
+			<PredictionSkeleton active={active}/>
+		:
+			<div className='prediction__details__content'>
 			<p className='title'>start prediction</p>
 			<p className='subtitle'>
 				Enter prediction pools by entering up or down price predictions
@@ -86,7 +153,6 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({
 					<div className='elapsed' style={{width}}></div>
 				</div>
 			</div>
-
 			<div
 				className={`details__body ${
 					status === 'ongoing' ? 'ongoing' : 'next__round'
@@ -99,43 +165,58 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({
 								<p>Select coin to predict</p>
 								<DropdownOptions
 									options={coinPredictionOptions}
-									value={
-										coinPredictionOptions.filter(
-											(coin) => coin.id === activeCard
-										)[0]
-									}
+									value={ activeCoin }
 									onChange={setActive}
 								/>
 							</div>
 
 							<div className='locked__position'>
 								<p>locked position</p>
-								<h4 className='value'>$56,000</h4>
+								<h4 className='value'>${lockedPrice}</h4>
 							</div>
 						</div>
-
-						<div className='available__balance'>
-							<div className='top'>
-								<p>
-									<span>available balance:</span> 240.005
-								</p>
-								<img src={PredShadow} alt='pred-logo' />
-							</div>
-							<p className='note'>
-								You will be charged 10 PRED for each pool entered
-							</p>
-						</div>
-
-						<div className='buttons'>
-							<button className='down'>
-								<RiArrowRightDownFill />
-								enter down
-							</button>
-							<button className='up'>
-								<RiArrowRightUpFill />
-								enter up
-							</button>
-						</div>
+						{
+						active &&
+							<>
+								<div className='available__balance'>
+									<div className='top'>
+										<p>
+											<span>available balance: </span> {displayDecimals(ethers.utils.formatUnits(balance, decimals), 5)}
+										</p>
+										<img src={CRPShadow} alt='pred-logo' className="crp-logo"/>
+									</div>
+									<p className='note'>
+										You will be charged 10 PRED for each pool entered
+									</p>
+								</div>
+									{!CRPAllowance || !CRPAllowance.gt(betAmount) ?
+										<button className="enable "
+											onClick={() => approve(
+												PREDICTION_ADDRESSES[process.env.REACT_APP_ENVIRONMENT as keyof typeof process.env.REACT_APP_ENVIRONMENT], 
+												ethers.constants.MaxUint256
+											)}
+										>
+											Enable CRP
+								 		</button>
+										 :
+										<div className='buttons'>
+											<button className={`down ${balance.lt(betAmount) && "disabled"}`}
+												onClick={() => predict(activeCoin.value as keyof typeof PREDICTION_TOKEN_ADDRESSES, DIRECTION.BEAR, send, predictCallbacks)}
+											>
+												<RiArrowRightDownFill />
+												enter down
+											</button>
+											<button className={`up ${balance.lt(betAmount) && "disabled"}`}
+												onClick={() => predict(activeCoin.value as keyof typeof PREDICTION_TOKEN_ADDRESSES, DIRECTION.BULL, send, predictCallbacks)}
+											>
+												<RiArrowRightUpFill />
+												enter up
+											
+											</button>
+										</div>
+								}
+							</>
+						}
 					</>
 				) : (
 					<>

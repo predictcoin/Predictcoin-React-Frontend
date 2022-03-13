@@ -1,5 +1,5 @@
-import { predict as predictUsecase } from "../usecases/prediction.ts/predict";
-import { withdraw as withdrawUsecase } from "../usecases/prediction.ts/withdraw";
+import { predict as predictUsecase } from "../usecases/prediction/predict";
+import { withdraw as withdrawUsecase } from "../usecases/prediction/withdraw";
 import { DIRECTION } from "../domain/prediction/entity";
 import { PREDICTION_ADDRESSES, PREDICTION_TOKEN_ADDRESSES } from "../../constants/addresses";
 import { SendParams } from "../../hooks/useTransaction";
@@ -15,17 +15,21 @@ import { Prediction__factory } from "../../typechain";
 
 export const usePredictionViewModel = () => {
   const predictionStore = usePredictionStore()
-	const {chainId, provider, active, address} = useWalletViewModel();
+  const {available, currentRound} = predictionStore;
+ 	const { provider, active, address, signer} = useWalletViewModel();
   const dispatch = useDispatch();
 
-  console.log(PREDICTION_ADDRESSES[chainId], provider);
-  const contract = Prediction__factory.connect( PREDICTION_ADDRESSES[chainId], provider );
-  const predict = (
+  
+  const contract = Prediction__factory.connect( PREDICTION_ADDRESSES[process.env.REACT_APP_ENVIRONMENT as keyof typeof PREDICTION_ADDRESSES], signer ? signer : provider );
+  const predict = useCallback((
     token: keyof typeof PREDICTION_TOKEN_ADDRESSES, 
     direction: DIRECTION, 
-    send: (params:SendParams) => Promise<void>
+    send: (params:SendParams) => Promise<void>,
+    callbacks: {[key: string]: () => void}
   ) => 
-    predictUsecase({provider, active, predictionStore, token, direction, send, contract});
+    predictUsecase({ active, token, direction, send, contract, available, currentRound: currentRound.epoch, callbacks }), 
+    [active, contract, available, currentRound]);
+    
   
   const withdraw = () => { withdrawUsecase() }
   
@@ -35,7 +39,6 @@ export const usePredictionViewModel = () => {
 
   return{
     ...predictionStore,
-    contract: 
     initPrediction,
     getPastRounds,
     predict,

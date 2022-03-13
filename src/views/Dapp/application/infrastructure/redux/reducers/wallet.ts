@@ -1,4 +1,3 @@
-import { WalletStore } from "../../../domain/wallet/walletStore"
 import * as actionTypes from "../actionTypes/wallet";
 
 type INITIAL_STATE = {
@@ -7,6 +6,7 @@ type INITIAL_STATE = {
 }
 
 const initial: INITIAL_STATE = {
+  
   isConnecting: false,
   active: false,
 }

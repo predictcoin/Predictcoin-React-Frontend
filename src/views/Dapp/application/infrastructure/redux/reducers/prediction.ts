@@ -1,17 +1,11 @@
-import { PredictionStore } from "../../../domain/prediction/predictionStore";
 import * as actionType from "../actionTypes/prediction";
 import { PREDICTION_ADDRESSES } from "../../../../constants/addresses";
-import { supportedChainIds } from "../../../../constants/chainIds";
 
 const initialState = {
   isLoadingCurrent: false,
   isLoadingPast: false,
   available: false,
-  address: PREDICTION_ADDRESSES[ 
-    process.env.NODE_ENV === "production" 
-    ? supportedChainIds.Mainnet 
-    : supportedChainIds.Testnet 
-  ],
+  address: PREDICTION_ADDRESSES[process.env.REACT_APP_ENVIRONMENT as keyof typeof PREDICTION_ADDRESSES],
 }
 
 export const predictionReducer = (state = initialState, action: {type: string, data?: any}): any => {
@@ -23,7 +17,7 @@ export const predictionReducer = (state = initialState, action: {type: string, d
     case(actionType.GET_PAST_ROUNDS_SUCCESS):
       return {...state, isLoadingPast: false, pastAvailable: true, ...action.data}
     case(actionType.INIT_PREDICTION):
-      return {...state, isLoadingCurrent: true, available: true}
+      return {...state, isLoadingCurrent: true}
     case(actionType.INIT_PREDICTION_FAILED):
       return {...state, isLoadingCurrent: false}
     case(actionType.INIT_PREDICTION_SUCCESS):
