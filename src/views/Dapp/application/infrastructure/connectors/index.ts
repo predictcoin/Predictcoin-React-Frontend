@@ -6,6 +6,8 @@ import { supportedChainIds } from '../../../constants/chainIds';
 import { RPC_URLS } from '../../../constants/rpcURLs';
 import { Explorers } from '../../../constants/explorers';
 import { getChainId } from '../../../lib/utils/chain';
+import { ethers } from 'ethers';
+import { et } from 'date-fns/locale';
 
 
 // web3js connectors
@@ -22,6 +24,41 @@ const walletConnect = new WalletConnectConnector({
   qrcode: true,
 });
 
+const addNetwork = async (provider: ethers.providers.ExternalProvider) => {
+  if(!provider.request) return;
+  const chainId = getChainId();
+  try {
+    await provider?.request({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId: ethers.utils.hexlify(chainId) }],
+    });
+  } catch (switchError: any) {
+    // This error code indicates that the chain has not been added to MetaMask.
+    if (switchError?.code === 4902) {
+      try {
+        await provider?.request({
+          method: 'wallet_addEthereumChain',
+          params: [
+            {
+              chainId: ethers.utils.hexlify(chainId),
+              chainName: 'Cronos Mainnet Beta',
+              rpcUrls: [RPC_URLS[chainId]],
+              blockExplorerUrls: [Explorers[chainId]],
+              nativeCurrency: {
+                name: "Cronos",
+                symbol: "CRO", // 2-6 characters long
+                decimals: 18,
+              }
+            },
+          ],
+        });
+      } catch (addError: any) {
+        throw new Error(addError);
+      }
+    }
+    // handle other "switch" errors
+  }
+}
 
 let connector: AbstractConnector;
 export const connect = async (name: string) =>{
@@ -42,22 +79,21 @@ export const connect = async (name: string) =>{
   try{
     await connector.activate();
     const chainId = Number(await connector.getChainId()) as keyof typeof Explorers;
+    const provider =  await connector.getProvider(); 
     if(!Object.values(supportedChainIds).includes(chainId)){
-      throw new Error(
-        `Chain is not supported, connect to the Cronos chain ${process.env.REACT_APP_ENVIRONMENT}`
-      );
+      await addNetwork(provider);
     }
 
     const address = await connector.getAccount();
     const explorer = Explorers[chainId];
-    const provider =  await connector.getProvider(); 
-    return { chainId, address, explorer, provider };
+    
+    return { chainId, address, explorer, provider, connector };
   }catch(err: any){
     console.error(err);
     alert(err.message);
   }
 
-  connector.on("accountsChanged", (addresses) => console.log("addresses", addresses[0]))
+  connector.on("accountsChanged", (...args) => console.log("args", args));
 }
 
 export const disconnect = async () => {

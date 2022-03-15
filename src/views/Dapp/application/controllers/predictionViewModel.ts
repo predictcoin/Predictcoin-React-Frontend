@@ -25,7 +25,7 @@ export const usePredictionViewModel = () => {
     token: keyof typeof PREDICTION_TOKEN_ADDRESSES, 
     direction: DIRECTION, 
     send: (params:SendParams) => Promise<void>,
-    callbacks: {[key: string]: () => void}
+    callbacks?: {[key: string]: () => void}
   ) => 
     predictUsecase({ active, token, direction, send, contract, available, currentRound: currentRound.epoch, callbacks }), 
     [active, contract, available, currentRound]);

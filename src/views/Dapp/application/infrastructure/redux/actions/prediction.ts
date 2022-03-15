@@ -2,11 +2,8 @@ import { Dispatch } from "react"
 import * as actionTypes from "../actionTypes/prediction";
 import { getPastRounds as getPastRoundsUsecase } from "../../../usecases/prediction/getPastRounds";
 import { initPrediction as initPredictionUsecase } from "../../../usecases/prediction/initPrediction";
-import { getPastUserRounds } from "../../../usecases/prediction/getPastUserRounds";
 import { Prediction } from "../../../../typechain";
-import { predict as predictUsecase} from "../../../usecases/prediction/predict"
-import { DIRECTION } from "../../../domain/prediction/entity";
-import { PREDICTION_ADDRESSES, PREDICTION_TOKEN_ADDRESSES } from "../../../../constants/addresses";
+
 
 export const getPastRounds = (contract: Prediction, address: string, active: boolean) => async (dispatch: Dispatch<{type:string, data?: any}>) => {
   dispatch({
@@ -14,22 +11,10 @@ export const getPastRounds = (contract: Prediction, address: string, active: boo
   });
   let _pastRounds;
   try{
-    const pastRounds = await getPastRoundsUsecase({ contract });
-    if(active){
-      const [userRounds, betInfo] = await getPastUserRounds({ contract, address });
-      const _userRounds = userRounds.map((round) => round.toString());
-      _pastRounds = pastRounds.map(round =>{
-        const index = _userRounds.indexOf(round.epoch.toString());
-        if(index !== -1){
-          round.user = betInfo[index];
-        }
-        return round;
-      })
-    }
-
+    const pastRounds = await getPastRoundsUsecase({ contract, address, active });
     dispatch({
       type: actionTypes.GET_PAST_ROUNDS_SUCCESS,
-      data: {pastRounds: _pastRounds}
+      data: {pastRounds: pastRounds}
     })
   }catch(err){  
     dispatch({

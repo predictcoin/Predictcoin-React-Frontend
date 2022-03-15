@@ -6,6 +6,11 @@ import farmingCardData from '../../data/farmingCardData';
 import FarmingCard from '../../Components/FarmingCard';
 import ModalConnect from '../../Components/CustomModal/ModalConnect';
 import ModalDisconnect from '../../Components/CustomModal/ModalDisconnect';
+import { TOKENS } from '../../constants/addresses';
+import { useWalletViewModel } from '../../application/controllers/walletViewModel';
+import useToken from '../../hooks/useToken';
+import { ethers } from 'ethers';
+import { displayDecimals } from '../../lib/utils/number';
 
 interface FarmingMainContentProps {
 	isSidebarExpanded: boolean;
@@ -17,10 +22,12 @@ const FarmingMainContent: FC<FarmingMainContentProps> = ({
 	setIsSidebarExpanded,
 }) => {
 	const [modalOpened, setModalOpened] = useState<boolean>(false);
+	const { chainId } = useWalletViewModel();
+	const { balance, decimals } = useToken(TOKENS[chainId].CRP)
 
 	return (
 		<section className='farming__main__content'>
-			{modalOpened && <ModalDisconnect closeModal={() => setModalOpened(false)}/>}
+			{modalOpened && <ModalDisconnect closeModal={() => setModalOpened(false)} CRPBalance={displayDecimals(ethers.utils.formatUnits(balance, decimals), 5)}/>}
 
 			<div className='container'>
 				<header>

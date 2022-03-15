@@ -1,20 +1,28 @@
+import { BigNumber, ethers } from 'ethers';
 import { Dispatch, FC, SetStateAction, useEffect } from 'react';
 import MetamaskIcon from '../../../../assets/appSvgs/MetamaskIcon';
 import {useWalletViewModel} from "../../application/controllers/walletViewModel";
+import { PREDICTION_TOKEN_ADDRESSES, TOKENS } from '../../constants/addresses';
+import useToken from '../../hooks/useToken';
 import { shortenAddress } from '../../lib/utils/address';
+import { getChainId } from '../../lib/utils/chain';
+import { displayDecimals } from '../../lib/utils/number';
 
 import CustomModal from './index';
 
 interface ModalDisconnectProps {
 	closeModal: Dispatch<SetStateAction<boolean>>;
+	CRPBalance: string;
 }
 
-const ModalDisconnect: FC<ModalDisconnectProps> = ({ closeModal }) => {
+const ModalDisconnect: FC<ModalDisconnectProps> = ({ closeModal, CRPBalance }) => {
 	const closeModalFunc = (e: any) => {
 		if (e.target?.id === 'custom__modal') closeModal(false);
 	};
 
-	const {disconnect, address} = useWalletViewModel();
+	const {disconnect, address, active} = useWalletViewModel();
+
+	
 
 	useEffect(() => {
 		window.addEventListener('click', (e) => closeModalFunc(e));
@@ -35,10 +43,10 @@ const ModalDisconnect: FC<ModalDisconnectProps> = ({ closeModal }) => {
 					<p>{shortenAddress(address)}</p>
 				</button>
 
-				<p className='account__balance'>23.9 PRED</p>
+				<p className='account__balance'>{active ? CRPBalance : 0} CRP</p>
 				<p className='account__balance__text'>Wallet balance</p>
 
-				<button className='buy__pred'>BUY PRED</button>
+				<button className='buy__pred'>BUY CRP</button>
 
 				<button
 					className='disconnect__wallet'

@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { useDispatch} from "react-redux";
 import { connectWalletAction, disconnectWalletAction } from "../infrastructure/redux/actions/wallet";
 import { useWalletStore } from "../infrastructure/redux/stores/wallet";
@@ -15,9 +15,17 @@ export const useWalletViewModel = () => {
   const store = useWalletStore();
   const showSpinner = store.isConnecting;
   const dispatch = useDispatch();
-  const connect = useCallback((name: string) => connectWalletAction(name)(dispatch), [dispatch])
 
-  const disconnect = useCallback(() => disconnectWalletAction()(dispatch), [dispatch]);
+  const connect = useCallback(async (name: string) => {
+    console.log("connecting");
+    await connectWalletAction(name)(dispatch);
+    localStorage.setItem("wallet", name);
+  }, [dispatch]);
+  const disconnect = useCallback(() => {
+    disconnectWalletAction()(dispatch);
+    localStorage.removeItem("wallet");
+  }, [dispatch]);
+
   const provider = !store.externalProvider ? defaultLibrary : new ethers.providers.Web3Provider(store.externalProvider)
   const chainId  = !store.chainId ? (getChainId()) : store.chainId;
   let signer: ethers.Signer | undefined = undefined;

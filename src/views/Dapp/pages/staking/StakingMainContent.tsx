@@ -8,6 +8,11 @@ import StakingCard from '../../Components/StakingCard';
 import StakingPast from './StakingPast';
 import ModalConnect from '../../Components/CustomModal/ModalConnect';
 import ModalDisconnect from '../../Components/CustomModal/ModalDisconnect';
+import { displayDecimals } from '../../lib/utils/number';
+import { ethers } from 'ethers';
+import useToken from '../../hooks/useToken';
+import { TOKENS } from '../../constants/addresses';
+import { useWalletViewModel } from '../../application/controllers/walletViewModel';
 
 interface StakingMainContentProps {
 	isSidebarExpanded: boolean;
@@ -20,10 +25,12 @@ const StakingMainContent: FC<StakingMainContentProps> = ({
 }) => {
 	const { pathname } = useLocation();
 	const [modalOpened, setModalOpened] = useState<boolean>(false);
+	const { chainId } = useWalletViewModel();
+	const { balance, decimals } = useToken(TOKENS[chainId].CRP)
 
 	return (
 		<section className='staking__main__content'>
-			{modalOpened && <ModalDisconnect closeModal={() => setModalOpened(false)}/>}
+			{modalOpened && <ModalDisconnect closeModal={() => setModalOpened(false)} CRPBalance={displayDecimals(ethers.utils.formatUnits(balance, decimals), 5)}/>}
 
 			<div className='container'>
 				<header>

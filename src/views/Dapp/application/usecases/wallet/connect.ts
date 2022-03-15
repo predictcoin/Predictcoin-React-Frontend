@@ -9,22 +9,9 @@ export const connectWallet = async (params: connectWalletParams) => {
   const {name} = params;
   const args = await connect(name);
   if(args !== undefined){
-        const {chainId, address, explorer, provider} = args;
-    provider.on("accountsChanged", ([address]: string[]) => {
-      window.location.reload();
-      // dispatch({
-      //   type: actionTypes.SET_WALLET,
-      //   data: {
-      //     wallet: {address, provider}
-      //   }
-      // })
-    });
-
-    provider.on("chainsChanged", () => {
-      window.location.reload();
-    });
+    const {chainId, address, explorer, provider} = args;
   
-  return {chainId, address, explorer, externalProvider: provider};
+    return {chainId, address, explorer, externalProvider: provider};
   }
 
   return undefined;

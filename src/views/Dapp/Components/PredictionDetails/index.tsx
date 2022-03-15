@@ -60,9 +60,9 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({
 	activeCard, setActive
 }) => {
 	const { available, currentRound, betSeconds, state, initPrediction, isLoadingCurrent, predict, betAmount } = usePredictionViewModel();
-	if(!available && !isLoadingCurrent) initPrediction();
 	const { active, chainId, address: userAddress } = useWalletViewModel();
-	const { balance, decimals, approve, getAllowance, allowance: CRPAllowance, getBalance } = useToken(TOKENS[chainId].CRP);
+	const { balance, decimals, approve, getAllowance, allowances, getBalance } = useToken(TOKENS[chainId].CRP);
+	const CRPAllowance = allowances[PREDICTION_ADDRESSES[process.env.REACT_APP_ENVIRONMENT as keyof typeof PREDICTION_ADDRESSES]]
 	const {send} = useTransaction();
 
 	// let status = PREDICTIONSTATE.ROUND_ENDED_SUCCESSFULLY;
@@ -83,7 +83,11 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({
 		if(active){
 			getAllowance(PREDICTION_ADDRESSES[process.env.REACT_APP_ENVIRONMENT as keyof typeof PREDICTION_ADDRESSES])
 		}	
-	}, [CRPAllowance, userAddress])
+	}, [CRPAllowance, userAddress]);
+	
+	useEffect( () => {
+		if(!available && !isLoadingCurrent) initPrediction();
+	}, [])
 
 	if(available){
 		switch(state){
@@ -122,9 +126,6 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({
 			state === PREDICTIONSTATE.BETTING_ONGOING || state === PREDICTIONSTATE.ROUND_ONGOING ? "lockedPrices" : "closePrices"
 		][currentRound._tokens.indexOf(activeCoin.address)].toNumber()/10**8 : 0;
 
-	const predictCallbacks = {
-		"successfull": () => getBalance()
-	}
 	
 	return (
 		!available
@@ -189,8 +190,9 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({
 										You will be charged 10 PRED for each pool entered
 									</p>
 								</div>
+								
 									{!CRPAllowance || !CRPAllowance.gt(betAmount) ?
-										<button className="enable "
+										<button className={`enable ${!CRPAllowance && "disable"}`}
 											onClick={() => approve(
 												PREDICTION_ADDRESSES[process.env.REACT_APP_ENVIRONMENT as keyof typeof process.env.REACT_APP_ENVIRONMENT], 
 												ethers.constants.MaxUint256
@@ -201,13 +203,13 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({
 										 :
 										<div className='buttons'>
 											<button className={`down ${balance.lt(betAmount) && "disabled"}`}
-												onClick={() => predict(activeCoin.value as keyof typeof PREDICTION_TOKEN_ADDRESSES, DIRECTION.BEAR, send, predictCallbacks)}
+												onClick={() => predict(activeCoin.value as keyof typeof PREDICTION_TOKEN_ADDRESSES, DIRECTION.BEAR, send)}
 											>
 												<RiArrowRightDownFill />
 												enter down
 											</button>
 											<button className={`up ${balance.lt(betAmount) && "disabled"}`}
-												onClick={() => predict(activeCoin.value as keyof typeof PREDICTION_TOKEN_ADDRESSES, DIRECTION.BULL, send, predictCallbacks)}
+												onClick={() => predict(activeCoin.value as keyof typeof PREDICTION_TOKEN_ADDRESSES, DIRECTION.BULL, send)}
 											>
 												<RiArrowRightUpFill />
 												enter up

@@ -6,6 +6,7 @@ import {
 	RiArrowRightDownFill,
 	RiArrowRightUpFill,
 } from 'react-icons/ri';
+import { useWalletViewModel } from '../../application/controllers/walletViewModel';
 
 import numFormatter from '../../helpers/numFormatter';
 import PredictionDataModel from '../../models/PredictionDataModel';
@@ -21,6 +22,8 @@ const ProcePredictionRow: FC<PricePredictionRowProps> = ({ prediction }) => {
 		prediction.status === 'Unsuccessful'
 	);
 
+	const {active} = useWalletViewModel()
+
 	return (
 		<TableRow forTableBody>
 			<TableData text=''>
@@ -30,23 +33,26 @@ const ProcePredictionRow: FC<PricePredictionRowProps> = ({ prediction }) => {
 				/>
 				{prediction.coinPredicted}
 			</TableData>
-			<TableData text={''}>
-				{prediction.myPrediction === 'UP' && (
-					<p className='up'>
-						<RiArrowUpFill /> UP
-					</p>
-				)}
-				{prediction.myPrediction === 'DOWN' && (
-					<p className='down'>
-						<RiArrowDownFill /> DOWN
-					</p>
-				)}
-				{prediction.myPrediction === 'STAY' && (
-					<p className='stay'>
-						<RiArrowRightFill /> -
-					</p>
-				)}
-			</TableData>
+			{
+				active && 
+				<TableData text={''}>
+					{prediction.myPrediction === 'UP' && (
+						<p className='up'>
+							<RiArrowUpFill /> UP
+						</p>
+					)}
+					{prediction.myPrediction === 'DOWN' && (
+						<p className='down'>
+							<RiArrowDownFill /> DOWN
+						</p>
+					)}
+					{prediction.myPrediction === 'STAY' && (
+						<p className='stay'>
+							<RiArrowRightFill /> -
+						</p>
+					)}
+				</TableData>
+			}
 			<TableData text={numFormatter(prediction.lockedPrice)} />
 			<TableData text={numFormatter(prediction.closingPrice)} />
 			<TableData text={''}>
@@ -61,20 +67,22 @@ const ProcePredictionRow: FC<PricePredictionRowProps> = ({ prediction }) => {
 				</span>
 			</TableData>
 			<TableData text={prediction.status} />
-			<TableData text=''>
-				<button
-					onClick={() => (earned === false ? setEarned(true) : null)}
-					className={`
-						${prediction.status === 'Unsuccessful' ? 'no__earn' : ''}
-						${earned === true ? 'earned' : ''}
-					`}
-					disabled={earned === true || prediction.status === 'Unsuccessful'}
-				>
-					{prediction.status === 'Unsuccessful'
-						? '-'
-						: `Earn ${prediction.coinPredicted}`}
-				</button>
-			</TableData>
+			{ active &&
+				<TableData text=''>
+					<button
+						onClick={() => (earned === false ? setEarned(true) : null)}
+						className={`
+							${prediction.status === 'Unsuccessful' ? 'no__earn' : ''}
+							${earned === true ? 'earned' : ''}
+						`}
+						disabled={earned === true || prediction.status === 'Unsuccessful'}
+					>
+						{prediction.status === 'Unsuccessful'
+							? '-'
+							: `Earn ${prediction.coinPredicted}`}
+					</button>
+				</TableData>
+			}
 		</TableRow>
 	);
 };

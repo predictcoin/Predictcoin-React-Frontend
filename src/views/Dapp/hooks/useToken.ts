@@ -4,16 +4,19 @@ import { useEffect, useState } from "react";
 import useTransaction from "./useTransaction";
 import { BigNumber, ethers } from "ethers";
 import { TOKENS } from "../constants/addresses";
+import { ERC20 } from "../typechain";
+import { watchEvent } from "../lib/utils/event";
 
 interface Token {
   decimals: number,
   approve: (spender: string, amount: string|BigNumber) => Promise<void>,
   getAllowance: (spender:string) => void,
-  allowance: BigNumber,
+  allowances: {[key: string]: BigNumber},
   send: (receiver: string, amount: string|BigNumber) => Promise<void>,
   balance: ethers.BigNumber,
   getSymbol: () => Promise<string>,
-  getBalance: () => void
+  getBalance: () => void,
+  contract: ERC20
 }
 
 const useToken = (address: string): Token => {
@@ -22,7 +25,7 @@ const useToken = (address: string): Token => {
   const {send: sendTransaction} = useTransaction();
 
   const [decimals, setDecimals] = useState(0);
-  const [allowance, setAllowance] = useState(ethers.BigNumber.from(0));
+  const [allowances, setAllowance] = useState({});
   const [balance, setBalance] = useState(ethers.BigNumber.from(0));
   const [symbol, setSymbol] = useState("");
 
@@ -35,8 +38,20 @@ const useToken = (address: string): Token => {
         getBalance();
       })();
       
-      if(active) getAllowance(userAddress);
+      //events
+      watchEvent(contract, "Transfer", [userAddress], (from, to, value, event) => {
+        getBalance();
+      });
+      watchEvent(contract, "Approval", [userAddress], (owner, spender, value, event) => {
+        console.log(owner, spender, value);
+        getAllowance(spender);
+      })
     }
+
+    return () => {
+      contract.removeAllListeners();
+    }
+
   }, [userAddress])
 
   const getDecimals = async () => {
@@ -58,7 +73,7 @@ const useToken = (address: string): Token => {
     };
 
     const result = await contract.allowance(userAddress, spender);
-    setAllowance(result);
+    setAllowance(allowances => ({...allowances, [spender]: result}));
   }
 
   const getBalance = async () => {
@@ -67,7 +82,6 @@ const useToken = (address: string): Token => {
     }
 
     const result = await contract.balanceOf(userAddress);
-    console.log(result.toString());
     setBalance(result);
   }
 
@@ -82,8 +96,7 @@ const useToken = (address: string): Token => {
     const method = contract.approve;
     const methodParams = [spender, amount];
     const message = `Approve ${await getSymbol()} to be spent`;
-    const callbacks = {successfull: () => getAllowance(spender)}
-    await sendTransaction({method, methodParams, message, callbacks});
+    await sendTransaction({method, methodParams, message});
   }
   
   return{
@@ -91,10 +104,11 @@ const useToken = (address: string): Token => {
     getBalance,
     decimals,
     getAllowance,
-    allowance,
+    allowances,
     send,
     approve,
     balance,
+    contract
   }
 }
 

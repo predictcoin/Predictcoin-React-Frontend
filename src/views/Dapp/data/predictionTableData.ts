@@ -8,8 +8,8 @@ import DotPred from '../../../assets/pics/DotPred.png';
 
 const predictionTableData: predictionDataModel[] = [
 	{
-		myPrediction: 'DOWN',
-		coinPredicted: 'BTC',
+		// myPrediction: 'DOWN',
+		// coinPredicted: 'BTC',
 		coinPredictedIcon: BitcoinPred,
 		lockedPrice: 60000,
 		closingPrice: 50060,
@@ -17,8 +17,8 @@ const predictionTableData: predictionDataModel[] = [
 		status: 'Won',
 	},
 	{
-		myPrediction: 'UP',
-		coinPredicted: 'ETH',
+		// myPrediction: 'UP',
+		// coinPredicted: 'ETH',
 		coinPredictedIcon: ETHPred,
 		lockedPrice: 60000,
 		closingPrice: 50060,
@@ -26,8 +26,8 @@ const predictionTableData: predictionDataModel[] = [
 		status: 'Won',
 	},
 	{
-		myPrediction: 'UP',
-		coinPredicted: 'DOGE',
+		// myPrediction: 'UP',
+		// coinPredicted: 'DOGE',
 		coinPredictedIcon: DogePred,
 		lockedPrice: 60000,
 		closingPrice: 50060,
@@ -35,8 +35,8 @@ const predictionTableData: predictionDataModel[] = [
 		status: 'Lost',
 	},
 	{
-		myPrediction: 'STAY',
-		coinPredicted: 'DOT',
+		// myPrediction: 'STAY',
+		// coinPredicted: 'DOT',
 		coinPredictedIcon: DotPred,
 		lockedPrice: 60000,
 		closingPrice: 50060,
@@ -44,8 +44,8 @@ const predictionTableData: predictionDataModel[] = [
 		status: 'Unsuccessful',
 	},
 	{
-		myPrediction: 'STAY',
-		coinPredicted: 'ADA',
+		// myPrediction: 'STAY',
+		// coinPredicted: 'ADA',
 		coinPredictedIcon: ADAPred,
 		lockedPrice: 60000,
 		closingPrice: 50060,
@@ -53,8 +53,8 @@ const predictionTableData: predictionDataModel[] = [
 		status: 'Lost',
 	},
 	{
-		myPrediction: 'STAY',
-		coinPredicted: 'BSC',
+		// myPrediction: 'STAY',
+		// coinPredicted: 'BSC',
 		coinPredictedIcon: BNBPred,
 		lockedPrice: 60000,
 		closingPrice: 50060,
@@ -62,8 +62,8 @@ const predictionTableData: predictionDataModel[] = [
 		status: 'Won',
 	},
 	{
-		myPrediction: 'DOWN',
-		coinPredicted: 'BTC',
+		// myPrediction: 'DOWN',
+		// coinPredicted: 'BTC',
 		coinPredictedIcon: BitcoinPred,
 		lockedPrice: 60000,
 		closingPrice: 50060,
@@ -71,8 +71,8 @@ const predictionTableData: predictionDataModel[] = [
 		status: 'Won',
 	},
     {
-		myPrediction: 'DOWN',
-		coinPredicted: 'BTC',
+		// myPrediction: 'DOWN',
+		// coinPredicted: 'BTC',
 		coinPredictedIcon: BitcoinPred,
 		lockedPrice: 60000,
 		closingPrice: 50060,

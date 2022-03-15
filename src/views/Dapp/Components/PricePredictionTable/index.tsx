@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 //@ts-ignore
 import Skeleton from 'react-skeleton';
 
@@ -11,6 +11,9 @@ import TableData from '../Table/TableData';
 import PricePredictionRow from './PricePredictionRow';
 import PricePredictionDataModel from '../../models/PredictionDataModel';
 import './pricepredictiontable.styles.scss';
+import { useWalletViewModel } from '../../application/controllers/walletViewModel';
+import { usePredictionViewModel } from '../../application/controllers/predictionViewModel';
+import { formatPredictionRounds } from '../../lib/utils/formatPredictionRounds';
 
 type PricePredictionTableProps = {
 	predictions: PricePredictionDataModel[] | [];
@@ -20,6 +23,20 @@ const PricePredictionTable: FC<PricePredictionTableProps> = ({
 	predictions,
 }) => {
 	const [loading, setLoading] = useState<boolean>(false);
+	const {active} = useWalletViewModel();
+	const {pastAvailable, isLoadingPast, getPastRounds, available, pastRounds} = usePredictionViewModel();
+	const _pastRounds = pastRounds ? formatPredictionRounds(pastRounds) : [];
+
+	useEffect(() => {
+		const loadPast = async () => {
+			if(!pastAvailable && !isLoadingPast){
+				getPastRounds()
+			}else if(active){
+				getPastRounds();
+			}
+		}
+		loadPast();
+	}, [active]);
 
 	return (
 		<div className='price__prediction__table'>
@@ -27,12 +44,12 @@ const PricePredictionTable: FC<PricePredictionTableProps> = ({
 				<TableHeader>
 					<TableRow>
 						<TableHead title={'coin predicted'} arrow/>
-						<TableHead title={'my predictions'} arrow/>
+						{ active && <TableHead title={'my predictions'} arrow/>}
 						<TableHead title={'locked price'} />
 						<TableHead title={'closing price '} />
 						<TableHead title={'statistics'} />
 						<TableHead title={'status'} arrow/>
-						<TableHead title={''} />
+						{ active && <TableHead title={''} />}
 					</TableRow>
 				</TableHeader>
 				<TableBody>

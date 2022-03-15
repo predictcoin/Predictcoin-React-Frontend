@@ -9,6 +9,19 @@ const connectWalletAction = (name:string) => async (dispatch: Dispatch<{type: st
   });
 
   const walletData = await connectWallet({name});
+  walletData?.externalProvider.on("accountsChanged", ([address]: string[]) => {
+    dispatch({
+      type: actionTypes.SET_WALLET,
+      data: {
+        address, externalProvider: walletData.externalProvider
+      }
+    })
+  });
+
+  walletData?.externalProvider.on("chainChanged", () => {
+    window.location.reload();
+  });
+
   if(walletData !== undefined){
     dispatch({
       type: actionTypes.CONNECT_WALLET_SUCCESS,
