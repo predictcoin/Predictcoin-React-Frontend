@@ -9,26 +9,34 @@ const connectWalletAction = (name:string) => async (dispatch: Dispatch<{type: st
   });
 
   const walletData = await connectWallet({name});
-  walletData?.externalProvider.on("accountsChanged", ([address]: string[]) => {
-    dispatch({
-      type: actionTypes.SET_WALLET,
-      data: {
-        address, externalProvider: walletData.externalProvider
-      }
-    })
-  });
-
-  walletData?.externalProvider.on("chainChanged", () => {
-    window.location.reload();
-  });
-
+  console.log(walletData);
   if(walletData !== undefined){
+
+    // @ts-ignore
+    walletData?.externalProvider?.on("accountsChanged", ([address]: string[]) => {
+      if(!address){
+        disconnectWalletAction();
+        return;
+      }
+      dispatch({
+        type: actionTypes.SET_WALLET,
+        data: {
+          address, externalProvider: walletData.externalProvider
+        }
+      })
+    });
+    // @ts-ignore
+    walletData?.externalProvider?.on("chainChanged", () => {
+      window.location.reload();
+    });
+
     dispatch({
       type: actionTypes.CONNECT_WALLET_SUCCESS,
       data: {
         ...walletData
       } 
-  })} 
+    }
+  )} 
   else{
       dispatch({
         type: actionTypes.CONNECT_WALLET_FAILED

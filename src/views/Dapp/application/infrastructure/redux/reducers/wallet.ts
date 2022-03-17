@@ -20,7 +20,7 @@ export const walletReducer = (state: INITIAL_STATE = initial, action: {type: str
     case actionTypes.CONNECT_WALLET_SUCCESS:
       return {...state, ...action.data, isConnecting: false, active:true}
     case actionTypes.DISCONNECT_WALLET:
-      return {...state, isConnecting: false, active: false}
+      return {...state, isConnecting: false, active: false, externalProvider: undefined, address: undefined}
     default:
       return state
   }

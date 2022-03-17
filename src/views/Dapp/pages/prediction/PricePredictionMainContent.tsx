@@ -38,6 +38,7 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
 	const [graphData, setGraphData] = useState<{ x: string; y: number }[]>([]);
 	const [modalOpened, setModalOpened] = useState<boolean>(false);
 	const { active, address, chainId } = useWalletViewModel();
+	console.log(chainId);
 	const { balance, decimals } = useToken(TOKENS[chainId].CRP)
 	const modal = active ? (
 		<ModalDisconnect closeModal={() => setModalOpened(false)} CRPBalance={ displayDecimals(ethers.utils.formatUnits(balance, decimals), 5) }/>

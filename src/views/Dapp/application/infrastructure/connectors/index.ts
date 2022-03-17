@@ -7,7 +7,8 @@ import { RPC_URLS } from '../../../constants/rpcURLs';
 import { Explorers } from '../../../constants/explorers';
 import { getChainId } from '../../../lib/utils/chain';
 import { ethers } from 'ethers';
-import { et } from 'date-fns/locale';
+import { toast } from "react-toastify";
+import { ToastBody, STATUS, TYPE } from "../../../Components/Toast";
 
 
 // web3js connectors
@@ -24,9 +25,10 @@ const walletConnect = new WalletConnectConnector({
   qrcode: true,
 });
 
-const addNetwork = async (provider: ethers.providers.ExternalProvider) => {
+export const addNetwork = async (provider: ethers.providers.ExternalProvider) => {
   if(!provider.request) return;
   const chainId = getChainId();
+  console.log(chainId, "chainId");
   try {
     await provider?.request({
       method: 'wallet_switchEthereumChain',
@@ -53,10 +55,18 @@ const addNetwork = async (provider: ethers.providers.ExternalProvider) => {
           ],
         });
       } catch (addError: any) {
-        throw new Error(addError);
+        if(addError?.code === 4001){
+          const body = ToastBody("User rejected the request to add network", STATUS.ERROR, TYPE.ERROR);
+          toast(body);
+        }
+        console.log(addError);
       }
     }
-    // handle other "switch" errors
+    if(switchError?.code === 4001){
+      const body = ToastBody("User rejected the request to switch network", STATUS.ERROR, TYPE.ERROR);
+      toast(body);
+    }
+    console.log(switchError)
   }
 }
 
@@ -80,8 +90,11 @@ export const connect = async (name: string) =>{
     await connector.activate();
     const chainId = Number(await connector.getChainId()) as keyof typeof Explorers;
     const provider =  await connector.getProvider(); 
-    if(!Object.values(supportedChainIds).includes(chainId)){
+    if(!Object.values(supportedChainIds).includes(chainId) && name === "injected"){
       await addNetwork(provider);
+    }
+    if(!Object.values(supportedChainIds).includes(chainId)){
+      return undefined;
     }
 
     const address = await connector.getAccount();
@@ -89,11 +102,14 @@ export const connect = async (name: string) =>{
     
     return { chainId, address, explorer, provider, connector };
   }catch(err: any){
-    console.error(err);
-    alert(err.message);
+    console.log(err.code);
+    if(err?.code === 4001){
+      console.log("we de here");
+      const body = ToastBody("User rejected the request to connect wallet", STATUS.ERROR, TYPE.ERROR);
+      toast(body);
+    }
+    console.log(err);
   }
-
-  connector.on("accountsChanged", (...args) => console.log("args", args));
 }
 
 export const disconnect = async () => {

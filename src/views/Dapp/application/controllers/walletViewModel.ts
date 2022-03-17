@@ -15,9 +15,15 @@ export const useWalletViewModel = () => {
   const store = useWalletStore();
   const showSpinner = store.isConnecting;
   const dispatch = useDispatch();
+  const externalProvider = store.externalProvider && new ethers.providers.Web3Provider(store.externalProvider);
+  
+  useEffect(() => {
+    externalProvider?.removeAllListeners();
+    }, [store.externalProvider]
+  )
+
 
   const connect = useCallback(async (name: string) => {
-    console.log("connecting");
     await connectWalletAction(name)(dispatch);
     localStorage.setItem("wallet", name);
   }, [dispatch]);
@@ -26,7 +32,7 @@ export const useWalletViewModel = () => {
     localStorage.removeItem("wallet");
   }, [dispatch]);
 
-  const provider = !store.externalProvider ? defaultLibrary : new ethers.providers.Web3Provider(store.externalProvider)
+  const provider = externalProvider || defaultLibrary;
   const chainId  = !store.chainId ? (getChainId()) : store.chainId;
   let signer: ethers.Signer | undefined = undefined;
   if(store.externalProvider){
