@@ -25,11 +25,9 @@ export const useWalletViewModel = () => {
 
   const connect = useCallback(async (name: string) => {
     await connectWalletAction(name)(dispatch);
-    localStorage.setItem("wallet", name);
   }, [dispatch]);
   const disconnect = useCallback(() => {
     disconnectWalletAction()(dispatch);
-    localStorage.removeItem("wallet");
   }, [dispatch]);
 
   const provider = externalProvider || defaultLibrary;

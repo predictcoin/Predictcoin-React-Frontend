@@ -1,12 +1,7 @@
-import { BigNumber, ethers } from 'ethers';
 import { Dispatch, FC, SetStateAction, useEffect } from 'react';
 import MetamaskIcon from '../../../../assets/appSvgs/MetamaskIcon';
 import {useWalletViewModel} from "../../application/controllers/walletViewModel";
-import { PREDICTION_TOKEN_ADDRESSES, TOKENS } from '../../constants/addresses';
-import useToken from '../../hooks/useToken';
 import { shortenAddress } from '../../lib/utils/address';
-import { getChainId } from '../../lib/utils/chain';
-import { displayDecimals } from '../../lib/utils/number';
 
 import CustomModal from './index';
 

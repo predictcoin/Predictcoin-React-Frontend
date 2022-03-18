@@ -2,15 +2,20 @@
 			  width: 100%;
 			  display: flex;
 			  flex-wrap: wrap;
-			  justify-content: space-between;
-			  align-items: center;
 			  padding: 45px 12px 24px;
+
+				.top-header{
+					display: flex;
+					justify-content: space-between;
+					width: 100%;
+				}
 
 			  button {
 			    display: flex;
 			    justify-content: center;
 			    align-items: center;
 			    border: none;
+					border-radius: 10px;
 
 			    &:hover,
 			    &:focus {
@@ -22,7 +27,7 @@
 			      display: none;
 			      justify-content: center;
 			      align-items: center;
-			      width: 52px;
+			      width: 47px;
 			      height: 40px;
 			      background: #ffffff;
 			      border-radius: 8px;
@@ -106,6 +111,7 @@
 			  .header__text {
 			    margin-bottom: 24px;
 			    margin-right: 32px;
+					white-space: wrap;
 
 			    h1 {
 			      font-style: normal;
@@ -122,18 +128,28 @@
 			      line-height: 24px;
 			      color: #5b5a99;
 			    }
+					&--1{
+						@media screen and (max-width: 875px) {
+							display: none;
+						}
+					}
+					&--2{
+						@media screen and (min-width: 875px) {
+							display: none;
+						}
+					}
 			  }
 
 			  .header__ctas {
 			    margin-left: 0;
 			    display: flex;
 			    flex-wrap: wrap;
-			    align-items: center;
+					justify-content: flex-end;
+					align-items: center;
 
 			    .wallet__price {
 			      display: flex;
 			      align-items: center;
-			      margin-right: 39px;
 			      margin-bottom: 16px;
 
 			      img {
@@ -154,7 +170,7 @@
 			    .address {
 			      border: none;
 			      outline: none;
-			      width: 193px;
+			      width: 120px;
 			      height: 45px;
 			      background: #00d57b;
 			      border-radius: 8px;
@@ -163,10 +179,17 @@
 			      align-items: center;
 			      margin-bottom: 16px;
 
+						@media screen and (min-width: 450px) {
+							width: 170px;
+						}
+
 			      svg {
 			        width: 20px;
 			        height: 20px;
 			        margin-right: 12px;
+							@media screen and (max-width: 450px) {
+								display: none;
+							}
 			      }
 
 			      span {
@@ -179,8 +202,24 @@
 
 			      &.not__connected {
 			        background: #c8304d;
+							width: 170px;
 			      }
 			    }
+
+					.notification{
+						background: #FFFFFFA1;
+						border: 2px solid #FFFFFFA1;
+						color: #ffffff;
+						padding: 0.5rem;
+						border-radius: 36px;
+						align-self: center;
+						margin-bottom: 16px;
+
+						&.alert{
+							background: #C8304DA1;
+							border: 2px solid #C8304D;
+						}
+					}
 			  }
 
 			  @media screen and (max-width: 370px) {

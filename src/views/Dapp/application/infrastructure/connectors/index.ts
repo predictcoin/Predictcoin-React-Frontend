@@ -59,14 +59,14 @@ export const addNetwork = async (provider: ethers.providers.ExternalProvider) =>
           const body = ToastBody("User rejected the request to add network", STATUS.ERROR, TYPE.ERROR);
           toast(body);
         }
-        console.log(addError);
+        console.error(addError);
       }
     }
     if(switchError?.code === 4001){
       const body = ToastBody("User rejected the request to switch network", STATUS.ERROR, TYPE.ERROR);
       toast(body);
     }
-    console.log(switchError)
+    console.error(switchError)
   }
 }
 
@@ -102,19 +102,21 @@ export const connect = async (name: string) =>{
     
     return { chainId, address, explorer, provider, connector };
   }catch(err: any){
-    console.log(err.code);
-    if(err?.code === 4001){
-      console.log("we de here");
-      const body = ToastBody("User rejected the request to connect wallet", STATUS.ERROR, TYPE.ERROR);
-      toast(body);
+    console.error(err);
+    let body;
+    if(err.code === -32002){
+      body = ToastBody("User has a pending connection request", STATUS.ERROR, TYPE.ERROR)
+    } else if(err.name === "NoEthereumProviderError"){
+      body = ToastBody("User does not have selected wallet", STATUS.ERROR, TYPE.ERROR)
     }
-    console.log(err);
+    else {
+      body = ToastBody(err.message, STATUS.ERROR, TYPE.ERROR);
+    }
+    toast(body);
   }
 }
 
 export const disconnect = async () => {
-  if(connector){
-    connector.deactivate();
-  }
+  connector?.deactivate();
 }
 

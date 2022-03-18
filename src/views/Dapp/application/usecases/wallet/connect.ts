@@ -10,7 +10,7 @@ export const connectWallet = async (params: connectWalletParams) => {
   const args = await connect(name);
   if(args !== undefined){
     const {chainId, address, explorer, provider} = args;
-  
+    localStorage.setItem("wallet", name);
     return {chainId, address, explorer, externalProvider: provider};
   }
 

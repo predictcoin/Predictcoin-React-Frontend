@@ -35,10 +35,10 @@ const ModalConnect: FC<ModalConnectProps> = ({ closeModal }) => {
 						<MetamaskIcon />
 						<p className='wallet__name'>Metamask</p>
 					</button>
-					<button className='wallet' onClick={() => connect("walletconnect")}>
+					{/* <button className='wallet' onClick={() => connect("walletconnect")}>
 						<WalletConnectIcon />
 						<p className='wallet__name'>WalletConnect</p>
-					</button>
+					</button> */}
 					{/* <button className='wallet'>
 						<img src={SafepalIcon} alt='safepalicon' />
 						<p className='wallet__name'>Safepal</p>
