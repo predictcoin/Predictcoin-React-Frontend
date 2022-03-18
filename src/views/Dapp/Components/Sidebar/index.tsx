@@ -82,7 +82,7 @@ const Sidebar: FC<SidebarProps> = ({
 							<div className='border__active'></div>
 						</NavLink>
 					</li>
-					<li>
+					{/* <li>
 						<NavLink
 							to='##'
 							className={({ isActive }) =>
@@ -98,8 +98,8 @@ const Sidebar: FC<SidebarProps> = ({
 							</div>
 							<div className='border__active'></div>
 						</NavLink>
-					</li>
-					<li>
+					</li> */}
+					{/* <li>
 						<NavLink
 							to='##'
 							className={({ isActive }) =>
@@ -115,7 +115,7 @@ const Sidebar: FC<SidebarProps> = ({
 							</div>
 							<div className='border__active'></div>
 						</NavLink>
-					</li>
+					</li> */}
 					<li>
 						<NavLink
 							to='/app/price-prediction'
@@ -128,7 +128,7 @@ const Sidebar: FC<SidebarProps> = ({
 							<div className='border__active'></div>
 						</NavLink>
 					</li>
-					<li>
+					{/* <li>
 						<NavLink
 							to='##'
 							className={({ isActive }) =>
@@ -144,7 +144,7 @@ const Sidebar: FC<SidebarProps> = ({
 							</div>
 							<div className='border__active'></div>
 						</NavLink>
-					</li>
+					</li> */}
 					<li>
 						<NavLink
 							to='##'
@@ -162,7 +162,7 @@ const Sidebar: FC<SidebarProps> = ({
 							<div className='border__active'></div>
 						</NavLink>
 					</li>
-					<li>
+					{/* <li>
 						<NavLink
 							to='##'
 							className={({ isActive }) =>
@@ -178,7 +178,7 @@ const Sidebar: FC<SidebarProps> = ({
 							</div>
 							<div className='border__active'></div>
 						</NavLink>
-					</li>
+						</li> */}
 				</ul>
 
 				<div className='CA__section'>

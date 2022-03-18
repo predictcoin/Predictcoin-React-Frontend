@@ -13,6 +13,7 @@ import { ethers } from 'ethers';
 import useToken from '../../hooks/useToken';
 import { TOKENS } from '../../constants/addresses';
 import { useWalletViewModel } from '../../application/controllers/walletViewModel';
+import Header from '../../Components/Header';
 
 interface StakingMainContentProps {
 	isSidebarExpanded: boolean;
@@ -33,38 +34,13 @@ const StakingMainContent: FC<StakingMainContentProps> = ({
 			{modalOpened && <ModalDisconnect closeModal={() => setModalOpened(false)} CRPBalance={displayDecimals(ethers.utils.formatUnits(balance, decimals), 5)}/>}
 
 			<div className='container'>
-				<header>
-					<button
-						className='hamburger'
-						onClick={() =>
-							setIsSidebarExpanded((isSidebarExpanded) => !isSidebarExpanded)
-						}
-					>
-						<div id='nav-icon1' className={isSidebarExpanded ? 'open' : ''}>
-							<span></span>
-							<span></span>
-							<span></span>
-						</div>
-					</button>
-
-					<div className='header__text'>
-						<h1>Staking</h1>
-						<p>Stake $PRED to earn PRED and other tokens.</p>
-					</div>
-
-					<div className='header__ctas'>
-						<div className='wallet__price'>
-							<img src={PredictLogoSidebar} alt='predict-coin-logo' />
-							<p>25.08 PRED</p>
-						</div>
-						{/* add 'not__connected class if wallet is not connected' */}
-						<button className='address' onClick={() => setModalOpened(true)}>
-							<WalletIcon />
-							<span>0x5TD6...4567</span>
-						</button>
-					</div>
-				</header>
-
+				<Header 
+					title="Staking" 
+					subtitle="Stake $PRED to earn PRED and other tokens." 
+					isSidebarExpanded 
+					setIsSidebarExpanded={setIsSidebarExpanded}
+					setModalOpened={setModalOpened}
+				/>
 				<main>
 					<div className='tab'>
 						<Link

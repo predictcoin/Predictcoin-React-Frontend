@@ -196,7 +196,7 @@
 					}
 
 					&.active {
-						cursor: not-allowed;
+						// cursor: not-allowed;
 
 						span,
 						.icon svg {
@@ -223,7 +223,8 @@
 		}
 
 		.CA__section {
-			position: relative;
+			position: absolute;
+			bottom: 2rem;
 			width: 100%;
 			max-width: 192px;
 			margin: 32px auto 0 30px;

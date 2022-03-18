@@ -20,6 +20,7 @@ import useToken from '../../hooks/useToken';
 import { TOKENS } from '../../constants/addresses';
 import { ethers } from 'ethers';
 import { displayDecimals } from '../../lib/utils/number';
+import Header from '../../Components/Header';
 
 interface PricePredictionMainContentProps {
 	isSidebarExpanded: boolean;
@@ -38,7 +39,6 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
 	const [graphData, setGraphData] = useState<{ x: string; y: number }[]>([]);
 	const [modalOpened, setModalOpened] = useState<boolean>(false);
 	const { active, address, chainId } = useWalletViewModel();
-	console.log(chainId);
 	const { balance, decimals } = useToken(TOKENS[chainId].CRP)
 	const modal = active ? (
 		<ModalDisconnect closeModal={() => setModalOpened(false)} CRPBalance={ displayDecimals(ethers.utils.formatUnits(balance, decimals), 5) }/>
@@ -92,47 +92,12 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
 			{modalOpened && modal}
 
 			<div className='container'>
-				<header>
-					<button
-						className='hamburger'
-						onClick={() =>
-							setIsSidebarExpanded((isSidebarExpanded) => !isSidebarExpanded)
-						}
-					>
-						<div id='nav-icon1' className={isSidebarExpanded ? 'open' : ''}>
-							<span></span>
-							<span></span>
-							<span></span>
-						</div>
-					</button>
-
-					<div className='header__text'>
-						<h1 onClick={() => toast(Body)}>Price prediction</h1>
-						<p>Predict with $PRED, earn in $PRED or $BNB</p>
-					</div>
-
-					<div className='header__ctas'>
-						{active && 
-							<div className='wallet__price'>
-								<img src={CRPLogo} alt='predict-coin-logo' />
-								<p>{displayDecimals(ethers.utils.formatUnits(balance, decimals), 5)}</p>
-							</div>
-						}	
-						{/* add 'not__connected class if wallet is not connected' */}
-						<button
-							className={`address ${!active && 'not__connected'}`}
-							onClick={() => setModalOpened(true)}
-						>
-							<WalletIcon />
-							{active ? (
-								<span>{shortenAddress(address)}</span>
-							) : (
-								<span>Connect Wallet</span>
-							)}
-						</button>
-					</div>
-				</header>
-
+				<Header 
+					title="Price prediction" 
+					subtitle="Predict with $PRED, earn in $PRED or $BNB" 
+					isSidebarExpanded 
+					setIsSidebarExpanded={setIsSidebarExpanded}
+					setModalOpened={setModalOpened}/>
 				<main>
 					<div className='coins__to__predict'>
 						<h1 className='title'>Coins to predict</h1>
