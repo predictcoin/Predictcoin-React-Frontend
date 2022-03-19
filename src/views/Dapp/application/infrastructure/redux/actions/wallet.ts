@@ -9,7 +9,6 @@ const connectWalletAction = (name:string) => async (dispatch: Dispatch<{type: st
   });
 
   const walletData = await connectWallet({name});
-  console.log(walletData);
   if(walletData !== undefined){
 
     // @ts-ignore

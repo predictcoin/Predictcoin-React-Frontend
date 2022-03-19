@@ -2,7 +2,13 @@
 /* tslint:disable */
 /* eslint-disable */
 export type { ERC20 } from "./ERC20";
+export type { MMFLpToken } from "./MMFLpToken";
 export type { Prediction } from "./Prediction";
+export type { Staking } from "./Staking";
+export type { UniRouter } from "./UniRouter";
 
 export { ERC20__factory } from "./factories/ERC20__factory";
+export { MMFLpToken__factory } from "./factories/MMFLpToken__factory";
 export { Prediction__factory } from "./factories/Prediction__factory";
+export { Staking__factory } from "./factories/Staking__factory";
+export { UniRouter__factory } from "./factories/UniRouter__factory";

@@ -6,6 +6,11 @@ export const PREDICTION_ADDRESSES = {
   "testnet" : "0xB09A1F4ee02a803A6c618aBd7e5F791ca8D9b936"
 }
 
+export const MMFROUTER_ADDRESSES = {
+  [supportedChainIds.Mainnet]: "0xd590cC180601AEcD6eeADD9B7f2B7611519544f4",
+  [supportedChainIds.Testnet]: ""
+}
+
 export const PREDICTION_TOKEN_ADDRESSES = {
   CRO: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
   BTC: "0x062E66477Faf219F25D27dCED647BF57C3107d52",
@@ -16,9 +21,13 @@ export const PREDICTION_TOKEN_ADDRESSES = {
 
 export const TOKENS = {
   [supportedChainIds.Mainnet]: {
-    CRP: "0x7b8aD6d7560FAcd1959cfb4b4163D7d297c4bFc0"
+    CRP: "0x7b8aD6d7560FAcd1959cfb4b4163D7d297c4bFc0",
+    USDT: "0x66e428c3f67a68878562e79a0234c1f83c208770",
+    MMF: "0x97749c9B61F878a880DfE312d2594AE07AEd7656"
   },
   [supportedChainIds.Testnet]: {
-    CRP: ""
+    CRP: "",
+    USDT: "",
+    MMF: ""
   }
 }
