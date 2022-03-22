@@ -4,7 +4,7 @@ import { AppRootState } from "./index";
 
 const stakingSelector = (state: AppRootState) => state.staking;
 
-export const usePredictionStore = (): StakingStore => {
+export const useStakingStore = (): StakingStore => {
   const store = useSelector(stakingSelector);
   return store;
 }

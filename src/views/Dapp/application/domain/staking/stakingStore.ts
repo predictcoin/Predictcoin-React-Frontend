@@ -1,5 +1,5 @@
-import { BigNumber } from "ethers";
 import { Pool } from "./entity";
+import BigNumber from "bignumber.js";
 
 export const stakingPools = [0];
 export const farmingPools = [1]
@@ -10,6 +10,8 @@ export interface StakingStore {
   farming: number[],
   totalAllocPoint: BigNumber,
   pools: {[key: number]: Pool},
-  available: boolean,
-  isLoading: boolean
+  farmingAvailable: boolean,
+  stakingAvailable: boolean,
+  isLoadingFarming: boolean,
+  isLoadingStaking: boolean,
 }

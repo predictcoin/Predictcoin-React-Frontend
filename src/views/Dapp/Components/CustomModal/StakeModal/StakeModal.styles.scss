@@ -1,0 +1,75 @@
+.custom__modal__content{
+  padding: 2rem;
+  h4 {
+    color: #ffffff;
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  .input{
+    background: #FFFFFF17;
+    padding: 1rem;
+    padding-bottom: 0.5rem;
+    border-radius: 5px;
+    color: #ffffff;
+    .desc{
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .balance{
+      text-align: right;
+      margin-bottom: 0.5rem;
+    }
+
+    .inputbox{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      input{
+        background: none;
+        outline: none;
+        border: none;
+        font-size: 20px;
+        color: #ffffff;
+      }
+      .usd{
+        font-size: 15px;
+        color: #FFFFFF9C;
+      }
+      .max{
+        border: none;
+        background-color: #0e56c0;
+        color: #ffffff;
+        padding: 0.5rem;
+      }
+    }
+  }
+  .buttons {
+    margin-top: 1.5rem;
+    text-align: center;
+
+    button {
+      border: none;
+      color: #ffffff;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+
+      &.cancel {
+        background-color: #c8304d;
+        border: 1px solid #c8304d;
+      }
+
+      &.confirm {
+        background-color: #0e56c0;
+        &:not(.active) {
+          background-color: #FFFFFFA1;
+          cursor: not-allowed !important;
+          pointer-events: none;
+        }
+      }
+    }
+  }
+
+}

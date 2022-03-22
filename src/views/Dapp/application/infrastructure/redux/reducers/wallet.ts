@@ -25,4 +25,3 @@ export const walletReducer = (state: INITIAL_STATE = initial, action: {type: str
       return state
   }
 }
-

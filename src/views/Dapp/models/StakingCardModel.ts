@@ -4,15 +4,22 @@ export enum WalletStatus {
 }
 
 export interface StakingCardModel {
-	id: string;
+	id: number;
 	tokenName: string;
 	tokenMultiple: string;
-	aprEarned: string;
-	predEarned: string;
-	predStaked: string;
-	totalStaked: number;
+	apr: string;
+	earn: string;
+	stake: string;
+	totalStaked: string;
 	walletUnlockStatus: WalletStatus.locked | WalletStatus.unlocked;
 	buttonText: string[];
 	contractUrl: string;
-	USDTStaked: number;
+	USDStaked: string;
+  staked: string;
+  earned: string;
+  USDEarned: string;
+  buttonClicks: ((..._:any)=> any)[];
+	decimals: number;
 }
+
+export default StakingCardModel;

@@ -1,13 +1,22 @@
+import { WalletStatus } from "./StakingCardModel";
+
 interface FarmingCardModel {
     id: string;
     tokenName: string;
     tokenMultiple: string;
-    aprEarned: string;
-    predEarned: number;
-    totalStaked: number;
+    apr: string;
+    earn: string;
+    stake: string;
+    earned: string;
+    staked: string;
     contractUrl: string;
-    USDTStaked: number;
-    ctaType: 'unlock' | 'harvest' | 'approve';
+    USDStaked: string;
+    USDEarned: string;
+    totalUSDStaked: string;
+    walletUnlockStatus: WalletStatus;
+    harvest: (..._:any) => any;
+    decimals: number;
+    tokenPrice: string
 };
 
 export default FarmingCardModel;

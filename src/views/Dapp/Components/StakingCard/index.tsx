@@ -1,65 +1,78 @@
-import { ChangeEvent, FC, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { HiOutlineArrowDown } from 'react-icons/hi';
 
-import PredictLogoSidebar from '../../../../assets/pics/PredictLogoSidebar.png';
+import CRPLogo from '../../../../assets/pics/CRP.png';
 // import BUSD from '../../../../assets/pics/BUSD.png';
 import ExportIcon from '../../../../assets/appSvgs/ExportIcon';
-import { WalletStatus } from '../../models/StakingCardModel';
+import { StakingCardModel } from '../../models/StakingCardModel';
 import './stakingcard.styles.scss';
+import { WalletStatus } from '../../application/controllers/stakingViewModel';
+import useToken from '../../hooks/useToken';
+import { getTokenAddress } from '../../lib/utils/token';
+import { constants, utils } from 'ethers';
 
-interface StakingCardProps {
-	id: string;
-	tokenName: string;
-	tokenMultiple: string;
-	aprEarned: string;
-	predEarned: string;
-	predStaked: string;
-	totalStaked: number;
-	walletUnlockStatus: WalletStatus.locked | WalletStatus.unlocked;
-	buttonText: string[];
-	contractUrl: string;
-	USDTStaked: number;
+interface MoreProps {
+	buttonClicks: (() => any)[]
 }
 
-const StakingCard: FC<StakingCardProps> = ({
+const StakingCard: FC<StakingCardModel & MoreProps> = ({
 	id,
 	tokenName,
 	tokenMultiple,
-	aprEarned,
-	predEarned,
-	predStaked,
+	apr,
+	earn,
+	stake,
 	totalStaked,
 	walletUnlockStatus,
 	buttonText,
 	contractUrl,
-	USDTStaked,
+	staked,
+	USDStaked,
+	earned,
+	USDEarned,
+	buttonClicks,
+	decimals
 }) => {
-	const [stakedUsdt, setStakedUsdt] = useState<number>(USDTStaked);
+	const [stakedUsdt, setStakedUsdt] = useState<string>(USDStaked);
+	const {getAllowance, allowances, approve} = useToken(getTokenAddress(tokenName));
+	const matches = /.*\/(\w+$)/.exec(contractUrl);
+	const contractAddress = matches && matches[1];
+	useEffect(() => {
+		contractAddress && getAllowance(contractAddress)
+	}, []);
 
 	const increaseStakedUsdt = () => {
-		let newStakedUsdt = stakedUsdt + 1;
-		newStakedUsdt = newStakedUsdt <= 100 ? newStakedUsdt : stakedUsdt;
-		setStakedUsdt(+newStakedUsdt.toFixed(5));
+		// let newStakedUsdt = stakedUsdt + 1;
+		// newStakedUsdt = newStakedUsdt <= 100 ? newStakedUsdt : stakedUsdt;
+		// setStakedUsdt(+newStakedUsdt.toFixed(5));
 	};
 
 	const decreaseStakedUsdt = () => {
-		let newStakedUsdt = stakedUsdt - 1;
-		newStakedUsdt = newStakedUsdt >= 0 ? newStakedUsdt : stakedUsdt;
-		setStakedUsdt(+newStakedUsdt.toFixed(5));
+		// let newStakedUsdt = stakedUsdt - 1;
+		// newStakedUsdt = newStakedUsdt >= 0 ? newStakedUsdt : stakedUsdt;
+		// setStakedUsdt(+newStakedUsdt.toFixed(5));
 	};
 
 	const validate = (evt: ChangeEvent<HTMLInputElement>) => {
-		let newStakedUsdt = isNaN(+evt.target.value) ? 0 : +evt.target.value;
-		newStakedUsdt = newStakedUsdt <= 100 ? newStakedUsdt : stakedUsdt;
-		setStakedUsdt(+newStakedUsdt.toFixed(5));
+		// let newStakedUsdt = isNaN(+evt.target.value) ? 0 : +evt.target.value;
+		// newStakedUsdt = newStakedUsdt <= 100 ? newStakedUsdt : stakedUsdt;
+		// setStakedUsdt(+newStakedUsdt.toFixed(5));
 	};
+
+	const allowed = contractAddress && allowances[contractAddress]?.gte(1)
+	buttonText = walletUnlockStatus === WalletStatus.locked ? ["Unlock Wallet"] : buttonText;
+
+	if(contractAddress && !allowed){
+		buttonText = ["Enable Pred"]
+		buttonClicks = [() => approve(contractAddress, constants.MaxUint256)]
+	}
 
 	return (
 		<div className='staking__card'>
 			<div className='staking__card__top'>
 				<div className='token__images'>
-					<img src={PredictLogoSidebar} alt='predict-coin-logo' />
+					<img src={CRPLogo} alt='predict-coin-logo' />
 				</div>
 
 				<div className='token__title'>
@@ -73,38 +86,30 @@ const StakingCard: FC<StakingCardProps> = ({
 						<div className='section'>
 							<div>
 								<span className='light'>APR</span>
-								<span className='normal'>{aprEarned}</span>
+								<span className='normal'>{apr}%</span>
 							</div>
 							<div>
-								<span className='light'>STAKE</span>
-								<span className='normal'>{predStaked}</span>
+								<span className='light'>STAKE/EARN</span>
+								<span className='normal'>{stake}/{earn}</span>
 							</div>
 							<div>
-								<span className='light'>EARN</span>
-								<span className='normal'>{predEarned}</span>
+								<span className='light'>EARNINGS</span>
+								<span className='normal'>{earned} <span className="dollar"> ~${USDEarned}</span></span>
 							</div>
 						</div>
 					</div>
 
 					{walletUnlockStatus === 'unlocked' ? (
 						<div className='stake'>
-							<button className='minus' onClick={decreaseStakedUsdt}>
-								<span> - </span>
+							<button className={`minus ${walletUnlockStatus === WalletStatus.unlocked && "active"}`} onClick={decreaseStakedUsdt}>
+								<span className={`${allowed && "active"}`}> - </span>
 							</button>
 							<div className='usdt__staked'>
-								<p>PRED Staked</p>
-								<input
-									type='number'
-									name='usdt-staked'
-									id='usdt-staked'
-									value={stakedUsdt}
-									min={0}
-									max={100}
-									onChange={(e) => validate(e)}
-								/>
+								<p>CRP Staked</p>
+								<div><span className="amount">{staked}</span><span className="dollar"> ~${USDStaked}</span></div>
 							</div>
-							<button className='add' onClick={increaseStakedUsdt}>
-								<span> + </span>
+							<button className={`add ${walletUnlockStatus === WalletStatus.unlocked && "active"}`} onClick={increaseStakedUsdt}>
+								<span className={`${allowed && "active"}`}> + </span>
 							</button>
 						</div>
 					) : (
@@ -125,19 +130,20 @@ const StakingCard: FC<StakingCardProps> = ({
 									text.includes('Harvest') ? 'harvest' : ''
 								}`}
 								key={idx}
+								onClick={buttonClicks[idx]}
 							>
-								{text}
+								{walletUnlockStatus === WalletStatus.locked ? "Unlock Wallet" : text}
 							</button>
 						))}
 					</div>
 				</div>
 
 				<div className='stake__details'>
-					<p>Total staked: ${totalStaked}</p>
-					<Link to={contractUrl}>
+					<p>Total staked: {totalStaked}</p>
+					<a href={contractUrl} target="_true">
 						<span>View Contract</span>
 						<ExportIcon />
-					</Link>
+					</a>
 				</div>
 			</div>
 		</div>

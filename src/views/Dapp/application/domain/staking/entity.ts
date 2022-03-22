@@ -1,9 +1,10 @@
-import { BigNumber } from "ethers";
+import BigNumber from "bignumber.js";
 
 export type Pool  = 
 [string, BigNumber, BigNumber, BigNumber] & {
       pId: number,
       lpToken: string;
+      lpTokenDecimals: number;
       allocPoint: BigNumber;
       lastRewardBlock: BigNumber;
       accCRPPerShare: BigNumber;

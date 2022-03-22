@@ -7,8 +7,14 @@ export const PREDICTION_ADDRESSES = {
 }
 
 export const MMFROUTER_ADDRESSES = {
-  [supportedChainIds.Mainnet]: "0xd590cC180601AEcD6eeADD9B7f2B7611519544f4",
+  [supportedChainIds.Mainnet]: "0x145677FC4d9b8F19B5D56d1820c48e0443049a30",
   [supportedChainIds.Testnet]: ""
+}
+
+export const STAKING_ADDRESSES = {
+  "mainnet": "0x59cd2E492FF59dE3D99C0E034E85c7E51d420643",
+  "staging": "0x690E60F6a0e4742bEa673299380FF883Bf23CD77",
+  "testnet": ""
 }
 
 export const PREDICTION_TOKEN_ADDRESSES = {
@@ -23,11 +29,13 @@ export const TOKENS = {
   [supportedChainIds.Mainnet]: {
     CRP: "0x7b8aD6d7560FAcd1959cfb4b4163D7d297c4bFc0",
     USDT: "0x66e428c3f67a68878562e79a0234c1f83c208770",
-    MMF: "0x97749c9B61F878a880DfE312d2594AE07AEd7656"
+    MMF: "0x97749c9B61F878a880DfE312d2594AE07AEd7656",
+    "MMF-CRP LP": "0x1338D3C3Cc56f71B45f95F9988e762e4a1EF228D"
   },
   [supportedChainIds.Testnet]: {
     CRP: "",
     USDT: "",
-    MMF: ""
+    MMF: "",
+    "MMF-CRP LP": ""
   }
 }

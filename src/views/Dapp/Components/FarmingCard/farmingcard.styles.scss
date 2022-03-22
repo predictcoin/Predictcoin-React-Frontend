@@ -1,6 +1,6 @@
 .farming__card {
 	width: 100%;
-	max-width: 548px;
+	max-width: 400px;
 	min-height: 277px;
 	padding: 20px 24px 0;
 	margin: 0 auto;
@@ -70,6 +70,84 @@
 		width: 100%;
 
 		.price__stake {
+			padding-bottom: 2rem;
+
+			.heading{
+				width: 100%;
+				display: flex;
+				justify-content: space-between;
+				color: #FFFFFF9C;
+			}
+			.staked{
+				width: 100%;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				flex-wrap: wrap;
+				color: #ffffff;
+				border-radius: 5px;
+				margin: 1rem 0;
+				.light{
+					font-size: 12px;
+					line-height: 18px;
+					opacity: 0.61;
+				}
+
+				.buttons{
+					display: flex;
+				}
+
+				button {
+					border: none;
+					outline: none;
+					width: 34px;
+					height: 32px;
+					background: #59588d;
+					border-radius: 8px;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+
+					span {
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						width: 20px;
+						height: 20px;
+						border-radius: 2px;
+						border: 1.5px solid rgba(255, 255, 255, 0.32);
+						color: #fff;
+						font-size: 16px;
+					}
+				}
+			}
+			.card-row{
+
+				display: flex;
+				justify-content: space-between;
+				width: 100%;
+
+				span {
+					font-style: normal;
+					font-weight: 500;
+					color: #ffffff;
+
+
+					&.light {
+						font-size: 12px;
+						line-height: 18px;
+						opacity: 0.61;
+						margin-right: 8px;
+					}
+
+					&.normal {
+						font-size: 14px;
+						line-height: 21px;
+					}
+				}
+			}
+
+
 			width: 100%;
 			background: linear-gradient(
 				180deg,
@@ -79,7 +157,7 @@
 			box-shadow: 0px 12px 14px rgba(32, 30, 66, 0.506567);
 			border-radius: 8px;
 			padding: 14px;
-			padding-bottom: 0;
+
 			display: flex;
 			flex-wrap: wrap;
 			justify-content: center;
@@ -88,7 +166,7 @@
 
 			@supports (backdrop-filter: blur(18.5547px)) {
 				-webkit-backdrop-filter: blur(18.5547px);
-				backdrop-filter: blur(18.5547px);
+				backdrop-filter: blur(18.537px);
 			}
 
 			.price,
@@ -195,29 +273,7 @@
 					}
 				}
 
-				button {
-					border: none;
-					outline: none;
-					width: 34px;
-					height: 32px;
-					background: #59588d;
-					border-radius: 8px;
-					display: flex;
-					justify-content: center;
-					align-items: center;
 
-					span {
-						display: flex;
-						justify-content: center;
-						align-items: center;
-						width: 20px;
-						height: 20px;
-						border-radius: 2px;
-						border: 1.5px solid rgba(255, 255, 255, 0.32);
-						color: #fff;
-						font-size: 16px;
-					}
-				}
 			}
 		}
 
@@ -237,6 +293,12 @@
 			background: #0e56c0;
 			color: #ffffff;
 			margin-bottom: 21px;
+
+			&.harvest:not(.active){
+				background-color: #FFFFFF8F;
+				pointer-events: none;
+				cursor: not-allowed;
+			}
 
 			&.unlock {
 				background: #c8304d;

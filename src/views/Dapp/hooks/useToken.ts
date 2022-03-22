@@ -46,6 +46,9 @@ const useToken = (address: string): Token => {
         console.log(owner, spender, value);
         getAllowance(spender);
       })
+      watchEvent(contract, "Transfer", [null,userAddress], (from, to, value, event ) => {
+        getBalance()
+      })
     }
 
     return () => {

@@ -1,8 +1,7 @@
-import { Dispatch, FC, SetStateAction, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 
 import PredictLogoSidebar from '../../../../assets/pics/PredictLogoSidebar.png';
 import WalletIcon from '../../../../assets/appSvgs/WalletIcon';
-import farmingCardData from '../../data/farmingCardData';
 import FarmingCard from '../../Components/FarmingCard';
 import ModalConnect from '../../Components/CustomModal/ModalConnect';
 import ModalDisconnect from '../../Components/CustomModal/ModalDisconnect';
@@ -12,6 +11,8 @@ import useToken from '../../hooks/useToken';
 import { ethers } from 'ethers';
 import { displayDecimals } from '../../lib/utils/number';
 import Header from '../../Components/Header';
+import { useStakingViewModel } from '../../application/controllers/stakingViewModel';
+import { WalletStatus } from '../../models/StakingCardModel';
 
 interface FarmingMainContentProps {
 	isSidebarExpanded: boolean;
@@ -22,13 +23,24 @@ const FarmingMainContent: FC<FarmingMainContentProps> = ({
 	isSidebarExpanded,
 	setIsSidebarExpanded,
 }) => {
-	const [modalOpened, setModalOpened] = useState<boolean>(false);
-	const { chainId } = useWalletViewModel();
-	const { balance, decimals } = useToken(TOKENS[chainId].CRP)
+	const [walletModal, setWalletModal] = useState<boolean>(false);
+	const { chainId, active} = useWalletViewModel();
+	const { farmingAvailable, isLoadingFarming, initFarming, farmingCardData, harvest } = useStakingViewModel();
+	const { balance, decimals,  } = useToken(TOKENS[chainId].CRP)
+
+	useEffect(() => {
+		initFarming();
+	}, [active])
+
+	const modal = active ? (
+		<ModalDisconnect closeModal={() => setWalletModal(false)} CRPBalance={ displayDecimals(ethers.utils.formatUnits(balance, decimals), 5) }/>
+	) : (
+		<ModalConnect closeModal={() => setWalletModal(false)} />
+	);
 
 	return (
 		<section className='farming__main__content'>
-			{modalOpened && <ModalDisconnect closeModal={() => setModalOpened(false)} CRPBalance={displayDecimals(ethers.utils.formatUnits(balance, decimals), 5)}/>}
+			{walletModal && modal}
 
 			<div className='container'>
 				<Header 
@@ -36,22 +48,29 @@ const FarmingMainContent: FC<FarmingMainContentProps> = ({
 					subtitle="Farm $PRED with USDT" 
 					isSidebarExpanded 
 					setIsSidebarExpanded={setIsSidebarExpanded}
-					setModalOpened={setModalOpened}
+					setModalOpened={setWalletModal}
 				/>
 				<main>
 					<div className='farming__card__container'>
-						{farmingCardData.map((card) => (
+						{farmingCardData && farmingCardData.map((card) => (
 							<FarmingCard
 								key={card.id}
 								id={card.id}
 								tokenName={card.tokenName}
 								tokenMultiple={card.tokenMultiple}
-								aprEarned={card.aprEarned}
-								predEarned={card.predEarned}
-								totalStaked={card.totalStaked}
+								apr={card.apr}
+								earned={card.earned}
+								tokenPrice = {card.tokenPrice}
+								totalUSDStaked={card.totalUSDStaked}
 								contractUrl={card.contractUrl}
-								ctaType={card.ctaType}
-								USDTStaked={card.USDTStaked}
+								USDStaked={card.USDStaked}
+								walletUnlockStatus={active ? WalletStatus.unlocked : WalletStatus.locked}
+								USDEarned={card.USDEarned}
+								staked={card.staked}
+								earn={card.earn}
+								stake={card.stake}
+								harvest={harvest}
+								decimals={decimals}
 							/>
 						))}
 					</div>
