@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import CRPLogo from '../../../../assets/pics/CRP.png';
@@ -12,13 +12,14 @@ import { getTokenAddress } from '../../lib/utils/token';
 import {StakeModal} from "../../Components/CustomModal/StakeModal";
 import  BigNumber from 'bignumber.js';
 import { displayDecimals, displayTokenValue, toNumberLib } from '../../lib/utils/number';
-import { constants, ethers, utils } from 'ethers';
+import { constants, utils } from 'ethers';
 import ConnectModal from "../../Components/CustomModal/ModalConnect";
 import { useWalletViewModel } from '../../application/controllers/walletViewModel';
 import { useStakingViewModel } from '../../application/controllers/stakingViewModel';
-import { de } from 'date-fns/locale';
+import { STAKING_ADDRESSES } from '../../constants/addresses';
 
-
+const contractAddress = STAKING_ADDRESSES[
+			process.env.REACT_APP_ENVIRONMENT as keyof typeof STAKING_ADDRESSES];
 
 const FarmingCard: FC<FarmingCardModel> = ({
 	id,
@@ -48,7 +49,8 @@ const FarmingCard: FC<FarmingCardModel> = ({
 
 
 	useEffect(() => {
-		if(active) getAllowance(tokenAddress)
+		if(active) getAllowance(contractAddress)
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [address]);
 
 	// handlers
@@ -83,7 +85,7 @@ const FarmingCard: FC<FarmingCardModel> = ({
 		</button>
 	let approveBtn = <button 
 		className={`action approve`}
-		onClick={() => approve(tokenAddress, constants.MaxUint256)}
+		onClick={() => approve(contractAddress, constants.MaxUint256)}
 		>Approve</button>
 
 
@@ -149,6 +151,7 @@ const FarmingCard: FC<FarmingCardModel> = ({
 						active && 
 						<div className="card-row">
 							<div><span className="light">EARNED</span><span>{displayTokenValue(earned, 18, 5)} CRP</span></div>
+								{console.log(lpTokenDecimals, 2)}
 								<span>~ ${displayTokenValue(USDEarned, lpTokenDecimals, 2)}</span>
 						</div>
 					}

@@ -17,6 +17,16 @@ export const STAKING_ADDRESSES = {
   "testnet": ""
 }
 
+export const LOSER_PREDICTION_POOL_ADDRESSES = {
+  "mainnet": "",
+  "staging": ""
+}
+
+export const WINNER_PREDICTION_POOL_ADDRESSES = {
+  "mainnet": "",
+  "staging": ""
+}
+
 export const PREDICTION_TOKEN_ADDRESSES = {
   CRO: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
   BTC: "0x062E66477Faf219F25D27dCED647BF57C3107d52",

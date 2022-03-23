@@ -16,8 +16,6 @@ import { getTokenName } from "../../lib/utils/token";
 import { farmingTokenData, stakedTokenData } from "../../lib/data/staking";
 import { Explorers } from "../../constants/explorers";
 import { getChainId } from "../../lib/utils/chain";
-import { displayDecimals } from "../../lib/utils/number";
-import { utils } from "ethers";
 import { StakingCardModel } from "../../models/StakingCardModel";
 import FarmingCardModel from "../../models/FarmingCardModel";
 import {stake as stakeUsecase, unstake as unstakeUsecase, compound as compoundUsecase, harvest as harvestUsecase} from "../usecases/staking/others";
@@ -43,10 +41,6 @@ export const useStakingViewModel = () => {
   const dispatch = useDispatch();
   const {send} = useTransaction();
 
-
-  const deposit = () => {}
-  const withdraw = () => {}
-
   const compound = (tokenName:string, callbacks?: {[key: string]: () => void}) => 
     compoundUsecase({contract, callbacks, send, tokenName})
   const harvest = (pId: number, tokenName: string, callbacks?: {[key: string]: () => void}) => 
@@ -58,13 +52,10 @@ export const useStakingViewModel = () => {
     unstakeUsecase({contract, pId, tokenName, send, callbacks, amount, humanAmount})
   }
   
-  const handlers = {harvest, compound, deposit, withdraw}
 
   const stakingCardData = staking?.map((pId, index): StakingCardModel => {
     const pool = pools[pId]
-    const { totalStaked, user$Staked, lpTokenDecimals } = pool;
-    const buttonClicks = stakedTokenData[pId as keyof typeof stakedTokenData].buttonText
-      .map( text => handlers[text.toLowerCase() as keyof typeof handlers]);
+    const { totalStaked, user$Staked,} = pool;
     
     return {
       id: pId,
@@ -78,8 +69,7 @@ export const useStakingViewModel = () => {
       walletUnlockStatus: active ? WalletStatus.unlocked : WalletStatus.locked,
       contractUrl: `${Explorers[chainId]}address/${contract.address}`,
       ...stakedTokenData[pId as keyof typeof stakedTokenData],
-      buttonClicks,
-      decimals: lpTokenDecimals
+      tokenPrice: pool.lpTokenPrice?.toFixed() || "0"
     }
   });
 
@@ -117,6 +107,7 @@ export const useStakingViewModel = () => {
         getUserPoolDetails(+id);
       }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address, active]);
 
   useEffect(() => {
@@ -137,6 +128,7 @@ export const useStakingViewModel = () => {
     return () => {
       contract.removeAllListeners();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stakingAvailable]);
 
   useEffect(() => {
@@ -156,6 +148,7 @@ export const useStakingViewModel = () => {
     return () => {
       contract.removeAllListeners();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [farmingAvailable]);
 
   //watch Events

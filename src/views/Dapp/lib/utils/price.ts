@@ -25,6 +25,13 @@ export const getCRPPrice = async(provider: ethers.providers.Provider | ethers.Si
   return getPriceWithMMFRouter(path, provider);
 }
 
+export const getMMFPrice = async(provider: ethers.providers.Provider | ethers.Signer): Promise<BigNumber> => {
+  const chainId = getChainId();
+  if(chainId === supportedChainIds.Testnet) new BigNumber("0.1");
+  const path = [MMF, USDT];
+  return getPriceWithMMFRouter(path, provider);
+}
+
 export const getMMFLpTokenPrice = async(provider: ethers.providers.Provider | ethers.Signer, lpToken: string): Promise<BigNumber> => {
   let tokenPrice: BigNumber, Token: ERC20;
   const LpToken = MMFLpToken__factory.connect(lpToken, provider);

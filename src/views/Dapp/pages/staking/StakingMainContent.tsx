@@ -82,21 +82,6 @@ const StakingMainContent: FC<StakingMainContentProps> = ({
 												<StakingCard
 													key={card.id}
 													id={card.id}
-													tokenName={card.tokenName}
-													tokenMultiple={card.tokenMultiple}
-													apr={card.apr}
-													earn={card.earn}
-													stake={card.stake}
-													totalStaked={card.totalStaked}
-													walletUnlockStatus={card.walletUnlockStatus}
-													buttonText={card.buttonText}
-													contractUrl={card.contractUrl}
-													USDStaked={card.USDStaked}
-													staked={card.staked}
-													earned={card.staked}
-													USDEarned={card.USDEarned}
-													buttonClicks={card.buttonClicks}
-													decimals={decimals}
 												/>
 											))}
 										</div>

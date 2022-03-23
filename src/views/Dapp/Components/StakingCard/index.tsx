@@ -1,152 +1,180 @@
-import { ChangeEvent, FC, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { FC, useEffect, useState } from 'react';
 import { HiOutlineArrowDown } from 'react-icons/hi';
 
 import CRPLogo from '../../../../assets/pics/CRP.png';
 // import BUSD from '../../../../assets/pics/BUSD.png';
 import ExportIcon from '../../../../assets/appSvgs/ExportIcon';
-import { StakingCardModel } from '../../models/StakingCardModel';
 import './stakingcard.styles.scss';
-import { WalletStatus } from '../../application/controllers/stakingViewModel';
+import { useStakingViewModel, WalletStatus } from '../../application/controllers/stakingViewModel';
 import useToken from '../../hooks/useToken';
 import { getTokenAddress } from '../../lib/utils/token';
 import { constants, utils } from 'ethers';
+import { displayDecimals, displayTokenValue, toNumberLib } from '../../lib/utils/number';
+import { useWalletViewModel } from '../../application/controllers/walletViewModel';
+import ConnectModal from "../../Components/CustomModal/ModalConnect";
+import { STAKING_ADDRESSES } from '../../constants/addresses';
+import { StakeModal } from '../CustomModal/StakeModal';
+import BigNumber from "bignumber.js";
 
-interface MoreProps {
-	buttonClicks: (() => any)[]
+interface Props {
+	id: number
 }
 
-const StakingCard: FC<StakingCardModel & MoreProps> = ({
+const contractAddress = STAKING_ADDRESSES[
+			process.env.REACT_APP_ENVIRONMENT as keyof typeof STAKING_ADDRESSES];
+
+const StakingCard: FC<Props> = ({
 	id,
-	tokenName,
-	tokenMultiple,
-	apr,
-	earn,
-	stake,
-	totalStaked,
-	walletUnlockStatus,
-	buttonText,
-	contractUrl,
-	staked,
-	USDStaked,
-	earned,
-	USDEarned,
-	buttonClicks,
-	decimals
 }) => {
-	const [stakedUsdt, setStakedUsdt] = useState<string>(USDStaked);
-	const {getAllowance, allowances, approve} = useToken(getTokenAddress(tokenName));
-	const matches = /.*\/(\w+$)/.exec(contractUrl);
-	const contractAddress = matches && matches[1];
+	const {active, address} = useWalletViewModel();
+	const {stake, unStake, compound, harvest, stakingCardData} = useStakingViewModel();
+	const {
+		tokenName,
+		tokenMultiple,
+		apr,
+		earn,
+		stake: stakedToken,
+		totalStaked,
+		walletUnlockStatus,
+		contractUrl,
+		staked,
+		USDStaked,
+		earned,
+		USDEarned,
+		tokenPrice
+	} = stakingCardData[id];
+	const [walletModal, setWalletModal] = useState<boolean>(false);
+	const {getAllowance, allowances, approve, decimals, balance} = useToken(getTokenAddress(tokenName));
+	const [amount, setAmount] = useState<string>();
+	const [stakeModal, setStakeModal] = useState<{open: boolean, title: string}>({open: false, title:""});
+
 	useEffect(() => {
-		contractAddress && getAllowance(contractAddress)
-	}, []);
+		active && getAllowance(contractAddress)
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [address]);
 
-	const increaseStakedUsdt = () => {
-		// let newStakedUsdt = stakedUsdt + 1;
-		// newStakedUsdt = newStakedUsdt <= 100 ? newStakedUsdt : stakedUsdt;
-		// setStakedUsdt(+newStakedUsdt.toFixed(5));
-	};
-
-	const decreaseStakedUsdt = () => {
-		// let newStakedUsdt = stakedUsdt - 1;
-		// newStakedUsdt = newStakedUsdt >= 0 ? newStakedUsdt : stakedUsdt;
-		// setStakedUsdt(+newStakedUsdt.toFixed(5));
-	};
-
-	const validate = (evt: ChangeEvent<HTMLInputElement>) => {
-		// let newStakedUsdt = isNaN(+evt.target.value) ? 0 : +evt.target.value;
-		// newStakedUsdt = newStakedUsdt <= 100 ? newStakedUsdt : stakedUsdt;
-		// setStakedUsdt(+newStakedUsdt.toFixed(5));
-	};
-
-	const allowed = contractAddress && allowances[contractAddress]?.gte(1)
-	buttonText = walletUnlockStatus === WalletStatus.locked ? ["Unlock Wallet"] : buttonText;
-
-	if(contractAddress && !allowed){
-		buttonText = ["Enable Pred"]
-		buttonClicks = [() => approve(contractAddress, constants.MaxUint256)]
+	const closeStakeModal = (open: boolean) => {
+		setStakeModal({open, title: ""}); 
+		_setAmount({target: {value:""}})
 	}
 
+	const stakeHandler = () => {
+		console.log(id, utils.parseUnits(amount || "0", decimals).toString(), amount);
+		stake(tokenName, +id, utils.parseUnits(amount || "0", decimals).toString(), amount || "0",)
+		closeStakeModal(false);
+	}
+
+	const unstakeHandler = () => {
+		unStake(tokenName, +id, utils.parseUnits(amount || "0", decimals).toString(), amount || "0",)
+		closeStakeModal(false);
+	}
+
+	const _setAmount = ({target: {value}}: {target: {value: string}}) => {
+		if(isNaN(+value)) {
+			setAmount(amount);
+		}else{
+			setAmount(value);
+		}
+	}
+
+	const allowed = contractAddress && allowances[contractAddress]?.gte(1)
+	 // buttons
+	const unlockButton = <button className={`action unlock`} onClick={() => setWalletModal(true)}>Unlock Wallet</button>
+	const harvetButton = <button className={`action harvest`} onClick={() => harvest(id, tokenName)}>Harvest</button>
+	const compoundButton = <button className={`action`} onClick={() => compound(tokenName)}>Compound</button>
+	const approveButton = <button className={`action`} 
+		onClick={() => approve( contractAddress, constants.MaxUint256)}
+		>Approve</button>
+	
+	let mainButton = !active ? unlockButton : (allowed ? <>{harvetButton}{compoundButton}</> : approveButton)
+
 	return (
-		<div className='staking__card'>
-			<div className='staking__card__top'>
-				<div className='token__images'>
-					<img src={CRPLogo} alt='predict-coin-logo' />
-				</div>
+		<>
+			{
+				stakeModal.open && 
+					<StakeModal 
+						closeModal={closeStakeModal}  
+						tokenName={tokenName as string}
+						value={amount || ""}
+						usdValue={new BigNumber(tokenPrice).times(amount || 0).toFixed()}
+						balance={stakeModal.title === "Stake" ? toNumberLib(balance).toFixed() : staked}
+						type={stakeModal.title}
+						confirm={stakeModal.title === "Stake" ? stakeHandler : unstakeHandler}
+						onChange={_setAmount}
+						decimals={decimals}
+					/>
+			}
+			{walletModal && <ConnectModal closeModal={setWalletModal}/>}
+			<div className='staking__card'>
+				<div className='staking__card__top'>
+					<div className='token__images'>
+						<img src={CRPLogo} alt='predict-coin-logo' />
+					</div>
 
-				<div className='token__title'>
-					<p className='name'>{tokenName}</p>
-					<p className='multiple'>{tokenMultiple}</p>
+					<div className='token__title'>
+						<p className='name'>{tokenName}</p>
+						<p className='multiple'>{tokenMultiple}</p>
+					</div>
 				</div>
-			</div>
-			<div className='staking__card__content'>
-				<div className='price__stake'>
-					<div className='price'>
-						<div className='section'>
-							<div>
-								<span className='light'>APR</span>
-								<span className='normal'>{apr}%</span>
+				<div className='staking__card__content'>
+					<div className='price__stake'>
+						<div className='price'>
+							<div className='section'>
+								<div>
+									<span className='light'>APR</span>
+									<span className='normal'>{displayDecimals(apr, 2)}%</span>
+								</div>
+								<div>
+									<span className='light'>STAKE/EARN</span>
+									<span className='normal'>{stakedToken}/{earn}</span>
+								</div>
+								<div>
+									<span className='light'>EARNINGS</span>
+									<span className='normal'>{displayTokenValue(earned, 18, 5)} <span className="dollar"> ~${displayTokenValue(USDEarned, decimals, 2)}</span></span>
+								</div>
 							</div>
-							<div>
-								<span className='light'>STAKE/EARN</span>
-								<span className='normal'>{stake}/{earn}</span>
+						</div>
+
+						{walletUnlockStatus === 'unlocked' ? (
+							<div className='stake'>
+								<button className={`minus ${walletUnlockStatus === WalletStatus.unlocked && "active"}`} onClick={() => setStakeModal({title: "Unstake", open: true})}>
+									<span className={`active`}> - </span>
+								</button>
+								<div className='usdt__staked'>
+									<p>CRP Staked</p>
+									<div><span className="amount">{displayTokenValue(staked, decimals, 5)}</span><span className="dollar"> ~${displayTokenValue(USDStaked, decimals, 2)}</span></div>
+								</div>
+								<button className={`add ${walletUnlockStatus === WalletStatus.unlocked && "active"}`} onClick={() => setStakeModal({title: "Stake", open: true})}>
+									<span className={`active`}> + </span>
+								</button>
 							</div>
-							<div>
-								<span className='light'>EARNINGS</span>
-								<span className='normal'>{earned} <span className="dollar"> ~${USDEarned}</span></span>
+						) : (
+							<div className='unlock__text'>
+								<p>unlock wallet to begin staking</p>
+								<HiOutlineArrowDown />
 							</div>
+						)}
+
+						<div
+							className={`action__container ${
+								active && allowed ? 'two' : ''
+							}`}
+						>
+							{mainButton}
 						</div>
 					</div>
 
-					{walletUnlockStatus === 'unlocked' ? (
-						<div className='stake'>
-							<button className={`minus ${walletUnlockStatus === WalletStatus.unlocked && "active"}`} onClick={decreaseStakedUsdt}>
-								<span className={`${allowed && "active"}`}> - </span>
-							</button>
-							<div className='usdt__staked'>
-								<p>CRP Staked</p>
-								<div><span className="amount">{staked}</span><span className="dollar"> ~${USDStaked}</span></div>
-							</div>
-							<button className={`add ${walletUnlockStatus === WalletStatus.unlocked && "active"}`} onClick={increaseStakedUsdt}>
-								<span className={`${allowed && "active"}`}> + </span>
-							</button>
-						</div>
-					) : (
-						<div className='unlock__text'>
-							<p>unlock wallet to begin staking</p>
-							<HiOutlineArrowDown />
-						</div>
-					)}
-
-					<div
-						className={`action__container ${
-							buttonText.length > 1 ? 'two' : ''
-						}`}
-					>
-						{buttonText.map((text, idx) => (
-							<button
-								className={`action ${text.includes('Unlock') ? 'unlock' : ''} ${
-									text.includes('Harvest') ? 'harvest' : ''
-								}`}
-								key={idx}
-								onClick={buttonClicks[idx]}
-							>
-								{walletUnlockStatus === WalletStatus.locked ? "Unlock Wallet" : text}
-							</button>
-						))}
+					<div className='stake__details'>
+						{console.log(totalStaked, decimals)}
+						<p>Total staked: {displayTokenValue(totalStaked, decimals, 5)}</p>
+						<a href={contractUrl} target="_true">
+							<span>View Contract</span>
+							<ExportIcon />
+						</a>
 					</div>
 				</div>
-
-				<div className='stake__details'>
-					<p>Total staked: {totalStaked}</p>
-					<a href={contractUrl} target="_true">
-						<span>View Contract</span>
-						<ExportIcon />
-					</a>
-				</div>
 			</div>
-		</div>
+		</>
 	);
 };
 

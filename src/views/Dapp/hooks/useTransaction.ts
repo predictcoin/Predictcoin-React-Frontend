@@ -21,7 +21,7 @@ const useTransaction = () => {
     const txReceipt = (await txResponse.wait());
 
     if(txReceipt.status === 1){
-      const body = ToastBody(message, STATUS.SUCCESSFULL, TYPE.TRANSACTION)
+      const body = ToastBody(message, STATUS.SUCCESSFULL, TYPE.SUCCESSFULL)
       toast.dismiss(pendingToast.current);
       toast(body);
       if(callbacks && callbacks["successfull"]){

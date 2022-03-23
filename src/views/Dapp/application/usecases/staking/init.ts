@@ -25,7 +25,7 @@ export const stakingApr = async ({ contract, pool, totalAllocPoint}: StakingAprP
   return numerator.div(denominator);
 }
 
-interface FarmingAprProps extends StakingAprProps {
+export interface FarmingAprProps extends StakingAprProps {
   CRPPrice: BigNumber,
   lpTokenPrice: BigNumber
 }

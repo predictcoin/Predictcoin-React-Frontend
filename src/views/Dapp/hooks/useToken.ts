@@ -20,7 +20,7 @@ interface Token {
 }
 
 const useToken = (address: string): Token => {
-  const { provider , signer, address: userAddress, active, chainId} = useWalletViewModel();
+  const { provider , signer, address: userAddress, active } = useWalletViewModel();
   const contract = ERC20__factory.connect(address, signer || provider);
   const {send: sendTransaction} = useTransaction();
 
@@ -34,7 +34,6 @@ const useToken = (address: string): Token => {
   useEffect(() => {
     if(active){
       (async () => {
-        await getDecimals();
         getBalance();
       })();
       
@@ -55,7 +54,11 @@ const useToken = (address: string): Token => {
       contract.removeAllListeners();
     }
 
-  }, [userAddress])
+  }, [userAddress]);
+
+  useEffect(() => {
+    getDecimals();
+  }, [])
 
   const getDecimals = async () => {
     if(decimals !== 0) return decimals;

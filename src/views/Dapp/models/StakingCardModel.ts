@@ -12,14 +12,12 @@ export interface StakingCardModel {
 	stake: string;
 	totalStaked: string;
 	walletUnlockStatus: WalletStatus.locked | WalletStatus.unlocked;
-	buttonText: string[];
 	contractUrl: string;
 	USDStaked: string;
   staked: string;
   earned: string;
   USDEarned: string;
-  buttonClicks: ((..._:any)=> any)[];
-	decimals: number;
+	tokenPrice: string;
 }
 
 export default StakingCardModel;

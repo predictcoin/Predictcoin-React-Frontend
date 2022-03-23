@@ -1,17 +1,17 @@
 import BigNumber from "bignumber.js";
-import { Pool } from "../staking/entity";
-
+import { PredictionPool } from "./entity";
 export interface PredictionPoolStore {
   address: string,
   pastPools: number[],
-  pools: {[key: number]: Pool}, 
+  pools: {[key: number]: PredictionPool}, 
   currentPool: number,
-  totalAllocPoint: BigNumber,
   available: boolean,
   isLoading: boolean,
+  rewardToken: string,
+  rewardTokenPerBlock: BigNumber,
+  rewardTokenPrice: BigNumber
 }
 
-export interface WinnerPredictionPoolStore {
-  address: string,
-  pastPools: number[]
-}
+export interface WinnerPoolStore extends PredictionPoolStore{}
+
+export interface LoserPoolStore extends PredictionPoolStore{}

@@ -70,7 +70,7 @@ export const getFarmPool = (contract: Staking, address: string, pId: number) => 
 }
 
 export const getStakePool = (contract: Staking, address: string, pId: number) => async (dispatch: Dispatch<{type: string, data?: any}>) => {
-  const _pool = await getFarmPoolUsecase({contract, pId, userAddress: address, })
+  const _pool = await getStakePoolUsecase({contract, pId, userAddress: address, })
   console.log(_pool);
   dispatch({
     type: actionTypes.SET_POOL,
