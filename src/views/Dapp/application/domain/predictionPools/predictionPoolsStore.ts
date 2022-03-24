@@ -9,7 +9,9 @@ export interface PredictionPoolStore {
   isLoading: boolean,
   rewardToken: string,
   rewardTokenPerBlock: BigNumber,
-  rewardTokenPrice: BigNumber
+  rewardTokenPrice: BigNumber,
+  lpTokenPrice: BigNumber,
+  lpToken: string,
 }
 
 export interface WinnerPoolStore extends PredictionPoolStore{}

@@ -14,7 +14,7 @@ export const initPrediction = async (params: Params):
   Promise<Pick<PredictionStore, 
     "state" | "currentRound" 
     | "betAmount" | "tokenMaxBet" | "intervalSeconds"
-    | "betSeconds" | "bufferSeconds" | "pastUserRounds"
+    | "betSeconds" | "bufferSeconds" | "pastUserRounds" | "hasBet"
     >> => {
 
   const {contract, active, address} = params;
@@ -29,36 +29,38 @@ export const initPrediction = async (params: Params):
   const intervalSeconds = (await contract.intervalSeconds());
   const betSeconds = (await contract.betSeconds());
   const bufferSeconds = (await contract.bufferSeconds());
-  let pastUserRounds;
+  let pastUserRounds, hasBet = false;
+
   if (active){
     pastUserRounds = await getPastUserRounds({ contract, address });
+    hasBet = pastUserRounds[0].indexOf(pastUserRounds[0][0]) > -1;
   }
   let state;
-
+  
   state = PREDICTIONSTATE.ROUND_ONGOING;
   
   if(currentRound.lockedTimestamp.add(intervalSeconds).gt(Math.trunc(Date.now()/1000))){
     console.log(state, "1");
     state = PREDICTIONSTATE.ROUND_ONGOING
   }
-  // if(currentRound.lockedTimestamp.add(betSeconds).gt(Math.trunc(Date.now()/1000))){
-  //   console.log(state, "2");
-  //   state = PREDICTIONSTATE.BETTING_ONGOING
-  // }
-  // if(
-  //   currentRound.lockedTimestamp.add(intervalSeconds).add(bufferSeconds).lt(Math.trunc(Date.now()/1000)) &&
-  //   !currentRound.oraclesCalled
-  //   ){
-  //     console.log(state, "3");
-  //   state = PREDICTIONSTATE.ROUND_ENDED_UNSUCCESSFULLY
-  // }
-  // else if(
-  //   currentRound.lockedTimestamp.add(intervalSeconds).add(bufferSeconds).lt(Math.trunc(Date.now()/1000)) &&
-  //   currentRound.oraclesCalled
-  // ){
-  //   console.log(state, "4");
-  //   state = PREDICTIONSTATE.ROUND_ENDED_SUCCESSFULLY
-  // }
+  if(currentRound.lockedTimestamp.add(betSeconds).gt(Math.trunc(Date.now()/1000))){
+    console.log(state, "2");
+    state = PREDICTIONSTATE.BETTING_ONGOING
+  }
+  if(
+    currentRound.lockedTimestamp.add(intervalSeconds).add(bufferSeconds).lt(Math.trunc(Date.now()/1000)) &&
+    !currentRound.oraclesCalled
+    ){
+      console.log(state, "3");
+    state = PREDICTIONSTATE.ROUND_ENDED_UNSUCCESSFULLY
+  }
+  else if(
+    currentRound.lockedTimestamp.add(intervalSeconds).add(bufferSeconds).lt(Math.trunc(Date.now()/1000)) &&
+    currentRound.oraclesCalled
+  ){
+    console.log(state, "4");
+    state = PREDICTIONSTATE.ROUND_ENDED_SUCCESSFULLY
+  }
 
   return {
     state,
@@ -69,5 +71,6 @@ export const initPrediction = async (params: Params):
     betSeconds,
     bufferSeconds,
     pastUserRounds,
+    hasBet
   };
 }

@@ -59,7 +59,7 @@ const Header: FC<HeaderProps> = ({subtitle, title, setIsSidebarExpanded, isSideb
               <WalletIcon />
             <span>{active ? shortenAddress(address || ""): "connect wallet"}</span>
           </button>
-          &nbsp; &nbsp;
+          {/* &nbsp; &nbsp;
           {
             active && 
             <button 
@@ -70,7 +70,7 @@ const Header: FC<HeaderProps> = ({subtitle, title, setIsSidebarExpanded, isSideb
               &nbsp;
               <span>3</span>
             </button>
-          }
+          } */}
         </div>
       </div>
         <div className='header__text header__text--2'>

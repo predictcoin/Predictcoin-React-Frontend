@@ -2,50 +2,55 @@ import { FC, useEffect, useState } from 'react';
 import { HiOutlineArrowDown } from 'react-icons/hi';
 
 import CRPLogo from '../../../../assets/pics/CRP.png';
+import MMFLogo from '../../../../assets/pics/meerkat.png';
 // import BUSD from '../../../../assets/pics/BUSD.png';
 import ExportIcon from '../../../../assets/appSvgs/ExportIcon';
-import './stakingcard.styles.scss';
-import { useStakingViewModel, WalletStatus } from '../../application/controllers/stakingViewModel';
+import '../StakingCard/stakingcard.styles.css';
+import "./predictionPoolCard.styles.scss"
+import { useLoserPredictionPoolViewModel, useWinnerPredictionPoolViewModel } from '../../application/controllers/predictionPoolsViewModel';
 import useToken from '../../hooks/useToken';
 import { getTokenAddress } from '../../lib/utils/token';
 import { constants, utils } from 'ethers';
 import { displayDecimals, displayTokenValue, toNumberLib } from '../../lib/utils/number';
 import { useWalletViewModel } from '../../application/controllers/walletViewModel';
-import ConnectModal from "../../Components/CustomModal/ModalConnect";
-import { STAKING_ADDRESSES } from '../../constants/addresses';
+import ConnectModal from "../CustomModal/ModalConnect";
 import { StakeModal } from '../CustomModal/StakeModal';
 import BigNumber from "bignumber.js";
 
 interface Props {
-	id: number
+	type: "winner" | "loser"
 }
 
-const contractAddress = STAKING_ADDRESSES[
-			process.env.REACT_APP_ENVIRONMENT as keyof typeof STAKING_ADDRESSES];
-
-const StakingCard: FC<Props> = ({
-	id,
+const PredictionPoolCard: FC<Props> = ({
+	type,
 }) => {
+	const mainHook = type === "loser" ? useLoserPredictionPoolViewModel : useWinnerPredictionPoolViewModel;
 	const {active, address} = useWalletViewModel();
-	const {stake, unStake, compound, harvest, stakingCardData} = useStakingViewModel();
+	const {stake, unStake, harvest, cardData, contract, } = mainHook();
+	const contractAddress = contract.address;
 	const {
-		tokenName,
-		tokenMultiple,
 		apr,
-		earn,
-		stake: stakedToken,
+		earnToken,
+		earnTokenPrice,
+
+		stakeToken,
+		stakeTokenPrice,
 		totalStaked,
-		walletUnlockStatus,
+
 		contractUrl,
 		staked,
 		USDStaked,
 		earned,
 		USDEarned,
-		tokenPrice
-	} = stakingCardData[id];
-
+		id,
+		lostRound,
+		wonRound,
+		round,
+	} = cardData;
+	
 	const [walletModal, setWalletModal] = useState<boolean>(false);
-	const {getAllowance, allowances, approve, decimals, balance} = useToken(getTokenAddress(tokenName));
+	const {getAllowance, allowances, approve, decimals, balance} = useToken(getTokenAddress(stakeToken));
+	const {decimals: earnDecimals} = useToken(getTokenAddress(earnToken))
 	const [amount, setAmount] = useState<string>();
 	const [stakeModal, setStakeModal] = useState<{open: boolean, title: string}>({open: false, title:""});
 
@@ -54,19 +59,20 @@ const StakingCard: FC<Props> = ({
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [address]);
 
+	const eligible = type === "loser" ? lostRound : wonRound;
+
 	const closeStakeModal = (open: boolean) => {
 		setStakeModal({open, title: ""}); 
-		_setAmount({target: {value:""}})
+		_setAmount({target: {value: ""}})
 	}
 
 	const stakeHandler = () => {
-		console.log(id, utils.parseUnits(amount || "0", decimals).toString(), amount);
-		stake(tokenName, +id, utils.parseUnits(amount || "0", decimals).toString(), amount || "0",)
+		stake(earnToken, utils.parseUnits(amount || "0", decimals).toString(), amount || "0")
 		closeStakeModal(false);
 	}
 
 	const unstakeHandler = () => {
-		unStake(tokenName, +id, utils.parseUnits(amount || "0", decimals).toString(), amount || "0",)
+		unStake(stakeToken, utils.parseUnits(amount || "0", decimals).toString(), amount || "0",)
 		closeStakeModal(false);
 	}
 
@@ -81,13 +87,12 @@ const StakingCard: FC<Props> = ({
 	const allowed = contractAddress && allowances[contractAddress]?.gte(1)
 	 // buttons
 	const unlockButton = <button className={`action unlock`} onClick={() => setWalletModal(true)}>Unlock Wallet</button>
-	const harvetButton = <button className={`action harvest ${+earned === 0 && "inactive"}`} onClick={() => harvest(id, tokenName)}>Harvest</button>
-	const compoundButton = <button className={`action ${+earned === 0 && "inactive"}`} onClick={() => compound(tokenName)}>Compound</button>
+	const harvetButton = <button className={`action harvest ${+earned === 0 && "inactive"}`} onClick={() => harvest(earnToken)}>Harvest</button>
 	const approveButton = <button className={`action`} 
 		onClick={() => approve( contractAddress, constants.MaxUint256)}
 		>Approve</button>
 	
-	let mainButton = !active ? unlockButton : (allowed ? <>{harvetButton}{compoundButton}</> : approveButton)
+	let mainButton = !active ? unlockButton : (allowed ? harvetButton: approveButton)
 
 	return (
 		<>
@@ -95,9 +100,9 @@ const StakingCard: FC<Props> = ({
 				stakeModal.open && 
 					<StakeModal 
 						closeModal={closeStakeModal}  
-						tokenName={tokenName as string}
+						tokenName={stakeToken as string}
 						value={amount || ""}
-						usdValue={new BigNumber(tokenPrice).times(amount || 0).toFixed()}
+						usdValue={new BigNumber(stakeTokenPrice).times(amount || 0).toFixed()}
 						balance={stakeModal.title === "Stake" ? toNumberLib(balance).toFixed() : staked}
 						type={stakeModal.title}
 						confirm={stakeModal.title === "Stake" ? stakeHandler : unstakeHandler}
@@ -109,12 +114,11 @@ const StakingCard: FC<Props> = ({
 			<div className='staking__card'>
 				<div className='staking__card__top'>
 					<div className='token__images'>
-						<img src={CRPLogo} alt='predict-coin-logo' />
+						<img src={type === "loser" ? MMFLogo : CRPLogo} alt='predict-coin-logo' />
 					</div>
 
 					<div className='token__title'>
-						<p className='name'>{tokenName}</p>
-						<p className='multiple'>{tokenMultiple}</p>
+						<p className='round'>Round #{round}</p>
 					</div>
 				</div>
 				<div className='staking__card__content'>
@@ -123,30 +127,31 @@ const StakingCard: FC<Props> = ({
 							<div className='section'>
 								<div>
 									<span className='light'>APR</span>
+									
 									<span className='normal'>{apr === "Infinity" ? "100000" : displayDecimals(apr, 2)}%</span>
 								</div>
 								<div>
 									<span className='light'>STAKE/EARN</span>
-									<span className='normal'>{stakedToken}/{earn}</span>
+									<span className='normal'>{stakeToken}/{earnToken}</span>
 								</div>
 								<div>
 									<span className='light'>EARNINGS</span>
-									<span className='normal'>{displayTokenValue(earned, 18, 5)} <span className="dollar"> ~${displayTokenValue(USDEarned, decimals, 2)}</span></span>
+									<span className='normal'>{displayTokenValue(earned, earnDecimals || 18, 5)} <span className="dollar"> ~${displayTokenValue(USDEarned, earnDecimals || decimals, 2)}</span></span>
 								</div>
 							</div>
 						</div>
 
-						{walletUnlockStatus === 'unlocked' ? (
+						{active ? (
 							<div className='stake'>
-								<button className={`minus ${active && allowed && "active"}`} onClick={() => setStakeModal({title: "Unstake", open: true})}>
-									<span className={`${active && "active"}`}> - </span>
+								<button className={`minus ${eligible && allowed && "active"}`} onClick={() => setStakeModal({title: "Unstake", open: true})}>
+									<span className={`${eligible && allowed && "active"}`}> - </span>
 								</button>
 								<div className='usdt__staked'>
 									<p>CRP Staked</p>
 									<div><span className="amount">{displayTokenValue(staked, decimals, 5)}</span><span className="dollar"> ~${displayTokenValue(USDStaked, decimals, 2)}</span></div>
 								</div>
-								<button className={`add ${active && allowed && "active"}`} onClick={() => setStakeModal({title: "Stake", open: true})}>
-									<span className={`${active && "active"}`}> + </span>
+								<button className={`add ${eligible && allowed && "active"}`} onClick={() => setStakeModal({title: "Stake", open: true})}>
+									<span className={`${eligible && allowed && "active"}`}> + </span>
 								</button>
 							</div>
 						) : (
@@ -155,11 +160,8 @@ const StakingCard: FC<Props> = ({
 								<HiOutlineArrowDown />
 							</div>
 						)}
-
 						<div
-							className={`action__container ${
-								active && allowed ? 'two' : ''
-							}`}
+							className={`action__container`}
 						>
 							{mainButton}
 						</div>
@@ -179,4 +181,4 @@ const StakingCard: FC<Props> = ({
 	);
 };
 
-export default StakingCard;
+export default PredictionPoolCard;

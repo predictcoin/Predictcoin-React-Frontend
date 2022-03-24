@@ -18,13 +18,13 @@ export const STAKING_ADDRESSES = {
 }
 
 export const LOSER_PREDICTION_POOL_ADDRESSES = {
-  "mainnet": "",
-  "staging": ""
+  "mainnet": "0xd9b4dD2b4dB9af58298593ef0709CE89fD8c154d",
+  "staging": "0x08Fd84D1f574Fe8d4b0425940DE40B844a679D7A"
 }
 
 export const WINNER_PREDICTION_POOL_ADDRESSES = {
-  "mainnet": "",
-  "staging": ""
+  "mainnet": "0xE91769d9bc4af9301d186b8834ea59f54BA41dE2",
+  "staging": "0x1eE1e446851609E535f0081904238356b03f72A4"
 }
 
 export const PREDICTION_TOKEN_ADDRESSES = {

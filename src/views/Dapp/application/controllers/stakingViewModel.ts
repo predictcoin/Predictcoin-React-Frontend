@@ -60,7 +60,7 @@ export const useStakingViewModel = () => {
     return {
       id: pId,
       tokenName: getTokenName(pool.lpToken),
-      apr: pool.apr.toString(),
+      apr: pool.apr.toFixed(),
       USDStaked: user$Staked ? user$Staked.toFixed() : "0",
       staked: pool.userStaked ? pool.userStaked.toFixed() : "0",
       earned: pool.earned ? pool.earned?.toFixed() : "0",

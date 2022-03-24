@@ -90,7 +90,7 @@ const FarmingCard: FC<FarmingCardModel> = ({
 
 
 	const mainBtn = walletUnlockStatus === WalletStatus.locked ? unlockBtn :
-		allowances[tokenAddress]?.gte(1) ? harvestBtn : approveBtn;
+		allowances[contractAddress]?.gte(1) ? harvestBtn : approveBtn;
 
 	const closeStakeModal = (open: boolean) => {
 		setFarmModal({open, title: ""}); 
@@ -144,14 +144,13 @@ const FarmingCard: FC<FarmingCardModel> = ({
 						</div>
 					}
 					<div className="card-row">
-						<div><span className="light">APR</span><span className="normal">{displayDecimals(apr, 2)}%</span></div>
+						<div><span className="light">APR</span><span className="normal">{apr === "Infinity" ? "100000" : displayDecimals(apr, 2)}%</span></div>
 						<span><span className="light">EARN</span><span className="normal">{earn}</span></span>
 					</div>
 					{
 						active && 
 						<div className="card-row">
 							<div><span className="light">EARNED</span><span>{displayTokenValue(earned, 18, 5)} CRP</span></div>
-								{console.log(lpTokenDecimals, 2)}
 								<span>~ ${displayTokenValue(USDEarned, lpTokenDecimals, 2)}</span>
 						</div>
 					}

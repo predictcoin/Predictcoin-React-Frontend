@@ -11,6 +11,13 @@ import { TOKENS } from '../../constants/addresses';
 import { useWalletViewModel } from '../../application/controllers/walletViewModel';
 import Header from '../../Components/Header';
 import { useStakingViewModel } from '../../application/controllers/stakingViewModel';
+import PredictionPoolCard from '../../Components/PredictionPoolCard';
+import { usePredictionViewModel } from '../../application/controllers/predictionViewModel';
+import { 
+	useLoserPredictionPoolViewModel, 
+	useWinnerPredictionPoolViewModel 
+} from '../../application/controllers/predictionPoolsViewModel';
+import { useWinnerPredictionStore } from '../../application/infrastructure/redux/stores/predictionPools';
 
 interface StakingMainContentProps {
 	isSidebarExpanded: boolean;
@@ -26,6 +33,13 @@ const StakingMainContent: FC<StakingMainContentProps> = ({
 	const { chainId, active } = useWalletViewModel();
 	const { balance, decimals } = useToken(TOKENS[chainId].CRP);
 	const {stakingCardData, stakingAvailable, initStaking, isLoadingStaking} = useStakingViewModel();
+	const { available: loserAvailable, 
+		isLoading: isLoadingLoser, initLoserPool
+	} = useLoserPredictionPoolViewModel();
+	const { available: winnerAvailable, 
+		isLoading: isLoadingWinner, initWinnerPool
+	} = useWinnerPredictionPoolViewModel(); 
+
 	const modal = active ? (
 		<ModalDisconnect closeModal={() => setModalOpened(false)} CRPBalance={ displayDecimals(ethers.utils.formatUnits(balance, decimals), 5) }/>
 	) : (
@@ -36,7 +50,13 @@ const StakingMainContent: FC<StakingMainContentProps> = ({
 		if(!stakingAvailable && !isLoadingStaking){
 			initStaking();
 		}
-	}, []);
+		if(!loserAvailable && !isLoadingLoser){
+			initLoserPool();
+		}
+		if(!winnerAvailable && !isLoadingWinner){
+			initWinnerPool();
+		}
+	}, [active]);
 
 	return (
 		<section className='staking__main__content'>
@@ -84,6 +104,8 @@ const StakingMainContent: FC<StakingMainContentProps> = ({
 													id={card.id}
 												/>
 											))}
+											<PredictionPoolCard type="winner" />
+											<PredictionPoolCard type="loser" />
 										</div>
 									}
 								/>

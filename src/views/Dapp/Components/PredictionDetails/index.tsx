@@ -59,7 +59,7 @@ interface PredictionDetailsProps {
 const PredictionDetails: FC<PredictionDetailsProps> = ({
 	activeCard, setActive
 }) => {
-	const { available, currentRound, betSeconds, state, initPrediction, isLoadingCurrent, predict, betAmount } = usePredictionViewModel();
+	const { available, currentRound, betSeconds, state, initPrediction, isLoadingCurrent, predict, betAmount, hasBet } = usePredictionViewModel();
 	const { active, chainId, address: userAddress } = useWalletViewModel();
 	const { balance, decimals, approve, getAllowance, allowances, getBalance } = useToken(TOKENS[chainId].CRP);
 	const CRPAllowance = allowances[PREDICTION_ADDRESSES[process.env.REACT_APP_ENVIRONMENT as keyof typeof PREDICTION_ADDRESSES]]
@@ -202,13 +202,13 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({
 								 		</button>
 										 :
 										<div className='buttons'>
-											<button className={`down ${balance.lt(betAmount) && "disabled"}`}
+											<button className={`down ${(balance.lt(betAmount) || hasBet) && "disabled"}`}
 												onClick={() => predict(activeCoin.value as keyof typeof PREDICTION_TOKEN_ADDRESSES, DIRECTION.BEAR, send)}
 											>
 												<RiArrowRightDownFill />
 												enter down
 											</button>
-											<button className={`up ${balance.lt(betAmount) && "disabled"}`}
+											<button className={`up ${(balance.lt(betAmount) || hasBet) && "disabled"}`}
 												onClick={() => predict(activeCoin.value as keyof typeof PREDICTION_TOKEN_ADDRESSES, DIRECTION.BULL, send)}
 											>
 												<RiArrowRightUpFill />

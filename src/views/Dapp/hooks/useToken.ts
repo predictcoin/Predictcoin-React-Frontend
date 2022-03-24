@@ -34,6 +34,7 @@ const useToken = (address: string): Token => {
   useEffect(() => {
     if(active){
       (async () => {
+        await getDecimals();
         getBalance();
       })();
       
@@ -56,14 +57,12 @@ const useToken = (address: string): Token => {
 
   }, [userAddress]);
 
-  useEffect(() => {
-    getDecimals();
-  }, [])
 
   const getDecimals = async () => {
     if(decimals !== 0) return decimals;
     const result = await contract.decimals();
     setDecimals(result);
+    return result;
   }
 
   const getSymbol = async () => {
@@ -89,6 +88,7 @@ const useToken = (address: string): Token => {
 
     const result = await contract.balanceOf(userAddress);
     setBalance(result);
+    return result;
   }
 
   const send = async (receiver: string, amount: string|BigNumber): Promise<void> => {

@@ -176,6 +176,10 @@
 					display: flex;
 					justify-content: center;
 					align-items: center;
+					pointer-events: none;
+					&.active{
+						pointer-events: all;
+					}
 
 					span {
 						display: flex;
@@ -187,6 +191,8 @@
 						border: 1.5px solid rgba(255, 255, 255, 0.32);
 						color: #fff;
 						font-size: 16px;
+						pointer-events: none;
+						cursor:not-allowed;
 
 						&.active{
 							border-color: #ffffff;
@@ -245,6 +251,7 @@
 				font-size: 14px;
 				line-height: 21px;
 				background: #0e56c0;
+				border: 1px solid #0e56c0;
 				color: #ffffff;
 				margin-bottom: 21px;
 
@@ -256,6 +263,14 @@
 					background: transparent;
 					color: #0E56C0;
 					border: 1px solid #0e56c0;
+				}
+
+				&.inactive{
+					background-color: #FFFFFFA1 !important;
+					pointer-events: none;
+					cursor: not-allowed;
+					color: #ffffff !important;
+					border: 1px solid #FFFFFFA1 !important;
 				}
 			}
 

@@ -20,3 +20,4 @@ interface FarmingCardModel {
 };
 
 export default FarmingCardModel;
+
