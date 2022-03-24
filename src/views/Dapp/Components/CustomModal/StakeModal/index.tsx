@@ -1,7 +1,4 @@
-import { Dispatch, FC, SetStateAction, useEffect } from 'react';
-import PredictionIcon from '../../../../assets/pics/txprediction.svg';
-import {useWalletViewModel} from "../../../application/controllers/walletViewModel";
-import {ReactComponent as ExternalLink} from "../../../../assets/pics/external-link.svg";
+import { FC,useEffect } from 'react';
 import "./StakeModal.styles.scss";
 import { displayDecimals } from '../../../lib/utils/number';
 import { ethers, utils } from 'ethers';
@@ -27,8 +24,6 @@ export const StakeModal: FC<ModalProps> = (
 		if (e.target?.id === 'custom__modal') closeModal(false);
 	};
 
-	const {disconnect, address, active} = useWalletViewModel();
-
 	const setMax = () => {
 		onChange({target: {value: ethers.utils.formatUnits(balance, decimals)}})
 	}
@@ -40,6 +35,7 @@ export const StakeModal: FC<ModalProps> = (
 		return () => {
 			window.removeEventListener('click', (e) => closeModalFunc(e));
 		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (

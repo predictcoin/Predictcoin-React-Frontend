@@ -1,10 +1,9 @@
 import { Dispatch, FC, SetStateAction, useEffect } from 'react';
 import PredictionIcon from '../../../../assets/pics/txprediction.svg';
-import {useWalletViewModel} from "../../application/controllers/walletViewModel";
 import {ReactComponent as ExternalLink} from "../../../../assets/pics/external-link.svg";
 import "./TransactionModal.styles.scss";
 
-import CustomModal from './index';
+
 
 interface TxModalProps {
 	closeModal: Dispatch<SetStateAction<boolean>>;
@@ -15,8 +14,6 @@ const TxModal: FC<TxModalProps> = ({ closeModal }) => {
 		if (e.target?.id === 'custom__modal') closeModal(false);
 	};
 
-	const {disconnect, address, active} = useWalletViewModel();
-
 	
 
 	useEffect(() => {
@@ -25,46 +22,47 @@ const TxModal: FC<TxModalProps> = ({ closeModal }) => {
 		return () => {
 			window.removeEventListener('click', (e) => closeModalFunc(e));
 		};
+    // eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-  const notifications = [
-    {
-      time: "2 hours ago",
-      title: "Staking successfull",
-      subtitle: "",
-      status: "",
-      link: "",
-      txhash: "",
-      icon: ""
-    },
-    {
-      time: "2 hours ago",
-      title: "Staking successfull",
-      subtitle: "",
-      status: "",
-      link: "",
-      txhash: "",
-      icon: ""
-    },
-    {
-      time: "2 hours ago",
-      title: "Staking successfull",
-      subtitle: "",
-      status: "",
-      link: "",
-      txhash: "",
-      icon: ""
-    },
-    {
-      time: "2 hours ago",
-      title: "Staking successfull",
-      subtitle: "",
-      status: "",
-      link: "",
-      txhash: "",
-      icon: ""
-    }
-  ];
+  // const notifications = [
+  //   {
+  //     time: "2 hours ago",
+  //     title: "Staking successfull",
+  //     subtitle: "",
+  //     status: "",
+  //     link: "",
+  //     txhash: "",
+  //     icon: ""
+  //   },
+  //   {
+  //     time: "2 hours ago",
+  //     title: "Staking successfull",
+  //     subtitle: "",
+  //     status: "",
+  //     link: "",
+  //     txhash: "",
+  //     icon: ""
+  //   },
+  //   {
+  //     time: "2 hours ago",
+  //     title: "Staking successfull",
+  //     subtitle: "",
+  //     status: "",
+  //     link: "",
+  //     txhash: "",
+  //     icon: ""
+  //   },
+  //   {
+  //     time: "2 hours ago",
+  //     title: "Staking successfull",
+  //     subtitle: "",
+  //     status: "",
+  //     link: "",
+  //     txhash: "",
+  //     icon: ""
+  //   }
+  // ];
 
 	return (
 		<section id='custom__modal'>
@@ -82,7 +80,7 @@ const TxModal: FC<TxModalProps> = ({ closeModal }) => {
               <div className="desc">
                 <div><span>Staking successfull</span> <ExternalLink /></div>
                 <span>Your staking is successful, </span>
-                <div><span>2 hours ago</span> <a href="">Go to Predictions</a></div>
+                <div><span>2 hours ago</span> <a href="https://cronoscan.com">Go to Predictions</a></div>
               </div>
             </li>
           </ul>

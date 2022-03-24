@@ -13,7 +13,7 @@ import PricePredictionDataModel from '../../models/PredictionDataModel';
 import './pricepredictiontable.styles.scss';
 import { useWalletViewModel } from '../../application/controllers/walletViewModel';
 import { usePredictionViewModel } from '../../application/controllers/predictionViewModel';
-import { formatPredictionRounds } from '../../lib/utils/formatPredictionRounds';
+// import { formatPredictionRounds } from '../../lib/utils/formatPredictionRounds';
 
 type PricePredictionTableProps = {
 	predictions: PricePredictionDataModel[] | [];
@@ -22,10 +22,10 @@ type PricePredictionTableProps = {
 const PricePredictionTable: FC<PricePredictionTableProps> = ({
 	predictions,
 }) => {
-	const [loading, setLoading] = useState<boolean>(false);
+	const [loading,] = useState<boolean>(false);
 	const {active} = useWalletViewModel();
-	const {pastAvailable, isLoadingPast, getPastRounds, available, pastRounds} = usePredictionViewModel();
-	const _pastRounds = pastRounds ? formatPredictionRounds(pastRounds) : [];
+	const {pastAvailable, isLoadingPast, getPastRounds} = usePredictionViewModel();
+	// const _pastRounds = pastRounds ? formatPredictionRounds(pastRounds) : [];
 
 	useEffect(() => {
 		const loadPast = async () => {
@@ -36,6 +36,7 @@ const PricePredictionTable: FC<PricePredictionTableProps> = ({
 			}
 		}
 		loadPast();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [active]);
 
 	return (

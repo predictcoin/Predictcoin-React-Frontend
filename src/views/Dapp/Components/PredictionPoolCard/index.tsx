@@ -31,7 +31,6 @@ const PredictionPoolCard: FC<Props> = ({
 	const {
 		apr,
 		earnToken,
-		earnTokenPrice,
 
 		stakeToken,
 		stakeTokenPrice,
@@ -42,7 +41,6 @@ const PredictionPoolCard: FC<Props> = ({
 		USDStaked,
 		earned,
 		USDEarned,
-		id,
 		lostRound,
 		wonRound,
 		round,

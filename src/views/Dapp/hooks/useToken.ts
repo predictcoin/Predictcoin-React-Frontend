@@ -3,7 +3,6 @@ import {ERC20__factory} from "../typechain/factories/ERC20__factory";
 import { useEffect, useState } from "react";
 import useTransaction from "./useTransaction";
 import { BigNumber, ethers } from "ethers";
-import { TOKENS } from "../constants/addresses";
 import { ERC20 } from "../typechain";
 import { watchEvent } from "../lib/utils/event";
 
@@ -54,7 +53,7 @@ const useToken = (address: string): Token => {
     return () => {
       contract.removeAllListeners();
     }
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userAddress]);
 
 

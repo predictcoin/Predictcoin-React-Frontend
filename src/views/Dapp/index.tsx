@@ -21,6 +21,7 @@ const AppDashboard: FC = () => {
 			if(!active && wallet !== null){
 				connect(wallet);
 			}
+			// eslint-disable-next-line react-hooks/exhaustive-deps
 		}, []);
 
 		return (

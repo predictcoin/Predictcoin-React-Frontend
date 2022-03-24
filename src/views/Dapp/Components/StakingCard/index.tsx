@@ -5,7 +5,7 @@ import CRPLogo from '../../../../assets/pics/CRP.png';
 // import BUSD from '../../../../assets/pics/BUSD.png';
 import ExportIcon from '../../../../assets/appSvgs/ExportIcon';
 import './stakingcard.styles.scss';
-import { useStakingViewModel, WalletStatus } from '../../application/controllers/stakingViewModel';
+import { useStakingViewModel } from '../../application/controllers/stakingViewModel';
 import useToken from '../../hooks/useToken';
 import { getTokenAddress } from '../../lib/utils/token';
 import { constants, utils } from 'ethers';

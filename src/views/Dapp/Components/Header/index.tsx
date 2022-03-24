@@ -2,7 +2,6 @@ import { ethers } from "ethers";
 import { Dispatch, FC, useState } from "react";
 import WalletIcon from "../../../../assets/appSvgs/WalletIcon";
 import CRPLogoSidebar from '../../../../assets/pics/CRP.png';
-import notificationIcon from "../../../../assets/pics/notification-bing.svg"
 import { useWalletViewModel } from "../../application/controllers/walletViewModel";
 import { TOKENS } from "../../constants/addresses";
 import useToken from "../../hooks/useToken";

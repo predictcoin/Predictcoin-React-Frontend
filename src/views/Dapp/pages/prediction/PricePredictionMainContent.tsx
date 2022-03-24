@@ -6,16 +6,12 @@ import { format } from 'date-fns';
 
 import coinTabData from '../../data/coinTabData';
 import CoinTab from '../../Components/CoinTab';
-import WalletIcon from '../../../../assets/appSvgs/WalletIcon';
-import CRPLogo from '../../../../assets/pics/CRP.png';
 import PricePredictionPast from './PricePredictionPast';
 import PricePredictionOngoing from './PricePredictionOngoing';
 import ModalConnect from '../../Components/CustomModal/ModalConnect';
 import ModalDisconnect from '../../Components/CustomModal/ModalDisconnect';
 import { useWalletViewModel } from "../../application/controllers/walletViewModel";
-import { shortenAddress } from "../../lib/utils/address";
-import { toast } from 'react-toastify';
-import { ToastBody, STATUS, TYPE } from "../../Components/Toast";
+// import { ToastBody, STATUS, TYPE } from "../../Components/Toast";
 import useToken from '../../hooks/useToken';
 import { TOKENS } from '../../constants/addresses';
 import { ethers } from 'ethers';
@@ -28,17 +24,16 @@ interface PricePredictionMainContentProps {
 }
 
 const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
-	isSidebarExpanded,
 	setIsSidebarExpanded,
 }) => {
 	const { pathname } = useLocation();
-	const [loadingChart, setLoadingChart] = useState<boolean>(true);
+	// const [loadingChart, setLoadingChart] = useState<boolean>(true);
 	const [activeCard, setActiveCard] = useState<string>(coinTabData[0].id);
 	const [graphMin, setGraphMin] = useState<number>(0);
 	const [graphMax, setGraphMax] = useState<number>(0);
 	const [graphData, setGraphData] = useState<{ x: string; y: number }[]>([]);
 	const [modalOpened, setModalOpened] = useState<boolean>(false);
-	const { active, address, chainId } = useWalletViewModel();
+	const { active, chainId } = useWalletViewModel();
 	const { balance, decimals } = useToken(TOKENS[chainId].CRP)
 	const modal = active ? (
 		<ModalDisconnect closeModal={() => setModalOpened(false)} CRPBalance={ displayDecimals(ethers.utils.formatUnits(balance, decimals), 5) }/>
@@ -61,7 +56,7 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
 	};
 
 	const searchCoinChart = async () => {
-		setLoadingChart(true);
+		// setLoadingChart(true);
 		try {
 			const response = await fetch(
 				`https://api.coingecko.com/api/v3/coins/${activeCard}/market_chart?vs_currency=usd&days=180&interval=monthly`
@@ -77,15 +72,16 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
 		} catch (error) {
 			console.log(error);
 		}
-		setLoadingChart(false);
+		// setLoadingChart(false);
 	};
 
 	useEffect(() => {
 		searchCoin();
 		searchCoinChart();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [activeCard]);
 
-	const Body = ToastBody("Moving slowly", STATUS.PENDING, TYPE.SUCCESSFULL);
+	// const Body = ToastBody("Moving slowly", STATUS.PENDING, TYPE.SUCCESSFULL);
 
 	return (
 		<section className='price__prediction__main__content'>

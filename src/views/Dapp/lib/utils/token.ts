@@ -9,6 +9,6 @@ export const getTokenName = (address: string) => {
 
 export const getTokenAddress = (name: string) => {
   const entries = Object.entries(TOKENS[getChainId()]);
-  const [_, address] = entries.filter(([_name, _]) => _name === name)[0];
+  const [, address] = entries.filter(([_name, _]) => _name === name)[0];
   return address;
 }

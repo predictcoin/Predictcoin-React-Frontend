@@ -12,12 +12,10 @@ import { useWalletViewModel } from '../../application/controllers/walletViewMode
 import Header from '../../Components/Header';
 import { useStakingViewModel } from '../../application/controllers/stakingViewModel';
 import PredictionPoolCard from '../../Components/PredictionPoolCard';
-import { usePredictionViewModel } from '../../application/controllers/predictionViewModel';
 import { 
 	useLoserPredictionPoolViewModel, 
 	useWinnerPredictionPoolViewModel 
 } from '../../application/controllers/predictionPoolsViewModel';
-import { useWinnerPredictionStore } from '../../application/infrastructure/redux/stores/predictionPools';
 
 interface StakingMainContentProps {
 	isSidebarExpanded: boolean;
@@ -56,6 +54,7 @@ const StakingMainContent: FC<StakingMainContentProps> = ({
 		if(!winnerAvailable && !isLoadingWinner){
 			initWinnerPool();
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [active]);
 
 	return (

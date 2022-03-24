@@ -25,6 +25,7 @@ const ModalDisconnect: FC<ModalDisconnectProps> = ({ closeModal, CRPBalance }) =
 		return () => {
 			window.removeEventListener('click', (e) => closeModalFunc(e));
 		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (

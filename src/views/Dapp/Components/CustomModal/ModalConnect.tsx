@@ -2,7 +2,6 @@ import { Dispatch, FC, SetStateAction, useEffect } from 'react';
 
 import CustomModal from './index';
 import MetamaskIcon from '../../../../assets/appSvgs/MetamaskIcon';
-import WalletConnectIcon from '../../../../assets/appSvgs/WalletConnect';
 import {useWalletViewModel} from "../../application/controllers/walletViewModel";
 
 interface ModalConnectProps {
@@ -22,6 +21,7 @@ const ModalConnect: FC<ModalConnectProps> = ({ closeModal }) => {
 		return () => {
 			window.removeEventListener('click', (e) => closeModalFunc(e));
 		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (

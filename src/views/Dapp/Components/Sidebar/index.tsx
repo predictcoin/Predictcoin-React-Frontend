@@ -3,11 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 
 import FarmingIcon from '../../../../assets/appSvgs/FarmingIcon';
 import StakingIcon from '../../../../assets/appSvgs/StakingIcon';
-import SwapIcon from '../../../../assets/appSvgs/SwapIcon';
-import VotingIcon from '../../../../assets/appSvgs/VotingIcon';
-import IPOIcon from '../../../../assets/appSvgs/IPOIcon';
 import PredictionCoin from '../../../../assets/appSvgs/PredictionCoin';
-import PredictBidIcon from '../../../../assets/appSvgs/PredictBidIcon';
 import SportPredictionIcon from '../../../../assets/appSvgs/SportPredictionIcon';
 import CACoins from '../../../../assets/appSvgs/CACoins';
 import PredictLogoSidebar from '../../../../assets/pics/PredictLogoSidebar.png';

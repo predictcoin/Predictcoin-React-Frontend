@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { IoMdStopwatch } from 'react-icons/io';
 import { RiArrowRightDownFill, RiArrowRightUpFill } from 'react-icons/ri';
@@ -18,7 +18,6 @@ import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import useToken from '../../hooks/useToken';
 import { PREDICTION_ADDRESSES, PREDICTION_TOKEN_ADDRESSES, TOKENS } from '../../constants/addresses';
-import { getChainId } from '../../lib/utils/chain';
 import { ethers } from 'ethers';
 import useTransaction from '../../hooks/useTransaction';
 import { displayDecimals } from '../../lib/utils/number';
@@ -61,7 +60,7 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({
 }) => {
 	const { available, currentRound, betSeconds, state, initPrediction, isLoadingCurrent, predict, betAmount, hasBet } = usePredictionViewModel();
 	const { active, chainId, address: userAddress } = useWalletViewModel();
-	const { balance, decimals, approve, getAllowance, allowances, getBalance } = useToken(TOKENS[chainId].CRP);
+	const { balance, decimals, approve, getAllowance, allowances } = useToken(TOKENS[chainId].CRP);
 	const CRPAllowance = allowances[PREDICTION_ADDRESSES[process.env.REACT_APP_ENVIRONMENT as keyof typeof PREDICTION_ADDRESSES]]
 	const {send} = useTransaction();
 
@@ -83,10 +82,12 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({
 		if(active){
 			getAllowance(PREDICTION_ADDRESSES[process.env.REACT_APP_ENVIRONMENT as keyof typeof PREDICTION_ADDRESSES])
 		}	
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [CRPAllowance, userAddress]);
 	
 	useEffect( () => {
 		if(!available && !isLoadingCurrent) initPrediction();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
 	if(available){

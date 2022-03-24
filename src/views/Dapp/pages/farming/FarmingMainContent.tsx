@@ -1,7 +1,6 @@
 import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 
-import PredictLogoSidebar from '../../../../assets/pics/PredictLogoSidebar.png';
-import WalletIcon from '../../../../assets/appSvgs/WalletIcon';
+
 import FarmingCard from '../../Components/FarmingCard';
 import ModalConnect from '../../Components/CustomModal/ModalConnect';
 import ModalDisconnect from '../../Components/CustomModal/ModalDisconnect';
@@ -20,16 +19,17 @@ interface FarmingMainContentProps {
 }
 
 const FarmingMainContent: FC<FarmingMainContentProps> = ({
-	isSidebarExpanded,
+
 	setIsSidebarExpanded,
 }) => {
 	const [walletModal, setWalletModal] = useState<boolean>(false);
 	const { chainId, active} = useWalletViewModel();
-	const { farmingAvailable, isLoadingFarming, initFarming, farmingCardData, harvest } = useStakingViewModel();
+	const { initFarming, farmingCardData, harvest } = useStakingViewModel();
 	const { balance, decimals,  } = useToken(TOKENS[chainId].CRP)
 
 	useEffect(() => {
 		initFarming();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [active])
 
 	const modal = active ? (

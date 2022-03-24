@@ -31,6 +31,7 @@ const useNextRoundCountdown = (): {countdown: string, width: string} => {
     return () => {
       clearInterval(intervalFunc);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return state ;
 }

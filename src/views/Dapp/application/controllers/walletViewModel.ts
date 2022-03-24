@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useDispatch} from "react-redux";
 import { connectWalletAction, disconnectWalletAction } from "../infrastructure/redux/actions/wallet";
 import { useWalletStore } from "../infrastructure/redux/stores/wallet";
@@ -15,11 +15,11 @@ export const useWalletViewModel = () => {
   const store = useWalletStore();
   const showSpinner = store.isConnecting;
   const dispatch = useDispatch();
-  const externalProvider = store.externalProvider && new ethers.providers.Web3Provider(store.externalProvider);
+  const externalProvider = useMemo(() => store.externalProvider && new ethers.providers.Web3Provider(store.externalProvider), [store.externalProvider]);
   
   useEffect(() => {
     externalProvider?.removeAllListeners();
-    }, [store.externalProvider]
+    }, [externalProvider]
   )
 
 

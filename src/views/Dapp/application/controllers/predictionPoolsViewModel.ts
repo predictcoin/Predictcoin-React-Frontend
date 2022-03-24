@@ -3,7 +3,6 @@ import { useDispatch } from "react-redux"
 import { LOSER_PREDICTION_POOL_ADDRESSES, WINNER_PREDICTION_POOL_ADDRESSES } from "../../constants/addresses";
 import { Explorers } from "../../constants/explorers";
 import { getChainId } from "../../lib/utils/chain";
-import { getTokenName } from "../../lib/utils/token";
 import {stake as stakeUsecase, unstake as unstakeUsecase, harvest as harvestUsecase} from "../usecases/staking/others";
 import PredictionPoolCardModel from "../../models/PredictionPoolCardModel";
 import { LoserPrediction__factory, WinnerPrediction__factory } from "../../typechain";

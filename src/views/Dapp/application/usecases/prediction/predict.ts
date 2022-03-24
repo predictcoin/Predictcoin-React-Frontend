@@ -1,4 +1,4 @@
-import { BigNumber, ethers } from "ethers";
+import { BigNumber } from "ethers";
 import { Prediction } from "../../../typechain";
 import { PREDICTION_TOKEN_ADDRESSES} from "../../../constants/addresses";
 import { SendParams } from "../../../hooks/useTransaction";

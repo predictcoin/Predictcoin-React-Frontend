@@ -60,6 +60,7 @@ const CoinTab: FC<CoinTabProps> = ({ id, coinName, active, setActive }) => {
 	useEffect(() => {
 		searchCoin();
 		searchCoinChart();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (

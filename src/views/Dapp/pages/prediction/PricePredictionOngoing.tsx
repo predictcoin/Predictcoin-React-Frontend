@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useState } from 'react';
+import { Dispatch, FC, SetStateAction, } from 'react';
 
 import PredictionGraph from '../../Components/PredictionGraph';
 import PredictionDetails from '../../Components/PredictionDetails';

@@ -1,4 +1,3 @@
-import { stat } from "fs";
 import { StakingStore } from "../../../domain/staking/stakingStore";
 import * as actionType from "../actionTypes/staking";
 import { stakingPools, farmingPools } from "../../../domain/staking/stakingStore";
