@@ -33,9 +33,8 @@ export const apr = async ({pool, rewardTokenPrice, rewardTokenPerBlock, lpTokenP
   return numerator.div(denominator);
 }
 
-const init = async ({contract, userAddress, CRPPrice}: initProps): Promise<Omit<PredictionPoolStore, 
-  "available" | "isLoading" | "pastPools" | "rewardToken" | "rewardTokenPerBlock" | "rewardTokenPrice" | 
-  "lpTokenPrice"| "lpToken" >> => {
+const init = async ({contract, userAddress, CRPPrice}: initProps): Promise<Pick<PredictionPoolStore, 
+  "address" | "pools" | "currentPool" >> => {
   const pools: {[key: number]: PredictionPool} = {};
 
   const currentPool = toNumberLib(await contract.poolLength()).minus(1).toNumber();

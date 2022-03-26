@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux"
 import { LOSER_PREDICTION_POOL_ADDRESSES, WINNER_PREDICTION_POOL_ADDRESSES } from "../../constants/addresses";
 import { Explorers } from "../../constants/explorers";
 import { getChainId } from "../../lib/utils/chain";
-import {stake as stakeUsecase, unstake as unstakeUsecase, harvest as harvestUsecase} from "../usecases/staking/others";
+import {stake as stakeUsecase, unstake as unstakeUsecase, harvest as harvestUsecase} from "../usecases/predictionPools/others";
 import PredictionPoolCardModel from "../../models/PredictionPoolCardModel";
 import { LoserPrediction__factory, WinnerPrediction__factory } from "../../typechain";
 import { initLoserPool as initLoserPoolAction,
@@ -11,6 +11,10 @@ import { initLoserPool as initLoserPoolAction,
 import { useLoserPredictionStore, useWinnerPredictionStore } from "../infrastructure/redux/stores/predictionPools";
 import { useWalletViewModel } from "./walletViewModel";
 import useTransaction from "../../hooks/useTransaction";
+import {
+  getPastLoserPools as getPastLoserPoolsAction,
+  getPastWinnerPools as getPastWinnerPoolsAction
+} from "../infrastructure/redux/actions/predictionPools"
 
 type addressType = keyof typeof LOSER_PREDICTION_POOL_ADDRESSES;
 const env: addressType = (process.env.REACT_APP_ENVIRONMENT || "") as addressType;
@@ -37,17 +41,16 @@ export const useWinnerPredictionPoolViewModel = () => {
   let pool = pools[currentPool];
   pool = pool || {}
 
-  const stake = (tokenName:string, amount: string, humanAmount: string, pId?: number,  callbacks?: {[key: string]: () => void}) => {
-    // @ts-ignore
+  const stake = useCallback((tokenName:string, amount: string, humanAmount: string, pId?: number,  callbacks?: {[key: string]: () => void}) => {
     stakeUsecase({contract: winnerContract, pId: currentPool, tokenName, send, callbacks, amount, humanAmount})
-  }
-  const unStake = (tokenName:string, amount: string, humanAmount: string, pId?: number, callbacks?: {[key: string]: () => void}) => {
-    // @ts-ignore
-    unstakeUsecase({contract: winnerContract, pId: pId || currentPool, tokenName, send, callbacks, amount, humanAmount})
-  }
-  const harvest = (tokenName: string, pId?: number, callbacks?: {[key: string]: () => void}) => 
-    // @ts-ignore
-    harvestUsecase({contract: winnerContract, pId: pId || currentPool, tokenName, send, callbacks});
+  }, [currentPool, send, winnerContract] )
+  const unStake = useCallback((tokenName:string, amount: string, humanAmount: string, pId?: number, callbacks?: {[key: string]: () => void}) => {
+    unstakeUsecase({contract: winnerContract, pId: pId || currentPool, tokenName, send, callbacks, amount, humanAmount}, )
+  },[currentPool, send, winnerContract])
+  const harvest = useCallback((tokenName: string, pId?: number, callbacks?: {[key: string]: () => void}) => 
+    harvestUsecase({contract: winnerContract, pId: pId || currentPool, tokenName, send, callbacks}), [currentPool, send, winnerContract]);
+  const getPastWinnerPools = useCallback(() => 
+    getPastWinnerPoolsAction(winnerContract, address, active)(dispatch), [active, address, dispatch, winnerContract]);
 
   const winnerCardData: PredictionPoolCardModel = {
     id: currentPool || 0,
@@ -76,7 +79,8 @@ export const useWinnerPredictionPoolViewModel = () => {
     cardData: winnerCardData,
     stake,
     unStake,
-    harvest
+    harvest,
+    getPastWinnerPools,
   }
 }
 
@@ -101,16 +105,15 @@ export const useLoserPredictionPoolViewModel = () => {
   pool = pool || {};
 
   const stake = (tokenName:string, amount: string, humanAmount: string, callbacks?: {[key: string]: () => void}) => {
-    // @ts-ignore
     stakeUsecase({contract: loserContract, pId: currentPool, tokenName, send, callbacks, amount, humanAmount})
   }
   const unStake = (tokenName:string, amount: string, humanAmount: string, pId?: number, callbacks?: {[key: string]: () => void}) => {
-    // @ts-ignore
     unstakeUsecase({contract: loserContract, pId: pId || currentPool, tokenName, send, callbacks, amount, humanAmount})
   }
   const harvest = (tokenName: string, pId?: number, callbacks?: {[key: string]: () => void}) => 
-  // @ts-ignore
     harvestUsecase({contract: loserContract, pId: pId || currentPool, tokenName, send, callbacks});
+  const getPastLoserPools = () => 
+    getPastLoserPoolsAction(loserContract, address, active)(dispatch);
 
   const loserCardData: PredictionPoolCardModel = {
     id: currentPool,
@@ -139,6 +142,7 @@ export const useLoserPredictionPoolViewModel = () => {
     cardData: loserCardData,
     stake,
     unStake,
-    harvest
+    harvest,
+    getPastLoserPools
   }
 }

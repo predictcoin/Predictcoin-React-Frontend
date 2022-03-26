@@ -3,6 +3,8 @@ import { PredictionPool } from "./entity";
 export interface PredictionPoolStore {
   address: string,
   pastPools: number[],
+  isLoadingPastPools: boolean,
+  pastAvailable: boolean,
   pools: {[key: number]: PredictionPool}, 
   currentPool: number,
   available: boolean,

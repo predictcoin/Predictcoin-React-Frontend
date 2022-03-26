@@ -45,6 +45,10 @@ export const initWinnerPool = (contract: WinnerPrediction, address: string, acti
 }
 
 export const getPastLoserPools = (contract: LoserPrediction, address: string, active: boolean) => async (dispatch: Dispatch<{type:string, data?: any}>) => {
+  dispatch({
+    type: actionTypes.GET_PAST_LOSER_POOLS
+  })
+
   const _dispatch = (data: any) => {
     dispatch({
       type: actionTypes.SET_LOSER_POOL,
@@ -52,17 +56,39 @@ export const getPastLoserPools = (contract: LoserPrediction, address: string, ac
     })
   }
 
-  getPastLoserPoolsAction({contract, userAddress: address, dispatch: _dispatch});
+  try{
+    await getPastLoserPoolsAction({contract, userAddress: address, dispatch: _dispatch});
+    dispatch({
+      type: actionTypes.GET_PAST_LOSER_POOLS_SUCCESS
+    })
+  }catch{
+    dispatch({
+      type: actionTypes.GET_PAST_LOSER_POOLS_FAILED
+    })
+  }
 }
 
 export const getPastWinnerPools = (contract: WinnerPrediction, address: string, active: boolean) => async (dispatch: Dispatch<{type:string, data?: any}>) => {
+  dispatch({
+    type: actionTypes.GET_PAST_WINNER_POOLS
+  })
   const _dispatch = (data: any) => {
     dispatch({
       type: actionTypes.SET_WINNER_POOL,
       data
     })
   }
-
-  getPastWinnerPoolsAction({contract, userAddress: address, dispatch: _dispatch});
+  
+  try{
+    await getPastWinnerPoolsAction({contract, userAddress: address, dispatch: _dispatch});
+    dispatch({
+      type: actionTypes.GET_PAST_WINNER_POOLS_SUCCESS,
+    })
+  }catch{
+    dispatch({
+      type: actionTypes.GET_PAST_WINNER_POOLS_FAILED,
+    })
+  }
+  
 }
 

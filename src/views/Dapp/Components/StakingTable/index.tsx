@@ -17,7 +17,7 @@ type StakingTableProps = {
 };
 
 const StakingTable: FC<StakingTableProps> = ({ stakes }) => {
-	const [loading,] = useState<boolean>(false);
+	const [loading,] = useState<boolean>(true);
 
 	return (
 		<div className='staking__table'>

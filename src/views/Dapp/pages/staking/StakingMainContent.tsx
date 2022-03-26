@@ -85,7 +85,7 @@ const StakingMainContent: FC<StakingMainContentProps> = ({
 							to='past'
 							className={`${pathname === '/app/staking/past' ? 'active' : ''}`}
 						>
-							PAST POOL
+							PAST POOLS
 						</Link>
 					</div>
 

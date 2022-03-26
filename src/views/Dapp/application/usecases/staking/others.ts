@@ -1,8 +1,9 @@
 import { SendParams } from "../../../hooks/useTransaction";
-import { Staking } from "../../../typechain"
+import { Staking, WinnerPrediction , LoserPrediction } from "../../../typechain"
 
+type CommonContracts = Staking | WinnerPrediction | LoserPrediction;
 interface StakeParams{
-  contract: Staking,
+  contract: CommonContracts,
   pId: number,
   tokenName: string;
   amount: string;
@@ -21,7 +22,7 @@ export const stake = (params: StakeParams) => {
 
 
 interface UnstakeParams{
-  contract: Staking,
+  contract: CommonContracts,
   pId: number,
   tokenName: string;
   amount: string;
@@ -40,7 +41,7 @@ export const unstake = (params: UnstakeParams) => {
 
 
 interface HarvestParams{
-  contract: Staking,
+  contract: CommonContracts,
   pId: number,
   tokenName: string;
   send: (params: SendParams) => Promise<void>,

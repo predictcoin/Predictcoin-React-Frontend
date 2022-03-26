@@ -6,11 +6,12 @@ import { PredictionPool } from "../../domain/predictionPools/entity";
 export const getPastWinnerPools = async ({contract, userAddress, dispatch}: 
   {contract: WinnerPrediction, userAddress: string, dispatch: any}) => {
   const currentPool = toNumberLib(await contract.poolLength()).minus(1).toNumber();
-  for(let i = 1; i <= currentPool; i++){
+  const CRPPrice = await getCRPPrice(contract.provider);
+  for(let i = 1; i < currentPool; i++){
     const pool = propertiesToNumberLib(await contract.poolInfo(i)) as PredictionPool;
+    pool.pId = i;
     pool.round = pool.epoch.toNumber();
     pool.totalStaked = pool.amount;
-    const CRPPrice = await getCRPPrice(contract.provider);
     pool.total$Staked = CRPPrice.times(pool.amount);
     
     if(userAddress){
@@ -21,7 +22,7 @@ export const getPastWinnerPools = async ({contract, userAddress, dispatch}:
       pool.lostRound = await contract.lostRound(userAddress, pool.round);
     }
 
-    dispatch(pool);
+    dispatch({pool});
   }
 }
 
@@ -29,12 +30,14 @@ export const getPastWinnerPools = async ({contract, userAddress, dispatch}:
 export const getPastLoserPools = async ({contract, userAddress, dispatch}: 
   {contract: LoserPrediction, userAddress: string, dispatch: any}) => {
   const currentPool = toNumberLib(await contract.poolLength()).minus(1).toNumber();
-  for(let i = 1; i <= currentPool; i++){
+  const CRPPrice = await getCRPPrice(contract.provider);
+  const MFFPrice = await getMMFPrice(contract.provider);
+  for(let i = 1; i < currentPool; i++){
+    console.log("I", i);
     const pool = propertiesToNumberLib(await contract.poolInfo(i)) as PredictionPool;
+    pool.pId = i;
     pool.round = pool.epoch.toNumber();
     pool.totalStaked = pool.amount;
-    const CRPPrice = await getCRPPrice(contract.provider);
-    const MFFPrice = await getMMFPrice(contract.provider);
     pool.total$Staked = MFFPrice.times(pool.amount);
     
     if(userAddress){
@@ -44,6 +47,6 @@ export const getPastLoserPools = async ({contract, userAddress, dispatch}:
       pool.$Earned = pool.earned.times(CRPPrice);
       pool.lostRound = await contract.lostRound(userAddress, pool.round);
     }
-    dispatch(pool)
+    dispatch({pool})
   }
 }
