@@ -114,7 +114,6 @@ const CoinTab: FC<CoinTabProps> = ({ id, coinName, active, setActive }) => {
 								pointBorderWidth={0}
 								pointBorderColor={{ from: 'serieColor' }}
 								pointLabelYOffset={-12}
-								useMesh={true}
 								xFormat={(value) => {
 									const year = new Date(Number(value)).getFullYear();
 									const month = new Date(Number(value)).getMonth();
@@ -122,28 +121,6 @@ const CoinTab: FC<CoinTabProps> = ({ id, coinName, active, setActive }) => {
 									return format(new Date(year, month, day), 'dd MMM Y');
 								}}
 								yFormat={(value) => `$${Number(value).toFixed(2)}`}
-								tooltip={(value) => {
-									return (
-										<div
-											style={{
-												padding: '2px 0px',
-												color: '#000',
-												background: '#fff',
-												width: '212px',
-												display: 'flex',
-												justifyContent: 'center',
-											}}
-										>
-											<span>
-												Data: &nbsp;<b>{value.point.data.xFormatted}</b>
-											</span>
-											&nbsp;
-											<span>
-												Price: &nbsp;<b>{value.point.data.yFormatted}</b>
-											</span>
-										</div>
-									);
-								}}
 							/>
 						)}
 					</div>
