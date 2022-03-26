@@ -276,6 +276,11 @@
 					line-height: 16px;
 					color: #ffffff;
 					margin-bottom: 3px;
+					&.hidden{
+						position: fixed;
+						top: -500rem;
+					}
+
 				}
 
 				.copy__CA {

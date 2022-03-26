@@ -15,6 +15,8 @@ import {
   getPastLoserPools as getPastLoserPoolsAction,
   getPastWinnerPools as getPastWinnerPoolsAction
 } from "../infrastructure/redux/actions/predictionPools"
+import stakingTableData from "../../data/stakingTableData";
+import StakingDataModel from "../../models/StakingDataModel";
 
 type addressType = keyof typeof LOSER_PREDICTION_POOL_ADDRESSES;
 const env: addressType = (process.env.REACT_APP_ENVIRONMENT || "") as addressType;
@@ -26,7 +28,7 @@ export const useWinnerPredictionPoolViewModel = () => {
 
 
   const store = useWinnerPredictionStore();
-  const {currentPool, pools, rewardTokenPrice} = store;
+  const {currentPool, pools, rewardTokenPrice, pastPools} = store;
 
   const winnerContract = WinnerPrediction__factory.connect( 
     WINNER_PREDICTION_POOL_ADDRESSES[env], 
@@ -71,6 +73,18 @@ export const useWinnerPredictionPoolViewModel = () => {
     USDEarned:pool.$Earned ? pool.$Earned?.toFixed() : "0",
     earnTokenPrice: rewardTokenPrice?.toFixed() || "0",
   };
+
+  const pastWinnerPoolData: StakingDataModel[] = pastPools.map((no): StakingDataModel => {
+    const pool = pools[no]
+    return {
+      stakingRound: pool.round.toString(),
+      coinStaked: "CRP"
+      coinStakedIcon: string;
+      balance: number;
+      earned: number;
+      withdrawn: boolean | null;
+    } 
+  })  
     
   return{
     ...store,

@@ -8,6 +8,7 @@ import SportPredictionIcon from '../../../../assets/appSvgs/SportPredictionIcon'
 import CACoins from '../../../../assets/appSvgs/CACoins';
 import PredictLogoSidebar from '../../../../assets/pics/PredictLogoSidebar.png';
 import './sidebar.styles.scss';
+import { shortenAddress } from '../../lib/utils/address';
 
 interface SidebarProps {
 	isSidebarExpanded: boolean;
@@ -183,8 +184,11 @@ const Sidebar: FC<SidebarProps> = ({
 						<CACoins />
 					</div>
 					<div className='CA__section__content'>
-						<p id='address' className='address'>
-							0xbdd2e3...323f226ba22
+						<p id='address' className='address hidden'>
+							0x7b8ad6d7560facd1959cfb4b4163d7d297c4bfc0
+						</p>
+						<p className='address'>
+							{shortenAddress("0x7b8ad6d7560facd1959cfb4b4163d7d297c4bfc0")}
 						</p>
 						<button
 							className='copy__CA'

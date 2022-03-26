@@ -40,7 +40,7 @@ const StakingPast: FC = () => {
 						<span className='dot'></span>
 						<div className='title__value'>
 							<p className='title'>Active Prediction Round</p>
-							<p className='value'>{pools[currentPool]?.round}</p>
+							<p className='value'>{pools[currentPool]?.round || 0}</p>
 						</div>
 					</div>
 
@@ -56,7 +56,7 @@ const StakingPast: FC = () => {
 				{active && <div className='earnings'>
 					<div className='title__value'>
 						<p className='title'>Earnings from past pools</p>
-						<p className='value'>0.1235 PRED</p>
+						<p className='value'>0 CRP</p>
 					</div>
 				</div>}
 			</div>

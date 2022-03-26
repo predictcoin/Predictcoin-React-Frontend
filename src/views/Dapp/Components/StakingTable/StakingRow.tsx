@@ -1,7 +1,6 @@
 import { FC, useState } from 'react';
 
-import numFormatter from '../../helpers/numFormatter';
-import StakingDataModel from '../../models/StalkingDataModel';
+import StakingDataModel from '../../models/StakingDataModel';
 import TableData from '../Table/TableData';
 import TableRow from '../Table/TableRow';
 
@@ -15,12 +14,12 @@ const StakingRow: FC<StakingRowProps> = ({ stake }) => {
 	return (
 		<TableRow key={stake.stakingRound} forTableBody>
 			<TableData text={stake.stakingRound} />
+			<TableData text={stake.poolType} />
+			<TableData text={stake.crpStaked} />
 			<TableData text=''>
-				<img src={stake.coinStakedIcon} alt={stake.coinStaked} />
-				{stake.coinStaked}
+				<img src={stake.coinEarnedIcon} alt={stake.coinEarned} />
+				{stake.earned}
 			</TableData>
-			<TableData text={numFormatter(stake.predBalance)} />
-			<TableData text={numFormatter(stake.earned)} />
 			<TableData text={'.'} />
 			<TableData text=''>
 				<button

@@ -1,7 +1,4 @@
 import { FC, useState } from 'react';
-//@ts-ignore
-import Skeleton from 'react-skeleton';
-
 import Table from '../Table/Table';
 import TableBody from '../Table/TableBody';
 import TableHeader from '../Table/TableHeader';
@@ -9,25 +6,27 @@ import TableHead from '../Table/TableHead';
 import TableRow from '../Table/TableRow';
 import TableData from '../Table/TableData';
 import StakingRow from './StakingRow';
-import StakingDataModel from '../../models/StalkingDataModel';
+import StakingDataModel from '../../models/StakingDataModel';
 import './stakingtable.styles.scss';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import { skeletonBaseColor, skeletonHighlightColor } from '../../constants/colors';
 
 type StakingTableProps = {
 	stakes: StakingDataModel[] | [];
 };
 
 const StakingTable: FC<StakingTableProps> = ({ stakes }) => {
-	const [loading,] = useState<boolean>(true);
+	const [loading,] = useState<boolean>(false);
 
 	return (
 		<div className='staking__table'>
 			<Table>
 				<TableHeader>
 					<TableRow>
-						<TableHead title={'staking round'} arrow/>
-						<TableHead title={'coin staked'} arrow/>
-						<TableHead title={'PRED balance'} />
-						<TableHead title={'earned'} />
+						<TableHead title={'Staking round'} arrow/>
+						<TableHead title={'Pool type'} arrow/>
+						<TableHead title={'CRP staked'} arrow/>
+						<TableHead title={'Earned'} />
 						<TableHead title={''} />
 						<TableHead title={''} />
 					</TableRow>
@@ -49,9 +48,11 @@ const StakingTable: FC<StakingTableProps> = ({ stakes }) => {
 						[...Array(4)].map((_, idx) => (
 							<TableRow key={idx} forTableBody>
 								{[...Array(6)].map((_, idx) => (
-									<TableData key={idx} text={''}>
-										<Skeleton height={21} />
-									</TableData>
+									 <SkeletonTheme enableAnimation={true} baseColor={skeletonBaseColor} highlightColor={skeletonHighlightColor}>
+											<TableData key={idx} text={''}>
+												<Skeleton height={21} />
+											</TableData>
+									 </SkeletonTheme>
 								))}
 							</TableRow>
 						))

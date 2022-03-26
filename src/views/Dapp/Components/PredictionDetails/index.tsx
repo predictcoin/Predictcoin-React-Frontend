@@ -21,9 +21,10 @@ import { PREDICTION_ADDRESSES, PREDICTION_TOKEN_ADDRESSES, TOKENS } from '../../
 import { ethers } from 'ethers';
 import useTransaction from '../../hooks/useTransaction';
 import { displayDecimals } from '../../lib/utils/number';
+import { skeletonBaseColor, skeletonHighlightColor } from '../../constants/colors';
 
 const PredictionSkeleton = ({active}: {active: boolean}) => {
-	return <SkeletonTheme enableAnimation={true} baseColor="#22204c" highlightColor="#363277">
+	return <SkeletonTheme enableAnimation={true} baseColor={skeletonBaseColor} highlightColor={skeletonHighlightColor}>
 		<div className="prediction_skeleton">
 			<Skeleton width="40%"/>
 			<Skeleton width="80%"/>

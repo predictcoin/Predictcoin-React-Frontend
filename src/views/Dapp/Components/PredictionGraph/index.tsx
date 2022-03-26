@@ -1,5 +1,4 @@
 import { FC } from "react";
-import { BsFunnel } from "react-icons/bs";
 import { ResponsiveLine } from "@nivo/line";
 import { format } from "date-fns";
 import Loader from "../Loader/index.component";
