@@ -53,15 +53,18 @@ const PredictionGraph: FC<PredictionGraphProps> = ({
                 const date = new Date(value);
                 const year = date.getFullYear();
                 const month = date.getMonth();
-                const day = date.getDay();
+                const day = date.getDate();
                 return format(new Date(year, month, day), "dd MMM Y");
             }}
             tooltip={(value) => {
                 const date = new Date(value.point.data.xFormatted);
                 const year = date.getFullYear();
                 const month = date.getMonth();
-                const day = date.getDay();
-                const formattedTime = format(new Date(year, month, day), "dd/MM/Y");
+                const day = date.getDate();
+                const formattedTime = format(
+                    new Date(year, month, day),
+                    "dd/MM/Y"
+                );
 
                 return (
                     <div className="graph__tooltip">
