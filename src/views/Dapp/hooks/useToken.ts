@@ -23,7 +23,7 @@ const useToken = (address: string): Token => {
   const contract = ERC20__factory.connect(address, signer || provider);
   const {send: sendTransaction} = useTransaction();
 
-  const [decimals, setDecimals] = useState(0);
+  const [decimals, setDecimals] = useState(18);
   const [allowances, setAllowance] = useState({});
   const [balance, setBalance] = useState(ethers.BigNumber.from(0));
   const [symbol, setSymbol] = useState("");

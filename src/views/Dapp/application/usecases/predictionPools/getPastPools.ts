@@ -7,7 +7,7 @@ export const getPastWinnerPools = async ({contract, userAddress, dispatch}:
   {contract: WinnerPrediction, userAddress: string, dispatch: any}) => {
   const currentPool = toNumberLib(await contract.poolLength()).minus(1).toNumber();
   const CRPPrice = await getCRPPrice(contract.provider);
-  for(let i = 1; i < currentPool; i++){
+  for(let i = currentPool-1; i > 0; i--){
     const pool = propertiesToNumberLib(await contract.poolInfo(i)) as PredictionPool;
     pool.pId = i;
     pool.round = pool.epoch.toNumber();
@@ -32,7 +32,7 @@ export const getPastLoserPools = async ({contract, userAddress, dispatch}:
   const currentPool = toNumberLib(await contract.poolLength()).minus(1).toNumber();
   const CRPPrice = await getCRPPrice(contract.provider);
   const MFFPrice = await getMMFPrice(contract.provider);
-  for(let i = 1; i < currentPool; i++){
+  for(let i = currentPool-1; i > 0; i--){
     console.log("I", i);
     const pool = propertiesToNumberLib(await contract.poolInfo(i)) as PredictionPool;
     pool.pId = i;

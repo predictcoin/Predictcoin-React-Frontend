@@ -3,13 +3,14 @@ import { useLoserPredictionPoolViewModel, useWinnerPredictionPoolViewModel } fro
 import { useWalletViewModel } from '../../application/controllers/walletViewModel';
 
 import StakingTable from '../../Components/StakingTable';
-import StakingTableData from '../../data/stakingTableData';
 import useNextRoundCountdown from '../../hooks/predictionPools/useCountdown';
+import { displayDecimals, displayTokenValue } from '../../lib/utils/number';
 
 const StakingPast: FC = () => {
 	const {pastAvailable: winnerAvailable, isLoadingPastPools: loadingWinner, getPastWinnerPools, 
-		pastPools, currentPool, pools} = useWinnerPredictionPoolViewModel();
-	const {pastAvailable: loserAvailable, isLoadingPastPools: loadingLoser, getPastLoserPools
+		pastPools, currentPool, pools, totalEarnings: totalWinnerEarnings} = useWinnerPredictionPoolViewModel();
+	const {pastAvailable: loserAvailable, isLoadingPastPools: loadingLoser, getPastLoserPools, 
+		totalEarnings: totalLoserEarnings
 		} = useLoserPredictionPoolViewModel();
 	const {active} = useWalletViewModel();
 
@@ -39,7 +40,7 @@ const StakingPast: FC = () => {
 					<div className='detail'>
 						<span className='dot'></span>
 						<div className='title__value'>
-							<p className='title'>Active Prediction Round</p>
+							<p className='title'>Active Round</p>
 							<p className='value'>{pools[currentPool]?.round || 0}</p>
 						</div>
 					</div>
@@ -55,13 +56,16 @@ const StakingPast: FC = () => {
 
 				{active && <div className='earnings'>
 					<div className='title__value'>
-						<p className='title'>Earnings from past pools</p>
-						<p className='value'>0 CRP</p>
+						<p className='title'>Unwithdrawn earnings</p>
+						<p className='value'>
+							{displayTokenValue(totalWinnerEarnings, 18, 5)} CRP 
+							| {displayTokenValue(totalLoserEarnings, 18, 5)} MMF
+						</p>
 					</div>
 				</div>}
 			</div>
 
-			<StakingTable stakes={StakingTableData} />
+			<StakingTable />
 		</div>
 	);
 };

@@ -1,5 +1,4 @@
 import { FC, useState } from 'react';
-
 import StakingDataModel from '../../models/StakingDataModel';
 import TableData from '../Table/TableData';
 import TableRow from '../Table/TableRow';
@@ -17,13 +16,14 @@ const StakingRow: FC<StakingRowProps> = ({ stake }) => {
 			<TableData text={stake.poolType} />
 			<TableData text={stake.crpStaked} />
 			<TableData text=''>
-				<img src={stake.coinEarnedIcon} alt={stake.coinEarned} />
+				<img src={stake.coinEarnedIcon} alt={stake.coinEarned} className="coin" />
+				&nbsp;&nbsp;
 				{stake.earned}
 			</TableData>
 			<TableData text={'.'} />
 			<TableData text=''>
 				<button
-					onClick={() => withdrawn === false ? setWithdrawn(true) : null}
+					onClick={stake.withdraw}
 					className={`
 						${withdrawn === null ? 'no__withdraw' : ''}
 						${withdrawn === true ? 'withdrawn' : ''}

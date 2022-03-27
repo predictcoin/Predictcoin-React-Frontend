@@ -6,6 +6,7 @@ interface StakingDataModel {
     earned: string;
     poolType: "Loser" | "Winner";
     withdrawn: boolean | null;
-};
+    withdraw: () => void
+}; 
 
 export default StakingDataModel;

@@ -15,8 +15,11 @@ import {
   getPastLoserPools as getPastLoserPoolsAction,
   getPastWinnerPools as getPastWinnerPoolsAction
 } from "../infrastructure/redux/actions/predictionPools"
-import stakingTableData from "../../data/stakingTableData";
 import StakingDataModel from "../../models/StakingDataModel";
+import MMF from "../../../../assets/pics/meerkat.png";
+import CRP from "../../../../assets/pics/CRP.png"
+import BigNumber from "bignumber.js";
+import { displayTokenValue } from "../../lib/utils/number";
 
 type addressType = keyof typeof LOSER_PREDICTION_POOL_ADDRESSES;
 const env: addressType = (process.env.REACT_APP_ENVIRONMENT || "") as addressType;
@@ -74,15 +77,28 @@ export const useWinnerPredictionPoolViewModel = () => {
     earnTokenPrice: rewardTokenPrice?.toFixed() || "0",
   };
 
+  let totalEarnings: BigNumber = new BigNumber(0); 
+
   const pastWinnerPoolData: StakingDataModel[] = pastPools.map((no): StakingDataModel => {
-    const pool = pools[no]
+    const pool = pools[no];
+    let withdrawn = null;
+    if(pool.userStaked?.gt(0)){
+      withdrawn = false;
+    }else if(pool.wonRound){
+      withdrawn = true;
+    }
+    totalEarnings = totalEarnings.plus(pool.earned || 0);
     return {
       stakingRound: pool.round.toString(),
-      coinStaked: "CRP"
-      coinStakedIcon: string;
-      balance: number;
-      earned: number;
-      withdrawn: boolean | null;
+      crpStaked: pool.userStaked?.toFixed() || "0",
+      coinEarnedIcon: CRP,
+      coinEarned: "CRP",
+      earned: pool.earned?.toFixed() || "0",
+      poolType: "Winner",
+      withdrawn,
+      withdraw : 
+        () => unStake("CRP", pool.userStaked?.toFixed() || "0", 
+          displayTokenValue(pool.userStaked?.toFixed() || "0", 18, 5), pool.pId)
     } 
   })  
     
@@ -95,6 +111,8 @@ export const useWinnerPredictionPoolViewModel = () => {
     unStake,
     harvest,
     getPastWinnerPools,
+    pastWinnerPoolData,
+    totalEarnings: totalEarnings.toString()
   }
 }
 
@@ -102,7 +120,7 @@ export const useLoserPredictionPoolViewModel = () => {
   const dispatch = useDispatch();
   const {address, provider, signer, active} = useWalletViewModel();
   const store = useLoserPredictionStore();
-  const {currentPool, pools, rewardTokenPrice} = store;
+  const {currentPool, pools, rewardTokenPrice, pastPools} = store;
   const {send} = useTransaction();
 
   const loserContract = LoserPrediction__factory.connect( 
@@ -149,6 +167,32 @@ export const useLoserPredictionPoolViewModel = () => {
     earnTokenPrice: rewardTokenPrice?.toFixed() || "0",
   };
 
+
+  let totalEarnings: BigNumber = new BigNumber(0);
+  const pastLoserPoolData: StakingDataModel[] = pastPools.map((no): StakingDataModel => {
+    const pool = pools[no];
+    let withdrawn = null;
+    if(pool.userStaked?.gt(0)){
+      withdrawn = false;
+    }else if(pool.lostRound){
+      withdrawn = true;
+    }
+    totalEarnings = totalEarnings.plus(pool.earned || 0);
+
+    return {
+      stakingRound: pool.round.toString(),
+      crpStaked: pool.userStaked?.toFixed() || "0",
+      coinEarnedIcon: MMF,
+      coinEarned: "MMF",
+      earned: pool.earned?.toFixed() || "0",
+      poolType: "Loser",
+      withdrawn,
+      withdraw : 
+        () => unStake("CRP", pool.userStaked?.toFixed() || "0", 
+          displayTokenValue(pool.userStaked?.toFixed() || "0", 18, 5), pool.pId)
+    } 
+  })  
+
   return{
     initLoserPool,
     ...store,
@@ -157,6 +201,8 @@ export const useLoserPredictionPoolViewModel = () => {
     stake,
     unStake,
     harvest,
-    getPastLoserPools
+    getPastLoserPools,
+    pastLoserPoolData,
+    totalEarnings: totalEarnings.toString()
   }
 }
