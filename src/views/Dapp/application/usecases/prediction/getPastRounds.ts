@@ -1,3 +1,4 @@
+import { BigNumber } from "ethers";
 import { Prediction, } from "../../../typechain";
 import { Round } from "../../domain/prediction/entity";
 import { getPastUserRounds as getPastUserRoundsUsecase } from "../../usecases/prediction/getPastUserRounds";
@@ -5,35 +6,37 @@ import { getPastUserRounds as getPastUserRoundsUsecase } from "../../usecases/pr
 interface Params {
   contract: Prediction
   active: boolean,
-  address: string
+  address: string,
+  dispatch: (data: any) => void
 }
 
 export const getPastRounds = async (params: Params) => {
-  const {contract, active, address} = params;
+  
+  const {contract, address, dispatch} = params;
 
   const length = await contract.currentEpoch();
-  let rounds: Round[] = [];
-
-  for(let i=0; length.sub(1).gt(i); i++){
-    const round = (await contract.getRound(i)) as unknown as Round;
-    rounds.push(round);
-  };
-
-  if(active){
-    const [userRounds, betInfo] = await getPastUserRoundsUsecase({ contract, address });
-    console.log(userRounds, betInfo);
-    const _userRounds = userRounds.map((round) => round.toString());
-    rounds = rounds.map(round =>{
+  let userRounds: BigNumber[] = [], betInfo: Prediction.BetInfoStructOutput[] = [];
+  let bufferSeconds = await contract.bufferSeconds();
+  if(address){
+    [userRounds, betInfo] = await getPastUserRoundsUsecase({ contract, address });
+  }
+  const _userRounds = userRounds.map((round) => round.toString());
+  
+  for(let i=length.toNumber(); i >= 0; i--){
+    console.log(i);
+    let round = (await contract.getRound(i)) as unknown as Round;
+    const [, bulls, bears] = await contract.getStats(i);
+    round = {...round, bulls, bears};
+    if(address){
       const index = _userRounds.indexOf(round.epoch.toString());
       if(index !== -1){
         round.user = betInfo[index];
       }
-      return round;
-    })
-  }
-
-  console.log(rounds);
-  return rounds;
+    }
+  dispatch({round : {[round.epoch.toString()] : round}, bufferSeconds})
+  };
 };
+
+// export const getPastUserRound = async (par)
 
 

@@ -3,6 +3,10 @@
 	overflow: auto;
 	max-height: 60vh;
 
+	.coin-predicted{
+		width: 20px;
+	}
+
 	#table {
 		position: relative;
 		display: table;
@@ -77,13 +81,13 @@
 					color: #ffffff;
 					padding: 12px 1rem;
 
-					&:nth-child(1) {
+					&:nth-child(2) {
 						img {
 							margin-right: 13px;
 						}
 					}
 
-					&:nth-child(2) {
+					&:nth-child(3) {
 						p {
 							&.up {
 								svg {
@@ -107,7 +111,7 @@
 						}
 					}
 
-					&:nth-child(5) {
+					&:nth-child(6) {
 						.down__statistics {
 							color: #e3507a;
 						}
@@ -117,7 +121,7 @@
 						}
 					}
 
-					&:nth-child(6) {
+					&:nth-child(7) {
 						text-transform: capitalize;
 					}
 

@@ -16,7 +16,24 @@ import {
 	useLoserPredictionPoolViewModel, 
 	useWinnerPredictionPoolViewModel 
 } from '../../application/controllers/predictionPoolsViewModel';
+import { skeletonBaseColor, skeletonHighlightColor } from '../../constants/colors';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
+const StakingSkeleton = () => {
+	return <div className="skeleton__container"><SkeletonTheme enableAnimation={true} baseColor={skeletonBaseColor} highlightColor={skeletonHighlightColor}>
+		<div className="staking__skeleton">
+			<Skeleton width="100%" height="2rem"/>
+			<br/>
+			<Skeleton width="80%" height="1.5rem"/>
+			<Skeleton width="80%" height="1.5rem"/>
+			<Skeleton width="80%" height="1.5rem"/>
+			<br />
+			<Skeleton width="70%" height="3rem"/>
+			<br /> <br />
+				<Skeleton height="2.5rem" width="50%"/>
+		</div>
+	</SkeletonTheme></div>
+}
 interface StakingMainContentProps {
 	isSidebarExpanded: boolean;
 	setIsSidebarExpanded: Dispatch<SetStateAction<boolean>>;
@@ -97,14 +114,24 @@ const StakingMainContent: FC<StakingMainContentProps> = ({
 									path={path}
 									element={
 										<div className='staking__card__container'>
-											{stakingAvailable && stakingCardData.map((card) => (
-												<StakingCard
-													key={card.id}
-													id={card.id}
-												/>
-											))}
-											<PredictionPoolCard type="winner" />
-											<PredictionPoolCard type="loser" />
+											{stakingAvailable ? stakingCardData.map((card) => (
+													<StakingCard
+														key={card.id}
+														id={card.id}
+													/>
+												))
+												:<StakingSkeleton /> }
+											{
+												!winnerAvailable 
+												? <StakingSkeleton />
+												: <PredictionPoolCard type="winner" />
+											}
+											{
+												!loserAvailable
+												? <StakingSkeleton />
+												: <PredictionPoolCard type="loser" />
+											}
+											
 										</div>
 									}
 								/>

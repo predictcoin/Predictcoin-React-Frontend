@@ -127,7 +127,6 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
         searchCoinChart();
     }, [activeCard]);
 
-    const Body = ToastBody("Moving slowly", STATUS.PENDING, TYPE.SUCCESSFULL);
 
     return (
         <section className="price__prediction__main__content">
@@ -178,7 +177,7 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
                                     : ""
                             }`}
                         >
-                            PAST ROUNDS
+                            MY PREDICTIONS
                         </Link>
                     </div>
 

@@ -36,7 +36,9 @@ export type Round =
   bets: BigNumber[];
 }
   & {
-    user?: Prediction.BetInfoStructOutput
+    user?: Prediction.BetInfoStructOutput,
+    bulls: BigNumber[],
+    bears: BigNumber[]
   }
 ;
 

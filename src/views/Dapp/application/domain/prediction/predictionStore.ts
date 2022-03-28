@@ -11,10 +11,9 @@ export interface PredictionStore{
   betSeconds: BigNumber,
   bufferSeconds: BigNumber,
   userCurrentRound?: Prediction.BetInfoStructOutput
-  pastUserRounds?: [rounds: BigNumber[], predictionInfo: Prediction.BetInfoStruct[]]
   currentRound: Round;
   prediction: Prediction;
-  pastRounds?: Round[];
+  pastRounds: {[key: string]: Round};
   isLoadingCurrent: boolean;
   isLoadingPast: boolean;
   pastAvailable: boolean;

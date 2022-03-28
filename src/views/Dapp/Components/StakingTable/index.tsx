@@ -53,7 +53,7 @@ const StakingTable: FC = () => {
 
 								{stakes.length === 0 && (
 									<TableRow forTableBody>
-										<TableData text={'No Result to show'} colSpan={6} />
+										<TableData text={'No old pools yet'} colSpan={6} />
 									</TableRow>
 								)}
 							</>

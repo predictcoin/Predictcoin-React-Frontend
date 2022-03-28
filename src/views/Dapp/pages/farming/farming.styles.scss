@@ -32,6 +32,14 @@
 						grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 					}
 				}
+
+				.skeleton__container {
+					padding: 1rem;
+					text-align: center;
+					border-radius: 5px;
+					max-width: 400px;
+					border: 1px solid rgba(51, 47, 103, 0.443218);
+				}
 			}
 		}
 	}

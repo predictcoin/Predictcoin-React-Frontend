@@ -328,10 +328,17 @@
                                 line-height: 21px;
                                 text-align: center;
                                 letter-spacing: 0.392857px;
-                                color: #292929;
-                                background: #908fc2;
-                                border: 1px solid #59588d;
+                                color: #ffffff;
+                                background: #0E56C0;
+                                border: 1px solid #0E56C0;
                                 border-radius: 8px;
+                                &.disabled{
+                                    color: #292929;
+                                    background: #908fc2;
+                                    border: 1px solid #59588d;
+                                    pointer-events: none;
+                                    cursor: not-allowed;
+                                }
                             }
                         }
 

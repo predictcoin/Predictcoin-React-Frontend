@@ -1,28 +1,38 @@
 import { Dispatch } from "react"
 import * as actionTypes from "../actionTypes/prediction";
 import { getPastRounds as getPastRoundsUsecase } from "../../../usecases/prediction/getPastRounds";
+import { 
+  getPastUserRound as getPastUserRoundUsecase} from "../../../usecases/prediction/getPastUserRounds";
 import { initPrediction as initPredictionUsecase } from "../../../usecases/prediction/initPrediction";
 import { Prediction } from "../../../../typechain";
+import { Round } from "../../../domain/prediction/entity";
 
 
 export const getPastRounds = (contract: Prediction, address: string, active: boolean) => async (dispatch: Dispatch<{type:string, data?: any}>) => {
   dispatch({
     type: actionTypes.GET_PAST_ROUNDS,
   });
-  let _pastRounds;
+  const _dispatch = (data: any) => {
+    dispatch({
+      type: actionTypes.SET_PAST_ROUND,
+      data
+    })
+  }
   try{
-    const pastRounds = await getPastRoundsUsecase({ contract, address, active });
+    await getPastRoundsUsecase({ contract, address, active, dispatch: _dispatch });
     dispatch({
       type: actionTypes.GET_PAST_ROUNDS_SUCCESS,
-      data: {pastRounds: pastRounds}
     })
   }catch(err){  
     dispatch({
       type: actionTypes.GET_PAST_ROUNDS_FAILED
     })
   }
+}
 
-  return _pastRounds;
+export const getPastUserRound = (contract: Prediction, round: Round, address: string, active: boolean) => async(dispatch: Dispatch<{type: string, data?: any}>) => {
+  const userRound = await getPastUserRoundUsecase({contract, round, address});
+  
 }
 
 export const initPrediction = ( contract: Prediction, address: string, active: boolean ) => async (dispatch: Dispatch<{type:string, data?: any}>) => {

@@ -1,7 +1,7 @@
 import { Prediction } from "../../../typechain";
 import { getPastUserRounds } from "./getPastUserRounds";
 import { PredictionStore } from "../../domain/prediction/predictionStore";
-import { PREDICTIONSTATE } from "../../domain/prediction/entity";
+import { PREDICTIONSTATE, Round } from "../../domain/prediction/entity";
 
 
 interface Params{
@@ -14,7 +14,7 @@ export const initPrediction = async (params: Params):
   Promise<Pick<PredictionStore, 
     "state" | "currentRound" 
     | "betAmount" | "tokenMaxBet" | "intervalSeconds"
-    | "betSeconds" | "bufferSeconds" | "pastUserRounds" | "hasBet"
+    | "betSeconds" | "bufferSeconds" | "hasBet"
     >> => {
 
   const {contract, active, address} = params;
@@ -23,7 +23,9 @@ export const initPrediction = async (params: Params):
     return { currentRoundNo } as unknown as PredictionStore;
   }
 
-  const currentRound = await contract.getRound(currentRoundNo.toString());
+  let currentRound = await contract.getRound(currentRoundNo.toString()) as Round;
+  const [_, bulls, bears] = await contract.getStats(currentRoundNo)
+  currentRound = {...currentRound, bulls, bears};
   const betAmount = (await contract.betAmount());
   const tokenMaxBet = (await contract.tokenMaxBet());
   const intervalSeconds = (await contract.intervalSeconds());
@@ -70,7 +72,6 @@ export const initPrediction = async (params: Params):
     intervalSeconds,
     betSeconds,
     bufferSeconds,
-    pastUserRounds,
     hasBet
   };
 }

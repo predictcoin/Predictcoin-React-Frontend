@@ -6,10 +6,11 @@ import {
 	RiArrowRightDownFill,
 	RiArrowRightUpFill,
 } from 'react-icons/ri';
+import { Link } from 'react-router-dom';
 import { useWalletViewModel } from '../../application/controllers/walletViewModel';
 
-import numFormatter from '../../helpers/numFormatter';
-import PredictionDataModel from '../../models/PredictionDataModel';
+import { displayTokenValue } from '../../lib/utils/number';
+import PredictionDataModel, { Position, Status } from '../../models/PredictionDataModel';
 import TableData from '../Table/TableData';
 import TableRow from '../Table/TableRow';
 
@@ -19,15 +20,17 @@ interface PricePredictionRowProps {
 
 const ProcePredictionRow: FC<PricePredictionRowProps> = ({ prediction }) => {
 	const [earned, setEarned] = useState<boolean | null>(
-		prediction.status === 'Unsuccessful'
+		prediction.status === Status.UNSUCCESSFUL
 	);
 
 	const {active} = useWalletViewModel()
 
 	return (
 		<TableRow forTableBody>
+			<TableData text={prediction.round}></TableData>
 			<TableData text=''>
 				<img
+					className="coin-predicted"
 					src={prediction.coinPredictedIcon}
 					alt={prediction.coinPredicted}
 				/>
@@ -36,51 +39,59 @@ const ProcePredictionRow: FC<PricePredictionRowProps> = ({ prediction }) => {
 			{
 				active && 
 				<TableData text={''}>
-					{prediction.myPrediction === 'UP' && (
+					{prediction.myPrediction === Position.BULL && (
 						<p className='up'>
 							<RiArrowUpFill /> UP
 						</p>
 					)}
-					{prediction.myPrediction === 'DOWN' && (
+					{prediction.myPrediction === Position.BEAR && (
 						<p className='down'>
 							<RiArrowDownFill /> DOWN
 						</p>
 					)}
-					{prediction.myPrediction === 'STAY' && (
+					{prediction.myPrediction === Position.STAY && (
 						<p className='stay'>
 							<RiArrowRightFill /> -
 						</p>
 					)}
 				</TableData>
 			}
-			<TableData text={numFormatter(prediction.lockedPrice)} />
-			<TableData text={numFormatter(prediction.closingPrice)} />
+			<TableData text={displayTokenValue(prediction.lockedPrice, 8, 2)} />
+			<TableData text={displayTokenValue(prediction.closingPrice, 8, 2)} />
 			<TableData text={''}>
 				<span className='down__statistics'>
 					<RiArrowRightDownFill />
-					{prediction.statistics[0]}%
+					{prediction.statistics[1]}%
 				</span>
 				&nbsp;
 				<span className='up__statistics'>
 				<RiArrowRightUpFill />
-					{prediction.statistics[1]}%
+					{prediction.statistics[0]}%
 				</span>
 			</TableData>
 			<TableData text={prediction.status} />
 			{ active &&
 				<TableData text=''>
-					<button
+					<Link
+						to="staking"
+					>
+						<button
 						onClick={() => (earned === false ? setEarned(true) : null)}
 						className={`
-							${prediction.status === 'Unsuccessful' ? 'no__earn' : ''}
+							${prediction.status === Status.UNSUCCESSFUL || 
+								prediction.status === Status.PENDING ? 'no__earn' : ''}
 							${earned === true ? 'earned' : ''}
 						`}
-						disabled={earned === true || prediction.status === 'Unsuccessful'}
+						disabled={earned === true || prediction.status === Status.UNSUCCESSFUL}
 					>
-						{prediction.status === 'Unsuccessful'
+						{prediction.status === Status.UNSUCCESSFUL
 							? '-'
-							: `Earn ${prediction.coinPredicted}`}
+							: `Earn ${prediction.status === Status.WON 
+									?  "CRP"
+									:  "MMF"
+							} `}
 					</button>
+					</Link>
 				</TableData>
 			}
 		</TableRow>

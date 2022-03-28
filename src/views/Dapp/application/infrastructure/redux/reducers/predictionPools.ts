@@ -22,14 +22,14 @@ export const loserPoolReducer = (state = initial, action: {type: string, data?: 
     case(actionType.SET_USER_LOSER_POOL_DETAILS):
       return {...state, pools:{...state.pools, [action.data.pool.pId] : action.data.pool, }, pastPools: [...state.pastPools, action.data.pool.pId]}
     case(actionType.INIT_LOSER_POOL):
-      return {...state, isLoadingStaking: true}
+      return {...state, isLoading: true}
     case(actionType.INIT_LOSER_POOL_FAILED):
-      return {...state, isLoadingStaking: false}
+      return {...state, isLoading: false}
     case(actionType.INIT_LOSER_POOL_SUCCESS):
       if(state.pools[state.currentPool]?.userStaked && !action.data?.pools[state.currentPool]?.userStaked){
-        return {...state, stakingAvailable: true, isLoadingStaking: false, ...action.data, pools: {...state.pools}}
+        return {...state, available: true, isLoading: false, ...action.data, pools: {...state.pools}}
       }
-      return {...state, stakingAvailable: true, isLoadingStaking: false, ...action.data, pools: {...state.pools, ...action.data?.pools}}
+      return {...state, available: true, isLoading: false, ...action.data, pools: {...state.pools, ...action.data?.pools}}
     default:
       return state
   }
@@ -47,14 +47,14 @@ export const winnerPoolReducer = (state = initial, action: {type: string, data?:
     case(actionType.SET_USER_WINNER_POOL_DETAILS):
       return {...state, pools:{...state.pools, [action.data.pool.pId] : action.data.pool, },  pastPools: [...state.pastPools, action.data.pool.pId]}
     case(actionType.INIT_WINNER_POOL):
-      return {...state, isLoadingStaking: true}
+      return {...state, isLoading: true}
     case(actionType.INIT_WINNER_POOL_FAILED):
-      return {...state, isLoadingStaking: false}
+      return {...state, isLoading: false}
     case(actionType.INIT_WINNER_POOL_SUCCESS):
       if(state.pools[state.currentPool]?.userStaked && !action.data?.pools[state.currentPool]?.userStaked){
-        return {...state, stakingAvailable: true, isLoadingStaking: false, ...action.data, pools: {...state.pools}}
+        return {...state, available: true, isLoading: false, ...action.data, pools: {...state.pools}}
       }
-      return {...state, stakingAvailable: true, isLoadingStaking: false, ...action.data, pools: {...state.pools, ...action.data?.pools}}
+      return {...state, available: true, isLoading: false, ...action.data, pools: {...state.pools, ...action.data?.pools}}
     default:
       return state
   }
