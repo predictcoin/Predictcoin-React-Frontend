@@ -120,7 +120,7 @@ const StakingMainContent: FC<StakingMainContentProps> = ({
 														id={card.id}
 													/>
 												))
-												:<StakingSkeleton /> }
+												: <StakingSkeleton /> }
 											{
 												!winnerAvailable 
 												? <StakingSkeleton />

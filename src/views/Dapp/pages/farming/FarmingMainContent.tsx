@@ -93,7 +93,11 @@ const FarmingMainContent: FC<FarmingMainContentProps> = ({
 									decimals={decimals}
 								/>
 							)) :
-							<FarmingSkeleton />
+							<>
+								<FarmingSkeleton />
+								<FarmingSkeleton />
+								<FarmingSkeleton />
+							</>
 						}
 					</div>
 				</main>
