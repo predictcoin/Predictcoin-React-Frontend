@@ -4,7 +4,7 @@ import { useWalletViewModel } from '../../application/controllers/walletViewMode
 
 import StakingTable from '../../Components/StakingTable';
 import useNextRoundCountdown from '../../hooks/predictionPools/useCountdown';
-import { displayDecimals, displayTokenValue } from '../../lib/utils/number';
+import { displayTokenValue } from '../../lib/utils/number';
 
 const StakingPast: FC = () => {
 	const {pastAvailable: winnerAvailable, isLoadingPastPools: loadingWinner, getPastWinnerPools, 
@@ -21,6 +21,7 @@ const StakingPast: FC = () => {
 		if(!loserAvailable && !loadingLoser){
 			getPastLoserPools();
 		}
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const {countdown} = useNextRoundCountdown();

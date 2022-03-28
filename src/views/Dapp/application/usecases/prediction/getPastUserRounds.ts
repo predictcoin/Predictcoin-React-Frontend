@@ -21,10 +21,10 @@ interface Params2 {
   address: string,
   round: Round
 }
-export const getPastUserRound = async (params: Params2): Promise<Round> => {
+export const getPastUserRound = async (params: Params2): Promise<{[key: string]: Round}> => {
   const {contract, address, round} = params;
   const [userRounds, betInfos] = await getPastUserRounds({contract, address});
   const index = userRounds.indexOf(round.epoch)
   round.user = betInfos[index];
-  return round;
+  return {[round.epoch.toString()]: round};
 }

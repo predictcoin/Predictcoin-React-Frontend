@@ -24,7 +24,7 @@ export const initPrediction = async (params: Params):
   }
 
   let currentRound = await contract.getRound(currentRoundNo.toString()) as Round;
-  const [_, bulls, bears] = await contract.getStats(currentRoundNo)
+  const [, bulls, bears] = await contract.getStats(currentRoundNo)
   currentRound = {...currentRound, bulls, bears};
   const betAmount = (await contract.betAmount());
   const tokenMaxBet = (await contract.tokenMaxBet());

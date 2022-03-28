@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 //@ts-ignore
 import Table from '../Table/Table';
 import TableBody from '../Table/TableBody';
@@ -8,15 +8,12 @@ import TableRow from '../Table/TableRow';
 import TableData from '../Table/TableData';
 import PricePredictionRow from './PricePredictionRow';
 import './pricepredictiontable.styles.scss';
-import { useWalletViewModel } from '../../application/controllers/walletViewModel';
 import { usePredictionViewModel } from '../../application/controllers/predictionViewModel';
 import Skeleton, { SkeletonTheme, } from 'react-loading-skeleton';
 import { skeletonBaseColor, skeletonHighlightColor } from '../../constants/colors';
-import Cold from '../Cold';
 import { v4 as uuidv4 } from 'uuid';
 
 const PricePredictionTable: FC = () => {
-	const {active} = useWalletViewModel();
 	const {pastAvailable, userPredictionData } = usePredictionViewModel();
 	// const _pastRounds = pastRounds ? formatPredictionRounds(pastRounds) : [];
 	const predictions = userPredictionData;

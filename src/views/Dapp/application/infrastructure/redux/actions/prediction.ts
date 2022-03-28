@@ -32,7 +32,12 @@ export const getPastRounds = (contract: Prediction, address: string, active: boo
 
 export const getPastUserRound = (contract: Prediction, round: Round, address: string, active: boolean) => async(dispatch: Dispatch<{type: string, data?: any}>) => {
   const userRound = await getPastUserRoundUsecase({contract, round, address});
-  
+  dispatch({
+    type: actionTypes.SET_PAST_ROUND,
+    data: {
+      round: userRound
+    }
+  })
 }
 
 export const initPrediction = ( contract: Prediction, address: string, active: boolean ) => async (dispatch: Dispatch<{type:string, data?: any}>) => {

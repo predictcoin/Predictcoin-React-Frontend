@@ -116,6 +116,7 @@ export const usePredictionViewModel = () => {
   const unsuccessfulRounds = _userPredictionData.filter(round => round.status === Status.UNSUCCESSFUL).map(round => round.round)
   const withdraw = useCallback((
     callbacks?: {[key: string]: () => void}) => withdrawUsecase({contract, send, callbacks, epochs: unsuccessfulRounds}), 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [contract, send]
   );
 
@@ -128,6 +129,7 @@ export const usePredictionViewModel = () => {
     }
 
     
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address])
 
   return{

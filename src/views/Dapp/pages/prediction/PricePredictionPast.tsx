@@ -20,6 +20,7 @@ const PricePredictionPast: FC = () => {
 		}
 		loadPast();
 
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [active, address]);
 
 	return (

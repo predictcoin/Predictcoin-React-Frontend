@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import StakingDataModel from '../../models/StakingDataModel';
 import TableData from '../Table/TableData';
 import TableRow from '../Table/TableRow';
@@ -8,7 +8,6 @@ interface StakingRowProps {
 }
 
 const StakingRow: FC<StakingRowProps> = ({ stake }) => {
-	const [withdrawn, setWithdrawn] = useState<boolean | null>(stake.withdrawn);
 
 	return (
 		<TableRow key={stake.stakingRound} forTableBody>
@@ -25,14 +24,14 @@ const StakingRow: FC<StakingRowProps> = ({ stake }) => {
 				<button
 					onClick={stake.withdraw}
 					className={`
-						${withdrawn === null ? 'no__withdraw' : ''}
-						${withdrawn === true ? 'withdrawn' : ''}
+						${stake.withdrawn === null ? 'no__withdraw' : ''}
+						${stake.withdrawn === true ? 'withdrawn' : ''}
 					`}
-					disabled={withdrawn === true || withdrawn === null}
+					disabled={stake.withdrawn === true || stake.withdrawn === null}
 				>
-					{withdrawn === true && 'Earning withdrawn'}
-					{withdrawn === false && 'Withdraw earning'}
-					{withdrawn === null && '-'}
+					{stake.withdrawn === true && 'Earning withdrawn'}
+					{stake.withdrawn === false && 'Withdraw earning'}
+					{stake.withdrawn === null && '-'}
 				</button>
 			</TableData>
 		</TableRow>

@@ -10,7 +10,6 @@ import PricePredictionOngoing from "./PricePredictionOngoing";
 import ModalConnect from "../../Components/CustomModal/ModalConnect";
 import ModalDisconnect from "../../Components/CustomModal/ModalDisconnect";
 import { useWalletViewModel } from "../../application/controllers/walletViewModel";
-import { ToastBody, STATUS, TYPE } from "../../Components/Toast";
 import { displayDecimals } from "../../lib/utils/number";
 import { ethers } from "ethers";
 import useToken from "../../hooks/useToken";
@@ -37,7 +36,7 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
     const [graphMax, setGraphMax] = useState<number>(65000);
     const [graphData, setGraphData] = useState<{ x: string; y: number }[]>([]);
     const [modalOpened, setModalOpened] = useState<boolean>(false);
-    const { active, chainId, address } = useWalletViewModel();
+    const { active, chainId,} = useWalletViewModel();
 	const { balance, decimals } = useToken(TOKENS[chainId].CRP)
 	const modal = active ? (
 		<ModalDisconnect closeModal={() => setModalOpened(false)} CRPBalance={ displayDecimals(ethers.utils.formatUnits(balance, decimals), 5) }/>
@@ -118,6 +117,7 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
 
     useEffect(() => {
 		getAllCoinPrices();
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
     useEffect(() => {
@@ -125,6 +125,7 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
         setGraphMin(selectedId.min);
         setGraphMax(selectedId.max);
         searchCoinChart();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activeCard]);
 
 
