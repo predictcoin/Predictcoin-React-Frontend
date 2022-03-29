@@ -18,7 +18,6 @@ import {
 } from '../../application/controllers/predictionPoolsViewModel';
 import { skeletonBaseColor, skeletonHighlightColor } from '../../constants/colors';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
-import { add } from 'date-fns';
 
 const StakingSkeleton = () => {
 	return <div className="skeleton__container"><SkeletonTheme enableAnimation={true} baseColor={skeletonBaseColor} highlightColor={skeletonHighlightColor}>
