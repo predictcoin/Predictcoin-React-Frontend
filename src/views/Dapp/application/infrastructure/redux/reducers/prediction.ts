@@ -5,14 +5,15 @@ import { BigNumber } from "ethers";
 
 
 const initialState: Pick<PredictionStore, "isLoadingCurrent" | "isLoadingPast"
-  | "available" | "address" | "pastRounds" |"bufferSeconds"
+  | "available" | "address" | "pastRounds" |"bufferSeconds" | "intervalSeconds"
   > = {
   isLoadingCurrent: false,
   isLoadingPast: false,
   available: false,
   address: PREDICTION_ADDRESSES[process.env.REACT_APP_ENVIRONMENT as keyof typeof PREDICTION_ADDRESSES],
   pastRounds: {},
-  bufferSeconds: BigNumber.from(0)
+  bufferSeconds: BigNumber.from(0),
+  intervalSeconds: BigNumber.from(0)
 }
 
 export const predictionReducer = (state = initialState, action: {type: string, data?: any}): any => {
@@ -25,7 +26,8 @@ export const predictionReducer = (state = initialState, action: {type: string, d
           !action.data[Object.keys(action.data.round)[0]]?.user 
         ) { return {...state, isLoadingPast: true, }};
       return {...state, pastRounds: {...state.pastRounds, ...action.data.round} , 
-        bufferSeconds: action.data.bufferSeconds || state.bufferSeconds }
+        bufferSeconds: action.data.bufferSeconds || state.bufferSeconds,
+        intervalSeconds: action.data.intervalSeconds || state.intervalSeconds }
     case(actionType.GET_PAST_ROUNDS_FAILED):
       return {...state, isLoadingPast: false}
     case(actionType.GET_PAST_ROUNDS_SUCCESS):

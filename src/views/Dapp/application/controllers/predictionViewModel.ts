@@ -24,7 +24,7 @@ let watchingPastEvents = false;
 
 export const usePredictionViewModel = () => {
   const predictionStore = usePredictionStore()
-  const {available, currentRound, pastRounds, bufferSeconds, pastAvailable} = predictionStore;
+  const {available, currentRound, intervalSeconds, pastRounds, bufferSeconds, pastAvailable} = predictionStore;
  	const { provider, active, address, signer} = useWalletViewModel();
   const {send} = useTransaction()
   const dispatch = useDispatch();
@@ -74,7 +74,7 @@ export const usePredictionViewModel = () => {
       && round.oraclesCalled
     ){
       status = Status.WON;
-    }else if(!round.oraclesCalled && round.lockedTimestamp.add(bufferSeconds).add(60).gte(Date.now())) {
+    }else if(!round.oraclesCalled && round.lockedTimestamp.add(bufferSeconds).add(intervalSeconds).add(60).gte(Math.trunc(Date.now()/1000))) {
       // additional 60 seconds acounts for blockchain time
       status = Status.PENDING
     }else if(!round.oraclesCalled){

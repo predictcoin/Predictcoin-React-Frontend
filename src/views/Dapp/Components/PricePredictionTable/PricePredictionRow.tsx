@@ -84,8 +84,8 @@ const ProcePredictionRow: FC<PricePredictionRowProps> = ({ prediction }) => {
 						`}
 						disabled={earned === true || prediction.status === Status.UNSUCCESSFUL}
 					>
-						{prediction.status === Status.UNSUCCESSFUL
-							? '-'
+						{prediction.status === Status.UNSUCCESSFUL || prediction.status === Status.PENDING
+							? ''
 							: `Earn ${prediction.status === Status.WON 
 									?  "CRP"
 									:  "MMF"

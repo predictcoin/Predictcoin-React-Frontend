@@ -17,6 +17,7 @@ export const getPastRounds = async (params: Params) => {
   const length = await contract.currentEpoch();
   let userRounds: BigNumber[] = [], betInfo: Prediction.BetInfoStructOutput[] = [];
   let bufferSeconds = await contract.bufferSeconds();
+  let intervalSeconds = await contract.intervalSeconds()
   if(address){
     [userRounds, betInfo] = await getPastUserRoundsUsecase({ contract, address });
   }
@@ -33,7 +34,7 @@ export const getPastRounds = async (params: Params) => {
         round.user = betInfo[index];
       }
     }
-  dispatch({round : {[round.epoch.toString()] : round}, bufferSeconds})
+  dispatch({round : {[round.epoch.toString()] : round}, bufferSeconds, intervalSeconds})
   };
 };
 
