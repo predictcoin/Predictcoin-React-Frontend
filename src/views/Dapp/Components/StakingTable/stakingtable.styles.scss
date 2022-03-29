@@ -27,7 +27,7 @@
 		}
 
 		.table__header {
-			background: #17153a;
+			background: linear-gradient(180deg, rgba(51, 47, 103, 0.10194) 2.1%, rgba(61, 60, 125, 0.0922917) 98.26%);
 			width: 100%;
 			position: sticky;
 			top: 0;
@@ -41,8 +41,7 @@
 				font-weight: 500;
 				font-size: 14px;
 				line-height: 21px;
-				color: #ffffff;
-				opacity: 0.2;
+				color: #34508f90;
 
 				svg {
 					cursor: pointer;
@@ -53,9 +52,11 @@
 		}
 
 		.table__body {
+			z-index: 1;
 			.table__row {
 				position: relative;
 				height: 10px;
+				z-index: 1;
 
 				.table__row__options {
 					position: absolute;
@@ -75,7 +76,7 @@
 					text-align: center;
 					letter-spacing: 0.392857px;
 					text-transform: uppercase;
-					color: #ffffff;
+					color: #34508f;
 					padding: 12px 1rem;
 					img{
 						width: 24px;

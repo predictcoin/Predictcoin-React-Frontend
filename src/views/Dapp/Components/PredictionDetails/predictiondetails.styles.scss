@@ -39,7 +39,7 @@
 			font-weight: 500;
 			font-size: 12px;
 			line-height: 18px;
-			color: #ffffff;
+			color: #34508f;
 			display: flex;
 			flex-wrap: wrap;
 			justify-content: space-between;
@@ -132,8 +132,8 @@
 						font-size: 12px;
 						line-height: 18px;
 						text-transform: uppercase;
-						color: #ffffff;
-						opacity: 0.2;
+						color: #3b4a8d;
+
 						margin-bottom: 8px;
 					}
 				}
@@ -163,7 +163,7 @@
 								font-weight: 500;
 								font-size: 18px;
 								line-height: 27px;
-								color: #fff;
+								color: #34508f;
 								padding: 0.3rem 1rem;
 
 								.is-selected {
@@ -177,11 +177,7 @@
 
 							.Dropdown-menu {
 								padding: 9px;
-								background: radial-gradient(
-									123.22% 129.67% at 100.89% -5.6%,
-									#201d47 0%,
-									#17153a 100%
-								);
+								background: linear-gradient(180deg, rgba(51, 47, 103, 0.10194) 2.1%, rgba(61, 60, 125, 0.0922917) 98.26%);
 								opacity: 0.9;
 								box-shadow: 0px 60px 60px rgba(0, 0, 0, 0.25);
 								border: none;
@@ -196,7 +192,7 @@
 									font-size: 16px;
 									line-height: 24px;
 									text-transform: uppercase;
-									color: #ffffff;
+									color: #3b4a8d;
 									padding: 8px 10px;
 
 									svg{
@@ -205,9 +201,8 @@
 
 									&.is-selected,
 									&:hover {
-										background: rgba(89, 88, 141, 0.4);
+										background: rgba(89, 88, 141, 0.8);
 										font-weight: 600;
-										opacity: 0.8;
 									}
 								}
 							}
@@ -223,7 +218,7 @@
 						line-height: 36px;
 						text-align: right;
 						text-transform: uppercase;
-						color: #ffffff;
+						color: #3b4a8d;
 						opacity: 0.9;
 					}
 				}
@@ -252,7 +247,7 @@
 						font-style: normal;
 						font-weight: 500;
 						text-transform: uppercase;
-						color: #ffffff;
+						color: #3b4a8d;
 						opacity: 0.9;
 						font-size: 18px;
 						line-height: 27px;
@@ -328,10 +323,10 @@
 					}
 
 					&.disabled{
-						background: #FFFFFF8F;
+						background: #908fc2;
 						pointer-events: none;
 						color: #ffffff;
-						border: 1px solid #FFFFFF8F;
+						border: 1px solid #908fc2;
 						cursor: not-allowed;
 					}
 

@@ -20,7 +20,7 @@ import useToken from '../../hooks/useToken';
 import { PREDICTION_ADDRESSES, PREDICTION_TOKEN_ADDRESSES, TOKENS } from '../../constants/addresses';
 import { ethers } from 'ethers';
 import useTransaction from '../../hooks/useTransaction';
-import { displayDecimals } from '../../lib/utils/number';
+import { displayDecimals, displayTokenValue } from '../../lib/utils/number';
 import { skeletonBaseColor, skeletonHighlightColor } from '../../constants/colors';
 
 const PredictionSkeleton = ({active}: {active: boolean}) => {
@@ -189,7 +189,7 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({
 										<img src={CRPShadow} alt='pred-logo' className="crp-logo"/>
 									</div>
 									<p className='note'>
-										You will be charged 10 PRED for each pool entered
+										You will be charged {displayTokenValue(betAmount.toString(), 18, 1)} CRP for each pool entered
 									</p>
 								</div>
 								
@@ -217,6 +217,9 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({
 												enter up
 											
 											</button>
+
+											<span>{balance.lt(betAmount) && !hasBet && "You do not have enough to bet"}</span>
+											<span>{hasBet && "You have predicted, results will be out on Friday by 1pm UTC."}</span>
 										</div>
 								}
 							</>

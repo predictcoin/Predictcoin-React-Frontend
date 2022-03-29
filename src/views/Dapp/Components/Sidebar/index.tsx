@@ -6,7 +6,7 @@ import StakingIcon from '../../../../assets/appSvgs/StakingIcon';
 import PredictionCoin from '../../../../assets/appSvgs/PredictionCoin';
 import SportPredictionIcon from '../../../../assets/appSvgs/SportPredictionIcon';
 import CACoins from '../../../../assets/appSvgs/CACoins';
-import PredictLogoSidebar from '../../../../assets/pics/PredictLogoSidebar.png';
+import CRPLogoSidebar from '../../../../assets/pics/CRP.png';
 import './sidebar.styles.scss';
 import { shortenAddress } from '../../lib/utils/address';
 
@@ -197,7 +197,7 @@ const Sidebar: FC<SidebarProps> = ({
 						>
 							click to copy CA
 						</button>
-						<img src={PredictLogoSidebar} alt='predict-logo-sidebar' />
+						<img src={CRPLogoSidebar} alt='predict-logo-sidebar' />
 					</div>
 				</div>
 			</nav>

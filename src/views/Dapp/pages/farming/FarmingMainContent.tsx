@@ -64,7 +64,7 @@ const FarmingMainContent: FC<FarmingMainContentProps> = ({
 			<div className='container'>
 				<Header 
 					title="Farming" 
-					subtitle="Farm $PRED with USDT" 
+					subtitle="Farm $CRP with MMF-CRP LP token" 
 					isSidebarExpanded 
 					setIsSidebarExpanded={setIsSidebarExpanded}
 					setModalOpened={setWalletModal}

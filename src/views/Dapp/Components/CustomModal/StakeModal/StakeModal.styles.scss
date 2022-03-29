@@ -1,7 +1,7 @@
 .custom__modal__content{
   padding: 2rem;
   h4 {
-    color: #ffffff;
+    color: #332f67;
     font-size: 20px;
     text-align: center;
     margin-bottom: 2rem;
@@ -11,7 +11,7 @@
     padding: 1rem;
     padding-bottom: 0.5rem;
     border-radius: 5px;
-    color: #ffffff;
+    color: #332f67;
     .desc{
       display: flex;
       justify-content: space-between;
@@ -32,11 +32,11 @@
         outline: none;
         border: none;
         font-size: 20px;
-        color: #ffffff;
+        color: #332f67;
       }
       .usd{
         font-size: 15px;
-        color: #FFFFFF9C;
+        color: #332f67;
       }
       .max{
         border: none;
@@ -64,7 +64,7 @@
       &.confirm {
         background-color: #0e56c0;
         &:not(.active) {
-          background-color: #FFFFFFA1;
+          background-color: #908fc2;
           cursor: not-allowed !important;
           pointer-events: none;
         }

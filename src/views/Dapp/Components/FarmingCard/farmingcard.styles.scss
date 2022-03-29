@@ -4,13 +4,8 @@
 	min-height: 277px;
 	padding: 20px 24px 0;
 	margin: 0 auto;
-	background: linear-gradient(
-		268.95deg,
-		rgba(41, 37, 88, 0.536345) 4.06%,
-		rgba(38, 35, 83, 0.866791) 42.35%,
-		rgba(40, 38, 89, 0.50218) 99.53%
-	);
-	box-shadow: -33px 45px 90px #17122b;
+
+	background: linear-gradient(180deg, rgba(51, 47, 103, 0.10194) 2.1%, rgba(61, 60, 125, 0.0922917) 98.26%);
 	border-radius: 12px;
 
 	@supports (backdrop-filter: blur(24.5072px)) {
@@ -45,7 +40,8 @@
 				font-weight: 500;
 				font-size: 14px;
 				line-height: 21px;
-				color: #ffffff;
+				color: #332f67;
+
 			}
 
 			.multiple {
@@ -76,7 +72,7 @@
 				width: 100%;
 				display: flex;
 				justify-content: space-between;
-				color: #FFFFFF9C;
+				color: #332f679C;
 			}
 			.staked{
 				width: 100%;
@@ -84,7 +80,7 @@
 				justify-content: space-between;
 				align-items: center;
 				flex-wrap: wrap;
-				color: #ffffff;
+				color: #332f67;
 				border-radius: 5px;
 				margin: 1rem 0;
 				.light{
@@ -102,7 +98,7 @@
 					outline: none;
 					width: 34px;
 					height: 32px;
-					background: #59588d;
+					background: #332f6750;
 					border-radius: 8px;
 					display: flex;
 					justify-content: center;
@@ -130,7 +126,7 @@
 				span {
 					font-style: normal;
 					font-weight: 500;
-					color: #ffffff;
+					color: #332f67;
 
 
 					&.light {
@@ -149,11 +145,7 @@
 
 
 			width: 100%;
-			background: linear-gradient(
-				180deg,
-				rgba(51, 47, 103, 0.443218) 2.1%,
-				rgba(61, 60, 125, 0.401268) 98.26%
-			);
+
 			box-shadow: 0px 12px 14px rgba(32, 30, 66, 0.506567);
 			border-radius: 8px;
 			padding: 14px;
@@ -317,7 +309,7 @@
 				font-weight: 500;
 				font-size: 14px;
 				line-height: 21px;
-				color: #ffffff;
+				color: #332f67;
 				white-space: nowrap;
 				margin-right: 24px;
 				margin-bottom: 16px;
@@ -336,13 +328,16 @@
 					font-weight: 500;
 					font-size: 12px;
 					line-height: 18px;
-					color: #ffffff;
+					color: #332f67;
 				}
 
 				svg {
 					width: 16px;
 					height: 16px;
 					margin-left: 6px;
+					path {
+						fill:#332f67;
+					}
 				}
 			}
 		}
