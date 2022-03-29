@@ -18,6 +18,7 @@ import {
 } from '../../application/controllers/predictionPoolsViewModel';
 import { skeletonBaseColor, skeletonHighlightColor } from '../../constants/colors';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import { add } from 'date-fns';
 
 const StakingSkeleton = () => {
 	return <div className="skeleton__container"><SkeletonTheme enableAnimation={true} baseColor={skeletonBaseColor} highlightColor={skeletonHighlightColor}>
@@ -45,7 +46,7 @@ const StakingMainContent: FC<StakingMainContentProps> = ({
 }) => {
 	const { pathname } = useLocation();
 	const [modalOpened, setModalOpened] = useState<boolean>(false);
-	const { chainId, active } = useWalletViewModel();
+	const { chainId, active, address } = useWalletViewModel();
 	const { balance, decimals } = useToken(TOKENS[chainId].CRP);
 	const {stakingCardData, stakingAvailable, initStaking, isLoadingStaking} = useStakingViewModel();
 	const { available: loserAvailable, 
@@ -60,19 +61,20 @@ const StakingMainContent: FC<StakingMainContentProps> = ({
 	) : (
 		<ModalConnect closeModal={() => setModalOpened(false)} />
 	);
-
+	console.log(active);
 	useEffect(() => {
-		if(!stakingAvailable && !isLoadingStaking){
+		console.log( active);
+		if((!stakingAvailable && !isLoadingStaking) || active){
 			initStaking();
 		}
-		if(!loserAvailable && !isLoadingLoser){
+		if((!loserAvailable && !isLoadingLoser) || active){
 			initLoserPool();
 		}
-		if(!winnerAvailable && !isLoadingWinner){
+		if((!winnerAvailable && !isLoadingWinner) || active){
 			initWinnerPool();
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [active]);
+	}, [active, address]);
 
 	return (
 		<section className='staking__main__content'>
