@@ -21,6 +21,7 @@ interface PredictionUserDataModel {
     status: Status;
     earn?: string;
     round: string;
+    claimed: boolean;
 };
 
 export default PredictionUserDataModel;

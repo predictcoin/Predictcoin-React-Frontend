@@ -82,7 +82,7 @@ export const usePredictionViewModel = () => {
     }else {
       status = Status.LOST
     }
-    
+
     return {
       myPrediction,
       coinPredicted,
@@ -91,7 +91,8 @@ export const usePredictionViewModel = () => {
       closingPrice: closingPrice.toString(),
       status,
       round: round.epoch.toString(),
-      statistics: [bulls, bears]
+      statistics: [bulls, bears],
+      claimed: round.user.claimed
     }
   });
 
@@ -99,12 +100,12 @@ export const usePredictionViewModel = () => {
   _userPredictionData.sort((a, b) => {
     return a.round > b.round ? -1 : 1; 
   })
-
+ 
   const poolsEntered = _userPredictionData.length;
   const roundsWon = _userPredictionData.filter(round => round.status === Status.WON).length;
   const roundsLost = _userPredictionData.filter(round => round.status === Status.LOST).length;
-  const unsuccessful = _userPredictionData.filter(round => round.status === Status.UNSUCCESSFUL).length;
-  const unsuccessfulTokens = _userPredictionData.filter(round => round.status === Status.UNSUCCESSFUL)
+  const unsuccessful = _userPredictionData.filter(round => round.status === Status.UNSUCCESSFUL ).length;
+  const unsuccessfulTokens = _userPredictionData.filter(round => round.status === Status.UNSUCCESSFUL && !round.claimed)
       .reduce((oldRound, newRound) => {
         return pastRounds[newRound.round].user?.amount.add(oldRound) || oldRound;
       }, BigNumber.from(0));
@@ -113,7 +114,10 @@ export const usePredictionViewModel = () => {
     poolsEntered, roundsLost, roundsWon, 
     unsuccessful, unsuccessfulTokens: _unsuccessfulTokens
   };
-  const unsuccessfulRounds = _userPredictionData.filter(round => round.status === Status.UNSUCCESSFUL).map(round => round.round)
+  const unsuccessfulRounds = _userPredictionData.filter(
+    round => round.status === Status.UNSUCCESSFUL && !round.claimed
+    ).map(round => round.round)
+
   const withdraw = useCallback((
     callbacks?: {[key: string]: () => void}) => withdrawUsecase({contract, send, callbacks, epochs: unsuccessfulRounds}), 
     // eslint-disable-next-line react-hooks/exhaustive-deps
