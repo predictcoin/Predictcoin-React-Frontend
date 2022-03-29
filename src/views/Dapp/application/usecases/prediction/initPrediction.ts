@@ -32,35 +32,33 @@ export const initPrediction = async (params: Params):
   const betSeconds = (await contract.betSeconds());
   const bufferSeconds = (await contract.bufferSeconds());
   let pastUserRounds, hasBet = false;
-
   if (active){
     pastUserRounds = await getPastUserRounds({ contract, address });
-    hasBet = pastUserRounds[0].indexOf(pastUserRounds[0][0]) > -1;
+    if(pastUserRounds[0].length !== 0) {
+      hasBet = pastUserRounds[0][pastUserRounds[0].length-1].eq(currentRoundNo);
+    }
+
   }
   let state;
   
   state = PREDICTIONSTATE.ROUND_ONGOING;
   
   if(currentRound.lockedTimestamp.add(intervalSeconds).gt(Math.trunc(Date.now()/1000))){
-    console.log(state, "1");
     state = PREDICTIONSTATE.ROUND_ONGOING
   }
   if(currentRound.lockedTimestamp.add(betSeconds).gt(Math.trunc(Date.now()/1000))){
-    console.log(state, "2");
     state = PREDICTIONSTATE.BETTING_ONGOING
   }
   if(
     currentRound.lockedTimestamp.add(intervalSeconds).add(bufferSeconds).lt(Math.trunc(Date.now()/1000)) &&
     !currentRound.oraclesCalled
     ){
-      console.log(state, "3");
     state = PREDICTIONSTATE.ROUND_ENDED_UNSUCCESSFULLY
   }
   else if(
     currentRound.lockedTimestamp.add(intervalSeconds).add(bufferSeconds).lt(Math.trunc(Date.now()/1000)) &&
     currentRound.oraclesCalled
   ){
-    console.log(state, "4");
     state = PREDICTIONSTATE.ROUND_ENDED_SUCCESSFULLY
   }
 

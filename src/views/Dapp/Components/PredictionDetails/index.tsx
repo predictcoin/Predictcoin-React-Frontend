@@ -88,8 +88,9 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({
 	
 	useEffect( () => {
 		if(!available && !isLoadingCurrent) initPrediction();
+		else if(active){initPrediction()}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
+	}, [active, userAddress])
 
 	if(available){
 		switch(state){
@@ -97,13 +98,13 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({
 				time = betCountdown.countdown
 				width = betCountdown.width
 				message = "PREDICTION ENDS IN:";
-				status = "ongoing";
+				status = "ongoing_betting";
 				break;
 			case(PREDICTIONSTATE.ROUND_ONGOING):
 				message = "LIVE ROUND ENDS IN:";
 				time = currentRoundCountdown.countdown;
 				width = currentRoundCountdown.width;
-				status = "ongoing";
+				status = "ongoing_round";
 				break;
 			case(PREDICTIONSTATE.ROUND_ENDED_UNSUCCESSFULLY):
 				message = "NEXT ROUND BEGINS IN:";
@@ -142,7 +143,9 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({
 
 			<div
 				className={`staking__round__timing ${
-					status === 'ongoing' ? 'ongoing' : 'next__round'
+					status === 'ongoing_round' ||
+					status === "ongoing_betting"
+					? 'ongoing' : 'next__round'
 				}`}
 			>
 				<p className='time__counter'>
@@ -158,10 +161,13 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({
 			</div>
 			<div
 				className={`details__body ${
-					status === 'ongoing' ? 'ongoing' : 'next__round'
+					status === 'ongoing_round' ||
+					status === "ongoing_betting"
+					 ? 'ongoing' : 'next__round'
 				}`}
 			>
-				{status === 'ongoing' ? (
+				{	status === 'ongoing_round' ||
+					status === "ongoing_betting" ? (
 					<>
 						<div className='predict'>
 							<div className='select__coin'>
@@ -179,7 +185,7 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({
 							</div>
 						</div>
 						{
-						active &&
+						active && status === "ongoing_betting" &&
 							<>
 								<div className='available__balance'>
 									<div className='top'>
