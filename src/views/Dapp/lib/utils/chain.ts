@@ -1,3 +1,3 @@
 export const getChainId = () => {
-  return process.env.REACT_APP_ENVIRONMENT === "production" || process.env.REACT_APP_ENVIRONMENT === "staging" ? 25 : 338
+  return process.env.REACT_APP_ENVIRONMENT === "mainnet" || process.env.REACT_APP_ENVIRONMENT === "staging" ? 25 : 338
 }

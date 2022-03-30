@@ -144,7 +144,7 @@ export const useLoserPredictionPoolViewModel = () => {
   const store = useLoserPredictionStore();
   const {currentPool, pools, rewardTokenPrice, pastPools} = store;
   const {send} = useTransaction();
-
+  console.log(LOSER_PREDICTION_POOL_ADDRESSES[env]);
   const loserContract = LoserPrediction__factory.connect( 
     LOSER_PREDICTION_POOL_ADDRESSES[env], 
     signer || provider

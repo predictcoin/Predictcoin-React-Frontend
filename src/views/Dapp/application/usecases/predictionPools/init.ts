@@ -67,7 +67,7 @@ export const initLoserPool = async ({contract, userAddress}: {contract: LoserPre
   poolStore.rewardToken = rewardToken;
   poolStore.rewardTokenPrice = await getMMFPrice(contract.provider);
   poolStore.rewardTokenPerBlock = toNumberLib((await contract.rewardTokenPerBlock()).mul(await contract.BONUS_MULTIPLIER()));
-
+  console.log(getChainId(), "chainId")
   poolStore.lpToken = TOKENS[getChainId()].CRP;
   poolStore.lpTokenPrice = CRPPrice;
 

@@ -7,7 +7,7 @@ import { RPC_URLS } from "../../constants/rpcURLs";
 import { getChainId } from "../../lib/utils/chain";
 
 const defaultLibrary = new ethers.providers.JsonRpcProvider(
-  process.env.REACT_APP_ENVIRONMENT === "production" || process.env.REACT_APP_ENVIRONMENT === "staging"
+  process.env.REACT_APP_ENVIRONMENT === "mainnet" || process.env.REACT_APP_ENVIRONMENT === "staging"
   ? RPC_URLS[25] : RPC_URLS[338] 
 );
 
