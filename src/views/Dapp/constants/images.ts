@@ -7,6 +7,7 @@ import CRP from "../../../assets/pics/CRP.png";
 import BitcoinPred from "../../../assets/pics/BitcoinPred.png";
 import CRO from "../../../assets/pics/crypto-com-coin-cro-logo.svg"
 
+const LTC = "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/litecoin/info/logo.png";
 
 
 export const TokenImages = {
@@ -18,4 +19,5 @@ export const TokenImages = {
   BTC: BitcoinPred,
   CRP,
   CRO,
+  LTC,
 }
