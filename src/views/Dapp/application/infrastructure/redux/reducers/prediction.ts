@@ -25,7 +25,7 @@ export const predictionReducer = (state = initialState, action: {type: string, d
           state.rounds[Object.keys(action.data.round)[0]]?.user && 
           !action.data[Object.keys(action.data.round)[0]]?.user 
         ) { return {...state, isLoadingPast: true, }};
-      return {...state, pastRounds: {...state.rounds, ...action.data.round} , 
+      return {...state, rounds: {...state.rounds, ...action.data.round} , 
         bufferSeconds: action.data.bufferSeconds || state.bufferSeconds,
         intervalSeconds: action.data.intervalSeconds || state.intervalSeconds }
     case(actionType.GET_ROUNDS_FAILED):

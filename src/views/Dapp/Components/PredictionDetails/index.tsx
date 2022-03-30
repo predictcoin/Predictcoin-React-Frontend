@@ -65,7 +65,6 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({
 	const CRPAllowance = allowances[PREDICTION_ADDRESSES[process.env.REACT_APP_ENVIRONMENT as keyof typeof PREDICTION_ADDRESSES]]
 	const {send} = useTransaction();
 	const currentRound = rounds[_currentRound];
-	console.log(currentRound, _currentRound)
 	const hasBet = currentRound?.user ? true : false;
 
 	// let status = PREDICTIONSTATE.ROUND_ENDED_SUCCESSFULLY;
