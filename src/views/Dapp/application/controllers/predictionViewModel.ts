@@ -19,7 +19,6 @@ import { TokenImages } from "../../constants/images";
 import { displayTokenValue, toNumberLib } from "../../lib/utils/number";
 import { BigNumber } from "ethers";
 import { watchEvent } from "../../lib/utils/event";
-import { watch } from "fs";
 
 let watchingPastEvents = false;
 

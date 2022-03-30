@@ -1,10 +1,7 @@
 import BigNumber from "bignumber.js";
-import { add } from "date-fns";
-import { id } from "date-fns/locale";
 import { propertiesToNumberLib, toNumberLib } from "../../../lib/utils/number";
 import { getCRPPrice } from "../../../lib/utils/price";
 import { LoserPrediction, WinnerPrediction } from "../../../typechain"
-import { PredictionStore } from "../../domain/prediction/predictionStore";
 import { PredictionPool } from "../../domain/predictionPools/entity"
 import { LoserPoolStore, WinnerPoolStore } from "../../domain/predictionPools/predictionPoolsStore";
 import { apr } from "./init";

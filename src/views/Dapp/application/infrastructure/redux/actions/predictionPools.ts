@@ -1,5 +1,5 @@
 import { Dispatch } from "react";
-import { LoserPrediction, Prediction, WinnerPrediction } from "../../../../typechain";
+import { LoserPrediction, WinnerPrediction } from "../../../../typechain";
 import * as actionTypes from "../actionTypes/predictionPools";
 import { initLoserPool as initLoserPoolUsecase, initWinnerPool as initWinnerPoolUsecase} from "../../../usecases/predictionPools/init";
 import { getPastLoserPools as getPastLoserPoolsAction, getPastWinnerPools as getPastWinnerPoolsAction } from "../../../usecases/predictionPools/getPastPools";

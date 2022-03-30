@@ -23,7 +23,6 @@ import CRP from "../../../../assets/pics/CRP.png"
 import BigNumber from "bignumber.js";
 import { displayTokenValue } from "../../lib/utils/number";
 import { watchEvent } from "../../lib/utils/event";
-import { Contract } from "ethers";
 
 type addressType = keyof typeof LOSER_PREDICTION_POOL_ADDRESSES;
 const env: addressType = (process.env.REACT_APP_ENVIRONMENT || "") as addressType;
@@ -122,6 +121,7 @@ export const useWinnerPredictionPoolViewModel = () => {
         getPastWinnerPool(pId.toString());
       });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [store.available]);
     
   return{
@@ -230,6 +230,7 @@ export const useLoserPredictionPoolViewModel = () => {
         getPastLoserPool(pId.toString());
       });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [store.available]);
 
   useEffect(() => {
@@ -240,6 +241,7 @@ export const useLoserPredictionPoolViewModel = () => {
         if(pastPools.length > 0)getPastLoserPools();
       }
     }, 30000);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [] )
 
   return{

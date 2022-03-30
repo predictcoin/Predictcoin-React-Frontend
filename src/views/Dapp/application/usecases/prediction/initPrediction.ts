@@ -17,7 +17,7 @@ export const initPrediction = async (params: Params):
     | "betSeconds" | "bufferSeconds" | "rounds"
     >> => {
 
-  const {contract, active, address} = params;
+  const {contract, address} = params;
   const currentRound = (await contract.currentEpoch()).toNumber();
   if(currentRound === 0){
     return { currentRound } as unknown as PredictionStore;
