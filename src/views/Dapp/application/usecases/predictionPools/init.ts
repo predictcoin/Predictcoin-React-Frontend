@@ -73,7 +73,7 @@ export const initLoserPool = async ({contract, userAddress}: {contract: LoserPre
 
   const pool = poolStore.pools[poolStore.currentPool];
   pool.apr = await apr({
-    pool, rewardTokenPrice: CRPPrice, rewardTokenPerBlock: poolStore.rewardTokenPerBlock,
+    pool, rewardTokenPrice: poolStore.rewardTokenPrice, rewardTokenPerBlock: poolStore.rewardTokenPerBlock,
     lpTokenPrice: poolStore.lpTokenPrice
   });
   if(userAddress){
