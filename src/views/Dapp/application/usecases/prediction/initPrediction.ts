@@ -1,5 +1,5 @@
 import { Prediction } from "../../../typechain";
-import { getPastUserRounds } from "./getPastUserRounds";
+import { getUserRounds } from "./getUserRounds";
 import { PredictionStore } from "../../domain/prediction/predictionStore";
 import { PREDICTIONSTATE, Round } from "../../domain/prediction/entity";
 
@@ -14,50 +14,52 @@ export const initPrediction = async (params: Params):
   Promise<Pick<PredictionStore, 
     "state" | "currentRound" 
     | "betAmount" | "tokenMaxBet" | "intervalSeconds"
-    | "betSeconds" | "bufferSeconds" | "hasBet"
+    | "betSeconds" | "bufferSeconds" | "rounds"
     >> => {
 
   const {contract, active, address} = params;
-  const currentRoundNo = (await contract.currentEpoch());
-  if(currentRoundNo.eq(0)){
-    return { currentRoundNo } as unknown as PredictionStore;
+  const currentRound = (await contract.currentEpoch()).toNumber();
+  if(currentRound === 0){
+    return { currentRound } as unknown as PredictionStore;
   }
 
-  let currentRound = await contract.getRound(currentRoundNo.toString()) as Round;
-  const [, bulls, bears] = await contract.getStats(currentRoundNo)
-  currentRound = {...currentRound, bulls, bears};
+  let round = await contract.getRound(currentRound.toString()) as Round;
+  const [, bulls, bears] = await contract.getStats(currentRound)
+  round = {...round, bulls, bears};
   const betAmount = (await contract.betAmount());
   const tokenMaxBet = (await contract.tokenMaxBet());
   const intervalSeconds = (await contract.intervalSeconds());
   const betSeconds = (await contract.betSeconds());
   const bufferSeconds = (await contract.bufferSeconds());
-  let pastUserRounds, hasBet = false;
-  if (active){
-    pastUserRounds = await getPastUserRounds({ contract, address });
-    if(pastUserRounds[0].length !== 0) {
-      hasBet = pastUserRounds[0][pastUserRounds[0].length-1].eq(currentRoundNo);
-    }
-
+  if(address){
+    let [userRounds, betInfo] = await getUserRounds({ contract, address });
+    const _userRounds = userRounds.map((round) => round.toString());
+    const index = _userRounds.indexOf(round.epoch.toString());
+      if(index !== -1){
+        round.user = betInfo[index];
+      }
   }
+  
+
   let state;
   
   state = PREDICTIONSTATE.ROUND_ONGOING;
   
-  if(currentRound.lockedTimestamp.add(intervalSeconds).gt(Math.trunc(Date.now()/1000))){
+  if(round.lockedTimestamp.add(intervalSeconds).gt(Math.trunc(Date.now()/1000))){
     state = PREDICTIONSTATE.ROUND_ONGOING
   }
-  if(currentRound.lockedTimestamp.add(betSeconds).gt(Math.trunc(Date.now()/1000))){
+  if(round.lockedTimestamp.add(betSeconds).gt(Math.trunc(Date.now()/1000))){
     state = PREDICTIONSTATE.BETTING_ONGOING
   }
   if(
-    currentRound.lockedTimestamp.add(intervalSeconds).add(bufferSeconds).lt(Math.trunc(Date.now()/1000)) &&
-    !currentRound.oraclesCalled
+    round.lockedTimestamp.add(intervalSeconds).add(bufferSeconds).lt(Math.trunc(Date.now()/1000)) &&
+    !round.oraclesCalled
     ){
     state = PREDICTIONSTATE.ROUND_ENDED_UNSUCCESSFULLY
   }
   else if(
-    currentRound.lockedTimestamp.add(intervalSeconds).add(bufferSeconds).lt(Math.trunc(Date.now()/1000)) &&
-    currentRound.oraclesCalled
+    round.lockedTimestamp.add(intervalSeconds).add(bufferSeconds).lt(Math.trunc(Date.now()/1000)) &&
+    round.oraclesCalled
   ){
     state = PREDICTIONSTATE.ROUND_ENDED_SUCCESSFULLY
   }
@@ -65,11 +67,11 @@ export const initPrediction = async (params: Params):
   return {
     state,
     currentRound,
+    rounds: {currentRound: round},
     betAmount,
     tokenMaxBet,
     intervalSeconds,
     betSeconds,
     bufferSeconds,
-    hasBet
   };
 }

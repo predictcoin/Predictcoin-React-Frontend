@@ -1,7 +1,7 @@
 import { BigNumber } from "ethers";
 import { Prediction, } from "../../../typechain";
 import { Round } from "../../domain/prediction/entity";
-import { getPastUserRounds as getPastUserRoundsUsecase } from "../../usecases/prediction/getPastUserRounds";
+import { getUserRounds as getUserRoundsUsecase } from "./getUserRounds";
 
 interface Params {
   contract: Prediction
@@ -10,7 +10,7 @@ interface Params {
   dispatch: (data: any) => void
 }
 
-export const getPastRounds = async (params: Params) => {
+export const getRounds = async (params: Params) => {
   
   const {contract, address, dispatch} = params;
 
@@ -19,12 +19,11 @@ export const getPastRounds = async (params: Params) => {
   let bufferSeconds = await contract.bufferSeconds();
   let intervalSeconds = await contract.intervalSeconds()
   if(address){
-    [userRounds, betInfo] = await getPastUserRoundsUsecase({ contract, address });
+    [userRounds, betInfo] = await getUserRoundsUsecase({ contract, address });
   }
   const _userRounds = userRounds.map((round) => round.toString());
   
   for(let i=length.toNumber(); i >= 0; i--){
-    console.log(i);
     let round = (await contract.getRound(i)) as unknown as Round;
     const [, bulls, bears] = await contract.getStats(i);
     round = {...round, bulls, bears};
@@ -34,7 +33,7 @@ export const getPastRounds = async (params: Params) => {
         round.user = betInfo[index];
       }
     }
-  dispatch({round : {[round.epoch.toString()] : round}, bufferSeconds, intervalSeconds})
+    dispatch({round : {[round.epoch.toString()] : round}, bufferSeconds, intervalSeconds})
   };
 };
 

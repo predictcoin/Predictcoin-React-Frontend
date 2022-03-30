@@ -59,11 +59,13 @@ interface PredictionDetailsProps {
 const PredictionDetails: FC<PredictionDetailsProps> = ({
 	activeCard, setActive
 }) => {
-	const { available, currentRound, betSeconds, state, initPrediction, isLoadingCurrent, predict, betAmount, hasBet } = usePredictionViewModel();
+	const { available, currentRound: _currentRound, rounds, betSeconds, state, initPrediction, isLoadingCurrent, predict, betAmount } = usePredictionViewModel();
 	const { active, chainId, address: userAddress } = useWalletViewModel();
 	const { balance, decimals, approve, getAllowance, allowances } = useToken(TOKENS[chainId].CRP);
 	const CRPAllowance = allowances[PREDICTION_ADDRESSES[process.env.REACT_APP_ENVIRONMENT as keyof typeof PREDICTION_ADDRESSES]]
 	const {send} = useTransaction();
+	const currentRound = rounds[_currentRound];
+	const hasBet = currentRound.user ? true : false;
 
 	// let status = PREDICTIONSTATE.ROUND_ENDED_SUCCESSFULLY;
 	let status;

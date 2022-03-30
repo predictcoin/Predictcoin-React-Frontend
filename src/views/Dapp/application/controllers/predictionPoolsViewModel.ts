@@ -1,4 +1,4 @@
-import { useCallback } from "react"
+import { useCallback, useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { LOSER_PREDICTION_POOL_ADDRESSES, WINNER_PREDICTION_POOL_ADDRESSES } from "../../constants/addresses";
 import { Explorers } from "../../constants/explorers";
@@ -13,16 +13,22 @@ import { useWalletViewModel } from "./walletViewModel";
 import useTransaction from "../../hooks/useTransaction";
 import {
   getPastLoserPools as getPastLoserPoolsAction,
-  getPastWinnerPools as getPastWinnerPoolsAction
+  getPastWinnerPools as getPastWinnerPoolsAction,
+  getWinnerPool as getWinnerPoolAction,
+  getLoserPool as getLoserPoolAction
 } from "../infrastructure/redux/actions/predictionPools"
 import StakingDataModel from "../../models/StakingDataModel";
 import MMF from "../../../../assets/pics/meerkat.png";
 import CRP from "../../../../assets/pics/CRP.png"
 import BigNumber from "bignumber.js";
 import { displayTokenValue } from "../../lib/utils/number";
+import { watchEvent } from "../../lib/utils/event";
+import { Contract } from "ethers";
 
 type addressType = keyof typeof LOSER_PREDICTION_POOL_ADDRESSES;
 const env: addressType = (process.env.REACT_APP_ENVIRONMENT || "") as addressType;
+
+let watchWinner = false, watchLoser = false;
 
 export const useWinnerPredictionPoolViewModel = () => {
   const dispatch = useDispatch();
@@ -56,6 +62,8 @@ export const useWinnerPredictionPoolViewModel = () => {
     harvestUsecase({contract: winnerContract, pId: pId || currentPool, tokenName, send, callbacks}), [currentPool, send, winnerContract]);
   const getPastWinnerPools = useCallback(() => 
     getPastWinnerPoolsAction(winnerContract, address, active)(dispatch), [active, address, dispatch, winnerContract]);
+  const getPastWinnerPool = useCallback((pId: string) => 
+    getWinnerPoolAction(winnerContract, pId, address, store, pools[+pId]), [address, pools, store, winnerContract]);
 
   const winnerCardData: PredictionPoolCardModel = {
     id: currentPool || 0,
@@ -101,6 +109,20 @@ export const useWinnerPredictionPoolViewModel = () => {
           displayTokenValue(pool.userStaked?.toFixed() || "0", 18, 5), pool.pId)
     } 
   })  
+
+  useEffect(() => {
+    if(!watchWinner && store.available){
+      watchEvent(winnerContract, "Deposit", [address], (user, pId) => {
+        if(pastPools.indexOf(pId.toNumber()) === -1) return;
+        getPastWinnerPool(pId.toString());
+      });
+
+      watchEvent(winnerContract, "Withdraw", [address], (user, pId) => {
+        if(pastPools.indexOf(pId.toNumber()) === -1) return;
+        getPastWinnerPool(pId.toString());
+      });
+    }
+  }, [store.available]);
     
   return{
     ...store,
@@ -146,6 +168,9 @@ export const useLoserPredictionPoolViewModel = () => {
     harvestUsecase({contract: loserContract, pId: pId || currentPool, tokenName, send, callbacks});
   const getPastLoserPools = () => 
     getPastLoserPoolsAction(loserContract, address, active)(dispatch);
+  const getPastLoserPool = useCallback((pId: string) => 
+    getLoserPoolAction(loserContract, pId, address, store, pools[+pId]), [address, pools, store, loserContract]);
+
 
   const loserCardData: PredictionPoolCardModel = {
     id: currentPool,
@@ -192,6 +217,30 @@ export const useLoserPredictionPoolViewModel = () => {
           displayTokenValue(pool.userStaked?.toFixed() || "0", 18, 5), pool.pId)
     } 
   })  
+
+  useEffect(() => {
+    if(!watchLoser && store.available){
+      watchEvent(loserContract, "Deposit", [address], (user, pId) => {
+        if(pastPools.indexOf(pId.toNumber()) === -1) return;
+        getPastLoserPool(pId.toString());
+      });
+
+      watchEvent(loserContract, "Withdraw", [address], (user, pId) => {
+        if(pastPools.indexOf(pId.toNumber()) === -1) return;
+        getPastLoserPool(pId.toString());
+      });
+    }
+  }, [store.available]);
+
+  useEffect(() => {
+    setInterval(async () => {
+      const _currentPool = (await loserContract.getPoolLength()).sub(1);
+      if(!_currentPool.eq(currentPool)){
+        initLoserPool();
+        if(pastPools.length > 0)getPastLoserPools();
+      }
+    }, 30000);
+  }, [] )
 
   return{
     initLoserPool,

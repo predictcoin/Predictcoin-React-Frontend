@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { displayTokenValue } from '../../lib/utils/number';
 import StakingDataModel from '../../models/StakingDataModel';
 import TableData from '../Table/TableData';
 import TableRow from '../Table/TableRow';
@@ -13,11 +14,11 @@ const StakingRow: FC<StakingRowProps> = ({ stake }) => {
 		<TableRow key={stake.stakingRound} forTableBody>
 			<TableData text={stake.stakingRound} />
 			<TableData text={stake.poolType} />
-			<TableData text={stake.crpStaked} />
+			<TableData text={displayTokenValue(stake.crpStaked, 18, 5)} />
 			<TableData text=''>
 				<img src={stake.coinEarnedIcon} alt={stake.coinEarned} className="coin" />
 				&nbsp;&nbsp;
-				{stake.earned}
+				{displayTokenValue(stake.earned, 18, 5)}
 			</TableData>
 			<TableData text={'.'} />
 			<TableData text=''>

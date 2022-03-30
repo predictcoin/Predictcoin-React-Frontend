@@ -20,7 +20,7 @@ export const loserPoolReducer = (state = initial, action: {type: string, data?: 
       return {...state, isLoadingPastPools: false, pastAvailable: true}
     case(actionType.SET_LOSER_POOL):
     case(actionType.SET_USER_LOSER_POOL_DETAILS):
-      return {...state, pools:{...state.pools, [action.data.pool.pId] : action.data.pool, }, pastPools: [...state.pastPools, action.data.pool.pId]}
+      return {...state, pools:{...state.pools, [action.data.pool.pId] : action.data.pool, } }
     case(actionType.INIT_LOSER_POOL):
       return {...state, isLoading: true}
     case(actionType.INIT_LOSER_POOL_FAILED):
@@ -45,7 +45,7 @@ export const winnerPoolReducer = (state = initial, action: {type: string, data?:
       return {...state, isLoadingPastPools: false, pastAvailable: true}
     case(actionType.SET_WINNER_POOL):
     case(actionType.SET_USER_WINNER_POOL_DETAILS):
-      return {...state, pools:{...state.pools, [action.data.pool.pId] : action.data.pool, },  pastPools: [...state.pastPools, action.data.pool.pId]}
+      return {...state, pools:{...state.pools, [action.data.pool.pId] : action.data.pool, },  }
     case(actionType.INIT_WINNER_POOL):
       return {...state, isLoading: true}
     case(actionType.INIT_WINNER_POOL_FAILED):

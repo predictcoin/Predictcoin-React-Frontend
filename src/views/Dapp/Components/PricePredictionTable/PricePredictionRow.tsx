@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import {
 	RiArrowUpFill,
 	RiArrowDownFill,
@@ -19,9 +19,6 @@ interface PricePredictionRowProps {
 }
 
 const ProcePredictionRow: FC<PricePredictionRowProps> = ({ prediction }) => {
-	const [earned, setEarned] = useState<boolean | null>(
-		prediction.status === Status.UNSUCCESSFUL
-	);
 
 	const {active} = useWalletViewModel()
 
@@ -76,13 +73,12 @@ const ProcePredictionRow: FC<PricePredictionRowProps> = ({ prediction }) => {
 						to="/app/staking"
 					>
 						<button
-						onClick={() => (earned === false ? setEarned(true) : null)}
 						className={`
 							${prediction.status === Status.UNSUCCESSFUL || 
 								prediction.status === Status.PENDING ? 'no__earn' : ''}
-							${earned === true ? 'earned' : ''}
+							${prediction.status === Status.UNSUCCESSFUL && 'earned'}
 						`}
-						disabled={earned === true || prediction.status === Status.UNSUCCESSFUL}
+						disabled={prediction.status === Status.UNSUCCESSFUL}
 					>
 						{prediction.status === Status.UNSUCCESSFUL || prediction.status === Status.PENDING
 							? ''

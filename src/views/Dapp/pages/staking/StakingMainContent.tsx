@@ -60,7 +60,7 @@ const StakingMainContent: FC<StakingMainContentProps> = ({
 	) : (
 		<ModalConnect closeModal={() => setModalOpened(false)} />
 	);
-	console.log(active);
+	
 	useEffect(() => {
 		console.log( active);
 		if((!stakingAvailable && !isLoadingStaking) || active){

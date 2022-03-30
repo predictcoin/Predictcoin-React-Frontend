@@ -7,7 +7,7 @@ interface Params1 {
   address: string,
 }
 
-export const getPastUserRounds = async (params: Params1): Promise<[BigNumber[], Prediction.BetInfoStructOutput[]]> => {
+export const getUserRounds = async (params: Params1): Promise<[BigNumber[], Prediction.BetInfoStructOutput[]]> => {
   const {contract, address} = params;
 
   const length = await contract.getUserRoundsLength(address);
@@ -21,9 +21,9 @@ interface Params2 {
   address: string,
   round: Round
 }
-export const getPastUserRound = async (params: Params2): Promise<{[key: string]: Round}> => {
+export const getUserRound = async (params: Params2): Promise<{[key: string]: Round}> => {
   const {contract, address, round} = params;
-  const [userRounds, betInfos] = await getPastUserRounds({contract, address});
+  const [userRounds, betInfos] = await getUserRounds({contract, address});
   const index = userRounds.indexOf(round.epoch)
   round.user = betInfos[index];
   return {[round.epoch.toString()]: round};

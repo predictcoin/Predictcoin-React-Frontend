@@ -8,14 +8,14 @@ import PricePredictionTable from '../../Components/PricePredictionTable';
 
 const PricePredictionPast: FC = () => {
 	const {active, address} = useWalletViewModel();
-	const {pastAvailable, isLoadingPast, getPastRounds, overview, withdraw} = usePredictionViewModel();
+	const {pastAvailable, isLoadingPast, getRounds, overview, withdraw} = usePredictionViewModel();
 
 	useEffect(() => {
 		const loadPast = async () => {
 			if(!pastAvailable && !isLoadingPast){
-				getPastRounds()
+				getRounds()
 			}else if(active){
-				getPastRounds();
+				getRounds();
 			}
 		}
 		loadPast();

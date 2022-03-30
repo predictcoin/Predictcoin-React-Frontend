@@ -7,9 +7,9 @@ import { usePredictionStore } from "../infrastructure/redux/stores/prediction";
 import { useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { 
-  getPastRounds as getPastRoundsAction, 
+  getRounds as getRoundsAction, 
   initPrediction as initPredictionAction,
-  getPastUserRound as getPastUserRoundAction
+  getUserRound as getUserRoundAction
 } from "../../application/infrastructure/redux/actions/prediction";
 import { useWalletViewModel } from "./walletViewModel";
 import { Prediction__factory } from "../../typechain";
@@ -19,12 +19,13 @@ import { TokenImages } from "../../constants/images";
 import { displayTokenValue, toNumberLib } from "../../lib/utils/number";
 import { BigNumber } from "ethers";
 import { watchEvent } from "../../lib/utils/event";
+import { watch } from "fs";
 
 let watchingPastEvents = false;
 
 export const usePredictionViewModel = () => {
   const predictionStore = usePredictionStore()
-  const {available, currentRound, intervalSeconds, pastRounds, bufferSeconds, pastAvailable} = predictionStore;
+  const {available, currentRound, intervalSeconds, rounds, bufferSeconds, pastAvailable} = predictionStore;
  	const { provider, active, address, signer} = useWalletViewModel();
   const {send} = useTransaction()
   const dispatch = useDispatch();
@@ -36,26 +37,26 @@ export const usePredictionViewModel = () => {
     send: (params:SendParams) => Promise<void>,
     callbacks?: {[key: string]: () => void}
   ) => 
-    predictUsecase({ active, token, direction, send, contract, available, currentRound: currentRound.epoch, callbacks }), 
-    [active, contract, available, currentRound]);
+    predictUsecase({ active, token, direction, send, contract, available, currentRound: rounds[currentRound].epoch, callbacks }), 
+    [active, contract, available, currentRound, rounds]);
   
-  const getPastRounds = useCallback(() => getPastRoundsAction( 
+  const getRounds = useCallback(() => getRoundsAction( 
     contract, address, active )(dispatch), 
     [dispatch, contract, address, active]
   );
-  const getUserRound = useCallback((round) => getPastUserRoundAction(
+  const getUserRound = useCallback((round) => getUserRoundAction(
     contract, round, address, active)(dispatch), 
     [active, address, contract, dispatch]
   );
   const getUserRounds = (epochs: BigNumber[]) => {
-    epochs.forEach(epoch => getUserRound(pastRounds[epoch.toString()]))
+    epochs.forEach(epoch => getUserRound(rounds[epoch.toString()]))
   }
 
   const initPrediction = useCallback(() => initPredictionAction( contract, address, active )(dispatch), [dispatch, contract, address, active]);
   
-  let nos = Object.keys(pastRounds);
+  let nos = Object.keys(rounds);
   let userPredictionData: (PredictionUserDataModel | boolean)[] = nos.map(no => {
-    const round = pastRounds[no];
+    const round = rounds[no];
     if(!round.user) return false;
 
     const myPrediction= round.user.position;
@@ -107,7 +108,7 @@ export const usePredictionViewModel = () => {
   const unsuccessful = _userPredictionData.filter(round => round.status === Status.UNSUCCESSFUL ).length;
   const unsuccessfulTokens = _userPredictionData.filter(round => round.status === Status.UNSUCCESSFUL && !round.claimed)
       .reduce((oldRound, newRound) => {
-        return pastRounds[newRound.round].user?.amount.add(oldRound) || oldRound;
+        return rounds[newRound.round].user?.amount.add(oldRound) || oldRound;
       }, BigNumber.from(0));
   const _unsuccessfulTokens = displayTokenValue(unsuccessfulTokens.toString(), 18, 5)
   const overview = {
@@ -128,18 +129,23 @@ export const usePredictionViewModel = () => {
     if(!watchingPastEvents && pastAvailable){
       watchEvent(contract, "Claim", [address], (address, epochs, amount) => {
         getUserRounds(epochs);
-      })
+      });
+      watchEvent(contract, "PredictBear", [address], (address, epoch) => {
+        getUserRounds([epoch]);
+      });
+      watchEvent(contract, "PredictBull", [address], (address, epoch) => {
+        getUserRounds([epoch]);
+      });
       watchingPastEvents = true;
     }
-
     
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address])
+  }, [address, pastAvailable, available]);
 
   return{
     ...predictionStore,
     initPrediction,
-    getPastRounds,
+    getRounds,
     predict,
     withdraw, 
     userPredictionData:  _userPredictionData,

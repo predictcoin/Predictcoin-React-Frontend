@@ -1,39 +1,39 @@
 import { Dispatch } from "react"
 import * as actionTypes from "../actionTypes/prediction";
-import { getPastRounds as getPastRoundsUsecase } from "../../../usecases/prediction/getPastRounds";
+import { getRounds as getRoundsUsecase } from "../../../usecases/prediction/getRounds";
 import { 
-  getPastUserRound as getPastUserRoundUsecase} from "../../../usecases/prediction/getPastUserRounds";
+  getUserRound as getUserRoundUsecase} from "../../../usecases/prediction/getUserRounds";
 import { initPrediction as initPredictionUsecase } from "../../../usecases/prediction/initPrediction";
 import { Prediction } from "../../../../typechain";
 import { Round } from "../../../domain/prediction/entity";
 
 
-export const getPastRounds = (contract: Prediction, address: string, active: boolean) => async (dispatch: Dispatch<{type:string, data?: any}>) => {
+export const getRounds = (contract: Prediction, address: string, active: boolean) => async (dispatch: Dispatch<{type:string, data?: any}>) => {
   dispatch({
-    type: actionTypes.GET_PAST_ROUNDS,
+    type: actionTypes.GET_ROUNDS,
   });
   const _dispatch = (data: any) => {
     dispatch({
-      type: actionTypes.SET_PAST_ROUND,
+      type: actionTypes.SET_ROUND,
       data
     })
   }
   try{
-    await getPastRoundsUsecase({ contract, address, active, dispatch: _dispatch });
+    await getRoundsUsecase({ contract, address, active, dispatch: _dispatch });
     dispatch({
-      type: actionTypes.GET_PAST_ROUNDS_SUCCESS,
+      type: actionTypes.GET_ROUNDS_SUCCESS,
     })
   }catch(err){  
     dispatch({
-      type: actionTypes.GET_PAST_ROUNDS_FAILED
+      type: actionTypes.GET_ROUNDS_FAILED
     })
   }
 }
 
-export const getPastUserRound = (contract: Prediction, round: Round, address: string, active: boolean) => async(dispatch: Dispatch<{type: string, data?: any}>) => {
-  const userRound = await getPastUserRoundUsecase({contract, round, address});
+export const getUserRound = (contract: Prediction, round: Round, address: string, active: boolean) => async(dispatch: Dispatch<{type: string, data?: any}>) => {
+  const userRound = await getUserRoundUsecase({contract, round, address});
   dispatch({
-    type: actionTypes.SET_PAST_ROUND,
+    type: actionTypes.SET_ROUND,
     data: {
       round: userRound
     }

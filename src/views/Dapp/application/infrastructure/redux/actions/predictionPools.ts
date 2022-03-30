@@ -1,8 +1,12 @@
 import { Dispatch } from "react";
-import { LoserPrediction, WinnerPrediction } from "../../../../typechain";
+import { LoserPrediction, Prediction, WinnerPrediction } from "../../../../typechain";
 import * as actionTypes from "../actionTypes/predictionPools";
 import { initLoserPool as initLoserPoolUsecase, initWinnerPool as initWinnerPoolUsecase} from "../../../usecases/predictionPools/init";
 import { getPastLoserPools as getPastLoserPoolsAction, getPastWinnerPools as getPastWinnerPoolsAction } from "../../../usecases/predictionPools/getPastPools";
+import { getLoserPool as getLoserPoolAction,
+  getWinnerPool as getWinnerPoolAction } from "../../../usecases/predictionPools/getPool";
+import { PredictionPool } from "../../../domain/predictionPools/entity";
+import { LoserPoolStore, WinnerPoolStore } from "../../../domain/predictionPools/predictionPoolsStore";
 
 export const initLoserPool = (contract: LoserPrediction, address: string, active: boolean) => async (dispatch: Dispatch<{type:string, data?: any}>) => {
   dispatch({
@@ -92,3 +96,26 @@ export const getPastWinnerPools = (contract: WinnerPrediction, address: string, 
   
 }
 
+export const getLoserPool = async (contract: LoserPrediction,
+   pId: string, address: string,  store: LoserPoolStore, 
+   pool?: PredictionPool,) => async (dispatch: Dispatch<{type:string, data?: any}>) => {
+  const _pool = await getLoserPoolAction({contract, pId, pool, address, store});
+  dispatch({
+    type: actionTypes.SET_LOSER_POOL,
+    data: {
+      pool: _pool
+    }
+  })
+}
+
+export const getWinnerPool = async (contract: WinnerPrediction,
+   pId: string, address: string,  store: WinnerPoolStore, 
+   pool?: PredictionPool,) => async (dispatch: Dispatch<{type:string, data?: any}>) => {
+  const _pool = await getWinnerPoolAction({contract, pId, pool, address, store});
+  dispatch({
+    type: actionTypes.SET_WINNER_POOL,
+    data: {
+      pool: _pool
+    }
+  })
+}
