@@ -67,7 +67,7 @@ export const initPrediction = async (params: Params):
   return {
     state,
     currentRound,
-    rounds: {currentRound: round},
+    rounds: {[currentRound]: round},
     betAmount,
     tokenMaxBet,
     intervalSeconds,

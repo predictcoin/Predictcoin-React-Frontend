@@ -29,7 +29,6 @@ export const apr = async ({pool, rewardTokenPrice, rewardTokenPerBlock, lpTokenP
   const totalRewardPerYr = rewardTokenPerBlock.times(17280).times(365);
   const numerator = totalRewardPerYr.times(rewardTokenPrice || 0).times(100);
   const denominator = pool.amount.times(lpTokenPrice || 0);
-  console.log(numerator.toString(), denominator.toString());
   return numerator.div(denominator);
 }
 
