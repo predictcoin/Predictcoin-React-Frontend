@@ -2,7 +2,6 @@ import { FC } from "react";
 import { Link } from "react-router-dom";
 import crono from "../../../assets/cronos2x.png";
 
-
 const CTA: FC = () => {
     return (
         <section id="cta" className="cta">
@@ -22,12 +21,15 @@ const CTA: FC = () => {
 						</p> */}
                     </div>
                     <div className="col-lg-3 cta-btn-container text-center">
-                        <Link className="cta-btn align-middle" to="/staking">
+                        <Link
+                            className="cta-btn align-middle"
+                            to="/price-prediction"
+                        >
                             Launch DApp
                         </Link>
                     </div>
 
-                    <div className='crono-container'>
+                    <div className="crono-container">
                         <img className="crono-image" src={crono} alt="crono" />
                     </div>
                 </div>
