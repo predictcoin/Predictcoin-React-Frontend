@@ -2,6 +2,7 @@ import { FC } from "react";
 import { Link } from "react-router-dom";
 import crono from "../../../assets/cronos2x.png";
 
+
 const CTA: FC = () => {
     return (
         <section id="cta" className="cta">
