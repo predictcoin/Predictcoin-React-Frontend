@@ -28,7 +28,7 @@ const CTA: FC = () => {
                     </div>
 
                     <div className='crono-container'>
-                        <img className="crono-image" src={crono} alt="crono-image" />
+                        <img className="crono-image" src={crono} alt="crono" />
                     </div>
                 </div>
             </div>
