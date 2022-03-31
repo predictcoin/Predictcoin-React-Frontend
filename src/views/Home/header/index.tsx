@@ -8,7 +8,7 @@ const Header: FC = () => {
     return (
         <header id="header" className="fixed-top ">
             <div className="container d-flex align-items-center">
-                <a href="" className="logo me-auto">
+                <a href="/" className="logo me-auto">
                     <img src={Logo} alt="" className="img-fluid" />
                 </a>
 
