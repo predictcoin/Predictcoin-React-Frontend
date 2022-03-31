@@ -20,7 +20,7 @@ const CTA: FC = () => {
 						</p>
 					</div>
 					<div className='col-lg-3 cta-btn-container text-center'>
-						<Link className='cta-btn align-middle' to='/app/staking'>
+						<Link className='cta-btn align-middle' to='/staking'>
 							Launch DApp
 						</Link>
 					</div>

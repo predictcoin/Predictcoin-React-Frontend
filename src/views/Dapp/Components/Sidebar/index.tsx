@@ -55,7 +55,7 @@ const Sidebar: FC<SidebarProps> = ({
 				<ul>
 					<li>
 						<NavLink
-							to='/app/staking'
+							to='/staking'
 							className={({ isActive }) =>
 								isActive || pathname === '/app' ? 'active' : ''
 							}
@@ -69,7 +69,7 @@ const Sidebar: FC<SidebarProps> = ({
 					</li>
 					<li>
 						<NavLink
-							to='/app/farming'
+							to='/farming'
 							className={({ isActive }) => (isActive ? 'active' : '')}
 						>
 							<div className='icon'>
@@ -115,7 +115,7 @@ const Sidebar: FC<SidebarProps> = ({
 					</li> */}
 					<li>
 						<NavLink
-							to='/app/price-prediction'
+							to='/price-prediction'
 							className={({ isActive }) => (isActive ? 'active' : '')}
 						>
 							<div className='icon'>

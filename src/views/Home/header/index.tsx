@@ -32,7 +32,7 @@ const Header: FC = () => {
 							</a>
 						</li>
 						<li>
-							<a className='getstarted scrollto' href='/app/staking'>
+							<a className='getstarted scrollto' href='/staking'>
 								Launch DApp
 							</a>
 						</li>

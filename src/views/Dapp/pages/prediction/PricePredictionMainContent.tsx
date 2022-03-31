@@ -161,9 +161,9 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
                         <Link
                             to="ongoing-round"
                             className={`${
-                                pathname === "/app/price-prediction" ||
+                                pathname === "/price-prediction" ||
                                 pathname ===
-                                    "/app/price-prediction/ongoing-round"
+                                    "/price-prediction/ongoing-round"
                                     ? "active"
                                     : ""
                             }`}
@@ -171,9 +171,9 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
                             ONGOING ROUND
                         </Link>
                         <Link
-                            to="past-rounds"
+                            to="my-predictions"
                             className={`${
-                                pathname === "/app/price-prediction/past-rounds"
+                                pathname === "/price-prediction/my-predictions"
                                     ? "active"
                                     : ""
                             }`}
@@ -205,7 +205,7 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
                             );
                         })}
                         <Route
-                            path="/past-rounds"
+                            path="/my-predictions"
                             element={<PricePredictionPast />}
                         />
                     </Routes>

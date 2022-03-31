@@ -18,7 +18,7 @@ const Hero: FC = () => {
 						</h1>{' '}
 						<br />
 						<div className='d-flex flex-wrap justify-content-center justify-content-lg-start button-bb'>
-							<Link to='/app/staking' className='btn-get-started'>
+							<Link to='/staking' className='btn-get-started'>
 								Launch DApp
 							</Link>
 							<span></span>

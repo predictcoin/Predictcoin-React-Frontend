@@ -70,7 +70,7 @@ const ProcePredictionRow: FC<PricePredictionRowProps> = ({ prediction }) => {
 			{ active &&
 				<TableData text=''>
 					<Link
-						to="/app/staking"
+						to="/staking"
 					>
 						<button
 						className={`

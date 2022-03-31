@@ -92,7 +92,7 @@ const StakingMainContent: FC<StakingMainContentProps> = ({
 						<Link
 							to='live'
 							className={`${
-								pathname === '/app/staking' || pathname === '/app/staking/live'
+								pathname === '/staking' || pathname === '/staking/live'
 									? 'active'
 									: ''
 							}`}
@@ -101,7 +101,7 @@ const StakingMainContent: FC<StakingMainContentProps> = ({
 						</Link>
 						<Link
 							to='past'
-							className={`${pathname === '/app/staking/past' ? 'active' : ''}`}
+							className={`${pathname === '/staking/past' ? 'active' : ''}`}
 						>
 							PAST POOLS
 						</Link>
