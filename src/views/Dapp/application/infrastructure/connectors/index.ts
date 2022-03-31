@@ -2,6 +2,7 @@ import { AbstractConnector } from '@web3-react/abstract-connector';
 import { InjectedConnector } from '@web3-react/injected-connector';
 import { NetworkConnector } from '@web3-react/network-connector';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
+import { DeFiWeb3Connector } from "deficonnect";
 import { supportedChainIds } from '../../../constants/chainIds';
 import { RPC_URLS } from '../../../constants/rpcURLs';
 import { Explorers } from '../../../constants/explorers';
@@ -21,8 +22,17 @@ const network = new NetworkConnector({
 const rpc = getChainId();
 const walletConnect = new WalletConnectConnector({
   rpc: {25: RPC_URLS[rpc]},
+  chainId: 25,
   bridge: "https://bridge.walletconnect.org",
   qrcode: true,
+});
+
+const deficonnect = new DeFiWeb3Connector({
+  supportedChainIds: [25],
+  rpc: {
+    25: "https://evm.cronos.org/", // cronos mainet
+  },
+  pollingInterval: 15000,
 });
 
 export const addNetwork = async (provider: ethers.providers.ExternalProvider) => {
@@ -36,7 +46,7 @@ export const addNetwork = async (provider: ethers.providers.ExternalProvider) =>
     });
   } catch (switchError: any) {
     // This error code indicates that the chain has not been added to MetaMask.
-    if (switchError?.code === 4902) {
+    if (switchError?.code === 4902 || switchError?.code === -32603) {
       try {
         await provider?.request({
           method: 'wallet_addEthereumChain',
@@ -81,6 +91,9 @@ export const connect = async (name: string) =>{
       break;
     case ("walletconnect"):
       connector = walletConnect;
+      break;
+    case ("deficonnect"):
+      connector = deficonnect
       break;
     default:
       connector = network;

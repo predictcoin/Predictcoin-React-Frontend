@@ -2,6 +2,8 @@ import { Dispatch, FC, SetStateAction, useEffect } from 'react';
 
 import CustomModal from './index';
 import MetamaskIcon from '../../../../assets/appSvgs/MetamaskIcon';
+import WalletConnectIcon from "../../../../assets/appSvgs/WalletConnect";
+// import CR0Logo from "../../../../assets/pics/crypto-com-coin-cro-logo.svg"
 import {useWalletViewModel} from "../../application/controllers/walletViewModel";
 
 interface ModalConnectProps {
@@ -35,15 +37,15 @@ const ModalConnect: FC<ModalConnectProps> = ({ closeModal }) => {
 						<MetamaskIcon />
 						<p className='wallet__name'>Metamask</p>
 					</button>
-					{/* <button className='wallet' onClick={() => connect("walletconnect")}>
+					<button className='wallet' onClick={() => connect("walletconnect")}>
 						<WalletConnectIcon />
 						<p className='wallet__name'>WalletConnect</p>
+					</button>
+					{/* <button className='wallet' onClick={() => connect("deficonnect")}>
+						<img src={CR0Logo} alt='safepalicon' />
+						<p className='wallet__name'>Crypto.com Defi Wallet</p>
 					</button> */}
 					{/* <button className='wallet'>
-						<img src={SafepalIcon} alt='safepalicon' />
-						<p className='wallet__name'>Safepal</p>
-					</button>
-					<button className='wallet'>
 						<MetamaskIcon />
 						<p className='wallet__name'>Metamask</p>
 					</button>
