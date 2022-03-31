@@ -20,7 +20,7 @@ const Hero: FC = () => {
                         <br />
                         <div className="d-flex flex-wrap justify-content-center justify-content-lg-start button-bb">
                             <Link
-                                to="/price-prediction"
+                                to="/prediction"
                                 className="btn-get-started"
                             >
                                 Launch DApp

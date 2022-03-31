@@ -115,7 +115,7 @@ const Sidebar: FC<SidebarProps> = ({
 					</li> */}
 					<li>
 						<NavLink
-							to='/price-prediction'
+							to='/prediction'
 							className={({ isActive }) => (isActive ? 'active' : '')}
 						>
 							<div className='icon'>

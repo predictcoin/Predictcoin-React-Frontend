@@ -23,7 +23,7 @@ const CTA: FC = () => {
                     <div className="col-lg-3 cta-btn-container text-center">
                         <Link
                             className="cta-btn align-middle"
-                            to="/price-prediction"
+                            to="/prediction"
                         >
                             Launch DApp
                         </Link>

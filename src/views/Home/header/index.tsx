@@ -37,7 +37,7 @@ const Header: FC = () => {
                         <li>
                             <a
                                 className="getstarted scrollto"
-                                href="/price-prediction"
+                                href="/prediction"
                             >
                                 Launch DApp
                             </a>
