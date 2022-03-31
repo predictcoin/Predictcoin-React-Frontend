@@ -1,10 +1,16 @@
 import { ReactElement } from 'react';
+import { IconType } from 'react-icons';
 import { FaBitcoin } from 'react-icons/fa';
 import { FaEthereum } from 'react-icons/fa';
 import { SiLitecoin } from 'react-icons/si';
 import { SiDogecoin } from 'react-icons/si';
+import {ReactComponent as CROIcon} from "../../../assets/pics/crypto-com-coin-cro-logo-1.svg";
 
 import CoinTabValue from '../Components/CoinTabValue';
+
+const MROIcon = () => {
+	return <CROIcon> </CROIcon>;
+}
 
 export const coinPredictionOptions: Array<{
 	id: string;
@@ -39,7 +45,7 @@ export const coinPredictionOptions: Array<{
 	{
 		id: 'crypto-com-chain',
 		value: 'CRO',
-		label: CoinTabValue({ label: 'CRO', logo: SiLitecoin }),
+		label: CoinTabValue({ label: 'CRO', logo: MROIcon as unknown as IconType }),
 		address: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"
 	},
 ];
