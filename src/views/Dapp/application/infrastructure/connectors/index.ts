@@ -63,6 +63,7 @@ export const addNetwork = async (provider: ethers.providers.ExternalProvider) =>
               }
             },
           ],
+          
         });
       } catch (addError: any) {
         if(addError?.code === 4001){
