@@ -246,7 +246,7 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({
 								? 'The next round will begin when the counter resets, you can check past rounds to see your past earnings'
 								: 'This is on us and we are indeed sorry, you can claim the tokens for this round and try again when the counter resets'}
 						</p>
-						<Link to='past-rounds'>See past rounds</Link>
+						<Link to='/price-prediction/my-predictions'>See my predictions</Link>
 					</>
 				)}
 			</div>
