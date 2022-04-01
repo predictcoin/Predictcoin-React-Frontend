@@ -135,7 +135,7 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
 
             <div className="container">
                 <Header 
-					title="Price prediction" 
+					title="Price Prediction" 
 					subtitle="Predict with $CRP, earn in $CRP or $MMF" 
 					isSidebarExpanded 
 					setIsSidebarExpanded={setIsSidebarExpanded}
@@ -161,9 +161,9 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
                         <Link
                             to="ongoing-round"
                             className={`${
-                                pathname === "/price-prediction" ||
+                                pathname === "/prediction" ||
                                 pathname ===
-                                    "/price-prediction/ongoing-round"
+                                    "/prediction/ongoing-round"
                                     ? "active"
                                     : ""
                             }`}
@@ -173,7 +173,7 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
                         <Link
                             to="my-predictions"
                             className={`${
-                                pathname === "/price-prediction/my-predictions"
+                                pathname === "/prediction/my-predictions"
                                     ? "active"
                                     : ""
                             }`}
