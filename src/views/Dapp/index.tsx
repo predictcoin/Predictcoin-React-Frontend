@@ -27,11 +27,8 @@ const AppDashboard: FC = () => {
             <>
                 <div className="app__dashboard">
                     <Routes>
+                        <Route path="/prediction/*" element={<Prediction />} />
                         <Route path="/farming" element={<Farming />} />
-                        <Route
-                            path="/prediction/*"
-                            element={<Prediction />}
-                        />
                         {["/", "/staking/*"].map((path, index) => {
                             return (
                                 <Route
@@ -42,6 +39,7 @@ const AppDashboard: FC = () => {
                             );
                         })}
                     </Routes>
+
                     <ToastContainer
                         position="bottom-right"
                         hideProgressBar={true}
