@@ -345,9 +345,11 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({
                         <p className="round__status__desc">
                             {status === "ended"
                                 ? "The next round will begin 1pm UTC on Friday."
-                                : "This is on us and we are indeed sorry, you can claim the tokens for this round and try predicting agian on Friday 1pm UTC."}
+                                : "This is on us and we are indeed sorry, you can claim the tokens for this round and try predicting agian on Monday 1pm UTC."}
                         </p>
-                        <Link to='/price-prediction/my-predictions'>See my predictions</Link>
+                        <Link to="/price-prediction/my-predictions">
+                            See my predictions
+                        </Link>
                     </>
                 )}
             </div>
