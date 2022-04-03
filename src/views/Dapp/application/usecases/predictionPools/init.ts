@@ -78,7 +78,7 @@ export const initLoserPool = async ({contract, userAddress}: {contract: LoserPre
   });
   if(userAddress){
     pool.earned = toNumberLib(await contract.pendingRewardToken(poolStore.currentPool, userAddress))
-    pool.$Earned = pool.earned.times(CRPPrice);
+    pool.$Earned = pool.earned.times(poolStore.rewardTokenPrice);
     pool.lostRound = await contract.lostRound(userAddress, pool.round);
   }
 
