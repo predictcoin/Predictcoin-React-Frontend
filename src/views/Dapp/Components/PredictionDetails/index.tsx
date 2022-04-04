@@ -128,8 +128,7 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({
             );
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [CRPAllowance, userAddress]);
-
+    }, [userAddress]);
     useEffect(() => {
         if (!available && !isLoadingCurrent) initPrediction();
         else if (active) {
@@ -344,8 +343,8 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({
                         </p>
                         <p className="round__status__desc">
                             {status === "ended"
-                                ? "The next round will begin 1pm UTC on Friday."
-                                : "This is on us and we are indeed sorry, you can claim the tokens for this round and try predicting agian on Friday 1pm UTC."}
+                                ? "The next round will begin 1pm UTC on Monday."
+                                : "This is on us and we are indeed sorry, you can claim the tokens for this round and try predicting agian on Monday 1pm UTC."}
                         </p>
                         <Link to='/price-prediction/my-predictions'>See my predictions</Link>
                     </>

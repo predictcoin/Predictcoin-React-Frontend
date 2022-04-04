@@ -1,7 +1,10 @@
 import { Dispatch, FC, SetStateAction, useEffect } from 'react';
 import MetamaskIcon from '../../../../assets/appSvgs/MetamaskIcon';
+import WalletConnectIcon from "../../../../assets/appSvgs/WalletConnect";
+import {ReactComponent as CR0Logo} from "../../../../assets/pics/crypto-com-coin-cro-logo.svg"
 import {useWalletViewModel} from "../../application/controllers/walletViewModel";
 import { shortenAddress } from '../../lib/utils/address';
+
 
 import CustomModal from './index';
 
@@ -14,10 +17,20 @@ const ModalDisconnect: FC<ModalDisconnectProps> = ({ closeModal, CRPBalance }) =
 	const closeModalFunc = (e: any) => {
 		if (e.target?.id === 'custom__modal') closeModal(false);
 	};
-
 	const {disconnect, address, active} = useWalletViewModel();
 
-	
+	let walletIcon = <MetamaskIcon />
+	const connectedWallet = localStorage.getItem("wallet");
+	switch(connectedWallet) {
+		case "deficonnect":
+			walletIcon = <CR0Logo />
+			break;
+		case "walletconnect":
+			walletIcon = <WalletConnectIcon />
+			break;
+		default:
+			walletIcon = <MetamaskIcon />
+	}
 
 	useEffect(() => {
 		window.addEventListener('click', (e) => closeModalFunc(e));
@@ -35,7 +48,7 @@ const ModalDisconnect: FC<ModalDisconnectProps> = ({ closeModal, CRPBalance }) =
 				<p className='sub__title'>Connect crypto wallet of your choice</p>
 
 				<button className='wallet__address'>
-					<MetamaskIcon />
+					{walletIcon}
 					<p>{shortenAddress(address)}</p>
 				</button>
 

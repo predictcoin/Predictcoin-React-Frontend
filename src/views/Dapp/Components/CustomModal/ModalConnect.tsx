@@ -43,7 +43,7 @@ const ModalConnect: FC<ModalConnectProps> = ({ closeModal }) => {
 					</button>
 					{/* <button className='wallet' onClick={() => connect("deficonnect")}>
 						<img src={CR0Logo} alt='safepalicon' />
-						<p className='wallet__name'>Crypto.com Defi Wallet</p>
+						<p className='wallet__name'>Crypto.com Wallet</p>
 					</button> */}
 					{/* <button className='wallet'>
 						<MetamaskIcon />
