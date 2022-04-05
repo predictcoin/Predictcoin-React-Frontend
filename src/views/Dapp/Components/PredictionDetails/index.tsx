@@ -183,8 +183,17 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({
     ) : (
         <div className="prediction__details__content">
             <p className="title">start prediction</p>
-            <p className="subtitle">
+            {/* <p className="subtitle">
                 Enter prediction pools by entering up or down price predictions
+            </p> */}
+            <p className="subtitle">
+                Prediction rounds start at 13:00 UTC every Monday and end at
+                13:00 UTC every Friday. You are expected to predict if the price
+                when the round starts will be more or less when it ends. You can
+                predict for only 1 hour i.e 13:00 UTC to 14:00 UTC on Monday.
+                Users can predict once per wallet. If you can't predict on a
+                particular coin, please try another coin. Once all coin seats
+                are filled, you can try again next week.
             </p>
 
             <div
@@ -343,10 +352,12 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({
                         </p>
                         <p className="round__status__desc">
                             {status === "ended"
-                                ? "The next round will begin 1pm UTC on Monday."
+                                ? "The next round will begin 1pm UTC on Friday."
                                 : "This is on us and we are indeed sorry, you can claim the tokens for this round and try predicting agian on Monday 1pm UTC."}
                         </p>
-                        <Link to='/price-prediction/my-predictions'>See my predictions</Link>
+                        <Link to="/price-prediction/my-predictions">
+                            See my predictions
+                        </Link>
                     </>
                 )}
             </div>

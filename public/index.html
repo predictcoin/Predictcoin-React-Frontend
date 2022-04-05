@@ -1,95 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<!-- Favicons -->
-		<link href="assets/img/icc.png" rel="icon" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="theme-color" content="#000000" />
-		<meta
-			name="description"
-			content="Web site created using create-react-app"
-		/>
-		<link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-		<title>CRO Predict</title>
 
-		<!-- Jquery logo slider in use -->
-		<script
-			src="https://code.jquery.com/jquery-2.2.0.min.js"
-			type="text/javascript"
-		></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.js"></script>
+<head>
+	<meta charset="utf-8" />
+	<!-- Favicons -->
+	<link href="assets/img/icc.png" rel="icon" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="theme-color" content="#000000" />
+	<meta name="description" content="Web site created using create-react-app" />
+	<link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+	<title>CRO Predict</title>
 
-		<!-- Font awesome in use -->
-		<link
-			rel="stylesheet"
-			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-		/>
-		<link
-			rel="stylesheet"
-			href="https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css"
-		/>
+	<!-- Jquery logo slider in use -->
+	<script src="https://code.jquery.com/jquery-2.2.0.min.js" type="text/javascript" defer></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.js" defer></script>
 
-		<!-- Bootstrap cdn in use -->
-		<link
-			href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-			rel="stylesheet"
-			integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-			crossorigin="anonymous"
-		/>
+	<!-- Font awesome in use -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css" />
 
-		<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> -->
-		<!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"> -->
-	</head>
+	<!-- Bootstrap cdn in use -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
 
-	<body>
-		<noscript>You need to enable JavaScript to run this app.</noscript>
-		<div id="root"></div>
+	<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> -->
+	<!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"> -->
 
-		<script>
-			/* 
-      const allSections = document.querySelectorAll('.section');
-    const revealSection = function (entries, observer) {
-      const [entry] = entries;
-      if (!entry.isIntersecting) return;
-      entry.target.classList.remove('section--hidden');
-      observer.unobserve(entry.target);
-    };
-    const sectionObserver = new IntersectionObserver(revealSection, {
-      root: null,
-      threshold: 0.15,
-    });
-    allSections.forEach(function (section) {
-      sectionObserver.observe(section);
-      section.classList.add('section--hidden');
-    });
-    */
+	<!-- <script defer src="https://www.livecoinwatch.com/static/lcw-widget.js"></script> -->
+</head>
 
-			$(document).ready(function () {
-				$('.customer-logos').slick({
-					slidesToShow: 6,
-					slidesToScroll: 1,
-					autoplay: true,
-					autoplaySpeed: 1500,
-					arrows: false,
-					dots: false,
-					pauseOnHover: false,
-					responsive: [
-						{
-							breakpoint: 768,
-							settings: {
-								slidesToShow: 4,
-							},
+<body>
+	<noscript>You need to enable JavaScript to run this app.</noscript>
+	<div id="root"></div>
+
+	<script>
+		/* 
+  const allSections = document.querySelectorAll('.section');
+const revealSection = function (entries, observer) {
+  const [entry] = entries;
+  if (!entry.isIntersecting) return;
+  entry.target.classList.remove('section--hidden');
+  observer.unobserve(entry.target);
+};
+const sectionObserver = new IntersectionObserver(revealSection, {
+  root: null,
+  threshold: 0.15,
+});
+allSections.forEach(function (section) {
+  sectionObserver.observe(section);
+  section.classList.add('section--hidden');
+});
+*/
+
+		$(document).ready(function () {
+			$('.customer-logos').slick({
+				slidesToShow: 6,
+				slidesToScroll: 1,
+				autoplay: true,
+				autoplaySpeed: 1500,
+				arrows: false,
+				dots: false,
+				pauseOnHover: false,
+				responsive: [
+					{
+						breakpoint: 768,
+						settings: {
+							slidesToShow: 4,
 						},
-						{
-							breakpoint: 520,
-							settings: {
-								slidesToShow: 3,
-							},
+					},
+					{
+						breakpoint: 520,
+						settings: {
+							slidesToShow: 3,
 						},
-					],
-				});
+					},
+				],
 			});
-		</script>
-	</body>
+		});
+	</script>
+</body>
+
 </html>

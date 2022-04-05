@@ -18,10 +18,9 @@ import BigNumber from "bignumber.js";
 
 interface Props {
 	id: number
-}
+};
 
-const contractAddress = STAKING_ADDRESSES[
-			process.env.REACT_APP_ENVIRONMENT as keyof typeof STAKING_ADDRESSES];
+const contractAddress = STAKING_ADDRESSES[process.env.REACT_APP_ENVIRONMENT as keyof typeof STAKING_ADDRESSES];
 
 const StakingCard: FC<Props> = ({
 	id,
@@ -106,6 +105,7 @@ const StakingCard: FC<Props> = ({
 					/>
 			}
 			{walletModal && <ConnectModal closeModal={setWalletModal}/>}
+
 			<div className='staking__card'>
 				<div className='staking__card__top'>
 					<div className='token__images'>
@@ -117,6 +117,7 @@ const StakingCard: FC<Props> = ({
 						<p className='multiple'>{tokenMultiple}</p>
 					</div>
 				</div>
+
 				<div className='staking__card__content'>
 					<div className='price__stake'>
 						<div className='price'>
@@ -141,10 +142,12 @@ const StakingCard: FC<Props> = ({
 								<button className={`minus ${active && allowed && "active"}`} onClick={() => setStakeModal({title: "Unstake", open: true})}>
 									<span className={`${active && "active"}`}> - </span>
 								</button>
+
 								<div className='usdt__staked'>
 									<p>CRP Staked</p>
 									<div><span className="amount">{displayTokenValue(staked, decimals, 5)}</span><span className="dollar"> ~${displayTokenValue(USDStaked, decimals, 2)}</span></div>
 								</div>
+
 								<button className={`add ${active && allowed && "active"}`} onClick={() => setStakeModal({title: "Stake", open: true})}>
 									<span className={`${active && "active"}`}> + </span>
 								</button>
