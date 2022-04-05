@@ -145,7 +145,7 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
                     setModalOpened={setModalOpened}
                 />
 
-                <div
+                {/* <div
                     className="livecoinwatch-widget-6"
                     lcw-coin="__CRP"
                     lcw-base="USD"
@@ -154,7 +154,7 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
                     lcw-color-bg="#0a3058"
                     lcw-border-w="1"
                     style={{ marginBottom: "10px" }}
-                ></div>
+                ></div> */}
 
                 <main>
                     <div className="coins__to__predict">
