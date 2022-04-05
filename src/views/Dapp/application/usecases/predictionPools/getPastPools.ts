@@ -33,7 +33,6 @@ export const getPastLoserPools = async ({contract, userAddress, dispatch}:
   const CRPPrice = await getCRPPrice(contract.provider);
   const MFFPrice = await getMMFPrice(contract.provider);
   for(let i = currentPool-1; i >= 0; i--){
-    console.log("I", i);
     const pool = propertiesToNumberLib(await contract.poolInfo(i)) as PredictionPool;
     pool.pId = i;
     pool.round = pool.epoch.toNumber();

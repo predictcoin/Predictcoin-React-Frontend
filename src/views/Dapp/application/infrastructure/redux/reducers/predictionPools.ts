@@ -1,13 +1,12 @@
 import { PredictionPoolStore } from "../../../domain/predictionPools/predictionPoolsStore";
 import * as actionType from "../actionTypes/predictionPools";
 
-const initial: Pick<PredictionPoolStore, "available" | "isLoading" | "pools" | "pastPools" | "isLoadingPastPools"> & {currentPool: number}  = {
+const initial: Pick<PredictionPoolStore, "available" | "isLoading" | "pools" | "isLoadingPastPools"> & {currentPool: number}  = {
   available: false,
   isLoading: false,
   isLoadingPastPools: false,
   pools: {},
   currentPool: 0,
-  pastPools: []
 }
 
 export const loserPoolReducer = (state = initial, action: {type: string, data?: any}) => {
@@ -19,7 +18,9 @@ export const loserPoolReducer = (state = initial, action: {type: string, data?: 
     case(actionType.GET_PAST_LOSER_POOLS_SUCCESS):
       return {...state, isLoadingPastPools: false, pastAvailable: true}
     case(actionType.SET_LOSER_POOL):
-    case(actionType.SET_USER_LOSER_POOL_DETAILS):
+      if(state.pools[action.data.pool.pId]?.userStaked && !action.data.pool?.userStaked){
+        return {...state, pools: {...state.pools}}
+      }
       return {...state, pools:{...state.pools, [action.data.pool.pId] : action.data.pool, } }
     case(actionType.INIT_LOSER_POOL):
       return {...state, isLoading: true}
@@ -44,7 +45,9 @@ export const winnerPoolReducer = (state = initial, action: {type: string, data?:
     case(actionType.GET_PAST_WINNER_POOLS_SUCCESS):
       return {...state, isLoadingPastPools: false, pastAvailable: true}
     case(actionType.SET_WINNER_POOL):
-    case(actionType.SET_USER_WINNER_POOL_DETAILS):
+      if(state.pools[action.data.pool.pId]?.userStaked && !action.data.pool?.userStaked){
+        return {...state, pools: {...state.pools}}
+      }
       return {...state, pools:{...state.pools, [action.data.pool.pId] : action.data.pool, },  }
     case(actionType.INIT_WINNER_POOL):
       return {...state, isLoading: true}
