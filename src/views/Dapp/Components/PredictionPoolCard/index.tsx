@@ -22,20 +22,16 @@ import { useWalletViewModel } from "../../application/controllers/walletViewMode
 import ConnectModal from "../CustomModal/ModalConnect";
 import { StakeModal } from "../CustomModal/StakeModal";
 import BigNumber from "bignumber.js";
-import QuestionIcon from "../../../../assets/icons/question.svg";
+// import QuestionIcon from "../../../../assets/icons/question.svg";
 
 interface Props {
     type: "winner" | "loser";
 }
 
-const tooltiphover_and_tooltip__text = {
-    visibility: "visible",
-    opacity: 1
-};
 
 const PredictionPoolCard: FC<Props> = ({ type }) => {
-    const tooltip_message =
-        "To gain access to the Predict Pool, you have to predict on any of the coins on cropredict.finance/prediction between 13:00 UTC to 14:00 UTC every Monday. Predict Pool launches every weekend on cropredict.finance/staking. Winners & Losers have 7 days to earn their rewards with the wallet they predicted with.";
+    // const tooltip_message =
+    //     "To gain access to the Predict Pool, you have to predict on any of the coins on cropredict.finance/prediction between 13:00 UTC to 14:00 UTC every Monday. Predict Pool launches every weekend on cropredict.finance/staking. Winners & Losers have 7 days to earn their rewards with the wallet they predicted with.";
     const mainHook =
         type === "loser"
             ? useLoserPredictionPoolViewModel
@@ -143,9 +139,9 @@ const PredictionPoolCard: FC<Props> = ({ type }) => {
         </button>
     );
 
-    const mouseEnter = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
-        e.currentTarget.title = tooltip_message;
-    };
+    // const mouseEnter = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
+    //     e.currentTarget.title = tooltip_message;
+    // };
 
     let mainButton = !active
         ? unlockButton

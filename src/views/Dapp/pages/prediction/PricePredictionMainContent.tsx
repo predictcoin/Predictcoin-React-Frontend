@@ -36,16 +36,20 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
     const [graphMax, setGraphMax] = useState<number>(65000);
     const [graphData, setGraphData] = useState<{ x: string; y: number }[]>([]);
     const [modalOpened, setModalOpened] = useState<boolean>(false);
-    const { active, chainId,} = useWalletViewModel();
-	const { balance, decimals } = useToken(TOKENS[chainId].CRP)
-	const modal = active ? (
-		<ModalDisconnect closeModal={() => setModalOpened(false)} CRPBalance={ displayDecimals(ethers.utils.formatUnits(balance, decimals), 5) }/>
-	) : (
-		<ModalConnect closeModal={() => setModalOpened(false)} />
-	);
+    const { active, chainId } = useWalletViewModel();
+    const { balance, decimals } = useToken(TOKENS[chainId].CRP);
+    const modal = active ? (
+        <ModalDisconnect
+            closeModal={() => setModalOpened(false)}
+            CRPBalance={displayDecimals(
+                ethers.utils.formatUnits(balance, decimals),
+                5
+            )}
+        />
+    ) : (
+        <ModalConnect closeModal={() => setModalOpened(false)} />
+    );
     const client = new CoinGecko();
-
-    
 
     const searchCoin = async (id: string) => {
         try {
@@ -116,30 +120,41 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
     };
 
     useEffect(() => {
-		getAllCoinPrices();
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+        getAllCoinPrices();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     useEffect(() => {
         const selectedId = minMax.filter((coin) => coin.id === activeCard)[0];
         setGraphMin(selectedId.min);
         setGraphMax(selectedId.max);
         searchCoinChart();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activeCard]);
-
 
     return (
         <section className="price__prediction__main__content">
             {modalOpened && modal}
 
             <div className="container">
-                <Header 
-					title="Price Prediction" 
-					subtitle="Predict with $CRP, earn in $CRP or $MMF" 
-					isSidebarExpanded 
-					setIsSidebarExpanded={setIsSidebarExpanded}
-					setModalOpened={setModalOpened}/>
+                <Header
+                    title="Price Prediction"
+                    subtitle="Predict with $CRP, earn in $CRP or $MMF"
+                    isSidebarExpanded
+                    setIsSidebarExpanded={setIsSidebarExpanded}
+                    setModalOpened={setModalOpened}
+                />
+
+                <div
+                    className="livecoinwatch-widget-6"
+                    lcw-coin="__CRP"
+                    lcw-base="USD"
+                    lcw-period="d"
+                    lcw-color-tx="#ffffff"
+                    lcw-color-bg="#0a3058"
+                    lcw-border-w="1"
+                    style={{ marginBottom: "10px" }}
+                ></div>
 
                 <main>
                     <div className="coins__to__predict">
@@ -162,8 +177,7 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
                             to="ongoing-round"
                             className={`${
                                 pathname === "/prediction" ||
-                                pathname ===
-                                    "/prediction/ongoing-round"
+                                pathname === "/prediction/ongoing-round"
                                     ? "active"
                                     : ""
                             }`}
