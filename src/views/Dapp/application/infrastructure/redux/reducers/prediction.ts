@@ -37,8 +37,8 @@ export const predictionReducer = (state = initialState, action: {type: string, d
     case(actionType.INIT_PREDICTION_FAILED):
       return {...state, isLoadingCurrent: false}
     case(actionType.INIT_PREDICTION_SUCCESS):
-      if(Object.keys(state.rounds).length > 0 && 
-        Object.keys(action.data.rounds).length === 0 && state.available) return state;
+      if( state.rounds[Object.keys(state.rounds)[0]]?.user &&
+        !action.data.rounds[Object.keys(action.data.rounds)[0]]?.user) return state;
       return {...state, available: true, isLoadingCurrent: false, ...action.data, rounds: {...state.rounds, ...action.data.rounds}}
     // case(actionType.SET_PREDICTION):
     //   return {...state, available: true, ...action.data}

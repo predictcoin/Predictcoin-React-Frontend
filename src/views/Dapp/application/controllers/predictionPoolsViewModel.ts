@@ -36,7 +36,7 @@ export const useWinnerPredictionPoolViewModel = () => {
 
 
   const store = useWinnerPredictionStore();
-  const {currentPool, pools, rewardTokenPrice, pastPools} = store;
+  const {currentPool, pools, rewardTokenPrice} = store;
 
   const winnerContract = WinnerPrediction__factory.connect( 
     WINNER_PREDICTION_POOL_ADDRESSES[env], 
@@ -85,9 +85,9 @@ export const useWinnerPredictionPoolViewModel = () => {
   };
 
   let totalEarnings: BigNumber = new BigNumber(0); 
-
+  const pastPools = Object.keys(pools).filter(pool => +pool !== currentPool).sort((a, b) => +a > +b ? -1 : 1);
   const pastWinnerPoolData: StakingDataModel[] = pastPools.map((no): StakingDataModel => {
-    const pool = pools[no];
+    const pool = pools[+no];
     let withdrawn = null;
     if(pool.userStaked?.gt(0)){
       withdrawn = false;
@@ -121,6 +121,9 @@ export const useWinnerPredictionPoolViewModel = () => {
         getPastWinnerPool(pId.toString());
       });
     }
+    return (() => {
+      winnerContract.removeAllListeners();
+    })
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [store.available]);
     
@@ -134,7 +137,8 @@ export const useWinnerPredictionPoolViewModel = () => {
     harvest,
     getPastWinnerPools,
     pastWinnerPoolData,
-    totalEarnings: totalEarnings.toString()
+    totalEarnings: totalEarnings.toString(),
+    pastPools
   }
 }
 
@@ -142,7 +146,7 @@ export const useLoserPredictionPoolViewModel = () => {
   const dispatch = useDispatch();
   const {address, provider, signer, active} = useWalletViewModel();
   const store = useLoserPredictionStore();
-  const {currentPool, pools, rewardTokenPrice, pastPools} = store;
+  const {currentPool, pools, rewardTokenPrice } = store;
   const {send} = useTransaction();
   const loserContract = LoserPrediction__factory.connect( 
     LOSER_PREDICTION_POOL_ADDRESSES[env], 
@@ -193,8 +197,9 @@ export const useLoserPredictionPoolViewModel = () => {
 
 
   let totalEarnings: BigNumber = new BigNumber(0);
+  const pastPools = Object.keys(pools).filter(pool => +pool !== currentPool).sort((a, b) => +a > +b ? -1 : 1);
   const pastLoserPoolData: StakingDataModel[] = pastPools.map((no): StakingDataModel => {
-    const pool = pools[no];
+    const pool = pools[+no];
     let withdrawn = null;
     if(pool.userStaked?.gt(0)){
       withdrawn = false;
@@ -229,19 +234,11 @@ export const useLoserPredictionPoolViewModel = () => {
         getPastLoserPool(pId.toString());
       });
     }
+    return (() => {
+      loserContract.removeAllListeners();
+    })
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [store.available]);
-
-  useEffect(() => {
-    setInterval(async () => {
-      const _currentPool = (await loserContract.getPoolLength()).sub(1);
-      if(!_currentPool.eq(currentPool)){
-        initLoserPool();
-        if(pastPools.length > 0)getPastLoserPools();
-      }
-    }, 30000);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [] )
 
   return{
     initLoserPool,
@@ -253,6 +250,7 @@ export const useLoserPredictionPoolViewModel = () => {
     harvest,
     getPastLoserPools,
     pastLoserPoolData,
-    totalEarnings: totalEarnings.toString()
+    totalEarnings: totalEarnings.toString(),
+    pastPools
   }
 }

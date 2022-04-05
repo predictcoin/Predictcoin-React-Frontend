@@ -62,7 +62,6 @@ const StakingMainContent: FC<StakingMainContentProps> = ({
 	);
 	
 	useEffect(() => {
-		console.log( active);
 		if((!stakingAvailable && !isLoadingStaking) || active){
 			initStaking();
 		}

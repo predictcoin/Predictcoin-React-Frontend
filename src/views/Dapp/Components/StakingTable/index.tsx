@@ -53,7 +53,7 @@ const StakingTable: FC = () => {
 
 								{stakes.length === 0 && (
 									<TableRow forTableBody>
-										<TableData text={'No old pools yet'} colSpan={6} />
+										<TableData text={'You have not invested in any pool'} colSpan={6} />
 									</TableRow>
 								)}
 							</>
@@ -61,8 +61,8 @@ const StakingTable: FC = () => {
 							[...Array(4)].map((_, idx) => (
 								<TableRow key={idx} forTableBody>
 									{[...Array(6)].map((_, idx) => (
-										<SkeletonTheme enableAnimation={true} baseColor={skeletonBaseColor} highlightColor={skeletonHighlightColor}>
-												<TableData key={idx} text={''}>
+										<SkeletonTheme enableAnimation={true} key={idx} baseColor={skeletonBaseColor} highlightColor={skeletonHighlightColor}>
+												<TableData text={''}>
 													<Skeleton height={21} />
 												</TableData>
 										</SkeletonTheme>

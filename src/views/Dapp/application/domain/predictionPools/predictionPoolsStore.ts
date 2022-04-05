@@ -2,7 +2,6 @@ import BigNumber from "bignumber.js";
 import { PredictionPool } from "./entity";
 export interface PredictionPoolStore {
   address: string,
-  pastPools: number[],
   isLoadingPastPools: boolean,
   pastAvailable: boolean,
   pools: {[key: number]: PredictionPool}, 

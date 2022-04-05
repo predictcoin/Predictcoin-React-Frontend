@@ -7,22 +7,19 @@ import useNextRoundCountdown from '../../hooks/predictionPools/useCountdown';
 import { displayTokenValue } from '../../lib/utils/number';
 
 const StakingPast: FC = () => {
-	const {pastAvailable: winnerAvailable, isLoadingPastPools: loadingWinner, getPastWinnerPools, 
+	const { getPastWinnerPools, 
 		pastPools, currentPool, pools, totalEarnings: totalWinnerEarnings} = useWinnerPredictionPoolViewModel();
-	const {pastAvailable: loserAvailable, isLoadingPastPools: loadingLoser, getPastLoserPools, 
+	const { getPastLoserPools, 
 		totalEarnings: totalLoserEarnings
 		} = useLoserPredictionPoolViewModel();
-	const {active} = useWalletViewModel();
+	const {active, address} = useWalletViewModel();
 
 	useEffect(() => {
-		if(!winnerAvailable && !loadingWinner){
-			getPastWinnerPools();
-		}
-		if(!loserAvailable && !loadingLoser){
-			getPastLoserPools();
-		}
+		if(!active) return;
+		getPastWinnerPools();
+		getPastLoserPools();
 	// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [active, address]);
 
 	const {countdown} = useNextRoundCountdown();
 
