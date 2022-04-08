@@ -42,7 +42,6 @@ const useToken = (address: string): Token => {
         getBalance();
       });
       watchEvent(contract, "Approval", [userAddress], (owner, spender, value, event) => {
-        console.log(owner, spender, value);
         getAllowance(spender);
       })
       watchEvent(contract, "Transfer", [null,userAddress], (from, to, value, event ) => {
@@ -75,7 +74,6 @@ const useToken = (address: string): Token => {
     if(!active){
       throw new Error("Please connect your wallet");
     };
-
     const result = await contract.allowance(userAddress, spender);
     setAllowance(allowances => ({...allowances, [spender]: result}));
   }

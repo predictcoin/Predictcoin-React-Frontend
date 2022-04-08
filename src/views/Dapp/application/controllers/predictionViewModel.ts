@@ -64,9 +64,9 @@ export const usePredictionViewModel = () => {
     const lockedPrice = round.lockedPrices[index];
     const closingPrice = round.closePrices[index];                                                                                                                                                                                                
     const bears = toNumberLib(round.bears[index]).div(round.bets[index].toString()).times(100)
-      .toFixed(0, 0);
+      .toFixed(0, 4);
     const bulls = toNumberLib(round.bulls[index]).div(round.bets[index].toString()).times(100)
-      .toFixed(0, 0);
+      .toFixed(0, 5);
 
     let status;
     if(((lockedPrice.gt(closingPrice) && myPrediction === Position.BEAR)
@@ -98,7 +98,7 @@ export const usePredictionViewModel = () => {
 
   let _userPredictionData = (userPredictionData?.filter(data => data !== false)) as unknown as PredictionUserDataModel[];
   _userPredictionData.sort((a, b) => {
-    return a.round > b.round ? -1 : 1; 
+    return +a.round > +b.round ? -1 : 1; 
   })
  
   const poolsEntered = _userPredictionData.length;

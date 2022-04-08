@@ -128,8 +128,7 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({
             );
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [CRPAllowance, userAddress]);
-
+    }, [userAddress]);
     useEffect(() => {
         if (!available && !isLoadingCurrent) initPrediction();
         else if (active) {
