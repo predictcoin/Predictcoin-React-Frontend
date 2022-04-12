@@ -1,70 +1,58 @@
-# Getting Started with Create React App
+# Introduction
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The CroPredict frontend application contains the website and the dapp. They are accessible in the [src/views](src/views) folder as home and dapp respectively.
 
-## Available Scripts
+This documentation will focus on the Dapp.
 
-In the project directory, you can run:
+## Dapp
 
-### `yarn start`
+The dapp is built using React as the main UI framework, scss for styling, typescript for type checks, ethersjs for web3 and typechain for providing types for contracts.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+It is built using clean architecture. This means the dapp is divided into different parts that interact with each other. It is divided into 4 main parts. Here's the list arranged according to how data flows through the dapp.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- Domain
+- Infrastructure
+- Controllers
+- User Interface (UI)
 
-### `yarn test`
+This allows different parts of the dapp to function completely independent of each other. Other parts except the UI are found in the [application](src/views/Dapp/application) folder.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### User Interface 👩🏾‍💼
 
-### `yarn build`
+The user interface consists of the various ui components the user sees on the dapp. The user interface consists of these folders under the Dapp folder:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Components: Contains the React UI components
+- Hooks: React hooks
+- Pages: Pages in the dapp.
+- Models: Types used by Typescript to type check data
+- Data: Fake values used as placeholders to substitute real world data, these are only used for development
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Domain 🏠
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+They define the types for all the data used by the dapp and functions used to manipulate this data. They are majorly types for data stored on the smartcontract. These types are mostly generated using Typechain, the [typechain](src/views/Dapp/typechain) folder defines all the types generated from the smartcontract using typechain.
 
-### `yarn eject`
+Consist of the domain and usecases folders under application.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- Domain: Contains types for all the data used by the dapp.
+- Usecases: Contains the functions used to manipulate data defined by the domain. It does things like retrieve data from smartcontracts and update these data.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Infrastructure 🏗️
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+This contains external resources used to manipulate the data defined by the domain. The infrastructure consists of:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- Redux: This is used for state management of data defined by domains. Redux stores are defined by types in the domain and its actions are carried out using the usecases.
+- Connectors: Provides basic wallet functionality such as connect and disconnect and more for the wallet domain.
 
-## Learn More
+### Controllers 🛠️
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The controllers help to provide data defined by the domain to the user interface. They serve as an interface between the ui and the domain.
+They are written as hooks to provide necessary updates when there is a change in data. These hooks also listen for events on the smart contracts and update the domain data managed by the Redux infrastructure, and since they are hooks a change in the data stored, updates the UI.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Let's have a look at a simple example of how data passes through the app.
+E.g: Here's how prediction data gets to the UI.
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1. Prediction data needed from the prediction smart contract such as currentRound have their types defined in the domain.
+2. Usecases are written to fetch these data from the smart contract and manipulate them to the types stored in the domain.
+3. The Redux infrastructure, uses the usecases to get the data in its actions, and stores this data in its store. The store structure is defined by the domain.
+4. The controllers then reach out to the Redux store and get these data, manipulate them to formats needed by the UI and return them. It also provides methods the UI can call to manipulate the data.
+5. The UI calls uses the controllers to access this data and also uses methods it provides to update them.
