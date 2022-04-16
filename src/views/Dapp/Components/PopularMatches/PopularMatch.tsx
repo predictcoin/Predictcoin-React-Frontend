@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import popularMatch from '../../models/PopularMatcheModel'
+import popularMatch from '../../models/PopularMatchModel'
 import {BiChevronRight} from 'react-icons/bi'
 
 interface PopularMatchProps extends popularMatch {
