@@ -1,4 +1,4 @@
-import liveMatchModel from "../models/liveMatchModel";
+import liveMatchModel from "../models/LiveMatchModel";
 
 const liveMatchData: liveMatchModel[] = [
     {

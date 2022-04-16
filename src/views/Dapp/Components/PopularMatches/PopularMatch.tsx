@@ -1,19 +1,25 @@
 import { FC } from 'react'
-import liveMatchModel from '../../models/LiveMatchModel'
+import popularMatch from '../../models/PopularMatcheModel'
+import {BiChevronRight} from 'react-icons/bi'
 
-const LiveMatch: FC<liveMatchModel> = (props) => {
-    const {timeGone, team_one_name, team_two_name, team_one_score, team_two_score, team_one_logo_uri, team_two_logo_uri} = props
+interface PopularMatchProps extends popularMatch {
+  openMatchPredictionModal: () => void;
+}
+
+const PopularMatch: FC<PopularMatchProps> = (props) => {
+  const {team_one_name, team_two_name, team_one_logo_uri, team_two_logo_uri, time_left, openMatchPredictionModal} = props;
   return (
-    <div className='live__match__card'>
-        <div className='live__match__card__head'>
-            <div className='live__badge'>
-                <span>LIVE</span>
+    <div className='popular__match__card'>
+      <div className='popular__match__card__head'>
+            <div className='live__in'>
+                <span>Live in: </span>
+                <span className='time__left'>{time_left}</span>
             </div>
-            <span className='time__ellapsed'>
-                {timeGone}
-            </span>
+            <button className='action__btn' onClick ={() => openMatchPredictionModal()}>
+              <BiChevronRight />
+            </button>
         </div>
-        <div className='live__match__card__body'>
+        <div className='popular__match__card__body'>
             <div className='logos__container'>
                 <div className='team__one__logo__container'>
                     <img src = {team_one_logo_uri} alt = {`${team_one_name} logo`} />
@@ -25,11 +31,9 @@ const LiveMatch: FC<liveMatchModel> = (props) => {
             <div className='team__scores'>
                 <div className = 'team__one'>
                     <span className='name'>{team_one_name}</span>
-                    <span className='score'>{team_one_score}</span>
                 </div>
                 <div className = 'team__two'>
                     <span className='name'>{team_two_name}</span>
-                    <span className='score'>{team_two_score}</span>
                 </div>
             </div>
         </div>
@@ -37,4 +41,4 @@ const LiveMatch: FC<liveMatchModel> = (props) => {
   )
 }
 
-export default LiveMatch
+export default PopularMatch
