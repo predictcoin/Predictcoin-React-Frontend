@@ -17,7 +17,9 @@ const MySportPredictionTableRow: FC<MySportPredictionTableRowProps> = ({
     sportPrediction
 }) => {
     const { getCollapseProps, getToggleProps, isExpanded, setExpanded } =
-        useCollapse();
+        useCollapse({
+          duration: 300
+        });
 
     return (
         <>
