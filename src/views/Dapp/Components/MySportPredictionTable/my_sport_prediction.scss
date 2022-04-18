@@ -165,12 +165,14 @@
 
 
 .more__details {
-	width: 100%;
+	width: 94%;
 	height: 80px;
 	background: linear-gradient(180deg, rgba(51, 47, 103, 0.10194) 2.1%, rgba(61, 60, 125, 0.0922917) 98.26%);
 	position: absolute;
+	right: 0;
 	transform: translateY(-50%);
-	padding: 24px 50px;
+	padding: 24px;
+	padding-left: 3.6%;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -205,5 +207,13 @@
 				color: #C8304D;
 			}
 		}
+	}
+
+	@media screen and (max-width: 1550px) {
+		padding-left: 4.2%;
+	}
+
+	@media screen and (max-width: 1000px) {
+		padding-left: 4.5%;
 	}
 }
