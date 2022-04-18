@@ -1,4 +1,5 @@
 import { FC } from "react";
+import MySportPredictionTable from "../../Components/MySportPredictionTable";
 
 const Mypredictions: FC = () => {
     const data = {
@@ -10,7 +11,7 @@ const Mypredictions: FC = () => {
 
     return (
         <div className="sport__prediction__my__predictions">
-            <div className="sport__prediction__details">
+            <section className="sport__prediction__details">
                 <div className="detail">
                     <span className="dot"></span>
                     <div className="title__value">
@@ -44,7 +45,11 @@ const Mypredictions: FC = () => {
                 </div>
 
                 <button className="withdraw__btn">Withdraw balance</button>
-            </div>
+            </section>
+
+            <section className="my__predictions__table__container">
+                <MySportPredictionTable />
+            </section>
         </div>
     );
 };

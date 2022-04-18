@@ -16,10 +16,9 @@ interface UpcomingMatchesTableRowProps {
 const UpcomingMatchesTableRow: FC<UpcomingMatchesTableRowProps> = ({match, openMatchPredictionModal}) => {
 
   const percentage = (match.taken_slots/match.total_slots * 100)
-  console.log("per: ", percentage)
   let trailColor = "#C8304D";
   if(percentage > 30) trailColor = "#D7911D";
-  if(percentage > 80) trailColor = "green";
+  if(percentage > 80) trailColor = "#0f970f";
   return (
     <TableRow forTableBody>
         <TableData text={match.time + match.date}>

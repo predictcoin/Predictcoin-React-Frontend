@@ -7,9 +7,9 @@ interface UpcomingMatchesProps {
 
 const UpcomingMatches: FC<UpcomingMatchesProps> = ({openMatchPredictionModal}) => {
   return (
-    <div className='sport__prediction__upcoming__matches'>
+    <section className='sport__prediction__upcoming__matches'>
       <UpcomingMatchesTable openMatchPredictionModal = {openMatchPredictionModal}/>
-    </div>
+    </section>
   )
 }
 
