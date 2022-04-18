@@ -21,6 +21,10 @@ const MySportPredictionTableRow: FC<MySportPredictionTableRowProps> = ({
           duration: 300
         });
 
+    const onClaimClick = (e: any) => {
+        e.stopPropagation()
+    }
+
     return (
         <>
             <TableRow forTableBody onClick={() => setExpanded((prev) => !prev)}>
@@ -83,9 +87,12 @@ const MySportPredictionTableRow: FC<MySportPredictionTableRowProps> = ({
                             : sportPrediction.outcome}
                     </span>
                 </TableData>
+                <TableData text={""}>
+                    {sportPrediction.outcome === outcome.WON && <button onClick={onClaimClick} className="cliam__win__btn">Claim win</button>}
+                </TableData>
             </TableRow>
             <tr {...getCollapseProps()}>
-                <TableData text={""} colSpan={5}>
+                <TableData text={""} colSpan={6}>
                     <div className="more__details">
                         <div className="stats">
                             <span className="key">Final score</span>

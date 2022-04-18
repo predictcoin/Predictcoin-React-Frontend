@@ -118,7 +118,7 @@
 							border-radius: 50%;
 							top: 50%;
 							left: 0;
-							transform: translate(50%, -50%);
+							transform: translate(100%, -50%);
 						}
 					}
 
@@ -147,13 +147,21 @@
 					}
 
 					.outcome__won {
-						color: #C8304D;
+						color: #0f970f; 
 						font-weight: 700;
 					}
 
 					.outcome__lost {
-						color: #0f970f;
+						color: #C8304D;
 						font-weight: 700;
+					}
+
+					.cliam__win__btn {
+						background-color: transparent;
+						color: #34508f;
+						border: 1px solid #34508f;
+						padding: 5px 8px;
+						border-radius: 3px;
 					}
 
 				}
@@ -172,7 +180,8 @@
 	right: 0;
 	transform: translateY(-50%);
 	padding: 24px;
-	padding-left: 3.6%;
+	padding-left: 2.4%;
+	padding-right: 15%;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -209,11 +218,7 @@
 		}
 	}
 
-	@media screen and (max-width: 1550px) {
-		padding-left: 4.2%;
-	}
-
 	@media screen and (max-width: 1000px) {
-		padding-left: 4.5%;
+		padding-left: 3%;
 	}
 }

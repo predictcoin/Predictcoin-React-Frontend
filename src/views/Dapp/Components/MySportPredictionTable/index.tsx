@@ -19,6 +19,7 @@ const MySportPredictionTable = () => {
                     <TableHead title={'match'} arrow/>
                     <TableHead title={'status'} arrow/>
                     <TableHead title={''} />
+                    <TableHead title={''} />
                 </TableRow>
             </TableHeader>
             <TableBody>
