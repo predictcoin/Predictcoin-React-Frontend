@@ -194,7 +194,7 @@ const PredictionPoolCard: FC<Props> = ({ type }) => {
                             alt="predict-coin-logo"
                         />
 
-                        <img
+                        {/* <img
                             src={QuestionIcon}
                             alt="predict-coin-logo"
                             style={{ marginLeft: 10, width: 20, height: 20 }}
@@ -205,7 +205,7 @@ const PredictionPoolCard: FC<Props> = ({ type }) => {
                             <p className="tooltip__text">{tooltip}</p>
                         ) : (
                             ""
-                        )}
+                        )} */}
                     </div>
 
                     <div className="token__title">
