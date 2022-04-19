@@ -11,10 +11,12 @@ import useCollapse from "react-collapsed";
 
 interface MySportPredictionTableRowProps {
     sportPrediction: mySportPredictionModel;
+    openClaimModal: () => void
 }
 
 const MySportPredictionTableRow: FC<MySportPredictionTableRowProps> = ({
-    sportPrediction
+    sportPrediction,
+    openClaimModal
 }) => {
     const { getCollapseProps, getToggleProps, isExpanded, setExpanded } =
         useCollapse({
@@ -23,6 +25,7 @@ const MySportPredictionTableRow: FC<MySportPredictionTableRowProps> = ({
 
     const onClaimClick = (e: any) => {
         e.stopPropagation()
+        openClaimModal()
     }
 
     return (
