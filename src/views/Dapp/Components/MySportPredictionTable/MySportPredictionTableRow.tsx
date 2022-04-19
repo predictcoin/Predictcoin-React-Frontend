@@ -11,15 +11,22 @@ import useCollapse from "react-collapsed";
 
 interface MySportPredictionTableRowProps {
     sportPrediction: mySportPredictionModel;
+    openClaimModal: () => void
 }
 
 const MySportPredictionTableRow: FC<MySportPredictionTableRowProps> = ({
-    sportPrediction
+    sportPrediction,
+    openClaimModal
 }) => {
     const { getCollapseProps, getToggleProps, isExpanded, setExpanded } =
         useCollapse({
           duration: 300
         });
+
+    const onClaimClick = (e: any) => {
+        e.stopPropagation()
+        openClaimModal()
+    }
 
     return (
         <>
@@ -83,9 +90,12 @@ const MySportPredictionTableRow: FC<MySportPredictionTableRowProps> = ({
                             : sportPrediction.outcome}
                     </span>
                 </TableData>
+                <TableData text={""}>
+                    {sportPrediction.outcome === outcome.WON && <button onClick={onClaimClick} className="cliam__win__btn">Claim win</button>}
+                </TableData>
             </TableRow>
             <tr {...getCollapseProps()}>
-                <TableData text={""} colSpan={5}>
+                <TableData text={""} colSpan={6}>
                     <div className="more__details">
                         <div className="stats">
                             <span className="key">Final score</span>

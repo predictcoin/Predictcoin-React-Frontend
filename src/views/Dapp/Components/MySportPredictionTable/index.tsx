@@ -7,8 +7,13 @@ import './my_sport_prediction.scss'
 import MySportPredictionTableRow from './MySportPredictionTableRow'
 import mySportPredictionData from '../../data/mySportPredictionData'
 import { v4 as uuidv4 } from 'uuid';
+import { FC } from 'react'
 
-const MySportPredictionTable = () => {
+interface MySportPredictionTableProps {
+    openClaimModal: () => void;
+}
+
+const MySportPredictionTable:FC<MySportPredictionTableProps> = ({openClaimModal}) => {
   return (
     <div className='my__sport__prediction__table'>
         <Table>
@@ -19,10 +24,11 @@ const MySportPredictionTable = () => {
                     <TableHead title={'match'} arrow/>
                     <TableHead title={'status'} arrow/>
                     <TableHead title={''} />
+                    <TableHead title={''} />
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {mySportPredictionData.map(sportPrediction => <MySportPredictionTableRow key = {uuidv4()} sportPrediction = {sportPrediction} />)}
+                {mySportPredictionData.map(sportPrediction => <MySportPredictionTableRow key = {uuidv4()} sportPrediction = {sportPrediction} openClaimModal = {openClaimModal} />)}
             </TableBody>
         </Table>
     </div>

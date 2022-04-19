@@ -1,4 +1,6 @@
-import { FC } from "react";
+import { FC, useState } from "react";
+import ClaimWinModal from "../../Components/CustomModal/ClaimWinModal";
+import FilledSlotsModal from "../../Components/CustomModal/FilledSlotsModal";
 import MySportPredictionTable from "../../Components/MySportPredictionTable";
 
 const Mypredictions: FC = () => {
@@ -8,6 +10,13 @@ const Mypredictions: FC = () => {
         round_lost: 5,
         token_balance: "300,345"
     };
+
+    const [claimModalopen, setClaimModalOpen] = useState(false)
+    const [slotsFilledModalOpen, setSlotsFilledModalOpen] = useState(false)
+
+    const toggleClaimModal = () => {
+        setClaimModalOpen(prev => !prev);
+    }
 
     return (
         <div className="sport__prediction__my__predictions">
@@ -48,7 +57,9 @@ const Mypredictions: FC = () => {
             </section>
 
             <section className="my__predictions__table__container">
-                <MySportPredictionTable />
+                <MySportPredictionTable openClaimModal = {toggleClaimModal} />
+                {claimModalopen && <ClaimWinModal closeModal={toggleClaimModal} />}
+                {slotsFilledModalOpen && <FilledSlotsModal closeModal={() => setSlotsFilledModalOpen(false)} />}
             </section>
         </div>
     );
