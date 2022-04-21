@@ -194,15 +194,18 @@ const PredictionPoolCard: FC<Props> = ({ type }) => {
                             alt="predict-coin-logo"
                         />
 
-                        {/*  */}
                         {/* <img
-                            // className="tooltip"
                             src={QuestionIcon}
                             alt="predict-coin-logo"
                             style={{ marginLeft: 10, width: 20, height: 20 }}
                             title={tooltip_message}
-                        /> */}
-                        {/* <p className="tooltip__text">{tooltip_message}</p> */}
+                            onClick={handleShowTooltip}
+                        />
+                        {isClicked ? (
+                            <p className="tooltip__text">{tooltip}</p>
+                        ) : (
+                            ""
+                        )} */}
                     </div>
 
                     <div className="token__title">
