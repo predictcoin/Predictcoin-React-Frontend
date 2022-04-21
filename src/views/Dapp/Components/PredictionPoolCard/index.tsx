@@ -316,7 +316,6 @@ const PredictionPoolCard: FC<Props> = ({ type }) => {
                     </div>
 
                     <div className="stake__details">
-                        {console.log(totalStaked, decimals)}
                         <p>
                             Total staked:{" "}
                             {displayTokenValue(totalStaked, decimals, 5)}
