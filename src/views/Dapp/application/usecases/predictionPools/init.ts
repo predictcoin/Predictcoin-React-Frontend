@@ -67,7 +67,6 @@ export const initLoserPool = async ({contract, userAddress}: {contract: LoserPre
   poolStore.rewardToken = rewardToken;
   poolStore.rewardTokenPrice = await getMMFPrice(contract.provider);
   poolStore.rewardTokenPerBlock = toNumberLib((await contract.rewardTokenPerBlock()).mul(await contract.BONUS_MULTIPLIER()));
-  console.log(getChainId(), "chainId")
   poolStore.lpToken = TOKENS[getChainId()].CRP;
   poolStore.lpTokenPrice = CRPPrice;
 
@@ -88,7 +87,6 @@ export const initLoserPool = async ({contract, userAddress}: {contract: LoserPre
 export const initWinnerPool = async ({contract, userAddress}: {contract: WinnerPrediction, userAddress: string}): 
   Promise<Omit<PredictionPoolStore, "available" | "isLoading" | "pastPools">> => {
   CRPPrice = !CRPPrice ? await getCRPPrice(contract.provider): CRPPrice;
-  console.log(CRPPrice.toString(), "CRPPrice")
   const poolStore = await init({contract, userAddress, CRPPrice}) as PredictionPoolStore;
   poolStore.rewardToken = TOKENS[getChainId()].CRP;
   poolStore.rewardTokenPrice = CRPPrice;

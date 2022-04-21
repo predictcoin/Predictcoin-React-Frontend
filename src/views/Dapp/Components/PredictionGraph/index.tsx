@@ -98,7 +98,6 @@ const PredictionGraph: FC<PredictionGraphProps> = ({
                         return "";
                     } else {
                         // @ts-ignore
-                        // console.log(this.mergedDates, month);
                         // @ts-ignore
                         this.mergedDates = month;
                         // return 'test';
