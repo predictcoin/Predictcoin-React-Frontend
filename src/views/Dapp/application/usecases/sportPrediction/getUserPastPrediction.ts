@@ -10,4 +10,6 @@ export const getUserPastPrediction = async (params: Params) => {
     const {contract, dispatch, address} = params
 
     const userPrediction:SportPrediction.PredictionStruct[] = await contract.getAllUserPredictions(address)
+
+    console.log("user predictions")
 }

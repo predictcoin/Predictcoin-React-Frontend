@@ -1,0 +1,1 @@
+export const sportApiEndpoint = "https://predictcoin-mainnet-staging.herokuapp.com/football-api";
