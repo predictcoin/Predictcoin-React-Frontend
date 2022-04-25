@@ -308,6 +308,171 @@ const _abi = [
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "bytes32[]",
+        name: "_eventIds",
+        type: "bytes32[]",
+      },
+    ],
+    name: "getEvents",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "bytes32",
+            name: "id",
+            type: "bytes32",
+          },
+          {
+            internalType: "bytes",
+            name: "teamA",
+            type: "bytes",
+          },
+          {
+            internalType: "bytes",
+            name: "teamB",
+            type: "bytes",
+          },
+          {
+            internalType: "bytes",
+            name: "league",
+            type: "bytes",
+          },
+          {
+            internalType: "bytes",
+            name: "round",
+            type: "bytes",
+          },
+          {
+            internalType: "uint256",
+            name: "startTimestamp",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "endTimestamp",
+            type: "uint256",
+          },
+          {
+            internalType: "enum ISportPrediction.EventOutcome",
+            name: "outcome",
+            type: "uint8",
+          },
+          {
+            internalType: "uint16",
+            name: "season",
+            type: "uint16",
+          },
+          {
+            internalType: "int8",
+            name: "realTeamAScore",
+            type: "int8",
+          },
+          {
+            internalType: "int8",
+            name: "realTeamBScore",
+            type: "int8",
+          },
+        ],
+        internalType: "struct ISportPrediction.SportEvent[]",
+        name: "",
+        type: "tuple[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getEventsLength",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256[]",
+        name: "indexes",
+        type: "uint256[]",
+      },
+    ],
+    name: "getIndexedEvents",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "bytes32",
+            name: "id",
+            type: "bytes32",
+          },
+          {
+            internalType: "bytes",
+            name: "teamA",
+            type: "bytes",
+          },
+          {
+            internalType: "bytes",
+            name: "teamB",
+            type: "bytes",
+          },
+          {
+            internalType: "bytes",
+            name: "league",
+            type: "bytes",
+          },
+          {
+            internalType: "bytes",
+            name: "round",
+            type: "bytes",
+          },
+          {
+            internalType: "uint256",
+            name: "startTimestamp",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "endTimestamp",
+            type: "uint256",
+          },
+          {
+            internalType: "enum ISportPrediction.EventOutcome",
+            name: "outcome",
+            type: "uint8",
+          },
+          {
+            internalType: "uint16",
+            name: "season",
+            type: "uint16",
+          },
+          {
+            internalType: "int8",
+            name: "realTeamAScore",
+            type: "int8",
+          },
+          {
+            internalType: "int8",
+            name: "realTeamBScore",
+            type: "int8",
+          },
+        ],
+        internalType: "struct ISportPrediction.SportEvent[]",
+        name: "",
+        type: "tuple[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [],
     name: "getLiveEvents",
     outputs: [

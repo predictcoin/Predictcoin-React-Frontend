@@ -100,6 +100,9 @@ export interface SportPredictionInterface extends utils.Interface {
     "crp()": FunctionFragment;
     "eventIdsToPredictionAmount(bytes32)": FunctionFragment;
     "getAllUserPredictions(address)": FunctionFragment;
+    "getEvents(bytes32[])": FunctionFragment;
+    "getEventsLength()": FunctionFragment;
+    "getIndexedEvents(uint256[])": FunctionFragment;
     "getLiveEvents()": FunctionFragment;
     "getMultiplier()": FunctionFragment;
     "getPredictableEvents()": FunctionFragment;
@@ -133,6 +136,18 @@ export interface SportPredictionInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "getAllUserPredictions",
     values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getEvents",
+    values: [BytesLike[]]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getEventsLength",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getIndexedEvents",
+    values: [BigNumberish[]]
   ): string;
   encodeFunctionData(
     functionFragment: "getLiveEvents",
@@ -222,6 +237,15 @@ export interface SportPredictionInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "getAllUserPredictions",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "getEvents", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "getEventsLength",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getIndexedEvents",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -450,6 +474,18 @@ export interface SportPrediction extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[SportPrediction.PredictionStructOutput[]]>;
 
+    getEvents(
+      _eventIds: BytesLike[],
+      overrides?: CallOverrides
+    ): Promise<[ISportPrediction.SportEventStructOutput[]]>;
+
+    getEventsLength(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    getIndexedEvents(
+      indexes: BigNumberish[],
+      overrides?: CallOverrides
+    ): Promise<[ISportPrediction.SportEventStructOutput[]]>;
+
     getLiveEvents(
       overrides?: CallOverrides
     ): Promise<[ISportPrediction.SportEventStructOutput[]]>;
@@ -564,6 +600,18 @@ export interface SportPrediction extends BaseContract {
     overrides?: CallOverrides
   ): Promise<SportPrediction.PredictionStructOutput[]>;
 
+  getEvents(
+    _eventIds: BytesLike[],
+    overrides?: CallOverrides
+  ): Promise<ISportPrediction.SportEventStructOutput[]>;
+
+  getEventsLength(overrides?: CallOverrides): Promise<BigNumber>;
+
+  getIndexedEvents(
+    indexes: BigNumberish[],
+    overrides?: CallOverrides
+  ): Promise<ISportPrediction.SportEventStructOutput[]>;
+
   getLiveEvents(
     overrides?: CallOverrides
   ): Promise<ISportPrediction.SportEventStructOutput[]>;
@@ -674,6 +722,18 @@ export interface SportPrediction extends BaseContract {
       _user: string,
       overrides?: CallOverrides
     ): Promise<SportPrediction.PredictionStructOutput[]>;
+
+    getEvents(
+      _eventIds: BytesLike[],
+      overrides?: CallOverrides
+    ): Promise<ISportPrediction.SportEventStructOutput[]>;
+
+    getEventsLength(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getIndexedEvents(
+      indexes: BigNumberish[],
+      overrides?: CallOverrides
+    ): Promise<ISportPrediction.SportEventStructOutput[]>;
 
     getLiveEvents(
       overrides?: CallOverrides
@@ -861,6 +921,18 @@ export interface SportPrediction extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getEvents(
+      _eventIds: BytesLike[],
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getEventsLength(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getIndexedEvents(
+      indexes: BigNumberish[],
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     getLiveEvents(overrides?: CallOverrides): Promise<BigNumber>;
 
     getMultiplier(overrides?: CallOverrides): Promise<BigNumber>;
@@ -969,6 +1041,18 @@ export interface SportPrediction extends BaseContract {
 
     getAllUserPredictions(
       _user: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getEvents(
+      _eventIds: BytesLike[],
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getEventsLength(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getIndexedEvents(
+      indexes: BigNumberish[],
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
