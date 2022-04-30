@@ -128,7 +128,7 @@ const MySportPredictionTableRow: FC<MySportPredictionTableRowProps> = ({
                                 {[status.LIVE, status.PLAYED].includes(
                                     prediction.status as status
                                 )
-                                    ? `${prediction.teamAPossession}% : ${prediction.teamBPossession}%`
+                                    ? `${prediction.teamAPossession} : ${prediction.teamBPossession}`
                                     : "- : -"}
                             </span>
                         </div>
@@ -138,17 +138,13 @@ const MySportPredictionTableRow: FC<MySportPredictionTableRowProps> = ({
                             <span className="value">
                                 <span className="win">
                                     <RiArrowRightUpFill />{" "}
-                                    {[status.LIVE, status.PLAYED].includes(
-                                        prediction.status as status
-                                    )
+                                    {prediction.status === status.PLAYED
                                         ? `${prediction.winPercentage}%`
                                         : "0%"}
                                 </span>
                                 <span className="loss">
                                     <RiArrowRightDownFill />{" "}
-                                    {[status.LIVE, status.PLAYED].includes(
-                                        prediction.status as status
-                                    )
+                                    {prediction.status === status.PLAYED
                                         ? `${prediction.lossPercentage}%`
                                         : "0%"}
                                 </span>

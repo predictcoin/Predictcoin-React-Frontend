@@ -41,8 +41,8 @@ export interface UserPrediction extends Match {
     realTeamBScore: number | undefined,
     winPercentage?: number,
     lossPercentage?: number,
-    teamAPossession?: number,
-    teamBPossession?: number,
+    teamAPossession?: string,
+    teamBPossession?: string,
     outcome: outcome | undefined, // the unknown is to silence the error cause by the switch statement default state that compute the outcome of a match
     status: status | undefined, //same here
     claimed: boolean,

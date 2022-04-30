@@ -137,12 +137,12 @@ export const getUserPastPrediction = async (params: Params) => {
 
     const possessionsArr = await Promise.all(
         matchDetailsArr.map(async (matchDetail) => {
-            return await getBallPossessions(
-                matchDetail.fixture.id,
-                matchDetail.teams.home.id
-            );
+            return await getBallPossessions(matchDetail.fixture.id);
         })
     );
+
+    console.log("possessionsArr: ", possessionsArr);
+    
 
     const stateData: UserPrediction[] = userPredictions.map(
         (
