@@ -24,7 +24,8 @@ const ClaimWinModal: FC = () => {
     useEffect(() => {
       const target = userPastPredictions.find((prediction:UserPrediction) => prediction.id === claimModal.matchId)
         setPredictionObj(target)
-    }, [])
+        // eslint-disable-next-line
+    }, [JSON.stringify(userPastPredictions), claimModal.matchId])
     
 
     useEffect(() => {
