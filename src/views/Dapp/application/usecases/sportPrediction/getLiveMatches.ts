@@ -35,7 +35,9 @@ export const getLivematches = async (params: Params): Promise<void> => {
             teamB: liveEventsdetailsArr[index].teams.away.name,
             teamALogoUri: liveEventsdetailsArr[index].teams.home.logo,
             teamBLogoUri: liveEventsdetailsArr[index].teams.away.logo,
-            startTimeStamp: Number(match.startTimestamp)
+            startTimeStamp: Number(match.startTimestamp),
+            teamAScore: liveEventsdetailsArr[index].goals.home,
+            teamBScore: liveEventsdetailsArr[index].goals.away,
         }
     })
     

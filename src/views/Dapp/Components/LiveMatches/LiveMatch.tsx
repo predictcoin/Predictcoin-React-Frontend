@@ -3,7 +3,7 @@ import { LiveMatch as LiveMatchEntity } from '../../application/domain/sportPred
 import { getElapsedSeconds } from '../../lib/utils/formatMatchUIDateAndTime'
 
 const LiveMatch: FC<LiveMatchEntity> = (props) => {
-    const { startTimeStamp, teamA, teamALogoUri, teamB, teamBLogoUri} = props
+    const { startTimeStamp, teamA, teamALogoUri, teamB, teamBLogoUri, teamAScore, teamBScore} = props
     const [secondsIntoMatch, setSecondsIntoMatch] = useState<number>()
     const [formatedTime, setFormatedTime] = useState<string>()
 
@@ -54,11 +54,11 @@ const LiveMatch: FC<LiveMatchEntity> = (props) => {
             <div className='team__scores'>
                 <div className = 'team__one'>
                     <span className='name'>{teamA}</span>
-                    <span className='score'>{1}</span>
+                    <span className='score'>{teamAScore}</span>
                 </div>
                 <div className = 'team__two'>
                     <span className='name'>{teamB}</span>
-                    <span className='score'>{1}</span>
+                    <span className='score'>{teamBScore}</span>
                 </div>
             </div>
         </div>
