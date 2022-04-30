@@ -617,6 +617,67 @@
   {
     "inputs": [
       {
+        "internalType": "bytes32",
+        "name": "_eventId",
+        "type": "bytes32"
+      }
+    ],
+    "name": "getPredictions",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "user",
+            "type": "address"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "eventId",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "reward",
+            "type": "uint256"
+          },
+          {
+            "internalType": "int8",
+            "name": "teamAScore",
+            "type": "int8"
+          },
+          {
+            "internalType": "int8",
+            "name": "teamBScore",
+            "type": "int8"
+          },
+          {
+            "internalType": "bool",
+            "name": "predicted",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "claimed",
+            "type": "bool"
+          }
+        ],
+        "internalType": "struct SportPrediction.Prediction[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "address",
         "name": "_user",
         "type": "address"

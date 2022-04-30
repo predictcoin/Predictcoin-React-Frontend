@@ -36,6 +36,8 @@ export const getUpcomingMatches = (contract: SportPrediction) => async (dispatch
         type: actionTypes.GET_UPCOMING_MATCHES
     })
 
+    
+
     const _dispatch = (data: Pick<SportPredictionStore, "upcomingMatches">) => {
         dispatch({
             type: actionTypes.SET_UPCOMING_MATCHES,
@@ -92,4 +94,18 @@ export const getSportPredicitonData = (contract: SportPrediction) => async (disp
     } catch(err) {
         console.error(err)
     }
+}
+
+export const setSelectedMatch = (matchId: string | null) => (dispatch: Dispatch<{type:string, data?: Pick<SportPredictionStore, "selectedMatchId">}>): void => {
+    dispatch({
+        type: actionTypes.SET_SELECTED_MATCH,
+        data: {selectedMatchId: matchId ? matchId : null}
+    })
+}
+
+export const setClaimModal = (open: boolean, matchId: string) => (dispatch: Dispatch<{type:string, data?: Pick<SportPredictionStore, "claimModal">}>):void => {
+    dispatch({
+        type: actionTypes.SET_CLAIM_MODAL,
+        data: {claimModal: {open, matchId}}
+    })
 }

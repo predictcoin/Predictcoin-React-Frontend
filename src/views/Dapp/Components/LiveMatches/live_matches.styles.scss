@@ -1,6 +1,16 @@
 .live__matches__container {
     width: 100%;
     position: relative;
+    .no__live__matches {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 18px;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        color: #b1afcd;
+        margin-bottom: 18px;
+    }
 
     .custom_pagination {
         background-color: rgba(14, 86, 192, 0.8);
@@ -103,6 +113,17 @@
             }
         }
     }
+}
+
+.live_match_skeleton {
+    cursor: pointer;
+    min-width: 260px;
+    width: 260px;
+    border-radius: 8px;
+    padding: 0px;
+    margin-right: 14px;
+    height: 100px;
+   
 }
 
 .swiper-pagination {

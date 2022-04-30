@@ -14,5 +14,5 @@ export const getSportPredictionData = async (params: Params): Promise<void> => {
     const rewardMultiplier:BigNumber = await contract.getMultiplier();
     const maxPredictions:BigNumber = await contract.maxPredictions();
 
-    dispatch({predictionAmount, rewardMultiplier, maxPredictions});
+    dispatch({predictionAmount: predictionAmount, rewardMultiplier: Number(rewardMultiplier), maxPredictions: Number(maxPredictions)});
 }

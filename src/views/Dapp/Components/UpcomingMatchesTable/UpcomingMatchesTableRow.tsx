@@ -1,5 +1,4 @@
-import { FC } from "react"
-import UpcomingMatchModel from "../../models/UpcomingMatchModel"
+import { FC, useEffect, useState } from "react"
 import TableData from "../Table/TableData";
 import TableRow from "../Table/TableRow";
 import {
@@ -7,18 +6,42 @@ import {
   buildStyles
 } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import { UpcomingMatch } from "../../application/domain/sportPrediction/entity";
+import {useDispatch} from 'react-redux'
+import { setSelectedMatch } from "../../application/infrastructure/redux/actions/sportPrediction";
+import useSportPredictionViewModel from "../../application/controllers/useSportPredictionViewModel";
 
 interface UpcomingMatchesTableRowProps {
-    match: UpcomingMatchModel;
-    openMatchPredictionModal: () => void;
+    match: UpcomingMatch;
+    maxPredictions: number
 }
 
-const UpcomingMatchesTableRow: FC<UpcomingMatchesTableRowProps> = ({match, openMatchPredictionModal}) => {
+const UpcomingMatchesTableRow: FC<UpcomingMatchesTableRowProps> = ({match, maxPredictions}) => {
+  const dispatch = useDispatch()
+  const openMatchPredictionModal = (matchId: string | null) => {
+    setSelectedMatch(matchId)(dispatch)
+  }
 
-  const percentage = (match.taken_slots/match.total_slots * 100)
+  const [prediction, setPrediction] = useState<string>();
+
+  const {userPastPredictions} = useSportPredictionViewModel()
+  useEffect(() => {
+    if(userPastPredictions.length === 0) return setPrediction(undefined);
+    
+    const predictionObj = userPastPredictions.find(prediction => prediction.id === match.id);
+    
+    if(predictionObj) {
+      setPrediction(`You predicted ${predictionObj?.predictedTeamAScore}:${predictionObj?.predictedTeamBScore}`)
+    }
+  }, [userPastPredictions, match.id])
+  
+  
+
+  const percentage = (match.slotsFilled/maxPredictions * 100)
   let trailColor = "#C8304D";
   if(percentage > 30) trailColor = "#D7911D";
   if(percentage > 80) trailColor = "#0f970f";
+  
   return (
     <TableRow forTableBody>
         <TableData text={match.time + match.date}>
@@ -29,13 +52,13 @@ const UpcomingMatchesTableRow: FC<UpcomingMatchesTableRowProps> = ({match, openM
           <div className="teams">
             <div className='logos__container'>
                 <div className='team__one__logo__container'>
-                    <img src = {match.team_one_logo_uri} alt = {`${match.team_one_name} logo`} />
+                    <img src = {match.teamALogoUri} alt = {`${match.teamA} logo`} />
                 </div>
                 <div className='team__two__logo__container'>
-                    <img src = {match.team_two_logo_uri} alt = {`${match.team_two_name} logo`} />
+                    <img src = {match.teamBLogoUri} alt = {`${match.teamB} logo`} />
                 </div>
             </div>
-            <span>{match.team_one_name + " VS " + match.team_two_name}</span>
+            <span>{match.teamA + " VS " + match.teamB}</span>
           </div>
         </TableData>
         <TableData text="">
@@ -48,17 +71,20 @@ const UpcomingMatchesTableRow: FC<UpcomingMatchesTableRowProps> = ({match, openM
                 trailColor: trailColor
               })}
             />
-            <span>{match.taken_slots + "/" + match.total_slots}</span>
+            <span>{match.slotsFilled + "/" + maxPredictions}</span>
           </div>
         </TableData>
         <TableData text="">
+          {prediction ? <span className="predicted_prediction">{prediction}</span> : 
             <button
-              disabled = { match.taken_slots === match.total_slots}
-             className={match.taken_slots < match.total_slots ? "" : "disabled__btn"}
-             onClick = {openMatchPredictionModal}
+              disabled = { match.slotsFilled === maxPredictions}
+             className={match.slotsFilled < maxPredictions ? "" : "disabled__btn"}
+             onClick = {() => openMatchPredictionModal(match.id)}
             >
+          
                 Predict
             </button>
+          }   
         </TableData>
     </TableRow>
   );

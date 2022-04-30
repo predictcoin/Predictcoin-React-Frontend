@@ -5,10 +5,12 @@ import * as actionTypes from "../actionTypes/sportPrediction";
 const initialState: SportPredictionStore = {
     isLoadingUpcomingMatches: false,
     isLoadingUserPastPredictions: false,
-    isloadingLiveMatches: false,
+    isLoadingLiveMatches: false,
     predictionAmount: BigNumber.from(0),
-    maxPredictions: BigNumber.from(0),
-    rewardMultiplier: BigNumber.from(0),
+    maxPredictions: 0,
+    rewardMultiplier: 0,
+    selectedMatchId: null,
+    claimModal: {open: false, matchId: ""},
     liveMatches: {},
     upcomingMatches: {},
     userPastPredictions: {}
@@ -17,13 +19,13 @@ const initialState: SportPredictionStore = {
 export const sportPredictionReducer = (state = initialState, action: {type: string, data?: Partial<SportPredictionStore>}): SportPredictionStore => {
     switch (action.type) {
         case actionTypes.GET_LIVE_MATCHES:
-            return {...state, isloadingLiveMatches: true}
+            return {...state, isLoadingLiveMatches: true}
         case actionTypes.SET_LIVE_MATCHES:
             return {...state, liveMatches: {...state.liveMatches, ...action.data?.liveMatches}}
         case actionTypes.GET_LIVE_MATCHES_SUCCESS:
-            return {...state, isloadingLiveMatches: false}
+            return {...state, isLoadingLiveMatches: false}
         case actionTypes.GET_LIVE_MATCHES_FAILED:
-            return {...state, isloadingLiveMatches: false}
+            return {...state, isLoadingLiveMatches: false}
 
         case actionTypes.GET_UPCOMING_MATCHES:
             return {...state, isLoadingUpcomingMatches: true}
@@ -42,6 +44,12 @@ export const sportPredictionReducer = (state = initialState, action: {type: stri
             return {...state, isLoadingUserPastPredictions: false}
         case actionTypes.GET_USER_PAST_PREDICTIONS_FAILED:
             return {...state, isLoadingUserPastPredictions: false}
+        case actionTypes.SET_SPORT_PREDICTION_DATA:
+            return {...state, ...action.data}
+        case actionTypes.SET_SELECTED_MATCH:
+            return {...state, ...action.data}
+        case actionTypes.SET_CLAIM_MODAL:
+            return {...state, ...action.data}
         default:
             return state;
     }

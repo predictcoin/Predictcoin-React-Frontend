@@ -1,6 +1,3 @@
-import { BigNumber } from "ethers";
-import LiveMatch from "../../../Components/LiveMatches/LiveMatch";
-
 export enum status {
     LIVE = "LIVE",
     PLAYED = "PLAYED",
@@ -18,27 +15,33 @@ export interface Match {
     id: string,
     teamA: string, 
     teamB: string,
-    league: string,
-    round: string,
-    startTimestamp: BigNumber,
-    endTimestamp: BigNumber,
-    season: string,
+    teamALogoUri: string,
+    teamBLogoUri: string
 }
 
-export interface LiveMatch extends Match {}
+export interface LiveMatch extends Match {
+    startTimeStamp: number;
+}
 
-export interface UpcomingMatch extends Match {}
+export interface UpcomingMatch extends Match {
+    time: string;
+    date: string
+    slotsFilled: number;
+}
 
 export interface UserPrediction extends Match {
+    time: string;
+    date: string
     slotsFilled: number;
-    realTeamAScore?: number,
-    realTeamBScore?: number,
+    predictedTeamAScore: number,
+    predictedTeamBScore: number,
+    realTeamAScore: number | undefined,
+    realTeamBScore: number | undefined,
     winPercentage?: number,
     lossPercentage?: number,
     teamAPossession?: number,
     teamBPossession?: number,
-    outcome: outcome,
-    status: status,
-    amount: BigNumber,
-    reward: BigNumber,
+    outcome: outcome | undefined, // the unknown is to silence the error cause by the switch statement default state that compute the outcome of a match
+    status: status | undefined, //same here
+    claimed: boolean,
 }

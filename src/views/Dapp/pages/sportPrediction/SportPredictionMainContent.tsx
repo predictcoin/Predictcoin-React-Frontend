@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useState } from "react";
+import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
 import Header from "../../Components/Header";
 import LiveMatches from "../../Components/LiveMatches"
@@ -13,6 +13,7 @@ import { displayDecimals } from "../../lib/utils/number";
 import { useWalletViewModel } from "../../application/controllers/walletViewModel";
 import useToken from "../../hooks/useToken";
 import { TOKENS } from "../../constants/addresses";
+import useSportPredictionViewModel from "../../application/controllers/useSportPredictionViewModel";
 
 interface SportPredictionMainContentProps {
     isSidebarExpanded: boolean;
@@ -23,9 +24,24 @@ const SportPredictionMainContent: FC<SportPredictionMainContentProps> = ({
     setIsSidebarExpanded
 }) => {
 
+    const {getUserPastPrediction, getSportPredicitonData, selectedMatchId} = useSportPredictionViewModel()
+    const {address} = useWalletViewModel()
+
+    
+
+    useEffect(() => {
+        getSportPredicitonData()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    useEffect(() => {
+        getUserPastPrediction()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [address])
+    
+
     const { pathname } = useLocation();
     const [modalOpened, setModalOpened] = useState<boolean>(false);
-    const [MatchPredictionmodalOpened, setMatchPredictionmodalOpened] = useState<boolean>(false);
     const { active, chainId } = useWalletViewModel();
     const { balance, decimals } = useToken(TOKENS[chainId].CRP);
 
@@ -40,13 +56,15 @@ const SportPredictionMainContent: FC<SportPredictionMainContentProps> = ({
     ) : (
         <ModalConnect closeModal={() => setModalOpened(false)} />
     );
+
+    
     
     
 
     return (
         <section className="sport__prediction__main__content">
             {modalOpened && modal}
-            {MatchPredictionmodalOpened && <MatchPredictionModal closeModal={() => setMatchPredictionmodalOpened(false)} />}
+            {!!selectedMatchId && <MatchPredictionModal />}
             
             <div className="container">
                 <Header
@@ -95,9 +113,7 @@ const SportPredictionMainContent: FC<SportPredictionMainContentProps> = ({
                                         key={index}
                                         path={path}
                                         element={
-                                            <UpcomingMatches 
-                                                openMatchPredictionModal = {() => setMatchPredictionmodalOpened(true)}
-                                            />
+                                            <UpcomingMatches />
                                         }
                                     />
                                 );

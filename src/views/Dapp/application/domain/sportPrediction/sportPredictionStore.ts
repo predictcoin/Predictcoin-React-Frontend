@@ -1,13 +1,15 @@
 import { BigNumber } from "ethers";
-import { LiveMatch, UpcomingMatch, UserPrediction } from "./entity";
+import { LiveMatch, outcome, UpcomingMatch, UserPrediction } from "./entity";
 
 export interface SportPredictionStore {
-    isloadingLiveMatches: boolean,
+    isLoadingLiveMatches: boolean,
     isLoadingUpcomingMatches: boolean,
     isLoadingUserPastPredictions: boolean,
     predictionAmount: BigNumber,
-    rewardMultiplier: BigNumber,
-    maxPredictions: BigNumber,
+    rewardMultiplier: number,
+    maxPredictions: number,
+    selectedMatchId: string | null //the id of an upcoming match opened in a predict modal
+    claimModal: {open: boolean, matchId: string},
     liveMatches: {[key: number]: LiveMatch},
     upcomingMatches: {[key: number]: UpcomingMatch},
     userPastPredictions: {[key: number]: UserPrediction},

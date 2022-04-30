@@ -1,31 +1,47 @@
-import { FC } from "react";
-import mySportPredictionModel, {
-    status
-} from "../../models/MySportPredictionModel";
+import { FC, ReactText, useRef } from "react";
+// import mySportPredictionModel, {
+//     status
+// } from "../../models/MySportPredictionModel";
 import TableData from "../Table/TableData";
 import TableRow from "../Table/TableRow";
 import { FaAngleRight } from "react-icons/fa";
 import { RiArrowRightUpFill, RiArrowRightDownFill } from "react-icons/ri";
 import { outcome } from "../../models/MySportPredictionModel";
 import useCollapse from "react-collapsed";
+import { UserPrediction, status } from "../../application/domain/sportPrediction/entity";
+import { useDispatch } from "react-redux";
+import { setClaimModal } from "../../application/infrastructure/redux/actions/sportPrediction";
+import { STATUS, ToastBody, TYPE } from "../Toast";
+import { toast } from "react-toastify";
 
 interface MySportPredictionTableRowProps {
-    sportPrediction: mySportPredictionModel;
-    openClaimModal: () => void
+    prediction: UserPrediction;
+    maxPredictions: number;
 }
 
 const MySportPredictionTableRow: FC<MySportPredictionTableRowProps> = ({
-    sportPrediction,
-    openClaimModal
+    prediction,
+    maxPredictions,
 }) => {
     const { getCollapseProps, getToggleProps, isExpanded, setExpanded } =
         useCollapse({
           duration: 300
         });
 
+    const pendingToast = useRef("" as ReactText);
+
+    const dispatch = useDispatch()
+
     const onClaimClick = (e: any) => {
         e.stopPropagation()
-        openClaimModal()
+        if(prediction.claimed === false) {
+            return setClaimModal(true, prediction.id)(dispatch)
+        }  else {
+            const body = ToastBody("You alredy claimed the reward for this prediction!", STATUS.ERROR, TYPE.ERROR)
+            toast.dismiss(pendingToast.current);
+            toast(body);
+        }
+        
     }
 
     return (
@@ -46,52 +62,52 @@ const MySportPredictionTableRow: FC<MySportPredictionTableRowProps> = ({
                     </button>
                 </TableData>
                 <TableData text={""}>
-                    <span className="match__time">{sportPrediction.time}</span>
-                    <span className="match__date">{sportPrediction.date}</span>
+                    <span className="match__time">{prediction.time}</span>
+                    <span className="match__date">{prediction.date}</span>
                 </TableData>
                 <TableData text={""}>
                     <div className="teams">
                         <div className="team__one">
-                            <span>{sportPrediction.team_one_name}</span>
+                            <span>{prediction.teamA}</span>
                             <img
-                                src={sportPrediction.team_one_logo_uri}
-                                alt={sportPrediction.team_one_name + " logo"}
+                                src={prediction.teamALogoUri}
+                                alt={prediction.teamA + " logo"}
                             />
                         </div>
                         <div className="team__two">
                             <div className="team__one">
                                 <img
-                                    src={sportPrediction.team_two_logo_uri}
+                                    src={prediction.teamBLogoUri}
                                     alt={
-                                        sportPrediction.team_two_name + " logo"
+                                        prediction.teamB + " logo"
                                     }
                                 />
-                                <span>{sportPrediction.team_two_name}</span>
+                                <span>{prediction.teamB}</span>
                             </div>
                         </div>
                     </div>
                 </TableData>
                 <TableData text={""}>
                     <span
-                        className={`status__${sportPrediction.status
+                        className={`status__${String(prediction.status)
                             .toLocaleLowerCase()
                             .split(" ")
                             .join("__")}`}
                     >
-                        {sportPrediction.status}
+                        {prediction.status as string}
                     </span>
                 </TableData>
                 <TableData text={""}>
                     <span
-                        className={`outcome__${sportPrediction.outcome.toLocaleLowerCase()}`}
+                        className={`outcome__${String(prediction.outcome).toLocaleLowerCase()}`}
                     >
-                        {sportPrediction.outcome === outcome.UNDETERMINED
+                        {prediction.outcome === outcome.UNDETERMINED
                             ? "-"
-                            : sportPrediction.outcome}
+                            : prediction.outcome}
                     </span>
                 </TableData>
                 <TableData text={""}>
-                    {sportPrediction.outcome === outcome.WON && <button onClick={onClaimClick} className="cliam__win__btn">Claim win</button>}
+                    {prediction.outcome === outcome.WON && <button onClick={onClaimClick} className="cliam__win__btn">Claim win</button>}
                 </TableData>
             </TableRow>
             <tr {...getCollapseProps()}>
@@ -100,8 +116,8 @@ const MySportPredictionTableRow: FC<MySportPredictionTableRowProps> = ({
                         <div className="stats">
                             <span className="key">Final score</span>
                             <span className="value">
-                                {sportPrediction.status === status.PLAYED
-                                    ? `${sportPrediction.team_one_score} : ${sportPrediction.team_two_score}`
+                                {prediction.status === status.PLAYED
+                                    ? `${prediction.realTeamAScore} : ${prediction.realTeamBScore}`
                                     : "- : -"}
                             </span>
                         </div>
@@ -110,9 +126,9 @@ const MySportPredictionTableRow: FC<MySportPredictionTableRowProps> = ({
                             <span className="key">Possession</span>
                             <span className="value">
                                 {[status.LIVE, status.PLAYED].includes(
-                                    sportPrediction.status
+                                    prediction.status as status
                                 )
-                                    ? `${sportPrediction.team_one_possession}% : ${sportPrediction.team_two_possession}%`
+                                    ? `${prediction.teamAPossession}% : ${prediction.teamBPossession}%`
                                     : "- : -"}
                             </span>
                         </div>
@@ -123,17 +139,17 @@ const MySportPredictionTableRow: FC<MySportPredictionTableRowProps> = ({
                                 <span className="win">
                                     <RiArrowRightUpFill />{" "}
                                     {[status.LIVE, status.PLAYED].includes(
-                                        sportPrediction.status
+                                        prediction.status as status
                                     )
-                                        ? `${sportPrediction.win_stats}%`
+                                        ? `${prediction.winPercentage}%`
                                         : "0%"}
                                 </span>
                                 <span className="loss">
                                     <RiArrowRightDownFill />{" "}
                                     {[status.LIVE, status.PLAYED].includes(
-                                        sportPrediction.status
+                                        prediction.status as status
                                     )
-                                        ? `${sportPrediction.win_stats}%`
+                                        ? `${prediction.lossPercentage}%`
                                         : "0%"}
                                 </span>
                             </span>
@@ -141,12 +157,12 @@ const MySportPredictionTableRow: FC<MySportPredictionTableRowProps> = ({
 
                         <div className="stats">
                             <span className="key">My prediction</span>
-                            <span className="value">5 : 2</span>
+                            <span className="value">{`${prediction.predictedTeamAScore}:${prediction.predictedTeamBScore}`}</span>
                         </div>
 
                         <div className="stats">
                             <span className="key">Prediction slots</span>
-                            <span className="value">10/10</span>
+                            <span className="value">{`${prediction.slotsFilled}/${maxPredictions}`}</span>
                         </div>
                     </div>
                 </TableData>

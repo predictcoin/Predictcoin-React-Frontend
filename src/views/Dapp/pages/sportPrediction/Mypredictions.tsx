@@ -1,21 +1,78 @@
-import { FC, useState } from "react";
+import { BigNumber } from "ethers";
+import { formatUnits } from "ethers/lib/utils";
+import { FC, ReactText, useEffect, useRef, useState } from "react";
+import { toast } from "react-toastify";
+import useSportPredictionViewModel from "../../application/controllers/useSportPredictionViewModel";
+import { outcome } from "../../application/domain/sportPrediction/entity";
 import ClaimWinModal from "../../Components/CustomModal/ClaimWinModal";
 import FilledSlotsModal from "../../Components/CustomModal/FilledSlotsModal";
 import MySportPredictionTable from "../../Components/MySportPredictionTable";
+import { STATUS, ToastBody, TYPE } from "../../Components/Toast";
 
 const Mypredictions: FC = () => {
-    const data = {
-        predicted: 23,
-        round_won: 15,
-        round_lost: 5,
-        token_balance: "300,345"
-    };
 
-    const [claimModalopen, setClaimModalOpen] = useState(false)
-    const [slotsFilledModalOpen, setSlotsFilledModalOpen] = useState(false)
+    const pendingToast = useRef("" as ReactText);
+    const [slotsFilledModalOpen, setSlotsFilledModalOpen] = useState(false);
+    const [PredictionStat, setPredictionStat] = useState<{
+        claimableReward: BigNumber;
+        win: number;
+        loss: number;
+    }>({
+        claimableReward: BigNumber.from(0),
+        win: 0,
+        loss: 0
+    });
+    const [unclimedPredictionRewardIds, setUnclimedRewardPredictionIds] = useState<string[]>([])
 
-    const toggleClaimModal = () => {
-        setClaimModalOpen(prev => !prev);
+    const {userPastPredictions, predictionAmount, rewardMultiplier, claimModal, claim } =
+        useSportPredictionViewModel();
+
+    const temp = JSON.stringify(userPastPredictions);
+
+    useEffect(() => {
+        let PredictionStatTemp = {
+            claimableReward: BigNumber.from(0),
+            win: 0,
+            loss: 0,
+        };
+        const unclimedPredictionRewardIdsTemp:string[] = []
+        userPastPredictions.forEach((prediction) => {
+            if (
+                prediction.outcome === outcome.WON &&
+                prediction.claimed === false
+            ) {
+                PredictionStatTemp = {
+                    ...PredictionStatTemp,
+                    claimableReward: PredictionStatTemp.claimableReward.add((predictionAmount.mul(rewardMultiplier))
+                    )
+                };
+                unclimedPredictionRewardIdsTemp.push(prediction.id);
+            }
+            if (prediction.outcome === outcome.WON) {
+                PredictionStatTemp = {
+                    ...PredictionStatTemp,
+                    win: PredictionStatTemp.win + 1
+                };
+            } else if (prediction.outcome === outcome.LOST) {
+                PredictionStatTemp = {
+                    ...PredictionStatTemp,
+                    loss: PredictionStatTemp.loss + 1
+                };
+            }
+        });
+        setPredictionStat(PredictionStatTemp);
+        setUnclimedRewardPredictionIds(unclimedPredictionRewardIdsTemp)
+        // eslint-disable-next-line
+    }, [temp, rewardMultiplier, predictionAmount]);
+
+    const handleWithdraw = () => {
+        if(unclimedPredictionRewardIds.length === 0) {
+            const body = ToastBody("You have no reward to claim", STATUS.ERROR, TYPE.ERROR)
+            toast.dismiss(pendingToast.current);
+            toast(body);
+        } else {
+            claim(unclimedPredictionRewardIds);
+        }
     }
 
     return (
@@ -25,7 +82,7 @@ const Mypredictions: FC = () => {
                     <span className="dot"></span>
                     <div className="title__value">
                         <p className="title">Predicted</p>
-                        <p className="value">{data.predicted}</p>
+                        <p className="value">{userPastPredictions.length}</p>
                     </div>
                 </div>
 
@@ -33,7 +90,7 @@ const Mypredictions: FC = () => {
                     <span className="dot"></span>
                     <div className="title__value">
                         <p className="title">Rounds Won</p>
-                        <p className="value">{data.round_won}</p>
+                        <p className="value">{PredictionStat.win}</p>
                     </div>
                 </div>
 
@@ -41,25 +98,31 @@ const Mypredictions: FC = () => {
                     <span className="dot"></span>
                     <div className="title__value">
                         <p className="title">Rounds lost</p>
-                        <p className="value">{data.round_lost}</p>
+                        <p className="value">{PredictionStat.loss}</p>
                     </div>
                 </div>
 
                 <div className="detail">
                     <span className="dot"></span>
                     <div className="title__value">
-                        <p className="title">Token balance</p>
-                        <p className="value">{data.token_balance}</p>
+                        <p className="title">Claimable Reward</p>
+                        <p className="value">{formatUnits(PredictionStat.claimableReward, 18)}</p>
                     </div>
                 </div>
 
-                <button className="withdraw__btn">Withdraw balance</button>
+                <button className="withdraw__btn" onClick = {handleWithdraw}>Withdraw balance</button>
             </section>
 
             <section className="my__predictions__table__container">
-                <MySportPredictionTable openClaimModal = {toggleClaimModal} />
-                {claimModalopen && <ClaimWinModal closeModal={toggleClaimModal} />}
-                {slotsFilledModalOpen && <FilledSlotsModal closeModal={() => setSlotsFilledModalOpen(false)} />}
+                <MySportPredictionTable />
+                {claimModal.open && (
+                    <ClaimWinModal />
+                )}
+                {slotsFilledModalOpen && (
+                    <FilledSlotsModal
+                        closeModal={() => setSlotsFilledModalOpen(false)}
+                    />
+                )}
             </section>
         </div>
     );

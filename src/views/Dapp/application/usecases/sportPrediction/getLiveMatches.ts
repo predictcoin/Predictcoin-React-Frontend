@@ -1,7 +1,9 @@
+import { toUtf8String } from "ethers/lib/utils";
 import { SportPrediction } from "../../../typechain"
 import { ISportPrediction } from "../../../typechain/SportOracle";
 import { LiveMatch } from "../../domain/sportPrediction/entity";
 import { SportPredictionStore } from "../../domain/sportPrediction/sportPredictionStore";
+import { getMatchFullDetails } from "../sportApi";
 
 interface Params {
     contract: SportPrediction
@@ -13,13 +15,30 @@ export const getLivematches = async (params: Params): Promise<void> => {
 
     const liveEvents:ISportPrediction.SportEventStructOutput[] = await contract.getLiveEvents()
 
-    console.log("LIVE MATCHES: ", liveEvents);
+    if(liveEvents.length === 0) return dispatch({liveMatches: {}})
 
-    // const liveMatches:{[key: number]: LiveMatch} = []
+    const liveEventsdetailsArr = await Promise.all(liveEvents.map(async (match:ISportPrediction.SportEventStructOutput) => {
+        return await getMatchFullDetails({
+            league: toUtf8String(match.league),
+            round: toUtf8String(match.round),
+            startTime: match.startTimestamp,
+            season: match.season,
+            teamA: toUtf8String(match.teamA),
+            teamB: toUtf8String(match.teamB)
+        })
+    }))
 
-    // liveEvents.forEach(event => {
-    //     manipulate each object and push into array above
-    // })
+    const stateData: LiveMatch[] = liveEvents.map((match:ISportPrediction.SportEventStructOutput, index:number):LiveMatch => {
+        return {
+            id: match.id,
+            teamA: liveEventsdetailsArr[index].teams.home.name,
+            teamB: liveEventsdetailsArr[index].teams.away.name,
+            teamALogoUri: liveEventsdetailsArr[index].teams.home.logo,
+            teamBLogoUri: liveEventsdetailsArr[index].teams.away.logo,
+            startTimeStamp: Number(match.startTimestamp)
+        }
+    })
+    
 
-    // dispatch({liveMatches});
+    dispatch({liveMatches: stateData});
 }

@@ -1,16 +1,22 @@
 import { FC, useEffect } from 'react'
 import { IoIosClose } from 'react-icons/io';
+import { useDispatch } from 'react-redux';
+import useSportPredictionViewModel from '../../application/controllers/useSportPredictionViewModel';
+import { setClaimModal } from '../../application/infrastructure/redux/actions/sportPrediction';
 import './ClaimWinModal.styles.scss';
 
-interface ClaimWinModalProp {
-    closeModal: () => void
-}
 
-const ClaimWinModal: FC<ClaimWinModalProp> = ({closeModal}) => {
+const ClaimWinModal: FC = () => {
+
+    const dispatch = useDispatch()
 
     const closeModalFunc = (e: any) => {
-        if (e.target?.id === "claim__win__modal") closeModal();
+        if (e.target?.id === "claim__win__modal") {
+            setClaimModal(false, "")(dispatch)
+        }
     };
+
+    const {claim, claimModal} = useSportPredictionViewModel();
 
     useEffect(() => {
         window.addEventListener("click", (e) => closeModalFunc(e));
@@ -21,10 +27,11 @@ const ClaimWinModal: FC<ClaimWinModalProp> = ({closeModal}) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+
     return (
         <div id = "claim__win__modal">
             <div className="claim__win__modal__content">
-                <button className="close__btn" onClick={closeModal}>
+                <button className="close__btn" onClick={() => setClaimModal(false, "")(dispatch)}>
                     <IoIosClose />
                 </button>
 
@@ -41,7 +48,10 @@ const ClaimWinModal: FC<ClaimWinModalProp> = ({closeModal}) => {
                         If you claim this win, the corresponding amount of tokens for this win will be added to your CRP wallet
                     </p>
 
-                    <button className="claim__btn">
+                    <button
+                        className="claim__btn"
+                        onClick={() => claim([claimModal.matchId])}
+                    >
                         Claim win
                     </button>
                 </div>
