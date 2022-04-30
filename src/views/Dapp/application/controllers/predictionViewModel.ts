@@ -208,7 +208,6 @@ export const usePredictionViewModel = () => {
 
     useEffect(() => {
         if (!watchingPastEvents && pastAvailable) {
-            console.log("here");
             watchEvent(
                 contract,
                 "Claim",
@@ -218,11 +217,9 @@ export const usePredictionViewModel = () => {
                 }
             );
             watchEvent(contract, "PredictBear", [address], (address, epoch) => {
-                console.log("ewo");
                 getUserRounds([epoch]);
             });
             watchEvent(contract, "PredictBull", [address], (address, epoch) => {
-                console.log("eoiwi");
                 getUserRounds([epoch]);
             });
             watchingPastEvents = true;
