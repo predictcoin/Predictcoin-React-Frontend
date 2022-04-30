@@ -1,12 +1,15 @@
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { IoIosClose } from 'react-icons/io';
 import { useDispatch } from 'react-redux';
 import useSportPredictionViewModel from '../../application/controllers/useSportPredictionViewModel';
+import { UserPrediction } from '../../application/domain/sportPrediction/entity';
 import { setClaimModal } from '../../application/infrastructure/redux/actions/sportPrediction';
 import './ClaimWinModal.styles.scss';
 
 
 const ClaimWinModal: FC = () => {
+
+    const [predictionObj, setPredictionObj] = useState<UserPrediction>()
 
     const dispatch = useDispatch()
 
@@ -16,7 +19,13 @@ const ClaimWinModal: FC = () => {
         }
     };
 
-    const {claim, claimModal} = useSportPredictionViewModel();
+    const {claim, claimModal, userPastPredictions} = useSportPredictionViewModel();
+
+    useEffect(() => {
+      const target = userPastPredictions.find((prediction:UserPrediction) => prediction.id === claimModal.matchId)
+        setPredictionObj(target)
+    }, [])
+    
 
     useEffect(() => {
         window.addEventListener("click", (e) => closeModalFunc(e));
@@ -37,8 +46,8 @@ const ClaimWinModal: FC = () => {
 
                 <div className="modal__body">
                     <div className="teams__logo">
-                        <img src = "/assets/img/manchester_united_logo.png" alt = "team one logo" className="team__logo" />
-                        <img src = "/assets/img/napoli_logo.png" alt = "team two logo" className="team__logo" />
+                        <img src = {predictionObj?.teamALogoUri} alt = {`${predictionObj?.teamA} logo`} className="team__logo" />
+                        <img src = {predictionObj?.teamBLogoUri} alt = {`${predictionObj?.teamB} logo`} className="team__logo" />
                     </div>
                     <h2 className="win__heading">
                         You won this prediction
