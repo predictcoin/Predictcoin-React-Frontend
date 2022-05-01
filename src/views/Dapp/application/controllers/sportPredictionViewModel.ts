@@ -102,20 +102,33 @@ const useSportPredictionViewModel = () => {
           event.removeListener();
         getNewUpcomingMatch(eventId);
       });
-      watchEvent(contract, "PredictionPlaced", [], (...args) => {
-          const [eventId, predictor, , , , event] = args;
-        event.removeListener()
+      watchEvent(contract, "PredictionPlaced", [], (eventId, predictor) => {
+        
         dispatch(incrementMatchFilledSlots(eventId))
-        if(predictor.toLowerCase() === address.toLowerCase()) {
+        
+        if(address && predictor.toLowerCase() === address.toLowerCase()) {
           getUserPastPrediction();
         }
       });
 
-    //   watchEvent(sportOracleContract, "SportEventDeclared", [], (eventId) => {
-          
-    //   })
+      watchEvent(sportOracleContract, "SportEventDeclared", [], (eventId) => {
+          const pred = sportPredictionStore.userPastPredictions.find(prediction => prediction.id === eventId);
+          if(pred) {
+              getUserPastPrediction()
+          }
+      })
+
+      watchEvent(sportOracleContract, "SportEventCancelled", [], (eventId) => {
+          getUpcomingMatches();
+        const pred = sportPredictionStore.userPastPredictions.find(prediction => prediction.id === eventId);
+        if(pred) {
+            getUserPastPrediction()
+        }
+    })
      // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
+
+    
 
     return {
         ...sportPredictionStore,

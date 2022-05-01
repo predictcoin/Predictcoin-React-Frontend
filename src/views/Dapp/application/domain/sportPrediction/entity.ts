@@ -23,6 +23,8 @@ export interface LiveMatch extends Match {
     startTimeStamp: number;
     teamAScore: number;
     teamBScore: number;
+    status: string;
+    statusShort: string;
 }
 
 export interface UpcomingMatch extends Match {

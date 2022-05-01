@@ -1,45 +1,44 @@
-import { FC, useEffect, useState } from 'react'
+import { FC } from 'react'
 import { LiveMatch as LiveMatchEntity } from '../../application/domain/sportPrediction/entity'
-import { getElapsedSeconds } from '../../lib/utils/formatMatchUIDateAndTime'
 
 const LiveMatch: FC<LiveMatchEntity> = (props) => {
-    const { startTimeStamp, teamA, teamALogoUri, teamB, teamBLogoUri, teamAScore, teamBScore} = props
-    const [secondsIntoMatch, setSecondsIntoMatch] = useState<number>()
-    const [formatedTime, setFormatedTime] = useState<string>()
+    const { teamA, teamALogoUri, teamB, teamBLogoUri, teamAScore, teamBScore, status, statusShort} = props
+    // const [secondsIntoMatch, setSecondsIntoMatch] = useState<number>()
+    // const [formatedTime, setFormatedTime] = useState<string>()
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        const getTime = async () => {
-            const timeIntoMatch = await getElapsedSeconds(startTimeStamp)
-            setSecondsIntoMatch(timeIntoMatch)
+    //     const getTime = async () => {
+    //         const timeIntoMatch = await getElapsedSeconds(startTimeStamp)
+    //         setSecondsIntoMatch(timeIntoMatch)
             
-        }
-        getTime()
-        if(!secondsIntoMatch) return;
-      const countUp= setInterval(() => {
-          if(secondsIntoMatch < 3600) {
-              setFormatedTime(new Date(secondsIntoMatch * 1000).toISOString().substr(14, 5))
-          }else {
-            setFormatedTime(new Date(secondsIntoMatch as number * 1000).toISOString().substr(11, 8))
-          }
-        setSecondsIntoMatch(prev => prev as number + 1)
+    //     }
+    //     getTime()
+    //     if(!secondsIntoMatch) return;
+    //   const countUp= setInterval(() => {
+    //       if(secondsIntoMatch < 3600) {
+    //           setFormatedTime(new Date(secondsIntoMatch * 1000).toISOString().substr(14, 5))
+    //       }else {
+    //         setFormatedTime(new Date(secondsIntoMatch as number * 1000).toISOString().substr(11, 8))
+    //       }
+    //     setSecondsIntoMatch(prev => prev as number + 1)
         
-      }, 1000)
+    //   }, 1000)
 
-      return () => {
-        clearInterval(countUp)
-      }
-    }, [secondsIntoMatch, formatedTime, startTimeStamp])
+    //   return () => {
+    //     clearInterval(countUp)
+    //   }
+    // }, [secondsIntoMatch, formatedTime, startTimeStamp])
     
     
   return (
     <div className='live__match__card'>
         <div className='live__match__card__head'>
-            <div className='live__badge'>
-                <span>LIVE</span>
+            <div className={`status__badge ${["1H", "2H", "HT", "LIVE"].includes(statusShort) ?  "live__badge" : "pending__badge"}`}>
+                <span>{["1H", "2H", "HT, LIVE"].includes(statusShort) ? "LIVE" : "PENDING"}</span>
             </div>
-            <span className='time__ellapsed'>
-                {formatedTime}
+            <span className='match__status'>
+                {status}
             </span>
         </div>
         <div className='live__match__card__body'>

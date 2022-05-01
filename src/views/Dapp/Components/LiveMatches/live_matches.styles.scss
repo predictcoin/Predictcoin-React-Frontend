@@ -52,8 +52,7 @@
                 height: 1px;
                 background-image: radial-gradient(circle, #7d8bc8 0%, #e2e4eb 100%);
             }
-            .live__badge {
-                background-color: #C8304D;
+            .status__badge {
                 padding: 2px 14px 2px 5px;
                 border-radius: 4px;
                 color: #fff;
@@ -70,7 +69,13 @@
                     transform: translate(-50%, -50%);
                 }
             }
-            .time__ellapsed {
+            .pending__badge {
+                background-color: #cf7406;
+            }
+            .live__badge {
+                background-color: #C8304D;
+            }
+            .match__status {
                 color: #34508f;
             }
         }

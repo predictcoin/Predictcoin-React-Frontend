@@ -38,7 +38,6 @@ export const getMatchFullDetails = async (param: Params) => {
             data.teams.away.name === teamB &&
             data.league.name === league
     );
-    
     return targetMatch;
 };
 

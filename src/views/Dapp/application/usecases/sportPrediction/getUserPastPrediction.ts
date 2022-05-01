@@ -16,6 +16,7 @@ interface Params {
     dispatch: (data: Pick<SportPredictionStore, "userPastPredictions">) => void;
 }
 export const getUserPastPrediction = async (params: Params) => {
+    
     const { contract, dispatch, address } = params;
 
     // array of user prediction structs
