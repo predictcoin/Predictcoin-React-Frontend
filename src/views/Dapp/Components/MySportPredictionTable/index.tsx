@@ -15,10 +15,12 @@ import {
     skeletonHighlightColor
 } from "../../constants/colors";
 
-
 const MySportPredictionTable: FC = () => {
-    const { userPastPredictions, isLoadingUserPastPredictions, maxPredictions } =
-        useSportPredictionViewModel();
+    const {
+        userPastPredictions,
+        isLoadingUserPastPredictions,
+        maxPredictions
+    } = useSportPredictionViewModel();
     return (
         <div className="my__sport__prediction__table">
             <Table>
@@ -33,7 +35,7 @@ const MySportPredictionTable: FC = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {isLoadingUserPastPredictions &&
+                    {isLoadingUserPastPredictions ? (
                         [...Array(5)].map((_, idx) => (
                             <TableRow key={uuidv4()} forTableBody>
                                 {[...Array(6)].map((_) => (
@@ -49,29 +51,24 @@ const MySportPredictionTable: FC = () => {
                                     </SkeletonTheme>
                                 ))}
                             </TableRow>
-                        ))}
-
-                    {!isLoadingUserPastPredictions &&
-                    userPastPredictions.length === 0 &&
+                        ))
+                    ) : userPastPredictions.length === 0 ? (
                         <TableRow forTableBody>
-                            <TableData
-                                text={""}
-                                colSpan={6}
-                            >
-                                <span className="no__data">You have not made any Predictions yet</span>
+                            <TableData text={""} colSpan={6}>
+                                <span className="no__data">
+                                    You have not made any Predictions yet
+                                </span>
                             </TableData>
                         </TableRow>
-                    }
-
-                    {!!userPastPredictions.length &&
+                    ) : (
                         userPastPredictions.map((prediction) => (
                             <MySportPredictionTableRow
                                 key={uuidv4()}
                                 prediction={prediction}
-                                maxPredictions = {maxPredictions}
+                                maxPredictions={maxPredictions}
                             />
                         ))
-                    }
+                    )}
                 </TableBody>
             </Table>
         </div>

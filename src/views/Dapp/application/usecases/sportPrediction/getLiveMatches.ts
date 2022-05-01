@@ -42,5 +42,5 @@ export const getLivematches = async (params: Params): Promise<void> => {
     })
     
 
-    dispatch({liveMatches: stateData});
+    dispatch({liveMatches: stateData.reverse()});
 }

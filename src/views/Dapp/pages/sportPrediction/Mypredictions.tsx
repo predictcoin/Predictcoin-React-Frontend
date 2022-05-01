@@ -72,6 +72,7 @@ const Mypredictions: FC = () => {
             claim(unclimedPredictionRewardIds);
         }
     }
+    
 
     return (
         <div className="sport__prediction__my__predictions">

@@ -6,6 +6,12 @@ export const SPORT_PREDICTION_ADDRESSES = {
   "testnet": "",
 }
 
+export const SPORT_ORACLE_ADDRESSES = {
+  "mainnet": "0x58EEbc2960ed8E7Ce86888FB4F78BC572eB70d36", // to be replace with the final address
+  "staging": "0x58EEbc2960ed8E7Ce86888FB4F78BC572eB70d36",
+  "testnet": "",
+}
+
 export const PREDICTION_ADDRESSES = {
   "mainnet" : "0xC80c40C49a66a930ef42652FFCcBE37b5ed43D67",
   "staging": "0x3b4BA9C354376e16a36535Be332CED5a03cE1256",

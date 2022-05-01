@@ -16,12 +16,8 @@ import {
 import TableData from "../Table/TableData";
 
 const UpcomingMatchesTable: FC = () => {
-    const {
-        isLoadingUpcomingMatches,
-        upcomingMatches,
-        maxPredictions
-    } = useSportPredictionViewModel();
-    
+    const { isLoadingUpcomingMatches, upcomingMatches, maxPredictions } =
+        useSportPredictionViewModel();
 
     return (
         <div className="upcoming__matches__table">
@@ -35,7 +31,7 @@ const UpcomingMatchesTable: FC = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {isLoadingUpcomingMatches &&
+                    {isLoadingUpcomingMatches ? (
                         [...Array(5)].map((_, idx) => (
                             <TableRow key={uuidv4()} forTableBody>
                                 {[...Array(4)].map((_) => (
@@ -51,27 +47,24 @@ const UpcomingMatchesTable: FC = () => {
                                     </SkeletonTheme>
                                 ))}
                             </TableRow>
-                        ))}
-
-                    {!isLoadingUpcomingMatches &&
-                        upcomingMatches.length === 0 && (
-                            <TableRow forTableBody>
-                                <TableData text={""} colSpan={6}>
-                                    <span className="no__data">
-                                        No upcoming matches available
-                                    </span>
-                                </TableData>
-                            </TableRow>
-                        )}
-
-                    {!!upcomingMatches.length &&
+                        ))
+                    ) : upcomingMatches.length === 0 ? (
+                        <TableRow forTableBody>
+                            <TableData text={""} colSpan={6}>
+                                <span className="no__data">
+                                    No upcoming matches available
+                                </span>
+                            </TableData>
+                        </TableRow>
+                    ) : (
                         upcomingMatches.map((match) => (
                             <UpcomingMatchesTableRow
                                 key={uuidv4()}
                                 match={match}
                                 maxPredictions={maxPredictions}
                             />
-                        ))}
+                        ))
+                    )}
                 </TableBody>
             </Table>
         </div>

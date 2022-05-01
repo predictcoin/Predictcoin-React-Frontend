@@ -87,7 +87,27 @@
 					}
                     .teams {
                         display: flex;
-                        gap: 20px;
+						.team__one, .team__two {
+							width: 50%;
+							span {
+								display: inline-block;
+								width: 85%;
+							}
+							img {
+								width: 15%;
+								max-width: 30px;
+							}
+						}
+						.team__one {
+							margin-right: 10px;
+							span {
+								text-align: right;
+							}
+						}
+						.team__two {
+							margin-left: 10px;
+							
+						}
                     }
 
 					.team__one img, .team__two__img {

@@ -75,15 +75,13 @@ const MySportPredictionTableRow: FC<MySportPredictionTableRowProps> = ({
                             />
                         </div>
                         <div className="team__two">
-                            <div className="team__one">
-                                <img
-                                    src={prediction.teamBLogoUri}
-                                    alt={
-                                        prediction.teamB + " logo"
-                                    }
-                                />
-                                <span>{prediction.teamB}</span>
-                            </div>
+                            <img
+                                src={prediction.teamBLogoUri}
+                                alt={
+                                    prediction.teamB + " logo"
+                                }
+                            />
+                            <span>{prediction.teamB}</span>
                         </div>
                     </div>
                 </TableData>

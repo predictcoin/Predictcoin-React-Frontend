@@ -194,5 +194,5 @@ export const getUserPastPrediction = async (params: Params) => {
         }
     );
 
-    dispatch({ userPastPredictions: stateData });
+    dispatch({ userPastPredictions: stateData.reverse() });
 };

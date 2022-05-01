@@ -45,7 +45,7 @@ export const getMatchFullDetails = async (param: Params) => {
 
 
 export const getBallPossessions = async (fixtureId: number): Promise<{teamA:string, teamB: string}> => {
-    const res = await axios.get(`${sportApiEndpoint}?url=/fixtures/statistics&fixture=${fixtureId}`);
+    const res = await axios.get(`${sportApiEndpoint}?url=/fixtures/statistics&fixture=${fixtureId}`);    
     if(res.data.response.length === 0) {
         return {teamA: "-%", teamB: "-%"}
     } else {

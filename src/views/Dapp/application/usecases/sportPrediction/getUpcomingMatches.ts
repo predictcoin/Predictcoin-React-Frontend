@@ -56,6 +56,6 @@ export const getUpcomingMatches = async (params: Params) => {
             }
         );
         
-        dispatch({ upcomingMatches });
+        dispatch({ upcomingMatches: upcomingMatches.reverse() });
     });
 };

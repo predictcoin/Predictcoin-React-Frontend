@@ -6,6 +6,8 @@ import { getUpcomingMatches as getUpcomingMatchesUsecase } from "../../../usecas
 import { SportPredictionStore } from "../../../domain/sportPrediction/sportPredictionStore";
 import { getSportPredictionData as getSportPredictionDataUsecase } from "../../../usecases/sportPrediction/getSportPredictionData";
 import { getUserPastPrediction as  getUserPastPredictionUsecase} from "../../../usecases/sportPrediction/getUserPastPrediction";
+import { getNewUpcomingMatch as getNewUpcomingMatchUsecase } from "../../../usecases/sportPrediction/getNewUpcomingMatch";
+import { UpcomingMatch } from "../../../domain/sportPrediction/entity";
 
 export const getLivematches = (contract: SportPrediction) => async (dispatch: Dispatch<{type:string, data?: Partial<SportPredictionStore>}>) => {
     dispatch({
@@ -110,4 +112,26 @@ export const setClaimModal = (open: boolean, matchId: string) => (dispatch: Disp
         type: actionTypes.SET_CLAIM_MODAL,
         data: {claimModal: {open, matchId}}
     })
+}
+
+export const getNewUpcomingMatch = (contract: SportPrediction, id: string) => async (dispatch: Dispatch<{type:string, data: UpcomingMatch}>) => {
+    const _dispatch = (data: UpcomingMatch) => {
+        dispatch({
+            type: actionTypes.ADD_NEW_UPCOMING_MATCH,
+            data
+        })
+    }
+
+    try {
+        await getNewUpcomingMatchUsecase({contract, id, dispatch: _dispatch});
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+export const incrementMatchFilledSlots = (id: string) => {
+    return {
+        type: actionTypes.INCREMENT_MATCH_PREDICTION_FILLED_SLOT,
+        data: {id}
+    }
 }

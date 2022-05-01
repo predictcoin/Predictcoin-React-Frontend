@@ -13,7 +13,12 @@ export const claim = (params: Params) => {
     if(!active) throw new Error("Please connect your wallet")
 
     const method = contract.claim;
-    const message = `claiming prediction reward` // to be well customized later
+    let message;
+    if(eventIds.length > 1) {
+        message = 'Claiming all prediction rewards'
+    }else {
+        message = 'Claiming prediction reward'
+    }
 
     const methodParams = [eventIds];
 
