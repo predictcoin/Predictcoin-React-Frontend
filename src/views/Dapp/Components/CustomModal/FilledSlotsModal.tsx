@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react'
 import { IoIosClose } from 'react-icons/io'
 import { useDispatch } from 'react-redux';
-import useSportPredictionViewModel from '../../application/controllers/useSportPredictionViewModel';
+import useSportPredictionViewModel from '../../application/controllers/sportPredictionViewModel';
 import { UpcomingMatch } from '../../application/domain/sportPrediction/entity';
 import { setPredictMatchModal } from '../../application/infrastructure/redux/actions/sportPrediction';
 import './FilledSlotsModal.styles.scss';

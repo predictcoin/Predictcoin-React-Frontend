@@ -21,7 +21,6 @@ export const predict = (params: Params) => {
     const message = `predict ${teamAName} to score ${teamAScore} and ${teamBName} to score ${teamBScore}`
 
     const methodParams = [eventId, BigNumber.from(teamAScore), BigNumber.from(teamBScore)];
-    console.log("methodParams");
     
 
     send({method, methodParams, message, callbacks});

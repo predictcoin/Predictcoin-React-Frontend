@@ -7,7 +7,7 @@ import "./my_sport_prediction.scss";
 import MySportPredictionTableRow from "./MySportPredictionTableRow";
 import { v4 as uuidv4 } from "uuid";
 import { FC } from "react";
-import useSportPredictionViewModel from "../../application/controllers/useSportPredictionViewModel";
+import useSportPredictionViewModel from "../../application/controllers/sportPredictionViewModel";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import TableData from "../Table/TableData";
 import {

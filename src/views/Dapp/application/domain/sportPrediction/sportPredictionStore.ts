@@ -10,7 +10,7 @@ export interface SportPredictionStore {
     maxPredictions: number,
     predictMatchModal: {id: string | null, isFilled: boolean | null}
     claimModal: {open: boolean, matchId: string},
-    liveMatches: {[key: number]: LiveMatch},
-    upcomingMatches: {[key: number]: UpcomingMatch},
-    userPastPredictions: {[key: number]: UserPrediction},
+    liveMatches: LiveMatch[],
+    upcomingMatches: UpcomingMatch[],
+    userPastPredictions: UserPrediction[],
 }

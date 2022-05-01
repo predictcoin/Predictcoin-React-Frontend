@@ -1,5 +1,5 @@
 import { FC, useEffect } from 'react'
-import useSportPredictionViewModel from '../../application/controllers/useSportPredictionViewModel'
+import useSportPredictionViewModel from '../../application/controllers/sportPredictionViewModel'
 import UpcomingMatchesTable from '../../Components/UpcomingMatchesTable'
 
 

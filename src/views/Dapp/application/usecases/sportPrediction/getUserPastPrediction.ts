@@ -24,7 +24,7 @@ export const getUserPastPrediction = async (params: Params) => {
     
 
     if (userPredictions.length === 0)
-        return dispatch({ userPastPredictions: {} });
+        return dispatch({ userPastPredictions: [] });
 
     // array of ids of events the user predicted on
     let predictedEventsIds = userPredictions.map(

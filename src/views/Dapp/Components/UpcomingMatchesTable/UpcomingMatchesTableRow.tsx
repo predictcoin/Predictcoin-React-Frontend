@@ -9,7 +9,7 @@ import "react-circular-progressbar/dist/styles.css";
 import { UpcomingMatch } from "../../application/domain/sportPrediction/entity";
 import {useDispatch} from 'react-redux'
 import { setPredictMatchModal } from "../../application/infrastructure/redux/actions/sportPrediction";
-import useSportPredictionViewModel from "../../application/controllers/useSportPredictionViewModel";
+import useSportPredictionViewModel from "../../application/controllers/sportPredictionViewModel";
 
 interface UpcomingMatchesTableRowProps {
     match: UpcomingMatch;

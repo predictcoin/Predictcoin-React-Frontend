@@ -7,7 +7,7 @@ import "./upcomingmatchestable.styles.scss";
 import UpcomingMatchesTableRow from "./UpcomingMatchesTableRow";
 import { v4 as uuidv4 } from "uuid";
 import { FC } from "react";
-import useSportPredictionViewModel from "../../application/controllers/useSportPredictionViewModel";
+import useSportPredictionViewModel from "../../application/controllers/sportPredictionViewModel";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import {
     skeletonBaseColor,

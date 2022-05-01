@@ -13,7 +13,7 @@ import { displayDecimals } from "../../lib/utils/number";
 import { useWalletViewModel } from "../../application/controllers/walletViewModel";
 import useToken from "../../hooks/useToken";
 import { TOKENS } from "../../constants/addresses";
-import useSportPredictionViewModel from "../../application/controllers/useSportPredictionViewModel";
+import useSportPredictionViewModel from "../../application/controllers/sportPredictionViewModel";
 import FilledSlotsModal from "../../Components/CustomModal/FilledSlotsModal";
 
 interface SportPredictionMainContentProps {

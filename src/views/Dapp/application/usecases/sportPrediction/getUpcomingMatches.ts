@@ -23,8 +23,6 @@ export const getUpcomingMatches = async (params: Params) => {
             ).length;
         })
     );
-
-    console.log("predictableEvents: ", predictableEvents);
     
 
     Promise.all(

@@ -1,4 +1,5 @@
 import { BigNumber } from "ethers";
+import { LiveMatch, UpcomingMatch, UserPrediction } from "../../../domain/sportPrediction/entity";
 import { SportPredictionStore } from "../../../domain/sportPrediction/sportPredictionStore";
 import * as actionTypes from "../actionTypes/sportPrediction";
 
@@ -11,9 +12,9 @@ const initialState: SportPredictionStore = {
     rewardMultiplier: 0,
     predictMatchModal: {id: null, isFilled: false},
     claimModal: {open: false, matchId: ""},
-    liveMatches: {},
-    upcomingMatches: {},
-    userPastPredictions: {}
+    liveMatches: [],
+    upcomingMatches: [],
+    userPastPredictions: []
 }
 
 export const sportPredictionReducer = (state = initialState, action: {type: string, data?: Partial<SportPredictionStore>}): SportPredictionStore => {
@@ -21,7 +22,7 @@ export const sportPredictionReducer = (state = initialState, action: {type: stri
         case actionTypes.GET_LIVE_MATCHES:
             return {...state, isLoadingLiveMatches: true}
         case actionTypes.SET_LIVE_MATCHES:
-            return {...state, liveMatches: {...state.liveMatches, ...action.data?.liveMatches}}
+            return {...state, liveMatches: [...state.liveMatches, ...action.data?.liveMatches as LiveMatch[]]}
         case actionTypes.GET_LIVE_MATCHES_SUCCESS:
             return {...state, isLoadingLiveMatches: false}
         case actionTypes.GET_LIVE_MATCHES_FAILED:
@@ -30,7 +31,7 @@ export const sportPredictionReducer = (state = initialState, action: {type: stri
         case actionTypes.GET_UPCOMING_MATCHES:
             return {...state, isLoadingUpcomingMatches: true}
         case actionTypes.SET_UPCOMING_MATCHES:
-            return {...state, upcomingMatches: {...state.upcomingMatches, ...action.data?.upcomingMatches}}
+            return {...state, upcomingMatches: [...state.upcomingMatches, ...action.data?.upcomingMatches as UpcomingMatch[]]}
         case actionTypes.GET_UPCOMING_MATCHES_SUCCESS:
             return {...state, isLoadingUpcomingMatches: false}
         case actionTypes.GET_UPCOMING_MATCHES_FAILED:
@@ -39,7 +40,7 @@ export const sportPredictionReducer = (state = initialState, action: {type: stri
         case actionTypes.GET_USER_PAST_PREDICTIONS:
             return {...state, isLoadingUserPastPredictions: true}
         case actionTypes.SET_USER_PAST_PREDICTIONS:
-            return {...state, userPastPredictions: {...state.userPastPredictions, ...action.data?.userPastPredictions}}
+            return {...state, userPastPredictions: [...state.userPastPredictions, ...action.data?.userPastPredictions as UserPrediction[]]}
         case actionTypes.GET_USER_PAST_PREDICTIONS_SUCCESS:
             return {...state, isLoadingUserPastPredictions: false}
         case actionTypes.GET_USER_PAST_PREDICTIONS_FAILED:

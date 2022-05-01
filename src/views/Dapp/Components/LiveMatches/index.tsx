@@ -6,7 +6,7 @@ import { Autoplay, Pagination, FreeMode } from "swiper";
 import "swiper/swiper.min.css";
 import "swiper/modules/pagination/pagination.min.css";
 import "swiper/modules/free-mode/free-mode.min.css";
-import useSportPredictionViewModel from "../../application/controllers/useSportPredictionViewModel";
+import useSportPredictionViewModel from "../../application/controllers/sportPredictionViewModel";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { skeletonBaseColor, skeletonHighlightColor } from "../../constants/colors";

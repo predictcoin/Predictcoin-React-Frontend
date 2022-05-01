@@ -14,11 +14,6 @@ import { getSportPredicitonData as getSportPredicitonDataAction } from "../infra
 
 const useSportPredictionViewModel = () => {
     const sportPredictionStore = useSportPredictionStore();
-    const {
-        liveMatches,
-        upcomingMatches,
-        userPastPredictions
-    } = sportPredictionStore;
 
     const { provider, active, address, signer } = useWalletViewModel();
     
@@ -77,9 +72,6 @@ const useSportPredictionViewModel = () => {
     
     return {
       ...sportPredictionStore,
-      liveMatches: Object.keys(liveMatches).map((index:any) => liveMatches[index]),
-      upcomingMatches: Object.keys(upcomingMatches).map((index:any) => upcomingMatches[index]),
-      userPastPredictions: Object.keys(userPastPredictions).map((index:any) => userPastPredictions[index]),
       predict,
       claim,
       getLiveMatches,

@@ -2,7 +2,7 @@ import { BigNumber } from "ethers";
 import { formatUnits } from "ethers/lib/utils";
 import { FC, ReactText, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import useSportPredictionViewModel from "../../application/controllers/useSportPredictionViewModel";
+import useSportPredictionViewModel from "../../application/controllers/sportPredictionViewModel";
 import { outcome } from "../../application/domain/sportPrediction/entity";
 import ClaimWinModal from "../../Components/CustomModal/ClaimWinModal";
 import MySportPredictionTable from "../../Components/MySportPredictionTable";

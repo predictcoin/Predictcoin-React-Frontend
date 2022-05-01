@@ -2,7 +2,7 @@ import { FC, useEffect, useRef, ReactText, useState } from "react";
 import { IoIosClose } from "react-icons/io";
 import { GoDash } from "react-icons/go";
 import "./MatchPredictionModal.styles.scss";
-import useSportPredictionViewModel from "../../application/controllers/useSportPredictionViewModel";
+import useSportPredictionViewModel from "../../application/controllers/sportPredictionViewModel";
 import { useDispatch } from "react-redux";
 import { setPredictMatchModal } from "../../application/infrastructure/redux/actions/sportPrediction";
 import { UpcomingMatch } from "../../application/domain/sportPrediction/entity";
