@@ -8,7 +8,7 @@ import {
 import "react-circular-progressbar/dist/styles.css";
 import { UpcomingMatch } from "../../application/domain/sportPrediction/entity";
 import {useDispatch} from 'react-redux'
-import { setSelectedMatch } from "../../application/infrastructure/redux/actions/sportPrediction";
+import { setPredictMatchModal } from "../../application/infrastructure/redux/actions/sportPrediction";
 import useSportPredictionViewModel from "../../application/controllers/useSportPredictionViewModel";
 
 interface UpcomingMatchesTableRowProps {
@@ -17,9 +17,10 @@ interface UpcomingMatchesTableRowProps {
 }
 
 const UpcomingMatchesTableRow: FC<UpcomingMatchesTableRowProps> = ({match, maxPredictions}) => {
+  
   const dispatch = useDispatch()
-  const openMatchPredictionModal = (matchId: string | null) => {
-    setSelectedMatch(matchId)(dispatch)
+  const openMatchPredictionModal = () => {
+    setPredictMatchModal(match.id, match.slotsFilled, maxPredictions)(dispatch)
   }
 
   const [prediction, setPrediction] = useState<string>();
@@ -77,9 +78,8 @@ const UpcomingMatchesTableRow: FC<UpcomingMatchesTableRowProps> = ({match, maxPr
         <TableData text="">
           {prediction ? <span className="predicted_prediction">{prediction}</span> : 
             <button
-              disabled = { match.slotsFilled === maxPredictions}
              className={match.slotsFilled < maxPredictions ? "" : "disabled__btn"}
-             onClick = {() => openMatchPredictionModal(match.id)}
+             onClick = {openMatchPredictionModal}
             >
           
                 Predict

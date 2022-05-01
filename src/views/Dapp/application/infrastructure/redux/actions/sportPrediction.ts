@@ -96,10 +96,12 @@ export const getSportPredicitonData = (contract: SportPrediction) => async (disp
     }
 }
 
-export const setSelectedMatch = (matchId: string | null) => (dispatch: Dispatch<{type:string, data?: Pick<SportPredictionStore, "selectedMatchId">}>): void => {
+export const setPredictMatchModal = (matchId: string | null, slotsFilled?: number , maxPredictions?:number) => (dispatch: Dispatch<{type:string, data?: Pick<SportPredictionStore, "predictMatchModal">}>): void => {
+    const isFilled = slotsFilled && maxPredictions ? slotsFilled === maxPredictions : null;
+    
     dispatch({
-        type: actionTypes.SET_SELECTED_MATCH,
-        data: {selectedMatchId: matchId ? matchId : null}
+        type: actionTypes.SET_PREDICT_MATCH_MODAL,
+        data: {predictMatchModal: {id: matchId, isFilled}}
     })
 }
 

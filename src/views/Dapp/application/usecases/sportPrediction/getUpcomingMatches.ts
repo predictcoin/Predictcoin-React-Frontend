@@ -19,10 +19,13 @@ export const getUpcomingMatches = async (params: Params) => {
     let EventsSlotsFilled: number[] = await Promise.all(
         predictableEvents.map(async (match) => {
             return (
-                await contract.eventIdsToPredictionAmount(match.id)
-            ).toNumber();
+                await contract.getPredictions(match.id)
+            ).length;
         })
     );
+
+    console.log("predictableEvents: ", predictableEvents);
+    
 
     Promise.all(
         predictableEvents.map(async (match) => {

@@ -98,7 +98,7 @@ export interface SportPredictionInterface extends utils.Interface {
   functions: {
     "claim(bytes32[])": FunctionFragment;
     "crp()": FunctionFragment;
-    "eventIdsToPredictionAmount(bytes32)": FunctionFragment;
+    "eventToUserPrediction(bytes32,address)": FunctionFragment;
     "getAllUserPredictions(address)": FunctionFragment;
     "getEvents(bytes32[])": FunctionFragment;
     "getEventsLength()": FunctionFragment;
@@ -131,8 +131,8 @@ export interface SportPredictionInterface extends utils.Interface {
   encodeFunctionData(functionFragment: "claim", values: [BytesLike[]]): string;
   encodeFunctionData(functionFragment: "crp", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "eventIdsToPredictionAmount",
-    values: [BytesLike]
+    functionFragment: "eventToUserPrediction",
+    values: [BytesLike, string]
   ): string;
   encodeFunctionData(
     functionFragment: "getAllUserPredictions",
@@ -237,7 +237,7 @@ export interface SportPredictionInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "claim", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "crp", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "eventIdsToPredictionAmount",
+    functionFragment: "eventToUserPrediction",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -473,10 +473,31 @@ export interface SportPrediction extends BaseContract {
 
     crp(overrides?: CallOverrides): Promise<[string]>;
 
-    eventIdsToPredictionAmount(
+    eventToUserPrediction(
       arg0: BytesLike,
+      arg1: string,
       overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
+    ): Promise<
+      [
+        string,
+        string,
+        BigNumber,
+        BigNumber,
+        number,
+        number,
+        boolean,
+        boolean
+      ] & {
+        user: string;
+        eventId: string;
+        amount: BigNumber;
+        reward: BigNumber;
+        teamAScore: number;
+        teamBScore: number;
+        predicted: boolean;
+        claimed: boolean;
+      }
+    >;
 
     getAllUserPredictions(
       _user: string,
@@ -604,10 +625,22 @@ export interface SportPrediction extends BaseContract {
 
   crp(overrides?: CallOverrides): Promise<string>;
 
-  eventIdsToPredictionAmount(
+  eventToUserPrediction(
     arg0: BytesLike,
+    arg1: string,
     overrides?: CallOverrides
-  ): Promise<BigNumber>;
+  ): Promise<
+    [string, string, BigNumber, BigNumber, number, number, boolean, boolean] & {
+      user: string;
+      eventId: string;
+      amount: BigNumber;
+      reward: BigNumber;
+      teamAScore: number;
+      teamBScore: number;
+      predicted: boolean;
+      claimed: boolean;
+    }
+  >;
 
   getAllUserPredictions(
     _user: string,
@@ -732,10 +765,31 @@ export interface SportPrediction extends BaseContract {
 
     crp(overrides?: CallOverrides): Promise<string>;
 
-    eventIdsToPredictionAmount(
+    eventToUserPrediction(
       arg0: BytesLike,
+      arg1: string,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    ): Promise<
+      [
+        string,
+        string,
+        BigNumber,
+        BigNumber,
+        number,
+        number,
+        boolean,
+        boolean
+      ] & {
+        user: string;
+        eventId: string;
+        amount: BigNumber;
+        reward: BigNumber;
+        teamAScore: number;
+        teamBScore: number;
+        predicted: boolean;
+        claimed: boolean;
+      }
+    >;
 
     getAllUserPredictions(
       _user: string,
@@ -935,8 +989,9 @@ export interface SportPrediction extends BaseContract {
 
     crp(overrides?: CallOverrides): Promise<BigNumber>;
 
-    eventIdsToPredictionAmount(
+    eventToUserPrediction(
       arg0: BytesLike,
+      arg1: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1063,8 +1118,9 @@ export interface SportPrediction extends BaseContract {
 
     crp(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    eventIdsToPredictionAmount(
+    eventToUserPrediction(
       arg0: BytesLike,
+      arg1: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

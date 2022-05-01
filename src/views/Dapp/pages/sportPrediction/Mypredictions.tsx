@@ -5,14 +5,12 @@ import { toast } from "react-toastify";
 import useSportPredictionViewModel from "../../application/controllers/useSportPredictionViewModel";
 import { outcome } from "../../application/domain/sportPrediction/entity";
 import ClaimWinModal from "../../Components/CustomModal/ClaimWinModal";
-import FilledSlotsModal from "../../Components/CustomModal/FilledSlotsModal";
 import MySportPredictionTable from "../../Components/MySportPredictionTable";
 import { STATUS, ToastBody, TYPE } from "../../Components/Toast";
 
 const Mypredictions: FC = () => {
 
     const pendingToast = useRef("" as ReactText);
-    const [slotsFilledModalOpen, setSlotsFilledModalOpen] = useState(false);
     const [PredictionStat, setPredictionStat] = useState<{
         claimableReward: BigNumber;
         win: number;
@@ -117,11 +115,6 @@ const Mypredictions: FC = () => {
                 <MySportPredictionTable />
                 {claimModal.open && (
                     <ClaimWinModal />
-                )}
-                {slotsFilledModalOpen && (
-                    <FilledSlotsModal
-                        closeModal={() => setSlotsFilledModalOpen(false)}
-                    />
                 )}
             </section>
         </div>

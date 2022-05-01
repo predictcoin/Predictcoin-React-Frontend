@@ -32,6 +32,7 @@ const useSportPredictionViewModel = () => {
         ],
         signer ? signer : provider
     );
+    
 
     const predict = useCallback((
         eventId: string,

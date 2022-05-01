@@ -21,6 +21,7 @@ export const getUserPastPrediction = async (params: Params) => {
     // array of user prediction structs
     const userPredictions: SportPrediction.PredictionStruct[] =
         await contract.getAllUserPredictions(address);
+    
 
     if (userPredictions.length === 0)
         return dispatch({ userPastPredictions: {} });
@@ -67,12 +68,6 @@ export const getUserPastPrediction = async (params: Params) => {
     const allPredictedMatches: ISportPrediction.SportEventStructOutput[] =
         await contract.getEvents(predictedEventsIds);
 
-    // number of predictions each of the sport event got
-    let EventsSlotsFilled: number[] = await Promise.all(
-        predictedEventsIds.map(async (id) => {
-            return (await contract.eventIdsToPredictionAmount(id)).toNumber();
-        })
-    );
 
     const getOutcome = (
         outcomeNum: number,
@@ -140,8 +135,6 @@ export const getUserPastPrediction = async (params: Params) => {
             return await getBallPossessions(matchDetail.fixture.id);
         })
     );
-
-    console.log("possessionsArr: ", possessionsArr);
     
 
     const stateData: UserPrediction[] = userPredictions.map(
@@ -170,7 +163,7 @@ export const getUserPastPrediction = async (params: Params) => {
                 time: formatMatchUITime(
                     allPredictedMatches[index].startTimestamp.toNumber()
                 ),
-                slotsFilled: EventsSlotsFilled[index],
+                slotsFilled: matchpredictionsList[index].length,
                 predictedTeamAScore: Number(prediction.teamAScore),
                 predictedTeamBScore: Number(prediction.teamBScore),
                 realTeamAScore:

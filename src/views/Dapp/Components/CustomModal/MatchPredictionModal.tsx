@@ -4,7 +4,7 @@ import { GoDash } from "react-icons/go";
 import "./MatchPredictionModal.styles.scss";
 import useSportPredictionViewModel from "../../application/controllers/useSportPredictionViewModel";
 import { useDispatch } from "react-redux";
-import { setSelectedMatch } from "../../application/infrastructure/redux/actions/sportPrediction";
+import { setPredictMatchModal } from "../../application/infrastructure/redux/actions/sportPrediction";
 import { UpcomingMatch } from "../../application/domain/sportPrediction/entity";
 import { formatEther } from "ethers/lib/utils";
 import { toast } from "react-toastify";
@@ -17,7 +17,7 @@ import { useWalletViewModel } from "../../application/controllers/walletViewMode
 
 const MatchPredictionModal: FC = () => {
 
-    const {predict, selectedMatchId, upcomingMatches, rewardMultiplier, predictionAmount} = useSportPredictionViewModel()
+    const {predict, predictMatchModal, upcomingMatches, rewardMultiplier, predictionAmount} = useSportPredictionViewModel()
     const { active, chainId } = useWalletViewModel();
     const {allowances, getAllowance, approve} = useToken(TOKENS[chainId].CRP)
 
@@ -25,7 +25,7 @@ const MatchPredictionModal: FC = () => {
     const pendingToast = useRef("" as ReactText);
 
     const closeModal = () => {
-        setSelectedMatch(null)(dispatch)
+        setPredictMatchModal(null)(dispatch)
     }
     const closeModalFunc = (e: any) => {
         if (e.target?.id === "match__prediction__modal") closeModal();
@@ -35,7 +35,7 @@ const MatchPredictionModal: FC = () => {
     const [predictionData, setPredictionData] = useState<{teamA: string, teamB: string}>({teamA: "", teamB: ""})
 
     useEffect(() => {
-        const targetMatch = upcomingMatches.find(match => match.id === selectedMatchId)
+        const targetMatch = upcomingMatches.find(match => match.id === predictMatchModal.id)
         setMatch(targetMatch)
 
         getAllowance(SPORT_PREDICTION_ADDRESSES.mainnet)

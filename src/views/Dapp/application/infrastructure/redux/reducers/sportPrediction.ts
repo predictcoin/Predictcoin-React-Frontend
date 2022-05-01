@@ -9,7 +9,7 @@ const initialState: SportPredictionStore = {
     predictionAmount: BigNumber.from(0),
     maxPredictions: 0,
     rewardMultiplier: 0,
-    selectedMatchId: null,
+    predictMatchModal: {id: null, isFilled: false},
     claimModal: {open: false, matchId: ""},
     liveMatches: {},
     upcomingMatches: {},
@@ -46,7 +46,7 @@ export const sportPredictionReducer = (state = initialState, action: {type: stri
             return {...state, isLoadingUserPastPredictions: false}
         case actionTypes.SET_SPORT_PREDICTION_DATA:
             return {...state, ...action.data}
-        case actionTypes.SET_SELECTED_MATCH:
+        case actionTypes.SET_PREDICT_MATCH_MODAL:
             return {...state, ...action.data}
         case actionTypes.SET_CLAIM_MODAL:
             return {...state, ...action.data}

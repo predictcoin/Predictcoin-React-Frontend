@@ -1,8 +1,8 @@
 import { supportedChainIds } from "./chainIds"
 
 export const SPORT_PREDICTION_ADDRESSES = {
-  "mainnet": "0xfc651d99929cb51758318723a71d66538a849017", // to be replace with the final address
-  "staging": "0xfc651d99929cb51758318723a71d66538a849017",
+  "mainnet": "0xC66091ba91A6Ae0Bfb1c21c422E8ebD95a131007", // to be replace with the final address
+  "staging": "0xC66091ba91A6Ae0Bfb1c21c422E8ebD95a131007",
   "testnet": "",
 }
 

@@ -14,6 +14,7 @@ import { useWalletViewModel } from "../../application/controllers/walletViewMode
 import useToken from "../../hooks/useToken";
 import { TOKENS } from "../../constants/addresses";
 import useSportPredictionViewModel from "../../application/controllers/useSportPredictionViewModel";
+import FilledSlotsModal from "../../Components/CustomModal/FilledSlotsModal";
 
 interface SportPredictionMainContentProps {
     isSidebarExpanded: boolean;
@@ -24,7 +25,7 @@ const SportPredictionMainContent: FC<SportPredictionMainContentProps> = ({
     setIsSidebarExpanded
 }) => {
 
-    const {getUserPastPrediction, getSportPredicitonData, selectedMatchId} = useSportPredictionViewModel()
+    const {getUserPastPrediction, getSportPredicitonData, predictMatchModal} = useSportPredictionViewModel()
     const {address} = useWalletViewModel()
 
     
@@ -64,7 +65,8 @@ const SportPredictionMainContent: FC<SportPredictionMainContentProps> = ({
     return (
         <section className="sport__prediction__main__content">
             {modalOpened && modal}
-            {!!selectedMatchId && <MatchPredictionModal />}
+            {predictMatchModal.id && !predictMatchModal.isFilled && <MatchPredictionModal />}
+            {predictMatchModal.id && predictMatchModal.isFilled && <FilledSlotsModal />}
             
             <div className="container">
                 <Header
