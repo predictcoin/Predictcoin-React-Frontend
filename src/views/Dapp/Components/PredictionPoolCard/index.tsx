@@ -24,6 +24,10 @@ import { StakeModal } from "../CustomModal/StakeModal";
 import BigNumber from "bignumber.js";
 import QuestionIcon from "../../../../assets/icons/question.svg";
 
+import "react-responsive-modal/styles.css";
+import { Modal } from "react-responsive-modal";
+import './modal.css'
+
 interface Props {
     type: "winner" | "loser";
 }
@@ -35,7 +39,9 @@ const PredictionPoolCard: FC<Props> = ({ type }) => {
          Winners & Losers have 7 days to earn their rewards with the wallet they predicted with.`;
 
     const [tooltip, setToolTip] = useState<string>("");
+    const [windowWith, setWindowWith] = useState<number>(0);
     const [isClicked, setIsClicked] = useState<boolean>(false);
+    const [modal, setModal] = useState(false);
     const mainHook =
         type === "loser"
             ? useLoserPredictionPoolViewModel
@@ -71,6 +77,12 @@ const PredictionPoolCard: FC<Props> = ({ type }) => {
         open: boolean;
         title: string;
     }>({ open: false, title: "" });
+
+    useEffect(() => {
+        window.addEventListener("resize", function () {
+            setWindowWith(window.innerWidth);
+        });
+    }, [windowWith]);
 
     useEffect(() => {
         active && getAllowance(contractAddress);
@@ -143,14 +155,14 @@ const PredictionPoolCard: FC<Props> = ({ type }) => {
         </button>
     );
 
-    const handleShowTooltip = (
-        e: React.MouseEvent<HTMLParagraphElement, MouseEvent>
-    ) => {
-        e.preventDefault();
+    const onOpenModal = () => {
+        if (windowWith <= 820) {
+            setModal(true);
+        }
+    };
 
-        setIsClicked(!isClicked);
-        setToolTip(tooltip_message);
-        console.log(tooltip_message);
+    const onCloseModal = () => {
+        setModal(false);
     };
 
     let mainButton = !active
@@ -186,6 +198,7 @@ const PredictionPoolCard: FC<Props> = ({ type }) => {
             )}
 
             {walletModal && <ConnectModal closeModal={setWalletModal} />}
+
             <div className="staking__card">
                 <div className="staking__card__top">
                     <div className="token__images">
@@ -194,18 +207,27 @@ const PredictionPoolCard: FC<Props> = ({ type }) => {
                             alt="predict-coin-logo"
                         />
 
-                        {/* <img
+                        <img
                             src={QuestionIcon}
                             alt="predict-coin-logo"
                             style={{ marginLeft: 10, width: 20, height: 20 }}
                             title={tooltip_message}
-                            onClick={handleShowTooltip}
+                            onClick={onOpenModal}
                         />
-                        {isClicked ? (
-                            <p className="tooltip__text">{tooltip}</p>
-                        ) : (
-                            ""
-                        )} */}
+
+                        <Modal
+                            classNames={{
+                                modal: 'custom-modal'
+                            }}
+                            open={modal}
+                            onClose={onCloseModal}
+                        >
+                            <div style={{paddingTop: '20px'}}>
+                                <div></div>
+                                <div></div>
+                            </div>
+                            <p>{tooltip_message}</p>
+                        </Modal>
                     </div>
 
                     <div className="token__title">
@@ -227,12 +249,14 @@ const PredictionPoolCard: FC<Props> = ({ type }) => {
                                         %
                                     </span>
                                 </div>
+
                                 <div>
                                     <span className="light">STAKE/EARN</span>
                                     <span className="normal">
                                         {stakeToken}/{earnToken}
                                     </span>
                                 </div>
+
                                 <div>
                                     <span className="light">EARNINGS</span>
                                     <span className="normal">
@@ -325,6 +349,7 @@ const PredictionPoolCard: FC<Props> = ({ type }) => {
                                 <HiOutlineArrowDown />
                             </div>
                         )}
+
                         <div className={`action__container`}>{mainButton}</div>
                     </div>
 
@@ -344,5 +369,13 @@ const PredictionPoolCard: FC<Props> = ({ type }) => {
         </>
     );
 };
+
+// PredictionPoolCard.propTypes = {
+//     screenWidth: PropTypes.string.isRequired
+// };
+
+// PredictionPoolCard.defaultProps = {
+//     screenWidth: "390px"
+// };
 
 export default PredictionPoolCard;
