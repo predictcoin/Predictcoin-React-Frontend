@@ -38,9 +38,7 @@ const PredictionPoolCard: FC<Props> = ({ type }) => {
          Predict Pool launches every weekend on cropredict.finance/staking. 
          Winners & Losers have 7 days to earn their rewards with the wallet they predicted with.`;
 
-    const [tooltip, setToolTip] = useState<string>("");
     const [windowWith, setWindowWith] = useState<number>(0);
-    const [isClicked, setIsClicked] = useState<boolean>(false);
     const [modal, setModal] = useState(false);
     const mainHook =
         type === "loser"
