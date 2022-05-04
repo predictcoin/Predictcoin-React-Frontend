@@ -76,7 +76,6 @@ const useToken = (address: string): Token => {
     };
     const result = await contract.allowance(userAddress, spender);
     setAllowance(allowances => ({...allowances, [spender]: result}));
-    return result;
   }
 
   const getBalance = async () => {

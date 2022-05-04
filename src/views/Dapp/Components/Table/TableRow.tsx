@@ -3,12 +3,11 @@ import { FC } from 'react';
 export type TableRowProps = {
 	children: any;
 	forTableBody?: boolean;
-	onClick?: () => void;
 };
 
-const TableRow: FC<TableRowProps> = ({ children, forTableBody, ...props}) => {
+const TableRow: FC<TableRowProps> = ({ children, forTableBody }) => {
 	return (
-		<tr className='table__row' {...props}>
+		<tr className='table__row'>
 			{children}
 
 			{/* {forTableBody && <span className='table__row__options'>hello there</span>} */}
