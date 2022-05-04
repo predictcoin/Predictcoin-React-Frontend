@@ -28,10 +28,14 @@ interface Props {
     type: "winner" | "loser";
 }
 
-
 const PredictionPoolCard: FC<Props> = ({ type }) => {
-    // const tooltip_message =
-    //     "To gain access to the Predict Pool, you have to predict on any of the coins on cropredict.finance/prediction between 13:00 UTC to 14:00 UTC every Monday. Predict Pool launches every weekend on cropredict.finance/staking. Winners & Losers have 7 days to earn their rewards with the wallet they predicted with.";
+    // const tooltip_message = `To gain access to the Predict Pool, you have to predict on any of the coins on
+    //      cropredict.finance/prediction between 13:00 UTC to 14:00 UTC every Monday. 
+    //      Predict Pool launches every weekend on cropredict.finance/staking. 
+    //      Winners & Losers have 7 days to earn their rewards with the wallet they predicted with.`;
+
+    // const [toolTip, setToolTip] = useState<string>("");
+    // const [isClicked, setIsClicked] = useState<boolean>(false);
     const mainHook =
         type === "loser"
             ? useLoserPredictionPoolViewModel
@@ -139,8 +143,14 @@ const PredictionPoolCard: FC<Props> = ({ type }) => {
         </button>
     );
 
-    // const mouseEnter = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
-    //     e.currentTarget.title = tooltip_message;
+    // const handleShowTooltip = (
+    //     e: React.MouseEvent<HTMLParagraphElement, MouseEvent>
+    // ) => {
+    //     e.preventDefault();
+
+    //     setIsClicked(!isClicked);
+    //     setToolTip(tooltip_message);
+    //     console.log(tooltip_message);
     // };
 
     let mainButton = !active
@@ -184,15 +194,18 @@ const PredictionPoolCard: FC<Props> = ({ type }) => {
                             alt="predict-coin-logo"
                         />
 
-                        {/*  */}
                         {/* <img
-                            // className="tooltip"
                             src={QuestionIcon}
                             alt="predict-coin-logo"
                             style={{ marginLeft: 10, width: 20, height: 20 }}
                             title={tooltip_message}
-                        /> */}
-                        {/* <p className="tooltip__text">{tooltip_message}</p> */}
+                            onClick={handleShowTooltip}
+                        />
+                        {isClicked ? (
+                            <p className="tooltip__text">{tooltip}</p>
+                        ) : (
+                            ""
+                        )} */}
                     </div>
 
                     <div className="token__title">
@@ -316,7 +329,6 @@ const PredictionPoolCard: FC<Props> = ({ type }) => {
                     </div>
 
                     <div className="stake__details">
-                        {console.log(totalStaked, decimals)}
                         <p>
                             Total staked:{" "}
                             {displayTokenValue(totalStaked, decimals, 5)}

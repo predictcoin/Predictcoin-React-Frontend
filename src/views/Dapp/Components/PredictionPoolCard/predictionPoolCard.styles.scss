@@ -3,3 +3,12 @@
         color: #332f67;
     }
 }
+
+.tooltip__text {
+    background-color: black;
+    color: white;
+    padding: 7%;
+    border-radius: 2%;
+    width: 300px;
+    display: absolute;
+}

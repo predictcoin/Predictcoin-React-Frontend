@@ -1,14 +1,24 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
+import useSportPredictionViewModel from '../../application/controllers/sportPredictionViewModel'
 import UpcomingMatchesTable from '../../Components/UpcomingMatchesTable'
 
-interface UpcomingMatchesProps {
-  openMatchPredictionModal: ()=>void
-}
 
-const UpcomingMatches: FC<UpcomingMatchesProps> = ({openMatchPredictionModal}) => {
+const UpcomingMatches:FC = () => {
+
+  const { getUpcomingMatches } = useSportPredictionViewModel()
+  
+  useEffect(() => {
+      getUpcomingMatches()
+      
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+  
+
+
+
   return (
     <section className='sport__prediction__upcoming__matches'>
-      <UpcomingMatchesTable openMatchPredictionModal = {openMatchPredictionModal}/>
+      <UpcomingMatchesTable />
     </section>
   )
 }

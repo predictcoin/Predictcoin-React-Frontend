@@ -38,7 +38,6 @@ const deficonnect = new DeFiWeb3Connector({
 export const addNetwork = async (provider: ethers.providers.ExternalProvider) => {
   if(!provider.request) return;
   const chainId = getChainId();
-  console.log(chainId, "chainId");
   try {
     await provider?.request({
       method: 'wallet_switchEthereumChain',
