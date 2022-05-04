@@ -6,7 +6,6 @@ import "react-toastify/dist/ReactToastify.css";
 import Farming from "./pages/farming";
 import Staking from "./pages/staking";
 import Prediction from "./pages/prediction";
-import SportPrediction from "./pages/sportPrediction";
 import "./appdashboard.styles.scss";
 import { Provider } from "react-redux";
 import { store } from "./application/infrastructure/redux/stores";
@@ -29,7 +28,6 @@ const AppDashboard: FC = () => {
                 <div className="app__dashboard">
                     <Routes>
                         <Route path="/prediction/*" element={<Prediction />} />
-                        <Route path="/sport-prediction/*" element={<SportPrediction />} />
                         <Route path="/farming" element={<Farming />} />
                         {["/", "/staking/*"].map((path, index) => {
                             return (
