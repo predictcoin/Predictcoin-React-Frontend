@@ -138,7 +138,7 @@ export const getUserPastPrediction = async (params: Params) => {
     );
     
 
-    const stateData: UserPrediction[] = userPredictions.map(
+    const data: UserPrediction[] = userPredictions.map(
         (
             prediction: SportPrediction.PredictionStruct,
             index: number
@@ -190,11 +190,15 @@ export const getUserPastPrediction = async (params: Params) => {
                     allPredictedMatches[index].outcome,
                     matchDetailsArr[index].fixture.status.short
                 ) as unknown as status,
-                claimed: userPredictions[index].claimed
+                claimed: userPredictions[index].claimed,
+                startTimestamp: allPredictedMatches[index].startTimestamp.toNumber()
             };
         }
     );
+
+    // sort in ascending start time order
+    const sortedData = data.sort((a,b) => b.startTimestamp - a.startTimestamp)
     
 
-    dispatch({ userPastPredictions: stateData.reverse() });
+    dispatch({ userPastPredictions: sortedData });
 };

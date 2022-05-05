@@ -54,11 +54,14 @@ export const getUpcomingMatches = async (params: Params) => {
                     time: formatMatchUITime(
                         predictableEvents[index].startTimestamp.toNumber()
                     ),
-                    slotsFilled: EventsSlotsFilled[index]
+                    slotsFilled: EventsSlotsFilled[index],
+                    startTimestamp: predictableEvents[index].startTimestamp.toNumber()
                 };
             }
         );
+
+        const sortedUpcomingMatches = upcomingMatches.sort((a,b) => b.startTimestamp - a.startTimestamp)
         
-        dispatch({ upcomingMatches: upcomingMatches.reverse() });
+        dispatch({ upcomingMatches: sortedUpcomingMatches });
     });
 };

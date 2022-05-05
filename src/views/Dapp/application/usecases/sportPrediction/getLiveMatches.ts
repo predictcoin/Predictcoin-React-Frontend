@@ -28,7 +28,7 @@ export const getLivematches = async (params: Params): Promise<void> => {
         })
     }))
 
-    const stateData: LiveMatch[] = liveEvents.map((match:ISportPrediction.SportEventStructOutput, index:number):LiveMatch => {
+    const liveMatches: LiveMatch[] = liveEvents.map((match:ISportPrediction.SportEventStructOutput, index:number):LiveMatch => {
         return {
             id: match.id,
             teamA: liveEventsdetailsArr[index].teams.home.name,
@@ -40,9 +40,12 @@ export const getLivematches = async (params: Params): Promise<void> => {
             teamBScore: liveEventsdetailsArr[index].goals.away,
             status: liveEventsdetailsArr[index].fixture.status.long,
             statusShort: liveEventsdetailsArr[index].fixture.status.short,
+            startTimestamp: liveEvents[index].startTimestamp.toNumber()
         }
     })
+
+    const sortedLiveMatches = liveMatches.sort((a, b) => b.startTimeStamp - a.startTimeStamp)
     
 
-    dispatch({liveMatches: stateData.reverse()});
+    dispatch({liveMatches: sortedLiveMatches});
 }
