@@ -12,6 +12,7 @@ import { ToastBody, STATUS, TYPE } from "../Toast";
 import useToken from "../../hooks/useToken";
 import { SPORT_PREDICTION_ADDRESSES, TOKENS } from "../../constants/addresses";
 import { useWalletViewModel } from "../../application/controllers/walletViewModel";
+import { ethers } from "ethers";
 
 
 
@@ -30,7 +31,6 @@ const MatchPredictionModal: FC = () => {
     const closeModalFunc = (e: any) => {
         if (e.target?.id === "match__prediction__modal") closeModal();
     };
-
     const [match, setMatch] = useState<UpcomingMatch>()
     const [predictionData, setPredictionData] = useState<{teamA: string, teamB: string}>({teamA: "", teamB: ""})
 
@@ -38,7 +38,7 @@ const MatchPredictionModal: FC = () => {
         const targetMatch = upcomingMatches.find(match => match.id === predictMatchModal.id)
         setMatch(targetMatch)
 
-        getAllowance(SPORT_PREDICTION_ADDRESSES.mainnet)
+        getAllowance(SPORT_PREDICTION_ADDRESSES[process.env.REACT_APP_ENVIRONMENT as keyof typeof SPORT_PREDICTION_ADDRESSES])
         window.addEventListener("click", (e) => closeModalFunc(e));
 
         return () => {
@@ -53,7 +53,7 @@ const MatchPredictionModal: FC = () => {
         return setPredictionData(prev => ({...prev, [event.target.name]: event.target.value})) 
     } 
 
-    const handlePredict = async (event: React.MouseEvent<HTMLElement>) => {
+    const handlePredict = async (event: React.MouseEvent<HTMLElement>) => {        
         event.preventDefault();
         if(!active) {
             const body = ToastBody("You are not connected. Please connect your wallet to place predicition", STATUS.ERROR, TYPE.ERROR)
@@ -66,11 +66,26 @@ const MatchPredictionModal: FC = () => {
             return toast(body);
         }
 
-        if(predictionAmount.gt(allowances[SPORT_PREDICTION_ADDRESSES.mainnet])) {
-            await approve(SPORT_PREDICTION_ADDRESSES.mainnet, predictionAmount)
+        try {
+            if(predictionAmount.gt(allowances[SPORT_PREDICTION_ADDRESSES[process.env.REACT_APP_ENVIRONMENT as keyof typeof SPORT_PREDICTION_ADDRESSES]])) {
+                await approve(SPORT_PREDICTION_ADDRESSES[process.env.REACT_APP_ENVIRONMENT as keyof typeof SPORT_PREDICTION_ADDRESSES], ethers.constants.MaxUint256)
+            }
+    
+            const callbacks = {
+                successfull: () => {
+                    closeModal();
+                },
+                failed: () => {
+                    closeModal();
+                }
+            }
+            
+            predict(match?.id as string, match?.teamA as string, match?.teamB as string, Number(predictionData.teamA), Number(predictionData.teamB), callbacks)
+        }catch(err) {
+            console.error(err)
+            closeModal();
         }
         
-        predict(match?.id as string, match?.teamA as string, match?.teamB as string, Number(predictionData.teamA), Number(predictionData.teamB))
     }
 
     return (
