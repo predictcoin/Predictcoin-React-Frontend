@@ -10,6 +10,7 @@ import { UpcomingMatch } from "../../application/domain/sportPrediction/entity";
 import {useDispatch} from 'react-redux'
 import { setPredictMatchModal } from "../../application/infrastructure/redux/actions/sportPrediction";
 import useSportPredictionViewModel from "../../application/controllers/sportPredictionViewModel";
+import { useWalletViewModel } from "../../application/controllers/walletViewModel";
 
 interface UpcomingMatchesTableRowProps {
     match: UpcomingMatch;
@@ -19,6 +20,7 @@ interface UpcomingMatchesTableRowProps {
 const UpcomingMatchesTableRow: FC<UpcomingMatchesTableRowProps> = ({match, maxPredictions}) => {
   
   const dispatch = useDispatch()
+  
   const openMatchPredictionModal = () => {
     setPredictMatchModal(match.id, match.slotsFilled, maxPredictions)(dispatch)
   }
@@ -26,6 +28,7 @@ const UpcomingMatchesTableRow: FC<UpcomingMatchesTableRowProps> = ({match, maxPr
   const [prediction, setPrediction] = useState<string>();
 
   const {userPastPredictions} = useSportPredictionViewModel()
+  const {address} = useWalletViewModel();
   useEffect(() => {
     if(userPastPredictions.length === 0) return setPrediction(undefined);
     
@@ -76,15 +79,15 @@ const UpcomingMatchesTableRow: FC<UpcomingMatchesTableRowProps> = ({match, maxPr
           </div>
         </TableData>
         <TableData text="">
-          {prediction ? <span className="predicted_prediction">{prediction}</span> : 
+          {address &&
+          (prediction ? <span className="predicted_prediction">{prediction}</span> : 
             <button
-             className={match.slotsFilled < maxPredictions ? "" : "disabled__btn"}
-             onClick = {openMatchPredictionModal}
+            className={match.slotsFilled < maxPredictions ? "" : "disabled__btn"}
+            onClick = {openMatchPredictionModal}
             >
+              Predict
+            </button>)}
           
-                Predict
-            </button>
-          }   
         </TableData>
     </TableRow>
   );
