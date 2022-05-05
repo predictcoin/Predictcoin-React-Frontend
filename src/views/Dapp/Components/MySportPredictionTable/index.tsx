@@ -67,7 +67,7 @@ const MySportPredictionTable: FC = () => {
                     ))}
 
 
-                    {address && userPastPredictions.length === 0 && !isLoadingUserPastPredictions && 
+                    {address && userPastPredictions.length === 0 && isLoadingUserPastPredictions === false && 
                         <TableRow forTableBody>
                             <TableData text={""} colSpan={6}>
                                 <span className="no__data">
