@@ -16,7 +16,8 @@ export interface Match {
     teamA: string, 
     teamB: string,
     teamALogoUri: string,
-    teamBLogoUri: string
+    teamBLogoUri: string,
+    startTimestamp: number,
 }
 
 export interface LiveMatch extends Match {

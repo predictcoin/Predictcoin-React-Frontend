@@ -49,7 +49,7 @@ const UpcomingMatchesTable: FC = () => {
                             </TableRow>
                         ))}
                     
-                    {!isLoadingUpcomingMatches && upcomingMatches.length === 0 &&
+                    {isLoadingUpcomingMatches === false && upcomingMatches.length === 0 &&
                         <TableRow forTableBody>
                             <TableData text={""} colSpan={6}>
                                 <span className="no__data">
@@ -59,7 +59,7 @@ const UpcomingMatchesTable: FC = () => {
                         </TableRow>
                     }
                     
-                    {!isLoadingUpcomingMatches && upcomingMatches.length !== 0  && upcomingMatches.map((match) => (
+                    {isLoadingUpcomingMatches === false && upcomingMatches.length !== 0  && upcomingMatches.map((match) => (
                         <UpcomingMatchesTableRow
                             key={uuidv4()}
                             match={match}

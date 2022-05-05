@@ -39,7 +39,8 @@ export const getNewUpcomingMatch = async (params: Params) => {
         time: formatMatchUITime(
             MatchEvent[0].startTimestamp.toNumber()
         ),
-        slotsFilled: predictions.length
+        slotsFilled: predictions.length,
+        startTimestamp: MatchEvent[0].startTimestamp.toNumber()
     }    
 
     dispatch(data);

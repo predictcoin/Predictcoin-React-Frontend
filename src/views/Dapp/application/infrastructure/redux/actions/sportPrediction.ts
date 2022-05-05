@@ -23,9 +23,6 @@ export const getLivematches = (contract: SportPrediction) => async (dispatch: Di
 
     try {
         await getLivematchesUseCase({contract, dispatch: _dispatch});
-        dispatch({
-            type: actionTypes.GET_LIVE_MATCHES_SUCCESS
-        })
     }catch(err) {
         dispatch({
             type: actionTypes.GET_LIVE_MATCHES_FAILED
@@ -47,9 +44,6 @@ export const getUpcomingMatches = (contract: SportPrediction) => async (dispatch
 
     try {
         await getUpcomingMatchesUsecase({contract, dispatch: _dispatch})
-        dispatch({
-            type: actionTypes.GET_UPCOMING_MATCHES_SUCCESS
-        })
     } catch(err) {
         dispatch({
             type: actionTypes.GET_UPCOMING_MATCHES_FAILED
@@ -71,10 +65,6 @@ export const getUserPastPrediction = (contract: SportPrediction, address: string
 
     try {
         await getUserPastPredictionUsecase({contract, address, dispatch: _dispatch})
-       
-        dispatch({
-            type: actionTypes.GET_USER_PAST_PREDICTIONS_SUCCESS
-        })
     } catch (err) {
         dispatch({
             type: actionTypes.GET_USER_PAST_PREDICTIONS_FAILED
