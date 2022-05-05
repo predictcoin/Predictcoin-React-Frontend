@@ -37,11 +37,14 @@ const useTransaction = () => {
           callbacks["failed"]();
         }
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error)
       if(callbacks && callbacks["failed"]){
         callbacks["failed"]();
       }
+        const body = ToastBody(error?.message ? error?.message : message + " errored", STATUS.ERROR, TYPE.ERROR)
+        toast.dismiss(pendingToast.current);
+        toast(body);
     }
     
   }
