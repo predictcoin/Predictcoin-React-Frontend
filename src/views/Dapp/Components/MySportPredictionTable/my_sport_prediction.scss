@@ -35,6 +35,9 @@
 				line-height: 21px;
 				color: #34508f90;
                 text-align: left;
+				&:nth-child(3) {
+					text-align: center;
+				}
 
 				svg {
 					cursor: pointer;
