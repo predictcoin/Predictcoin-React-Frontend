@@ -9,7 +9,7 @@ import { getUserPastPrediction as  getUserPastPredictionUsecase} from "../../../
 import { getNewUpcomingMatch as getNewUpcomingMatchUsecase } from "../../../usecases/sportPrediction/getNewUpcomingMatch";
 import { UpcomingMatch } from "../../../domain/sportPrediction/entity";
 
-export const getLivematches = (contract: SportPrediction) => async (dispatch: Dispatch<{type:string, data?: Partial<SportPredictionStore>}>) => {
+export const getLivematches = (contract: SportPrediction) => async (dispatch: Dispatch<{type:string, data?: any}>) => {
     dispatch({
         type: actionTypes.GET_LIVE_MATCHES
     })
@@ -33,12 +33,10 @@ export const getLivematches = (contract: SportPrediction) => async (dispatch: Di
     }
 }
 
-export const getUpcomingMatches = (contract: SportPrediction) => async (dispatch: Dispatch<{type:string, data?: Partial<SportPredictionStore>}>) => {
+export const getUpcomingMatches = (contract: SportPrediction) => async (dispatch: Dispatch<{type:string, data?: any}>) => {
     dispatch({
         type: actionTypes.GET_UPCOMING_MATCHES
     })
-
-    
 
     const _dispatch = (data: Pick<SportPredictionStore, "upcomingMatches">) => {
         dispatch({
@@ -59,12 +57,12 @@ export const getUpcomingMatches = (contract: SportPrediction) => async (dispatch
     }
 }
 
-export const getUserPastPrediction = (contract: SportPrediction, address: string) => async (dispatch: Dispatch<{type:string, data?: Partial<SportPredictionStore>}>) => {
+export const getUserPastPrediction = (contract: SportPrediction, address: string) => async (dispatch: Dispatch<{type:string, data?: any}>) => {
     dispatch({
         type: actionTypes.GET_USER_PAST_PREDICTIONS
     })
 
-    const _dispatch = (data: Pick<SportPredictionStore, "userPastPredictions">) => {
+    const _dispatch = (data: any) => {
             dispatch({
             type: actionTypes.SET_USER_PAST_PREDICTIONS,
             data
@@ -73,6 +71,7 @@ export const getUserPastPrediction = (contract: SportPrediction, address: string
 
     try {
         await getUserPastPredictionUsecase({contract, address, dispatch: _dispatch})
+       
         dispatch({
             type: actionTypes.GET_USER_PAST_PREDICTIONS_SUCCESS
         })
@@ -83,7 +82,7 @@ export const getUserPastPrediction = (contract: SportPrediction, address: string
     }
 }
 
-export const getSportPredicitonData = (contract: SportPrediction) => async (dispatch: Dispatch<{type:string, data?: Partial<SportPredictionStore>}>) => {
+export const getSportPredicitonData = (contract: SportPrediction) => async (dispatch: Dispatch<{type:string, data?: any}>) => {
     const _dispatch = (data: Pick<SportPredictionStore, "maxPredictions" | "predictionAmount" | "rewardMultiplier">) => {
         dispatch({
             type: actionTypes.SET_SPORT_PREDICTION_DATA,
