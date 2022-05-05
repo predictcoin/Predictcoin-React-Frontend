@@ -14,6 +14,7 @@ import {
     skeletonBaseColor,
     skeletonHighlightColor
 } from "../../constants/colors";
+import { useWalletViewModel } from "../../application/controllers/walletViewModel";
 
 const MySportPredictionTable: FC = () => {
     const {
@@ -21,6 +22,9 @@ const MySportPredictionTable: FC = () => {
         isLoadingUserPastPredictions,
         maxPredictions
     } = useSportPredictionViewModel();
+    const {address} = useWalletViewModel()
+
+    
     return (
         <div className="my__sport__prediction__table">
             <Table>
@@ -35,7 +39,16 @@ const MySportPredictionTable: FC = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {isLoadingUserPastPredictions ? (
+                    {!address &&
+                        <TableRow forTableBody>
+                            <TableData text={""} colSpan={6}>
+                                <span className="no__data">
+                                    Connect your wallet to see your past predictions
+                                </span>
+                            </TableData>
+                        </TableRow> 
+                    }
+                    {address && userPastPredictions.length === 0 && isLoadingUserPastPredictions &&
                         [...Array(5)].map((_, idx) => (
                             <TableRow key={uuidv4()} forTableBody>
                                 {[...Array(6)].map((_) => (
@@ -51,8 +64,10 @@ const MySportPredictionTable: FC = () => {
                                     </SkeletonTheme>
                                 ))}
                             </TableRow>
-                        ))
-                    ) : userPastPredictions.length === 0 ? (
+                    ))}
+
+
+                    {address && userPastPredictions.length === 0 && !isLoadingUserPastPredictions && 
                         <TableRow forTableBody>
                             <TableData text={""} colSpan={6}>
                                 <span className="no__data">
@@ -60,7 +75,9 @@ const MySportPredictionTable: FC = () => {
                                 </span>
                             </TableData>
                         </TableRow>
-                    ) : (
+                    }
+
+                    {address && userPastPredictions.length !== 0 &&
                         userPastPredictions.map((prediction) => (
                             <MySportPredictionTableRow
                                 key={uuidv4()}
@@ -68,7 +85,7 @@ const MySportPredictionTable: FC = () => {
                                 maxPredictions={maxPredictions}
                             />
                         ))
-                    )}
+                    }
                 </TableBody>
             </Table>
         </div>

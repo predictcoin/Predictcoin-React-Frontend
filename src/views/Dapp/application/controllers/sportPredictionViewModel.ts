@@ -36,14 +36,6 @@ const useSportPredictionViewModel = () => {
         signer ? signer : provider
     );
 
-    const sportOracleContract = SportOracle__factory.connect(
-        SPORT_ORACLE_ADDRESSES[
-            process.env
-                .REACT_APP_ENVIRONMENT as keyof typeof SPORT_ORACLE_ADDRESSES
-        ],
-        provider
-    );
-
     const predict = useCallback(
         (
             eventId: string,
@@ -96,35 +88,46 @@ const useSportPredictionViewModel = () => {
     }, [contract, dispatch]);
 
 
+
     const initializeEventWatch = useCallback(() => {
-      watchEvent(sportOracleContract, "SportEventAdded", [], (...args) => {
-          const [eventId, , , , , , , , , , event] = args;
-          event.removeListener();
-        getNewUpcomingMatch(eventId);
-      });
-      watchEvent(contract, "PredictionPlaced", [], (eventId, predictor) => {
-        
-        dispatch(incrementMatchFilledSlots(eventId))
-        
-        if(address && predictor.toLowerCase() === address.toLowerCase()) {
-          getUserPastPrediction();
-        }
-      });
+        const sportOracleContract = SportOracle__factory.connect(
+            SPORT_ORACLE_ADDRESSES[
+                process.env
+                    .REACT_APP_ENVIRONMENT as keyof typeof SPORT_ORACLE_ADDRESSES
+            ],
+            provider
+        );
+        sportOracleContract.removeAllListeners(); // this initializeEventWatch function can get triggered multiple time. this is to ensure event listeners are only added once
+        watchEvent(sportOracleContract, "SportEventAdded", [], (...args) => {
+            const [eventId, , , , , , , , , , event] = args;          
+            event.removeListener();
+            getNewUpcomingMatch(eventId);
+        });
+        watchEvent(contract, "PredictionPlaced", [], (eventId, predictor, teamAScore, teamBScore, amount, event) => {
+            event.removeListener();
+            dispatch(incrementMatchFilledSlots(eventId))
+            if(address && predictor.toLowerCase() === address.toLowerCase()) {
+                getUserPastPrediction();
+            }
+        });
 
-      watchEvent(sportOracleContract, "SportEventDeclared", [], (eventId) => {
-          const pred = sportPredictionStore.userPastPredictions.find(prediction => prediction.id === eventId);
-          if(pred) {
-              getUserPastPrediction()
-          }
-      })
+        watchEvent(sportOracleContract, "SportEventDeclared", [], (eventId) => {
+            const pred = sportPredictionStore.userPastPredictions.find(prediction => prediction.id === eventId);
+            if(pred) {
+                getUserPastPrediction()
+            }
+        })
 
-      watchEvent(sportOracleContract, "SportEventCancelled", [], (eventId) => {
-          getUpcomingMatches();
-        const pred = sportPredictionStore.userPastPredictions.find(prediction => prediction.id === eventId);
-        if(pred) {
-            getUserPastPrediction()
-        }
-    })
+        watchEvent(sportOracleContract, "SportEventCancelled", [], (eventId) => {
+            getUpcomingMatches();
+            const pred = sportPredictionStore.userPastPredictions.find(prediction => prediction.id === eventId);
+            if(pred) {
+                getUserPastPrediction()
+            }
+        })
+
+        return sportOracleContract;
+        
      // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 

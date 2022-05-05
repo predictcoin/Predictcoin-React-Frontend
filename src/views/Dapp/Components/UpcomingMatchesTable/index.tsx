@@ -31,7 +31,7 @@ const UpcomingMatchesTable: FC = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {isLoadingUpcomingMatches ? (
+                    {isLoadingUpcomingMatches && upcomingMatches.length === 0 &&
                         [...Array(5)].map((_, idx) => (
                             <TableRow key={uuidv4()} forTableBody>
                                 {[...Array(4)].map((_) => (
@@ -47,8 +47,9 @@ const UpcomingMatchesTable: FC = () => {
                                     </SkeletonTheme>
                                 ))}
                             </TableRow>
-                        ))
-                    ) : upcomingMatches.length === 0 ? (
+                        ))}
+                    
+                    {!isLoadingUpcomingMatches && upcomingMatches.length === 0 &&
                         <TableRow forTableBody>
                             <TableData text={""} colSpan={6}>
                                 <span className="no__data">
@@ -56,15 +57,16 @@ const UpcomingMatchesTable: FC = () => {
                                 </span>
                             </TableData>
                         </TableRow>
-                    ) : (
-                        upcomingMatches.map((match) => (
-                            <UpcomingMatchesTableRow
-                                key={uuidv4()}
-                                match={match}
-                                maxPredictions={maxPredictions}
-                            />
-                        ))
-                    )}
+                    }
+                    
+                    {!isLoadingUpcomingMatches && upcomingMatches.length !== 0  && upcomingMatches.map((match) => (
+                        <UpcomingMatchesTableRow
+                            key={uuidv4()}
+                            match={match}
+                            maxPredictions={maxPredictions}
+                        />
+                    ))}
+                    
                 </TableBody>
             </Table>
         </div>

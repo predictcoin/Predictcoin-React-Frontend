@@ -35,7 +35,7 @@ const LiveMatch: FC<LiveMatchEntity> = (props) => {
     <div className='live__match__card'>
         <div className='live__match__card__head'>
             <div className={`status__badge ${["1H", "2H", "HT", "LIVE"].includes(statusShort) ?  "live__badge" : "pending__badge"}`}>
-                <span>{["1H", "2H", "HT, LIVE"].includes(statusShort) ? "LIVE" : "PENDING"}</span>
+                <span>{["1H", "2H", "HT", "LIVE"].includes(statusShort) ? "LIVE" : "PENDING"}</span>
             </div>
             <span className='match__status'>
                 {status}

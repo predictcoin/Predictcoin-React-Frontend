@@ -109,7 +109,7 @@ const Mypredictions: FC = () => {
                     </div>
                 </div>
 
-                <button className="withdraw__btn" onClick = {handleWithdraw}>Withdraw balance</button>
+                <button className="withdraw__btn" onClick = {handleWithdraw}>Claim rewards</button>
             </section>
 
             <section className="my__predictions__table__container">
