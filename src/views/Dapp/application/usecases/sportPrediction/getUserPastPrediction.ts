@@ -7,25 +7,25 @@ import {
     outcome,
     status
 } from "../../domain/sportPrediction/entity";
-import { SportPredictionStore } from "../../domain/sportPrediction/sportPredictionStore";
 import { getMatchFullDetails, getBallPossessions } from "../sportApi";
 
 interface Params {
     contract: SportPrediction;
     address: string;
-    dispatch: (data: Pick<SportPredictionStore, "userPastPredictions">) => void;
+    dispatch: (data:any) => void;
 }
 export const getUserPastPrediction = async (params: Params) => {
     
     const { contract, dispatch, address } = params;
 
+    if(!address)
+        return dispatch({ userPastPredictions: [] });
+        
+
     // array of user prediction structs
     const userPredictions: SportPrediction.PredictionStruct[] =
         await contract.getAllUserPredictions(address);
-    
-
-    if (userPredictions.length === 0)
-        return dispatch({ userPastPredictions: [] });
+        
 
     // array of ids of events the user predicted on
     let predictedEventsIds = userPredictions.map(
@@ -194,6 +194,7 @@ export const getUserPastPrediction = async (params: Params) => {
             };
         }
     );
+    
 
     dispatch({ userPastPredictions: stateData.reverse() });
 };
