@@ -98,7 +98,7 @@ const MatchPredictionModal: FC = () => {
                 <div className="modal__head">
                     <h2>MATCH PREDICTIONS</h2>
                     <p>
-                        {`You will be charged ${formatEther(predictionAmount)} CRO for each pool entered and
+                        {`You will be charged ${formatEther(predictionAmount)} CRP for each pool entered and
                         earn X${rewardMultiplier} (${Number(formatEther(predictionAmount)) * rewardMultiplier} CRO) when you win.`}
                     </p>
 
