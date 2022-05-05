@@ -21,30 +21,29 @@ interface SportPredictionMainContentProps {
     setIsSidebarExpanded: Dispatch<SetStateAction<boolean>>;
 }
 const SportPredictionMainContent: FC<SportPredictionMainContentProps> = ({
-    isSidebarExpanded,
     setIsSidebarExpanded
 }) => {
 
-    const {getUserPastPrediction, getSportPredicitonData, predictMatchModal} = useSportPredictionViewModel()
-    const {address} = useWalletViewModel()
+    const {getUserPastPrediction, getUpcomingMatches, getSportPredicitonData, predictMatchModal} = useSportPredictionViewModel()
 
-    
+    const { pathname } = useLocation();
+    const [modalOpened, setModalOpened] = useState<boolean>(false);
+    const { active, chainId, address } = useWalletViewModel();
+    const { balance, decimals } = useToken(TOKENS[chainId].CRP);
 
     useEffect(() => {
         getSportPredicitonData()
+        getUpcomingMatches()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     useEffect(() => {
         getUserPastPrediction()
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [address])
+    }, [address, active])
     
 
-    const { pathname } = useLocation();
-    const [modalOpened, setModalOpened] = useState<boolean>(false);
-    const { active, chainId } = useWalletViewModel();
-    const { balance, decimals } = useToken(TOKENS[chainId].CRP);
+   
 
     const modal = active ? (
         <ModalDisconnect
