@@ -59,7 +59,6 @@ const StakingCard: FC<Props> = ({
 	}
 
 	const stakeHandler = () => {
-		console.log(id, utils.parseUnits(amount || "0", decimals).toString(), amount);
 		stake(tokenName, +id, utils.parseUnits(amount || "0", decimals).toString(), amount || "0",)
 		closeStakeModal(false);
 	}
