@@ -1,20 +1,26 @@
 import axios from "axios";
 import { worldTimeApiEndpoint } from "../../constants/apiEndpoints";
 
+const padZero = (num: number) => {
+  if(num > 9)
+    return num
+  return `0${num}`
+}
+
 export const formatMatchUITime = (timeStamp: number) => {
-  const date = new Date(timeStamp * 1000);
-  const WATTime = date.toLocaleTimeString("en-US", {timeZone: "Africa/Lagos"});
-  const AMorPM = WATTime.split(" ")
-  const HHMMDDArray = WATTime.split(" ")[0].split(":")
-  if(AMorPM[1] === "PM") return `${Number(HHMMDDArray[0]) + 12}:${HHMMDDArray[1]} WAT`
-  return `${HHMMDDArray[0]} : ${HHMMDDArray[1]} WAT`
+  const dateObj = new Date(timeStamp * 1000);
+  const UTCDate = dateObj.toUTCString()
+  const time = UTCDate.split(" ")[4];
+  return `${time.substring(0, 5)} UTC`;
 }
 
 export const formatMatchUIDate = (timeStamp: number) => {
-  const date = new Date(timeStamp * 1000);
-  const localeDate = date.toLocaleDateString("en-BZ", {timeZone: "Africa/Lagos"});
-  const weekDay = date.toLocaleDateString("en-BZ", {timeZone: "Africa/Lagos", weekday: "short"});
-  return `${weekDay}, ${localeDate}`;
+  const dateObj = new Date(timeStamp * 1000);
+  const dayOfWeek = dateObj.toUTCString().split(" ")[0]
+  const date = dateObj.getUTCDate()
+  const month = dateObj.getUTCMonth() + 1 //it start counting from 0
+  const year = dateObj.getUTCFullYear()
+  return `${dayOfWeek} ${padZero(date)}/${padZero(month)}/${year}`;
 }
 
 export const getElapsedSeconds = async (startTimestamp: number):Promise<number> => {
