@@ -15,26 +15,35 @@ const useTransaction = () => {
 
   const send = async(params: SendParams) => {
     const {method, message, methodParams, callbacks} = params; 
-    const txResponse = (await method(...(methodParams ? methodParams: [])));
-    const body = ToastBody(message, STATUS.PENDING, TYPE.TRANSACTION);
-    pendingToast.current = toast(body, {autoClose: false});
-    const txReceipt = (await txResponse.wait());
 
-    if(txReceipt.status === 1){
-      const body = ToastBody(message, STATUS.SUCCESSFULL, TYPE.SUCCESSFULL)
-      toast.dismiss(pendingToast.current);
-      toast(body);
-      if(callbacks && callbacks["successfull"]){
-        callbacks["successfull"]();
+    try {
+      const txResponse = (await method(...(methodParams ? methodParams: [])));
+      const body = ToastBody(message, STATUS.PENDING, TYPE.TRANSACTION);
+      pendingToast.current = toast(body, {autoClose: false});
+      const txReceipt = (await txResponse.wait());
+
+      if(txReceipt.status === 1){
+        const body = ToastBody(message, STATUS.SUCCESSFULL, TYPE.SUCCESSFULL)
+        toast.dismiss(pendingToast.current);
+        toast(body);
+        if(callbacks && callbacks["successfull"]){
+          callbacks["successfull"]();
+        }
+      }else{
+        const body = ToastBody(message, STATUS.ERROR, TYPE.ERROR)
+        toast.dismiss(pendingToast.current);
+        toast(body);
+        if(callbacks && callbacks["failed"]){
+          callbacks["failed"]();
+        }
       }
-    }else{
-      const body = ToastBody(message, STATUS.ERROR, TYPE.ERROR)
-      toast.dismiss(pendingToast.current);
-      toast(body);
+    } catch (error) {
+      console.error(error)
       if(callbacks && callbacks["failed"]){
         callbacks["failed"]();
       }
     }
+    
   }
 
   return { send };

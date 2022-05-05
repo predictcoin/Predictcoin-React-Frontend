@@ -18,7 +18,7 @@ export const predict = (params: Params) => {
     if(!active) throw new Error("Please connect your wallet")
     
     const method = contract.predict;
-    const message = `predict ${teamAName} to score ${teamAScore} and ${teamBName} to score ${teamBScore}`
+    const message = `Predict ${teamAName} to score ${teamAScore} and ${teamBName} to score ${teamBScore}`
 
     const methodParams = [eventId, BigNumber.from(teamAScore), BigNumber.from(teamBScore)];
     
