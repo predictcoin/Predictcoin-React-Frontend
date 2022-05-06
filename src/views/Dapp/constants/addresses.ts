@@ -1,14 +1,14 @@
 import { supportedChainIds } from "./chainIds"
 
 export const SPORT_PREDICTION_ADDRESSES = {
-  "mainnet": "0x0ffaf3Ef51Fb912206a018159749A6AEa1F6193D", // to be replace with the final address
-  "staging": "0x0ffaf3Ef51Fb912206a018159749A6AEa1F6193D",
+  "mainnet": "0x8604bc8055eA082dC9647741eF1BF0855715CABa", // to be replace with the final address
+  "staging": "0x8604bc8055eA082dC9647741eF1BF0855715CABa",
   "testnet": "",
 }
 
 export const SPORT_ORACLE_ADDRESSES = {
-  "mainnet": "0xCF9B4E3491bF8C55C004fd4aEB4385FA66A3f724", // to be replace with the final address
-  "staging": "0xCF9B4E3491bF8C55C004fd4aEB4385FA66A3f724",
+  "mainnet": "0x492be37ffc7d76A72F3e5E3B694E82620Eeb9985", // to be replace with the final address
+  "staging": "0x492be37ffc7d76A72F3e5E3B694E82620Eeb9985",
   "testnet": "",
 }
 
