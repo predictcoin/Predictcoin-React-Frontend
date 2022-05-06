@@ -24,15 +24,10 @@ export const getUpcomingMatches = async (params: Params) => {
         })
     );
     
-    
-    
-    
-
     Promise.all(
         predictableEvents.map(async (match) => {
             return await getMatchFullDetails({
                 league: toUtf8String(match.league),
-                round: toUtf8String(match.round),
                 startTime: match.startTimestamp,
                 season: match.season,
                 teamA: toUtf8String(match.teamA),
@@ -60,7 +55,7 @@ export const getUpcomingMatches = async (params: Params) => {
             }
         );
 
-        const sortedUpcomingMatches = upcomingMatches.sort((a,b) => b.startTimestamp - a.startTimestamp)
+        const sortedUpcomingMatches = upcomingMatches.sort((a,b) => a.startTimestamp - b.startTimestamp)
         
         dispatch({ upcomingMatches: sortedUpcomingMatches });
     });

@@ -20,7 +20,6 @@ export const getNewUpcomingMatch = async (params: Params) => {
 
     const matchFullDetails = await getMatchFullDetails({
         league: toUtf8String(MatchEvent[0].league),
-        round: toUtf8String(MatchEvent[0].round),
         startTime: MatchEvent[0].startTimestamp,
         season: MatchEvent[0].season,
         teamA: toUtf8String(MatchEvent[0].teamA),

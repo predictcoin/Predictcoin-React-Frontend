@@ -122,7 +122,6 @@ export const getUserPastPrediction = async (params: Params) => {
         allPredictedMatches.map(async (match) => {
             return await getMatchFullDetails({
                 league: toUtf8String(match.league),
-                round: toUtf8String(match.round),
                 startTime: match.startTimestamp,
                 season: match.season,
                 teamA: toUtf8String(match.teamA),
