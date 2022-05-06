@@ -26,7 +26,7 @@ import QuestionIcon from "../../../../assets/icons/question.svg";
 
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
-import './modal.css'
+import "./modal.css";
 
 interface Props {
     type: "winner" | "loser";
@@ -37,9 +37,9 @@ const PredictionPoolCard: FC<Props> = ({ type }) => {
          cropredict.finance/prediction between 13:00 UTC to 14:00 UTC every Monday. 
          Predict Pool launches every weekend on cropredict.finance/staking. 
          Winners & Losers have 7 days to earn their rewards with the wallet they predicted with.`;
-
     const [windowWith, setWindowWith] = useState<number>(0);
     const [modal, setModal] = useState(false);
+
     const mainHook =
         type === "loser"
             ? useLoserPredictionPoolViewModel
@@ -215,12 +215,12 @@ const PredictionPoolCard: FC<Props> = ({ type }) => {
 
                         <Modal
                             classNames={{
-                                modal: 'custom-modal'
+                                modal: "custom-modal"
                             }}
                             open={modal}
                             onClose={onCloseModal}
                         >
-                            <div style={{paddingTop: '20px'}}>
+                            <div style={{ paddingTop: "20px" }}>
                                 <div></div>
                                 <div></div>
                             </div>
@@ -366,13 +366,5 @@ const PredictionPoolCard: FC<Props> = ({ type }) => {
         </>
     );
 };
-
-// PredictionPoolCard.propTypes = {
-//     screenWidth: PropTypes.string.isRequired
-// };
-
-// PredictionPoolCard.defaultProps = {
-//     screenWidth: "390px"
-// };
 
 export default PredictionPoolCard;
