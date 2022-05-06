@@ -4,9 +4,9 @@ import { SportPredictionStore } from "../../../domain/sportPrediction/sportPredi
 import * as actionTypes from "../actionTypes/sportPrediction";
 
 const initialState: SportPredictionStore = {
-    isLoadingUpcomingMatches: true,
-    isLoadingUserPastPredictions: true,
-    isLoadingLiveMatches: true,
+    isLoadingUpcomingMatches: false,
+    isLoadingUserPastPredictions: false,
+    isLoadingLiveMatches: false,
     predictionAmount: BigNumber.from(0),
     maxPredictions: 0,
     rewardMultiplier: 0,
@@ -47,7 +47,7 @@ export const sportPredictionReducer = (state = initialState, action: {type: stri
             return {...state, ...action.data}
         case actionTypes.ADD_NEW_UPCOMING_MATCH:
             const data = [action.data as UpcomingMatch, ...state.upcomingMatches]
-            const sortedData = data.sort((a,b) => b.startTimestamp - a.startTimestamp);
+            const sortedData = data.sort((a,b) => a.startTimestamp - b.startTimestamp);
             return {...state, upcomingMatches: sortedData}
         case actionTypes.INCREMENT_MATCH_PREDICTION_FILLED_SLOT:
             const indexOfMatchTobeUpdated = state.upcomingMatches.findIndex(match => match.id === action.data.id)
