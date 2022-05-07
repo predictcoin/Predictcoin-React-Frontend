@@ -12,9 +12,9 @@ import { ToastBody, STATUS, TYPE } from "../Toast";
 import useToken from "../../hooks/useToken";
 import { SPORT_PREDICTION_ADDRESSES, TOKENS } from "../../constants/addresses";
 import { useWalletViewModel } from "../../application/controllers/walletViewModel";
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 
-const MatchPredictionModal: FC = () => {
+const MatchPredictionModal: FC<{crpBalance: BigNumber}> = ({crpBalance}) => {
     const {
         predict,
         predictMatchModal,
@@ -23,7 +23,7 @@ const MatchPredictionModal: FC = () => {
         predictionAmount
     } = useSportPredictionViewModel();
     const { active, chainId } = useWalletViewModel();
-    const { allowances, getAllowance, approve } = useToken(TOKENS[chainId].CRP);
+    const {allowances, getAllowance, approve } = useToken(TOKENS[chainId].CRP);
 
     const dispatch = useDispatch();
     const pendingToast = useRef("" as ReactText);
@@ -71,7 +71,10 @@ const MatchPredictionModal: FC = () => {
     };
 
     const callbacks = {
-        successfull: () => {
+        // successfull: () => {
+        //     closeModal();
+        // },
+        sent: () => {
             closeModal();
         },
         failed: () => {
@@ -104,6 +107,7 @@ const MatchPredictionModal: FC = () => {
             closeModal();
         }
     };
+    
 
     const handlePredict = async (event: React.MouseEvent<HTMLElement>) => {
         event.preventDefault();
@@ -228,10 +232,17 @@ const MatchPredictionModal: FC = () => {
                                             .REACT_APP_ENVIRONMENT as keyof typeof SPORT_PREDICTION_ADDRESSES
                                     ]
                                 ].gte(predictionAmount) && (
-                                    <button onClick={handlePredict}>
+                                    <button onClick={handlePredict}
+                                        className = {predictionAmount && crpBalance && predictionAmount.gt(crpBalance) ? "disabled" : ""}
+                                        disabled = {predictionAmount && crpBalance && predictionAmount.gt(crpBalance)}
+                                    >
                                         Predict scores
                                     </button>
                                 )}
+
+                                {predictionAmount && crpBalance && predictionAmount.gt(crpBalance) && 
+                                    <p className="insufficient__balance__notice">You do not have enough CRP to predict scores</p>
+                                }
                         </form>
                     </div>
                 </div>
