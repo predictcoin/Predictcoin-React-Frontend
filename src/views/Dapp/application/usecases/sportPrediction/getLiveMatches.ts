@@ -20,7 +20,6 @@ export const getLivematches = async (params: Params): Promise<void> => {
     const liveEventsdetailsArr = await Promise.all(liveEvents.map(async (match:ISportPrediction.SportEventStructOutput) => {
         return await getMatchFullDetails({
             league: toUtf8String(match.league),
-            round: toUtf8String(match.round),
             startTime: match.startTimestamp,
             season: match.season,
             teamA: toUtf8String(match.teamA),

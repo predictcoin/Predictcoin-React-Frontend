@@ -59,7 +59,7 @@ const UpcomingMatchesTable: FC = () => {
                         </TableRow>
                     }
                     
-                    {isLoadingUpcomingMatches === false && upcomingMatches.length !== 0  && upcomingMatches.map((match) => (
+                    {upcomingMatches.length !== 0  && upcomingMatches.map((match) => (
                         <UpcomingMatchesTableRow
                             key={uuidv4()}
                             match={match}

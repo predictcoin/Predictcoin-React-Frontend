@@ -70,6 +70,41 @@ const MatchPredictionModal: FC = () => {
         }));
     };
 
+    const callbacks = {
+        successfull: () => {
+            closeModal();
+        },
+        failed: () => {
+            closeModal();
+        }
+    };
+
+    const handleApprove = async (event: React.MouseEvent<HTMLElement>) => {
+        event.preventDefault();
+        if (!active) {
+            const body = ToastBody(
+                "You are not connected. Please connect your wallet to place predicition",
+                STATUS.ERROR,
+                TYPE.ERROR
+            );
+            toast.dismiss(pendingToast.current);
+            return toast(body);
+        }
+
+        try {
+            await approve(
+                SPORT_PREDICTION_ADDRESSES[
+                    process.env
+                        .REACT_APP_ENVIRONMENT as keyof typeof SPORT_PREDICTION_ADDRESSES
+                ],
+                ethers.constants.MaxUint256
+            );
+        } catch (error) {
+            console.error(error);
+            closeModal();
+        }
+    };
+
     const handlePredict = async (event: React.MouseEvent<HTMLElement>) => {
         event.preventDefault();
         if (!active) {
@@ -92,34 +127,6 @@ const MatchPredictionModal: FC = () => {
         }
 
         try {
-            if (
-                predictionAmount.gt(
-                    allowances[
-                        SPORT_PREDICTION_ADDRESSES[
-                            process.env
-                                .REACT_APP_ENVIRONMENT as keyof typeof SPORT_PREDICTION_ADDRESSES
-                        ]
-                    ]
-                )
-            ) {
-                await approve(
-                    SPORT_PREDICTION_ADDRESSES[
-                        process.env
-                            .REACT_APP_ENVIRONMENT as keyof typeof SPORT_PREDICTION_ADDRESSES
-                    ],
-                    ethers.constants.MaxUint256
-                );
-            }
-
-            const callbacks = {
-                successfull: () => {
-                    closeModal();
-                },
-                failed: () => {
-                    closeModal();
-                }
-            };
-
             predict(
                 match?.id as string,
                 match?.teamA as string,
@@ -191,9 +198,40 @@ const MatchPredictionModal: FC = () => {
                                     />
                                 </label>
                             </div>
-                            <button onClick={handlePredict}>
-                                Predict scores
-                            </button>
+                            {allowances[
+                                SPORT_PREDICTION_ADDRESSES[
+                                    process.env
+                                        .REACT_APP_ENVIRONMENT as keyof typeof SPORT_PREDICTION_ADDRESSES
+                                ]
+                            ] &&
+                                predictionAmount &&
+                                allowances[
+                                    SPORT_PREDICTION_ADDRESSES[
+                                        process.env
+                                            .REACT_APP_ENVIRONMENT as keyof typeof SPORT_PREDICTION_ADDRESSES
+                                    ]
+                                ].lt(predictionAmount) && (
+                                    <button onClick={handleApprove}>
+                                        Approve
+                                    </button>
+                                )}
+                            {allowances[
+                                SPORT_PREDICTION_ADDRESSES[
+                                    process.env
+                                        .REACT_APP_ENVIRONMENT as keyof typeof SPORT_PREDICTION_ADDRESSES
+                                ]
+                            ] &&
+                                predictionAmount &&
+                                allowances[
+                                    SPORT_PREDICTION_ADDRESSES[
+                                        process.env
+                                            .REACT_APP_ENVIRONMENT as keyof typeof SPORT_PREDICTION_ADDRESSES
+                                    ]
+                                ].gte(predictionAmount) && (
+                                    <button onClick={handlePredict}>
+                                        Predict scores
+                                    </button>
+                                )}
                         </form>
                     </div>
                 </div>

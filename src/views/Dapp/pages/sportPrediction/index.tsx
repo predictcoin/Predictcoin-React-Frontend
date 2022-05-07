@@ -6,29 +6,30 @@ import SportPredictionMainContent from "./SportPredictionMainContent";
 import "./sport_prediction.styles.scss";
 
 const SportPrediction: FC = () => {
-    const [isSidebarExpanded, setIsSidebarExpanded] = useState<boolean>(false);
-    const {initializeEventWatch} = useSportPredictionViewModel()
-    const {address} = useWalletViewModel()
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState<boolean>(false);
+  const { initializeEventWatch } = useSportPredictionViewModel()
+  const { address } = useWalletViewModel()
 
-    useEffect(() => {
-      const sportOracleContract =  initializeEventWatch()
-      return () => {
-        sportOracleContract.removeAllListeners();
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [address])
-    
+  useEffect(() => {
+    const sportOracleContract = initializeEventWatch()
+    return () => {
+      sportOracleContract.removeAllListeners();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [address])
+
+
   return (
-      <section id = "sport__prediction">
-        <Sidebar 
-          isSidebarExpanded={isSidebarExpanded}
-          setIsSidebarExpanded={setIsSidebarExpanded}
-        />
-        <SportPredictionMainContent 
-          isSidebarExpanded={isSidebarExpanded}
-          setIsSidebarExpanded={setIsSidebarExpanded}
-        />
-      </section>
+    <section id="sport__prediction">
+      <Sidebar
+        isSidebarExpanded={isSidebarExpanded}
+        setIsSidebarExpanded={setIsSidebarExpanded}
+      />
+      <SportPredictionMainContent
+        isSidebarExpanded={isSidebarExpanded}
+        setIsSidebarExpanded={setIsSidebarExpanded}
+      />
+    </section>
   )
 }
 
