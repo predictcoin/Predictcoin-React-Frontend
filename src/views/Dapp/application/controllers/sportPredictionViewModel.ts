@@ -97,14 +97,22 @@ const useSportPredictionViewModel = () => {
             ],
             provider
         );
-        sportOracleContract.removeAllListeners(); // this initializeEventWatch function can get triggered multiple time. this is to ensure event listeners are only added once
-        watchEvent(sportOracleContract, "SportEventAdded", [], (...args) => {
-            const [eventId, , , , , , , , , , event] = args;          
-            event.removeListener();
+
+        const sportPredictionContract = SportPrediction__factory.connect(
+            SPORT_PREDICTION_ADDRESSES[
+                process.env
+                    .REACT_APP_ENVIRONMENT as keyof typeof SPORT_PREDICTION_ADDRESSES
+            ],
+            signer ? signer : provider
+        );
+
+        // sportOracleContract.removeAllListeners(); // this initializeEventWatch function can get triggered multiple time. this is to ensure event listeners are only added once
+        watchEvent(sportOracleContract, "SportEventAdded", [], (eventId) => {
             getNewUpcomingMatch(eventId);
         });
-        watchEvent(contract, "PredictionPlaced", [], (eventId, predictor, teamAScore, teamBScore, amount, event) => {
-            event.removeListener();
+
+        watchEvent(sportPredictionContract, "PredictionPlaced", [], (eventId, predictor) => {
+            // event.removeListener()
             dispatch(incrementMatchFilledSlots(eventId))
             if(address && predictor.toLowerCase() === address.toLowerCase()) {
                 getUserPastPrediction();
@@ -125,11 +133,12 @@ const useSportPredictionViewModel = () => {
                 getUserPastPrediction()
             }
         })
+        
 
-        return sportOracleContract;
+        return {sportOracleContract, sportPredictionContract};
         
      // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[])
+    },[address])
 
     
 

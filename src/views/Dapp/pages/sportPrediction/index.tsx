@@ -11,9 +11,10 @@ const SportPrediction: FC = () => {
   const { address } = useWalletViewModel()
 
   useEffect(() => {
-    const sportOracleContract = initializeEventWatch()
+    const {sportOracleContract, sportPredictionContract} = initializeEventWatch()
     return () => {
       sportOracleContract.removeAllListeners();
+      sportPredictionContract.removeAllListeners()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address])
