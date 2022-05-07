@@ -18,6 +18,7 @@ const useTransaction = () => {
 
     try {
       const txResponse = (await method(...(methodParams ? methodParams: [])));
+      callbacks && callbacks["sent"] && callbacks["sent"]()
       const body = ToastBody(message, STATUS.PENDING, TYPE.TRANSACTION);
       pendingToast.current = toast(body, {autoClose: false});
       const txReceipt = (await txResponse.wait());

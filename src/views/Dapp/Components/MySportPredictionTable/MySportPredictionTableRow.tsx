@@ -138,13 +138,13 @@ const MySportPredictionTableRow: FC<MySportPredictionTableRowProps> = ({
                                     <RiArrowRightUpFill />{" "}
                                     {prediction.status === status.PLAYED
                                         ? `${prediction.winPercentage}%`
-                                        : "0%"}
+                                        : "-%"}
                                 </span>
                                 <span className="loss">
                                     <RiArrowRightDownFill />{" "}
                                     {prediction.status === status.PLAYED
                                         ? `${prediction.lossPercentage}%`
-                                        : "0%"}
+                                        : "-%"}
                                 </span>
                             </span>
                         </div>
