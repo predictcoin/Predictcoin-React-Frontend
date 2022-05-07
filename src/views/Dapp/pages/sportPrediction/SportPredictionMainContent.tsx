@@ -64,7 +64,7 @@ const SportPredictionMainContent: FC<SportPredictionMainContentProps> = ({
     return (
         <section className="sport__prediction__main__content">
             {modalOpened && modal}
-            {predictMatchModal.id && !predictMatchModal.isFilled && <MatchPredictionModal />}
+            {predictMatchModal.id && !predictMatchModal.isFilled && <MatchPredictionModal crpBalance = {balance} />}
             {predictMatchModal.id && predictMatchModal.isFilled && <FilledSlotsModal />}
             
             <div className="container">
