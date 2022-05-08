@@ -95,10 +95,16 @@
 							span {
 								display: inline-block;
 								width: 85%;
+								max-width: 85%;
+								white-space: nowrap;
+								overflow: hidden;
+								text-overflow: ellipsis;
+								vertical-align: bottom;
 							}
 							img {
 								width: 15%;
 								max-width: 30px;
+								min-width: 25px;
 							}
 						}
 						.team__one {
