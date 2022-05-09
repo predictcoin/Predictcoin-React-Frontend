@@ -61,7 +61,8 @@
     "swiper": "^8.1.0",
     "uuid": "^8.3.2",
     "web-vitals": "^1.0.1",
-    "web3": "^1.7.1"
+    "web3": "^1.7.1",
+    "react-responsive-modal": "^6.2.0"
   },
   "scripts": {
     "type": "typechain --target ethers-v5 --out-dir src/views/Dapp/typechain src/views/Dapp/abis/*.json",
