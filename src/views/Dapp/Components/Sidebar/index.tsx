@@ -73,20 +73,15 @@ const Sidebar: FC<SidebarProps> = ({
                     </li>
                     <li>
                         <NavLink
-                            to="##"
+                            to="/sport-prediction"
                             className={({ isActive }) =>
-                                isActive ? "active not__available" : ""
+                                isActive ? "active" : ""
                             }
                         >
                             <div className="icon">
                                 <SportPredictionIcon />
                             </div>
-                            <div className="coming__soon">
-                                <span>Sport Prediction</span>
-                                <span className="coming__soon">
-                                    Coming soon
-                                </span>
-                            </div>
+                            <span>Sport Prediction</span>
                             <div className="border__active"></div>
                         </NavLink>
                     </li>

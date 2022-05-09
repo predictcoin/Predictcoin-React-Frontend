@@ -1,0 +1,269 @@
+.my__sport__prediction__table {
+    width: 100%;
+	overflow: auto;
+	max-height: 60vh;
+
+    #table {
+		position: relative;
+		display: table;
+		white-space: nowrap;
+		border-collapse: collapse;
+		text-align: center;
+		width: 100%;
+		margin-bottom: 30px;
+
+        .table__head,
+		.table__data {
+			padding: 2rem 1rem;
+			// min-width: 100px;
+		}
+
+        .table__header {
+			background: #e3f9ff;
+			width: 100%;
+			position: sticky;
+			top: 0;
+			z-index: 2;
+
+			.table__head {
+				position: sticky;
+				top: 0;
+				z-index: 2;
+				font-style: normal;
+				font-weight: 500;
+				font-size: 14px;
+				line-height: 21px;
+				color: #34508f90;
+                text-align: left;
+				&:nth-child(3) {
+					text-align: center;
+				}
+
+				svg {
+					cursor: pointer;
+					transform: scale(1.2);
+					margin-left: 8px;
+				}
+			}
+		}
+
+        .table__body {
+			z-index: 1;
+			.table__row {
+				position: relative;
+				cursor: pointer;
+				height: 10px;
+				z-index: 1;
+
+				.table__data {
+					font-style: normal;
+					font-weight: normal;
+					font-size: 14px;
+					line-height: 21px;
+					text-align: left;
+					letter-spacing: 0.392857px;
+					color: #34508f;
+					padding: 12px 1rem;
+
+					.expand__btn {
+						background: linear-gradient(224.09deg, rgba(26, 23, 62, 0.45) 0%, rgba(18, 16, 48, 0.49) 98.47%);
+						border: 0;
+						color: #fff;
+						font-weight: 900;
+						border-radius: 6px;
+
+						.angle {
+							transition: all ease-in-out .2s;
+						}
+
+						.angle__rotate {
+							transform: rotate(90deg);
+						}
+					}
+
+					.match__time {
+						font-weight: 700;
+						display: block;
+					}
+					.match__date {
+						display: block;
+					}
+                    .teams {
+                        display: flex;
+						.team__one, .team__two {
+							width: 50%;
+							span {
+								display: inline-block;
+								width: 85%;
+								max-width: 85%;
+								white-space: nowrap;
+								overflow: hidden;
+								text-overflow: ellipsis;
+								vertical-align: bottom;
+							}
+							img {
+								width: 15%;
+								max-width: 30px;
+								min-width: 25px;
+							}
+						}
+						.team__one {
+							margin-right: 10px;
+							span {
+								text-align: right;
+							}
+						}
+						.team__two {
+							margin-left: 10px;
+							
+						}
+                    }
+
+					.team__one img, .team__two__img {
+                        width: 30px;
+						height: 30px;
+                    }
+
+					.team__one span {
+						margin-right: 8px;
+					}
+					.team__two span {
+						margin-left: 8px;
+					}
+
+					.status__live {
+						background-color: #C8304D;
+						padding: 2px 5px 2px 14px;
+						border-radius: 4px;
+						color: #fff;
+						position: relative;
+						text-transform: capitalize;
+						&:before {
+							position: absolute;
+							content: "";
+							width: 5px;
+							height: 5px;
+							background-color: #fff;
+							border-radius: 50%;
+							top: 50%;
+							left: 0;
+							transform: translate(100%, -50%);
+						}
+					}
+
+					.status__played {
+						background: linear-gradient(224.09deg, rgba(26, 23, 62, 0.45) 0%, rgba(18, 16, 48, 0.49) 98.47%);
+						padding: 2px 5px;
+						border-radius: 4px;
+						color: #fff;
+						position: relative;
+					}
+
+					.status__not__started {
+						background-color: #D7911D;
+						padding: 2px 5px;
+						border-radius: 4px;
+						color: #fff;
+						position: relative;
+					}
+
+					.status__cancelled {
+						background-color: #000;
+						padding: 2px 5px;
+						border-radius: 4px;
+						color: #fff;
+						position: relative;
+					}
+
+					.outcome__won {
+						color: #0f970f; 
+						font-weight: 700;
+					}
+
+					.outcome__lost {
+						color: #C8304D;
+						font-weight: 700;
+					}
+
+					.cliam__win__btn {
+						background-color: transparent;
+						color: #34508f;
+						border: 1px solid #34508f;
+						padding: 5px 8px;
+						border-radius: 3px;
+					}
+
+				}
+			}
+		}
+
+    }
+}
+
+
+.more__details {
+	width: 94%;
+	height: 80px;
+	background: linear-gradient(180deg, rgba(51, 47, 103, 0.10194) 2.1%, rgba(61, 60, 125, 0.0922917) 98.26%);
+	position: absolute;
+	right: 0;
+	transform: translateY(-50%);
+	padding: 24px;
+	padding-left: 2.5%;
+	padding-right: 15%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	font-size: 12px;
+	&:before {
+		position: absolute;
+		top: -5px;
+		left: 0;
+		content: "";
+		width: 100%;
+		height: 1px;
+		background-color: #34508f;
+	}
+	.stats {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+
+		.key {
+			color: #8d9ad6;
+		}
+
+		.value {
+			color: #34508f;
+			font-weight: 600;
+
+			.win {
+				color: #0f970f;
+				margin-right: 10px;
+			}
+
+			.loss {
+				color: #C8304D;
+			}
+		}
+	}
+
+	@media screen and (max-width: 1800px) {
+		padding-left: 2.8%;
+	}
+
+	@media screen and (max-width: 1300px) {
+		padding-left: 4%;
+	}
+
+	@media screen and (max-width: 800px) {
+		padding-left: 4.5%;
+	}
+}
+
+.no__data {
+	width: 100%;
+	text-align: center;
+	position: absolute;
+	right: 0;
+}
