@@ -88,7 +88,7 @@ const Mypredictions: FC = () => {
                 <div className="detail">
                     <span className="dot"></span>
                     <div className="title__value">
-                        <p className="title">Rounds Won</p>
+                        <p className="title">Games Won</p>
                         <p className="value">{PredictionStat.win}</p>
                     </div>
                 </div>
@@ -96,7 +96,7 @@ const Mypredictions: FC = () => {
                 <div className="detail">
                     <span className="dot"></span>
                     <div className="title__value">
-                        <p className="title">Rounds lost</p>
+                        <p className="title">Games lost</p>
                         <p className="value">{PredictionStat.loss}</p>
                     </div>
                 </div>

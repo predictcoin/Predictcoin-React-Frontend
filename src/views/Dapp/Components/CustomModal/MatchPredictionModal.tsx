@@ -154,9 +154,9 @@ const MatchPredictionModal: FC<{crpBalance: BigNumber}> = ({crpBalance}) => {
 
                 <div className="modal__head">
                     <h2>MATCH PREDICTIONS</h2>
-                    <p>{`Predict the score at the end of regular time. You will be charged ${formatEther(
+                    <p>{`Predict the score at the end of regular time before the match begins. You will be charged ${formatEther(
                         predictionAmount
-                    )} CRP for each pool entered and earn X${rewardMultiplier} (${
+                    )} CRP for each match predicted and earn X${rewardMultiplier} (${
                         Number(formatEther(predictionAmount)) * rewardMultiplier
                     } CRP) when you win.`}</p>
 
