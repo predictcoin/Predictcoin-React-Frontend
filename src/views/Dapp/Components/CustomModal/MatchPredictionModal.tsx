@@ -190,7 +190,7 @@ const MatchPredictionModal: FC<{crpBalance: BigNumber}> = ({crpBalance}) => {
                                     />
                                 </label>
                                 <p className="text">
-                                    Predict the scores (1-100)
+                                    Predict the scores (0-100)
                                 </p>
                                 <label htmlFor="teamB">
                                     <input
