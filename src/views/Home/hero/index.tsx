@@ -1,50 +1,38 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
 
-import HeroImage from "../../../assets/img/hero-img.png";
-
 const Hero: FC = () => {
     return (
-        <section id="hero" className="d-flex align-items-center">
-            <div className="container">
-                <div className="row">
-                    <div
-                        className="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1"
-                        data-aos="fade-up"
-                        data-aos-delay="200"
-                    >
+        <section
+            id="hero"
+            className="d-flex align-items-center justify-content-center"
+        >
+            <div className="container" data-aos="fade-up">
+                <div
+                    className="row justify-content-center"
+                    data-aos="fade-up"
+                    data-aos-delay="30"
+                >
+                    <div className="col-lg-10">
                         <h1>
-                            Predict crypto-assets, sports games and have fun in
-                            the arena.
-                        </h1>{" "}
-                        <br />
-                        <div className="d-flex flex-wrap justify-content-center justify-content-lg-start button-bb">
-                            <Link
-                                to="/prediction"
-                                className="btn-get-started"
-                            >
-                                Launch DApp
+                            Discover Predictcoin, <br /> Price Prediction
+                            Redefined
+                        </h1>
+                        <h2>
+                            Predictcoin is the World's First Crypto-Assets Price
+                            Prediction DAO where Winners &amp; Losers earn.
+                        </h2>
+                        <div className="wrapper">
+                            <Link to="/prediction" className="buttonout">
+                                Start Predicting
                             </Link>
-                            <span></span>
-                            <a
-                                href="CroPredict_whitepaper.pdf"
-                                target="_blank"
-                                className="btn-get-started2"
-                            >
-                                Whitepaper
-                            </a>
+                            <Link to="/" className="buttonblue">
+                                Earn PRED
+                            </Link>
+                            <Link to="/" className="buttonred">
+                                Earn BID
+                            </Link>
                         </div>
-                    </div>
-                    <div
-                        className="col-lg-6 order-1 order-lg-2 hero-img"
-                        data-aos="zoom-in"
-                        data-aos-delay="200"
-                    >
-                        <img
-                            src={HeroImage}
-                            className="img-fluid animated"
-                            alt=""
-                        />
                     </div>
                 </div>
             </div>
