@@ -55,7 +55,7 @@ const ModalDisconnect: FC<ModalDisconnectProps> = ({ closeModal, CRPBalance }) =
 				<p className='account__balance'>{active ? CRPBalance : 0} CRP</p>
 				<p className='account__balance__text'>Wallet balance</p>
 
-				<button className='buy__pred'>BUY CRP</button>
+				<button className='buy__pred'>BUY PRED</button>
 
 				<button
 					className='disconnect__wallet'

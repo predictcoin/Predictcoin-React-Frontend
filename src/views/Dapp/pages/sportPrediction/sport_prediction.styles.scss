@@ -3,7 +3,7 @@
     width: 100%;
     height: 100%;
     min-height: 100vh;
-    background-image: linear-gradient(180deg, #e3f9ff 15.1%, #c8e8f1 100%);
+    background-image: radial-gradient(123.22% 129.67% at 100.89% -5.6%, #201D47 0%, #17153A 100%);
     box-shadow: 0px 60px 60px rgba(0, 0, 0, 0.25);
 
     .sport__prediction__main__content {
@@ -117,6 +117,8 @@
                             border: 0.4px solid #312f6250;
                             border-radius: 8px;
                             margin-bottom: 38px;
+                            background: rgba(15, 14, 51, 0.56);
+                            border: 0.4px solid #B1AFCD;
 
                             .detail {
                                 display: flex;
@@ -143,7 +145,7 @@
                                         font-weight: normal;
                                         font-size: 12px;
                                         line-height: 18px;
-                                        color: #34508f;
+                                        color: rgba(255, 255, 255, 0.5);
                                         margin-bottom: 2px;
                                     }
     
@@ -152,14 +154,14 @@
                                         font-size: 18px;
                                         line-height: 27px;
                                         letter-spacing: 0.02em;
-                                        color: #34508f;
+                                        color: #B1AFCD;
                                     }
                                 }
                             }  
 
                             .withdraw__btn {
                                 border: 0;
-                                background-color: #0E56C0;
+                                background: #0E56C0;
                                 color: #fff;
                                 font-size: 16px;
                                 padding: 10px 16px;
@@ -167,7 +169,7 @@
                             }
 
                             .grayed {
-                                background-color: rgba(26, 23, 62, 0.45);
+                                background: rgba(192, 207, 254, 0.36);
                               }
                             
     

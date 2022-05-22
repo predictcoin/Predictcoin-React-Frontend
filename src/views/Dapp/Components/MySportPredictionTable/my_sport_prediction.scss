@@ -19,7 +19,7 @@
 		}
 
         .table__header {
-			background: #e3f9ff;
+			background: #1C1942;
 			width: 100%;
 			position: sticky;
 			top: 0;
@@ -62,7 +62,7 @@
 					line-height: 21px;
 					text-align: left;
 					letter-spacing: 0.392857px;
-					color: #34508f;
+					color: #C0CFFE;
 					padding: 12px 1rem;
 
 					.expand__btn {
@@ -87,6 +87,7 @@
 					}
 					.match__date {
 						display: block;
+						color: rgba(192, 207, 254, 0.5);
 					}
                     .teams {
                         display: flex;
@@ -132,7 +133,7 @@
 					}
 
 					.status__live {
-						background-color: #C8304D;
+						background: #FF1643;
 						padding: 2px 5px 2px 14px;
 						border-radius: 4px;
 						color: #fff;
@@ -152,7 +153,7 @@
 					}
 
 					.status__played {
-						background: linear-gradient(224.09deg, rgba(26, 23, 62, 0.45) 0%, rgba(18, 16, 48, 0.49) 98.47%);
+						background: rgba(192, 207, 254, 0.36);
 						padding: 2px 5px;
 						border-radius: 4px;
 						color: #fff;
@@ -187,7 +188,7 @@
 
 					.cliam__win__btn {
 						background-color: transparent;
-						color: #34508f;
+						color: #C0CFFE;
 						border: 1px solid #34508f;
 						padding: 5px 8px;
 						border-radius: 3px;
@@ -204,7 +205,7 @@
 .more__details {
 	width: 94%;
 	height: 80px;
-	background: linear-gradient(180deg, rgba(51, 47, 103, 0.10194) 2.1%, rgba(61, 60, 125, 0.0922917) 98.26%);
+	background: rgba(255, 255, 255, 0.11);
 	position: absolute;
 	right: 0;
 	transform: translateY(-50%);
@@ -230,20 +231,20 @@
 		align-items: flex-start;
 
 		.key {
-			color: #8d9ad6;
+			color: rgba(192, 207, 254, 0.5);
 		}
 
 		.value {
-			color: #34508f;
+			color: #C0CFFE;
 			font-weight: 600;
 
 			.win {
-				color: #0f970f;
+				color: #00A660;
 				margin-right: 10px;
 			}
 
 			.loss {
-				color: #C8304D;
+				color: #E3507A;
 			}
 		}
 	}

@@ -16,7 +16,7 @@
       max-width: 597px;
       min-height: 381px;
       max-height: 500px;
-      background-image: linear-gradient(180deg, #e3f9ff 15.1%, #c8e8f1 100%);
+      background: linear-gradient(247.99deg, rgba(52, 49, 102, 0.17) 0%, rgba(41, 39, 84, 0.78) 48.89%, rgba(27, 25, 67, 0.71) 98.46%);
       box-shadow: 28px 50px 90px rgba(23, 18, 43, 0.7);
       border-radius: 12px;
       overflow: hidden;
@@ -41,8 +41,8 @@
         right: 22px;
         top: 22px;
         background-color: transparent;
-        border: 1px solid #34508f;
-        color: #34508f;
+        border: 1px solid #B1AFCD;
+        color: #B1AFCD;
         border-radius: 4px;
         font-size: 16px;
       }
@@ -52,12 +52,12 @@
         h2 {
           font-size: 24px;
           font-weight: 600;
-          color: #3b4a8d;
+          color: #B1AFCD;
         }
 
         p {
           font-size: 14px;
-          color: #b1afcd;
+          color: #9492ED;
         }
       }
 
@@ -75,7 +75,7 @@
             }
             p {
               margin-top: 16px;
-              color: #3b4a8d;
+              color: #FFFFFF;
               font-weight: 700;
             }
           }
@@ -83,7 +83,7 @@
           .seperator {
             transform: translateY(-15px);
             font-size: 32px;
-            color: #3b4a8d;
+            color: #FFFFFF;
           }
         }
 
@@ -103,6 +103,7 @@
               border: 2px solid rgba(166, 163, 235, 0.31);
               outline: 0;
               border-radius: 8px;
+              color: #8C8AE7;
               /* Firefox */
               -moz-appearance: textfield;
               &::placeholder {

@@ -70,7 +70,7 @@ const SportPredictionMainContent: FC<SportPredictionMainContentProps> = ({
             <div className="container">
                 <Header
                     title="Sport prediction"
-                    subtitle="Predict sport games with $CRP, earn in $CRP"
+                    subtitle="Sport prediction with $PRED"
                     isSidebarExpanded
                     setIsSidebarExpanded={setIsSidebarExpanded}
                     setModalOpened={setModalOpened}

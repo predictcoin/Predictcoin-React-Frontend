@@ -139,7 +139,7 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
             <div className="container">
                 <Header
                     title="Price Prediction"
-                    subtitle="Predict with $CRP, earn in $CRP or $MMF"
+                    subtitle="Predict with $PRED, earn in $PRED or $BNB"
                     isSidebarExpanded
                     setIsSidebarExpanded={setIsSidebarExpanded}
                     setModalOpened={setModalOpened}

@@ -1,7 +1,6 @@
 import { ethers } from "ethers";
 import { Dispatch, FC, useState } from "react";
 import WalletIcon from "../../../../assets/appSvgs/WalletIcon";
-import CRPLogoSidebar from '../../../../assets/pics/CRP.png';
 import { useWalletViewModel } from "../../application/controllers/walletViewModel";
 import { TOKENS } from "../../constants/addresses";
 import useToken from "../../hooks/useToken";
@@ -48,7 +47,7 @@ const Header: FC<HeaderProps> = ({subtitle, title, setIsSidebarExpanded, isSideb
           {
             active && 
             <div className='wallet__price'>
-              <img src={CRPLogoSidebar} alt='predict-coin-logo' />
+              <img src="/assets/img/predcoin_logo.png" alt='predict-coin-logo' />
               <p>{displayDecimals(ethers.utils.formatUnits(balance, decimals), 5)}</p>
             </div>
           } 

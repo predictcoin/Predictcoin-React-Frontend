@@ -19,13 +19,13 @@
 		}
 
         .table__header {
-			background: #e3f9ff;
 			width: 100%;
 			position: sticky;
 			top: 0;
 			z-index: 2;
 
 			.table__head {
+				background: #1C1942;
 				position: sticky;
 				top: 0;
 				z-index: 2;
@@ -58,7 +58,7 @@
 					line-height: 21px;
 					text-align: left;
 					letter-spacing: 0.392857px;
-					color: #34508f;
+					color: #C0CFFE;
 					padding: 12px 1rem;
 
 					.match__time {
@@ -67,6 +67,7 @@
 					}
 					.match__date {
 						display: block;
+						color: rgba(192, 207, 254, 0.5);
 					}
 					.teams {
 						display: flex;

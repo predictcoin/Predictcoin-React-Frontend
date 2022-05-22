@@ -25,11 +25,7 @@
         cursor: pointer;
         min-width: 260px;
         width: 260px;
-        background: linear-gradient(
-            180deg,
-            rgba(51, 47, 103, 0.10194) 2.1%,
-            rgba(61, 60, 125, 0.0922917) 98.26%
-        );
+        background: rgba(226, 235, 247, 0.04);
         box-shadow: 0px 2px 10px rgba(32, 30, 66, 0.506567);
         border-radius: 8px;
         padding: 16px;
@@ -76,13 +72,13 @@
                 background-color: #C8304D;
             }
             .match__status {
-                color: #34508f;
+                color: #C0CFFE;
             }
         }
 
         &__body {
             padding-top: 10px;
-            color: #34508f;
+            color: #C0CFFE;
             display: flex;
             .logos__container {
                 position: relative;

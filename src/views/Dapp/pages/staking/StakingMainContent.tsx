@@ -104,7 +104,7 @@ const StakingMainContent: FC<StakingMainContentProps> = ({
             <div className="container">
                 <Header
                     title="Staking"
-                    subtitle="Stake $CRP to earn $CRP and other tokens."
+                    subtitle="Stake $PRED to earn PRED and other tokens."
                     isSidebarExpanded
                     setIsSidebarExpanded={setIsSidebarExpanded}
                     setModalOpened={setModalOpened}

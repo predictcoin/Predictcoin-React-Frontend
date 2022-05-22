@@ -6,7 +6,6 @@ import StakingIcon from "../../../../assets/appSvgs/StakingIcon";
 import PredictionCoin from "../../../../assets/appSvgs/PredictionCoin";
 import SportPredictionIcon from "../../../../assets/appSvgs/SportPredictionIcon";
 import CACoins from "../../../../assets/appSvgs/CACoins";
-import CRPLogoSidebar from "../../../../assets/pics/CRP.png";
 import "./sidebar.styles.scss";
 import { shortenAddress } from "../../lib/utils/address";
 
@@ -194,11 +193,11 @@ const Sidebar: FC<SidebarProps> = ({
                     </div>
                     <div className="CA__section__content">
                         <p id="address" className="address hidden">
-                            0x7b8ad6d7560facd1959cfb4b4163d7d297c4bfc0
+                        0xbdD2E3fdb879AA42748E9D47b7359323f226BA22
                         </p>
                         <p className="address">
                             {shortenAddress(
-                                "0x7b8ad6d7560facd1959cfb4b4163d7d297c4bfc0"
+                                "0xbdD2E3fdb879AA42748E9D47b7359323f226BA22"
                             )}
                         </p>
                         <button
@@ -208,7 +207,7 @@ const Sidebar: FC<SidebarProps> = ({
                         >
                             click to copy CA
                         </button>
-                        <img src={CRPLogoSidebar} alt="predict-logo-sidebar" />
+                        <img src= "/assets/img/predcoin_logo.png" alt="predict-logo-sidebar" />
                     </div>
                 </div>
             </nav>

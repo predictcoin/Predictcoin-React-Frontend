@@ -4,8 +4,9 @@
 	min-height: 277px;
 	padding: 20px 24px 0;
 	margin: 0 auto;
-
-	background: linear-gradient(180deg, rgba(51, 47, 103, 0.10194) 2.1%, rgba(61, 60, 125, 0.0922917) 98.26%);
+	background: linear-gradient(268.95deg, rgba(41, 37, 88, 0.536345) 4.06%, rgba(38, 35, 83, 0.866791) 42.35%, rgba(40, 38, 89, 0.50218) 99.53%);
+	box-shadow: -16.5px 22.5px 90px #17122B;
+	backdrop-filter: blur(24.5072px);
 	border-radius: 12px;
 
 	@supports (backdrop-filter: blur(24.5072px)) {
@@ -40,7 +41,7 @@
 				font-weight: 500;
 				font-size: 14px;
 				line-height: 21px;
-				color: #332f67;
+				color: #FFFFFF;
 
 			}
 
@@ -72,7 +73,7 @@
 				width: 100%;
 				display: flex;
 				justify-content: space-between;
-				color: #332f679C;
+				color: rgba(255, 255, 255, 0.61);
 			}
 			.staked{
 				width: 100%;
@@ -80,13 +81,13 @@
 				justify-content: space-between;
 				align-items: center;
 				flex-wrap: wrap;
-				color: #332f67;
+				color: rgba(255, 255, 255, 0.61);
 				border-radius: 5px;
 				margin: 1rem 0;
 				.light{
 					font-size: 12px;
 					line-height: 18px;
-					opacity: 0.61;
+					// opacity: 0.61;
 				}
 
 				.buttons{
@@ -126,7 +127,7 @@
 				span {
 					font-style: normal;
 					font-weight: 500;
-					color: #332f67;
+					color: #FFFFFF;
 
 
 					&.light {
@@ -145,7 +146,6 @@
 
 
 			width: 100%;
-
 			box-shadow: 0px 12px 14px rgba(32, 30, 66, 0.506567);
 			border-radius: 8px;
 			padding: 14px;
@@ -309,7 +309,7 @@
 				font-weight: 500;
 				font-size: 14px;
 				line-height: 21px;
-				color: #332f67;
+				color: #FFFFFF;
 				white-space: nowrap;
 				margin-right: 24px;
 				margin-bottom: 16px;
@@ -328,7 +328,7 @@
 					font-weight: 500;
 					font-size: 12px;
 					line-height: 18px;
-					color: #332f67;
+					color: #FFFFFF;
 				}
 
 				svg {

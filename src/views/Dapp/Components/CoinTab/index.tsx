@@ -17,6 +17,7 @@ interface CoinTabProps extends CoinTabDataModel {
 }
 
 const CoinTab: FC<CoinTabProps> = ({ id, coinName, active, setActive }) => {
+    
     const [loadingChart, setLoadingChart] = useState<boolean>(true);
     const [graphData, setGraphData] = useState<{ x: string; y: number }[]>([]);
     const [loadingDetails, setLoadingDetails] = useState<boolean>(true);
