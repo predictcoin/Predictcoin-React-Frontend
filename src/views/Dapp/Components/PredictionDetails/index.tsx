@@ -2,8 +2,6 @@ import { Dispatch, FC, SetStateAction, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { IoMdStopwatch } from "react-icons/io";
 import { RiArrowRightDownFill, RiArrowRightUpFill } from "react-icons/ri";
-
-import CRPShadow from "../../../../assets/pics/CRP.png";
 import EndedIllo from "../../../../assets/appSvgs/EndedIllo";
 import UnsuccessfulIllo from "../../../../assets/appSvgs/UnsuccessfulIllo";
 import DropdownOptions from "./DropdownOptions";
@@ -253,9 +251,9 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({
                                             )}
                                         </p>
                                         <img
-                                            src={CRPShadow}
+                                            src="/assets/img/predcoin_logo.png"
                                             alt="pred-logo"
-                                            className="crp-logo"
+                                            className="pred-logo"
                                         />
                                     </div>
                                     <p className="note">
@@ -265,7 +263,7 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({
                                             18,
                                             1
                                         )}{" "}
-                                        CRP for each pool entered
+                                        PRED for each pool entered
                                     </p>
                                 </div>
 
@@ -285,7 +283,7 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({
                                             )
                                         }
                                     >
-                                        Enable CRP
+                                        Enable  PRED
                                     </button>
                                 ) : (
                                     <div className="buttons">

@@ -39,7 +39,7 @@
 			font-weight: 500;
 			font-size: 12px;
 			line-height: 18px;
-			color: #34508f;
+			color: #FFFFFF;
 			display: flex;
 			flex-wrap: wrap;
 			justify-content: space-between;
@@ -132,8 +132,8 @@
 						font-size: 12px;
 						line-height: 18px;
 						text-transform: uppercase;
-						color: #3b4a8d;
-
+						color: #FFFFFF;
+						opacity: 0.2;
 						margin-bottom: 8px;
 					}
 				}
@@ -177,7 +177,7 @@
 
 							.Dropdown-menu {
 								padding: 9px;
-								background: linear-gradient(180deg, rgba(51, 47, 103, 0.10194) 2.1%, rgba(61, 60, 125, 0.0922917) 98.26%);
+								background: radial-gradient(123.22% 129.67% at 100.89% -5.6%, #201D47 0%, #17153A 100%);
 								opacity: 0.9;
 								box-shadow: 0px 60px 60px rgba(0, 0, 0, 0.25);
 								border: none;
@@ -192,7 +192,7 @@
 									font-size: 16px;
 									line-height: 24px;
 									text-transform: uppercase;
-									color: #3b4a8d;
+									color: #FFFFFF;
 									padding: 8px 10px;
 
 									svg{
@@ -201,7 +201,8 @@
 
 									&.is-selected,
 									&:hover {
-										background: rgba(89, 88, 141, 0.8);
+										background: rgba(89, 88, 141, 0.4);
+										color: #FFFFFF;
 										font-weight: 600;
 									}
 								}
@@ -218,7 +219,7 @@
 						line-height: 36px;
 						text-align: right;
 						text-transform: uppercase;
-						color: #3b4a8d;
+						color: #FFFFFF;
 						opacity: 0.9;
 					}
 				}
@@ -247,7 +248,7 @@
 						font-style: normal;
 						font-weight: 500;
 						text-transform: uppercase;
-						color: #3b4a8d;
+						color: #FFFFFF;
 						opacity: 0.9;
 						font-size: 18px;
 						line-height: 27px;
@@ -270,8 +271,8 @@
 					color: #5b5a99;
 				}
 				
-				.crp-logo {
-					width: 2rem;
+				.pred-logo {
+					width: 1.8rem;
 				}
 			}
 
@@ -333,6 +334,11 @@
 					svg {
 						margin-right: 16px;
 					}
+				}
+
+				span {
+					color: #FFFFFF;
+					opacity: 0.2;
 				}
 			}
 		}
