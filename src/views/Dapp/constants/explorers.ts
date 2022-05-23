@@ -1,4 +1,4 @@
 export const Explorers = {
-  25: "https://cronoscan.com/",
-  338: "https://cronos.org/explorer/testnet3/"
+  56: "https://bsc-dataseed.binance.org",
+  97: "https://data-seed-prebsc-1-s1.binance.org:8545",
 }

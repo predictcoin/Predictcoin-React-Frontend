@@ -15,22 +15,22 @@ import { ToastBody, STATUS, TYPE } from "../../../Components/Toast";
 // web3js connectors
 const injected = new InjectedConnector({ supportedChainIds: Object.values(supportedChainIds) })
 const network = new NetworkConnector({ 
-  urls: { 25: RPC_URLS[25], 338: RPC_URLS[338] },
+  urls: { 56: RPC_URLS[56], 97: RPC_URLS[97] },
   defaultChainId: getChainId()
 });
 
 const rpc = getChainId();
 const walletConnect = new WalletConnectConnector({
-  rpc: {25: RPC_URLS[rpc]},
-  chainId: 25,
+  rpc: {56: RPC_URLS[rpc]},
+  chainId: 56,
   bridge: "https://bridge.walletconnect.org",
   qrcode: true,
 });
 
 const deficonnect = new DeFiWeb3Connector({
-  supportedChainIds: [25],
+  supportedChainIds: [56],
   rpc: {
-    25: "https://evm.cronos.org/", // cronos mainet
+    56: "https://bsc-dataseed.binance.org",
   },
   pollingInterval: 15000,
 });
@@ -52,12 +52,12 @@ export const addNetwork = async (provider: ethers.providers.ExternalProvider) =>
           params: [
             {
               chainId: ethers.utils.hexlify(chainId),
-              chainName: 'Cronos Mainnet Beta',
+              chainName: process.env.REACT_APP_ENVIRONMENT === "mainnet" || process.env.REACT_APP_ENVIRONMENT === "staging" ? 'BSC Mainnet' : "BSC Testnet",
               rpcUrls: [RPC_URLS[chainId]],
               blockExplorerUrls: [Explorers[chainId]],
               nativeCurrency: {
-                name: "Cronos",
-                symbol: "CRO", // 2-6 characters long
+                name: "Binance Coin",
+                symbol: "BNB", // 2-6 characters long
                 decimals: 18,
               }
             },

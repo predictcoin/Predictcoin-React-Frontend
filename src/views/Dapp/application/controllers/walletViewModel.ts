@@ -12,8 +12,8 @@ import { getChainId } from "../../lib/utils/chain";
 const defaultLibrary = new ethers.providers.JsonRpcProvider(
     process.env.REACT_APP_ENVIRONMENT === "mainnet" ||
     process.env.REACT_APP_ENVIRONMENT === "staging"
-        ? RPC_URLS[25]
-        : RPC_URLS[338]
+        ? RPC_URLS[56]
+        : RPC_URLS[97]
 );
 
 export const useWalletViewModel = () => {
