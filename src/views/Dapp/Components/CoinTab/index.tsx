@@ -3,7 +3,7 @@ import CoinGecko from "coingecko-api";
 import { RiArrowRightDownFill, RiArrowRightUpFill } from "react-icons/ri";
 import { IoLogoBitcoin } from "react-icons/io";
 import { FaEthereum } from "react-icons/fa";
-import { SiLitecoin, SiDogecoin } from "react-icons/si";
+import { SiBinance, SiDogecoin } from "react-icons/si";
 import { ResponsiveLine } from "@nivo/line";
 
 import CoinTabDataModel from "../../models/CoinDataModel";
@@ -17,7 +17,6 @@ interface CoinTabProps extends CoinTabDataModel {
 }
 
 const CoinTab: FC<CoinTabProps> = ({ id, coinName, active, setActive }) => {
-    
     const [loadingChart, setLoadingChart] = useState<boolean>(true);
     const [graphData, setGraphData] = useState<{ x: string; y: number }[]>([]);
     const [loadingDetails, setLoadingDetails] = useState<boolean>(true);
@@ -72,10 +71,10 @@ const CoinTab: FC<CoinTabProps> = ({ id, coinName, active, setActive }) => {
             <div className="coin__logo">
                 {coinName === "BTC" && <IoLogoBitcoin />}
                 {coinName === "ETH" && <FaEthereum />}
-                {coinName === "LTC" && <SiLitecoin />}
+                {coinName === "BNB" && <SiBinance />}
                 {coinName === "DOGE" && <SiDogecoin />}
-                {coinName === "CRO" && coinImage && (
-                    <img src={coinImage} alt="CRO" />
+                {coinName === "CAKE" && coinImage && (
+                    <img className="grayscale" src={coinImage} alt="cake" />
                 )}
             </div>
             <div className="coin__details">

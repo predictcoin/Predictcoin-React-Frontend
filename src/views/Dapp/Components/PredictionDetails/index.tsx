@@ -74,6 +74,7 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({
     activeCard,
     setActive
 }) => {
+    
     const {
         available,
         currentRound: _currentRound,
@@ -87,9 +88,9 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({
     } = usePredictionViewModel();
     const { active, chainId, address: userAddress } = useWalletViewModel();
     const { balance, decimals, approve, getAllowance, allowances } = useToken(
-        TOKENS[chainId].CRP
+        TOKENS[chainId].PRED
     );
-    const CRPAllowance =
+    const PREDAllowance =
         allowances[
             PREDICTION_ADDRESSES[
                 process.env
@@ -98,6 +99,7 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({
         ];
     const { send } = useTransaction();
     const currentRound = rounds[_currentRound];
+    
     const hasBet = currentRound?.user ? true : false;
 
     // let status = PREDICTIONSTATE.ROUND_ENDED_SUCCESSFULLY;
@@ -267,11 +269,11 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({
                                     </p>
                                 </div>
 
-                                {!CRPAllowance ||
-                                !CRPAllowance.gt(betAmount) ? (
+                                {!PREDAllowance ||
+                                !PREDAllowance.gt(betAmount) ? (
                                     <button
                                         className={`enable ${
-                                            !CRPAllowance && "disable"
+                                            !PREDAllowance && "disable"
                                         }`}
                                         onClick={() =>
                                             approve(

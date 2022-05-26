@@ -11,13 +11,13 @@ const coinTabData: CoinTabDataModel[] = [
 
 	},
 	{
-		id: 'crypto-com-chain',
-		coinName: 'CRO',
+		id: 'binancecoin',
+		coinName: 'BNB',
 
 	},
 	{
-		id: 'litecoin',
-		coinName: 'LTC',
+		id: 'pancakeswap-token',
+		coinName: 'CAKE',
 
 	},
 	{
@@ -30,28 +30,28 @@ const coinTabData: CoinTabDataModel[] = [
 export const coinMinMax: {id: string; min: number; max: number}[] = [
 	{
 		id: 'bitcoin',
-		min: 5000,
-		max: 65000
+		min: 67.81,
+		max: 69045
 	},
 	{
-		id: 'etheruem',
-		min: 5000,
-		max: 65000
+		id: 'ethereum',
+		min: 0.432979,
+		max: 4878.26
 	},
 	{
-		id: 'crypto-com-chain',
-		min: 0.4,
-		max: 0.9
+		id: 'bnb',
+		min: 0.0398177,
+		max: 686.31
 	},
 	{
-		id: 'litecoin',
-		min: 5000,
-		max: 65000
+		id: 'pancakeswap-token',
+		min: 0.194441,
+		max: 43.96
 	},
 	{
 		id: 'dogecoin',
-		min: 5000,
-		max: 65000
+		min: 0.0000869,
+		max: 0.731578
 	},
 ]
 

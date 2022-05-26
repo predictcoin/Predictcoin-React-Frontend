@@ -2,9 +2,6 @@ import { FC, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-import Farming from "./pages/farming";
-import Staking from "./pages/staking";
 import Prediction from "./pages/prediction";
 import SportPrediction from "./pages/sportPrediction";
 import "./appdashboard.styles.scss";
@@ -30,16 +27,6 @@ const AppDashboard: FC = () => {
                     <Routes>
                         <Route path="/prediction/*" element={<Prediction />} />
                         <Route path="/sport-prediction/*" element={<SportPrediction />} />
-                        <Route path="/farming" element={<Farming />} />
-                        {["/", "/staking/*"].map((path, index) => {
-                            return (
-                                <Route
-                                    key={index}
-                                    path={path}
-                                    element={<Staking />}
-                                />
-                            );
-                        })}
                     </Routes>
 
                     <ToastContainer

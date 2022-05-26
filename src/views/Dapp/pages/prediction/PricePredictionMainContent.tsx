@@ -37,11 +37,11 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
     const [graphData, setGraphData] = useState<{ x: string; y: number }[]>([]);
     const [modalOpened, setModalOpened] = useState<boolean>(false);
     const { active, chainId } = useWalletViewModel();
-    const { balance, decimals } = useToken(TOKENS[chainId].CRP);
+    const { balance, decimals } = useToken(TOKENS[chainId].PRED);
     const modal = active ? (
         <ModalDisconnect
             closeModal={() => setModalOpened(false)}
-            CRPBalance={displayDecimals(
+            PREDBalance={displayDecimals(
                 ethers.utils.formatUnits(balance, decimals),
                 5
             )}
@@ -78,12 +78,12 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
                 max: data[1].market_data.ath.usd
             },
             {
-                id: "crypto-com-chain",
+                id: "binancecoin",
                 min: data[2].market_data.atl.usd,
                 max: data[2].market_data.ath.usd
             },
             {
-                id: "litecoin",
+                id: "pancakeswap-token",
                 min: data[3].market_data.atl.usd,
                 max: data[3].market_data.ath.usd
             },
@@ -94,6 +94,7 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
             }
         ]);
         setLoadingChartValues(false);
+        
     };
 
     const searchCoinChart = async () => {
@@ -113,6 +114,7 @@ const PricePredictionMainContent: FC<PricePredictionMainContentProps> = ({
                 });
             });
             setGraphData(newGraphData);
+            
         } catch (error) {
             console.log(error);
         }

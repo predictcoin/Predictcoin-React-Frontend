@@ -29,7 +29,8 @@ const SportPredictionMainContent: FC<SportPredictionMainContentProps> = ({
     const { pathname } = useLocation();
     const [modalOpened, setModalOpened] = useState<boolean>(false);
     const { active, chainId, address } = useWalletViewModel();
-    const { balance, decimals } = useToken(TOKENS[chainId].CRP);
+    const { balance, decimals } = useToken(TOKENS[chainId].PRED);
+    
 
     useEffect(() => {
         getSportPredicitonData()
@@ -48,7 +49,7 @@ const SportPredictionMainContent: FC<SportPredictionMainContentProps> = ({
     const modal = active ? (
         <ModalDisconnect
             closeModal={() => setModalOpened(false)}
-            CRPBalance={displayDecimals(
+            PREDBalance={displayDecimals(
                 ethers.utils.formatUnits(balance, decimals),
                 5
             )}
@@ -64,7 +65,7 @@ const SportPredictionMainContent: FC<SportPredictionMainContentProps> = ({
     return (
         <section className="sport__prediction__main__content">
             {modalOpened && modal}
-            {predictMatchModal.id && !predictMatchModal.isFilled && <MatchPredictionModal crpBalance = {balance} />}
+            {predictMatchModal.id && !predictMatchModal.isFilled && <MatchPredictionModal predBalance = {balance} />}
             {predictMatchModal.id && predictMatchModal.isFilled && <FilledSlotsModal />}
             
             <div className="container">

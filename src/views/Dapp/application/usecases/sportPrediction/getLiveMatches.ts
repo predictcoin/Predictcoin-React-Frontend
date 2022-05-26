@@ -14,6 +14,7 @@ export const getLivematches = async (params: Params): Promise<void> => {
     const {contract, dispatch} = params;
 
     const liveEvents:ISportPrediction.SportEventStructOutput[] = await contract.getLiveEvents()
+    
 
     if(liveEvents.length === 0) return dispatch({liveMatches: []})
 

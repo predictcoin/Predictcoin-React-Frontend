@@ -19,7 +19,7 @@ interface HeaderProps {
   setModalOpened: Dispatch<React.SetStateAction<boolean>>
 }
 const Header: FC<HeaderProps> = ({subtitle, title, setIsSidebarExpanded, isSidebarExpanded, setModalOpened}) => {
-  const {balance, decimals} = useToken(TOKENS[getChainId()].CRP)
+  const {balance, decimals} = useToken(TOKENS[getChainId()].PRED)
   const {address, active} = useWalletViewModel();
   const [openTxs, setOpenTxs] = useState(false);
 

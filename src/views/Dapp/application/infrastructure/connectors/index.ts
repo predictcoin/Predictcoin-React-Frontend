@@ -30,7 +30,7 @@ const walletConnect = new WalletConnectConnector({
 const deficonnect = new DeFiWeb3Connector({
   supportedChainIds: [56],
   rpc: {
-    56: "https://bsc-dataseed.binance.org",
+    56: "https://bsc-dataseed1.binance.org",
   },
   pollingInterval: 15000,
 });

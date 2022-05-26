@@ -21,6 +21,7 @@ interface Params2 {
   address: string,
   round: Round
 }
+
 export const getUserRound = async (params: Params2): Promise<{[key: string]: Round}> => {
   const {contract, address, round} = params;
   const [userRounds, betInfos] = await getUserRounds({contract, address});

@@ -14,7 +14,7 @@ import { SPORT_PREDICTION_ADDRESSES, TOKENS } from "../../constants/addresses";
 import { useWalletViewModel } from "../../application/controllers/walletViewModel";
 import { BigNumber, ethers } from "ethers";
 
-const MatchPredictionModal: FC<{crpBalance: BigNumber}> = ({crpBalance}) => {
+const MatchPredictionModal: FC<{predBalance: BigNumber}> = ({predBalance}) => {
     const {
         predict,
         predictMatchModal,
@@ -23,7 +23,7 @@ const MatchPredictionModal: FC<{crpBalance: BigNumber}> = ({crpBalance}) => {
         predictionAmount
     } = useSportPredictionViewModel();
     const { active, chainId } = useWalletViewModel();
-    const {allowances, getAllowance, approve } = useToken(TOKENS[chainId].CRP);
+    const {allowances, getAllowance, approve } = useToken(TOKENS[chainId].PRED);
 
     const dispatch = useDispatch();
     const pendingToast = useRef("" as ReactText);
@@ -233,14 +233,14 @@ const MatchPredictionModal: FC<{crpBalance: BigNumber}> = ({crpBalance}) => {
                                     ]
                                 ].gte(predictionAmount) && (
                                     <button onClick={handlePredict}
-                                        className = {predictionAmount && crpBalance && predictionAmount.gt(crpBalance) ? "disabled" : ""}
-                                        disabled = {predictionAmount && crpBalance && predictionAmount.gt(crpBalance)}
+                                        className = {predictionAmount && predBalance && predictionAmount.gt(predBalance) ? "disabled" : ""}
+                                        disabled = {predictionAmount && predBalance && predictionAmount.gt(predBalance)}
                                     >
                                         Predict scores
                                     </button>
                                 )}
 
-                                {predictionAmount && crpBalance && predictionAmount.gt(crpBalance) && 
+                                {predictionAmount && predBalance && predictionAmount.gt(predBalance) && 
                                     <p className="insufficient__balance__notice">You do not have enough CRP to predict scores</p>
                                 }
                         </form>

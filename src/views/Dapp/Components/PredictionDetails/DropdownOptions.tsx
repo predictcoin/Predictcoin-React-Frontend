@@ -29,11 +29,11 @@ const DropdownOptions: FC<DropdownOptionsProps> = ({
 			case 'ETH':
 				id = 'ethereum';
 				break;
-			case 'LTC':
-				id = 'litecoin';
+			case 'BNB':
+				id = 'binancecoin';
 				break;
-			case 'CRO':
-				id = 'crypto-com-chain';
+			case 'CAKE':
+				id = 'pancakeswap-token';
 				break;
 			case 'DOGE':
 				id = 'dogecoin';

@@ -1,4 +1,4 @@
 export const supportedChainIds = {
-  Mainnet: 25,
-  Testnet: 338,
+  Mainnet: 56,
+  Testnet: 97,
 }

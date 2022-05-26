@@ -10,10 +10,10 @@ import CustomModal from './index';
 
 interface ModalDisconnectProps {
 	closeModal: Dispatch<SetStateAction<boolean>>;
-	CRPBalance: string;
+	PREDBalance: string;
 }
 
-const ModalDisconnect: FC<ModalDisconnectProps> = ({ closeModal, CRPBalance }) => {
+const ModalDisconnect: FC<ModalDisconnectProps> = ({ closeModal, PREDBalance }) => {
 	const closeModalFunc = (e: any) => {
 		if (e.target?.id === 'custom__modal') closeModal(false);
 	};
@@ -52,7 +52,7 @@ const ModalDisconnect: FC<ModalDisconnectProps> = ({ closeModal, CRPBalance }) =
 					<p>{shortenAddress(address)}</p>
 				</button>
 
-				<p className='account__balance'>{active ? CRPBalance : 0} CRP</p>
+				<p className='account__balance'>{active ? PREDBalance : 0} PRED</p>
 				<p className='account__balance__text'>Wallet balance</p>
 
 				<button className='buy__pred'>BUY PRED</button>

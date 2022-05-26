@@ -19,6 +19,7 @@ interface Token {
 }
 
 const useToken = (address: string): Token => {
+  
   const { provider , signer, address: userAddress, active } = useWalletViewModel();
   const contract = ERC20__factory.connect(address, signer || provider);
   const {send: sendTransaction} = useTransaction();
