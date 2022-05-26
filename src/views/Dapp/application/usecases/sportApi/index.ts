@@ -19,6 +19,7 @@ export const getMatchFullDetails = async (param: Params) => {
         teamB,
         league
     } = param;
+    
 
     const yy__mm__dd = new Date(startTime.toNumber() * 1000)
         .toISOString()
@@ -27,6 +28,9 @@ export const getMatchFullDetails = async (param: Params) => {
     const link = `${sportApiEndpoint}?url=/${endpoint}&date=${yy__mm__dd}&season=${season}`;
 
     const res = await axios.get(link);
+
+    console.log("res: ", res);
+    
     
     const targetMatch = res.data.response.find(
         (data: any) =>
