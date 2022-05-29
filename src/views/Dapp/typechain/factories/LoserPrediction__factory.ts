@@ -190,12 +190,12 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "BONUS_MULTIPLIER",
+    name: "BID",
     outputs: [
       {
-        internalType: "uint256",
+        internalType: "contract IBEP20",
         name: "",
-        type: "uint256",
+        type: "address",
       },
     ],
     stateMutability: "view",
@@ -203,12 +203,12 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "CRP",
+    name: "BONUS_MULTIPLIER",
     outputs: [
       {
-        internalType: "contract IERC20Upgradeable",
+        internalType: "uint256",
         name: "",
-        type: "address",
+        type: "uint256",
       },
     ],
     stateMutability: "view",
@@ -230,6 +230,19 @@ const _abi = [
   {
     inputs: [],
     name: "allocPoint",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "bidPerBlock",
     outputs: [
       {
         internalType: "uint256",
@@ -316,18 +329,18 @@ const _abi = [
         type: "address",
       },
       {
-        internalType: "contract IERC20Upgradeable",
-        name: "_CRP",
+        internalType: "contract IBEP20",
+        name: "_pred",
         type: "address",
       },
       {
-        internalType: "contract IERC20Upgradeable",
-        name: "_rewardToken",
+        internalType: "contract IBEP20",
+        name: "_bid",
         type: "address",
       },
       {
         internalType: "uint256",
-        name: "_rewardTokenPerBlock",
+        name: "_bidPerBlock",
         type: "uint256",
       },
       {
@@ -337,7 +350,7 @@ const _abi = [
       },
       {
         internalType: "uint256",
-        name: "_maxCRPDeposit",
+        name: "_maxPredDeposit",
         type: "uint256",
       },
       {
@@ -346,7 +359,7 @@ const _abi = [
         type: "address",
       },
       {
-        internalType: "contract Prediction",
+        internalType: "contract IPrediction",
         name: "_prediction",
         type: "address",
       },
@@ -382,7 +395,7 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "maxCRPDeposit",
+    name: "maxPredDeposit",
     outputs: [
       {
         internalType: "uint256",
@@ -452,7 +465,7 @@ const _abi = [
         type: "address",
       },
     ],
-    name: "pendingRewardToken",
+    name: "pendingBID",
     outputs: [
       {
         internalType: "uint256",
@@ -485,7 +498,7 @@ const _abi = [
       },
       {
         internalType: "uint256",
-        name: "accRewardTokenPerShare",
+        name: "accBIDPerShare",
         type: "uint256",
       },
       {
@@ -517,10 +530,23 @@ const _abi = [
   },
   {
     inputs: [],
+    name: "pred",
+    outputs: [
+      {
+        internalType: "contract IBEP20",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "prediction",
     outputs: [
       {
-        internalType: "contract Prediction",
+        internalType: "contract IPrediction",
         name: "",
         type: "address",
       },
@@ -533,32 +559,6 @@ const _abi = [
     name: "renounceOwnership",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "rewardToken",
-    outputs: [
-      {
-        internalType: "contract IERC20Upgradeable",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "rewardTokenPerBlock",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
     type: "function",
   },
   {
@@ -578,11 +578,11 @@ const _abi = [
     inputs: [
       {
         internalType: "uint256",
-        name: "_maxCRPDeposit",
+        name: "_maxPredDeposit",
         type: "uint256",
       },
     ],
-    name: "setMaxCRPDeposit",
+    name: "setMaxPredDeposit",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

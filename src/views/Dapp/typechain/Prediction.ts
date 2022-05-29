@@ -39,50 +39,56 @@ export interface PredictionInterface extends utils.Interface {
   functions: {
     "BNB()": FunctionFragment;
     "MAX_TREASURY_FEE()": FunctionFragment;
-    "addTokens(address[])": FunctionFragment;
+    "addTokens(address[],address[])": FunctionFragment;
     "adminAddress()": FunctionFragment;
     "betAmount()": FunctionFragment;
     "betSeconds()": FunctionFragment;
     "bufferSeconds()": FunctionFragment;
     "claim(uint256[])": FunctionFragment;
     "claimTreasury()": FunctionFragment;
-    "crp()": FunctionFragment;
     "currentEpoch()": FunctionFragment;
-    "endRound(address[],int256[])": FunctionFragment;
+    "endRound()": FunctionFragment;
     "getRound(uint256)": FunctionFragment;
     "getStats(uint256)": FunctionFragment;
     "getTokens()": FunctionFragment;
     "getUserRounds(address,uint256,uint256)": FunctionFragment;
     "getUserRoundsLength(address)": FunctionFragment;
-    "initialize(address,address,address,uint256,uint256,uint256,uint256,uint256)": FunctionFragment;
+    "initialize(address,address,uint256,uint256,uint256,uint256,uint256,uint256)": FunctionFragment;
     "intervalSeconds()": FunctionFragment;
     "ledger(uint256,address)": FunctionFragment;
-    "lostRound(address,uint256)": FunctionFragment;
+    "lostLastRound(address)": FunctionFragment;
     "operatorAddress()": FunctionFragment;
+    "oracleLatestRoundId()": FunctionFragment;
+    "oracleUpdateAllowance()": FunctionFragment;
+    "oracles(address)": FunctionFragment;
     "owner()": FunctionFragment;
     "pause()": FunctionFragment;
     "paused()": FunctionFragment;
+    "pred()": FunctionFragment;
     "predictBear(uint256,address)": FunctionFragment;
     "predictBull(uint256,address)": FunctionFragment;
     "recoverToken(address,uint256)": FunctionFragment;
     "refundable(uint256,address)": FunctionFragment;
-    "removeTokens(uint256[],address[])": FunctionFragment;
+    "removeTokens(uint256[])": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "rounds(uint256)": FunctionFragment;
     "setAdmin(address)": FunctionFragment;
     "setBetAmount(uint256)": FunctionFragment;
     "setBufferBetAndIntervalSeconds(uint256,uint256,uint256)": FunctionFragment;
     "setOperator(address)": FunctionFragment;
+    "setOracleUpdateAllowance(uint256)": FunctionFragment;
+    "setOracles(address[],address[])": FunctionFragment;
     "setTokenMaxBet(uint256)": FunctionFragment;
-    "startRound(address[],int256[])": FunctionFragment;
+    "startRound()": FunctionFragment;
     "tokenMaxBet()": FunctionFragment;
+    "tokens(uint256)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
     "treasuryAmount()": FunctionFragment;
     "unpause()": FunctionFragment;
     "upgradeTo(address)": FunctionFragment;
     "upgradeToAndCall(address,bytes)": FunctionFragment;
     "userRounds(address,uint256)": FunctionFragment;
-    "wonRound(address,uint256)": FunctionFragment;
+    "wonLastRound(address)": FunctionFragment;
   };
 
   encodeFunctionData(functionFragment: "BNB", values?: undefined): string;
@@ -90,7 +96,10 @@ export interface PredictionInterface extends utils.Interface {
     functionFragment: "MAX_TREASURY_FEE",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: "addTokens", values: [string[]]): string;
+  encodeFunctionData(
+    functionFragment: "addTokens",
+    values: [string[], string[]]
+  ): string;
   encodeFunctionData(
     functionFragment: "adminAddress",
     values?: undefined
@@ -112,15 +121,11 @@ export interface PredictionInterface extends utils.Interface {
     functionFragment: "claimTreasury",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: "crp", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "currentEpoch",
     values?: undefined
   ): string;
-  encodeFunctionData(
-    functionFragment: "endRound",
-    values: [string[], BigNumberish[]]
-  ): string;
+  encodeFunctionData(functionFragment: "endRound", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "getRound",
     values: [BigNumberish]
@@ -143,7 +148,7 @@ export interface PredictionInterface extends utils.Interface {
     values: [
       string,
       string,
-      string,
+      BigNumberish,
       BigNumberish,
       BigNumberish,
       BigNumberish,
@@ -160,16 +165,26 @@ export interface PredictionInterface extends utils.Interface {
     values: [BigNumberish, string]
   ): string;
   encodeFunctionData(
-    functionFragment: "lostRound",
-    values: [string, BigNumberish]
+    functionFragment: "lostLastRound",
+    values: [string]
   ): string;
   encodeFunctionData(
     functionFragment: "operatorAddress",
     values?: undefined
   ): string;
+  encodeFunctionData(
+    functionFragment: "oracleLatestRoundId",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "oracleUpdateAllowance",
+    values?: undefined
+  ): string;
+  encodeFunctionData(functionFragment: "oracles", values: [string]): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(functionFragment: "pause", values?: undefined): string;
   encodeFunctionData(functionFragment: "paused", values?: undefined): string;
+  encodeFunctionData(functionFragment: "pred", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "predictBear",
     values: [BigNumberish, string]
@@ -188,7 +203,7 @@ export interface PredictionInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "removeTokens",
-    values: [BigNumberish[], string[]]
+    values: [BigNumberish[]]
   ): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
@@ -209,16 +224,28 @@ export interface PredictionInterface extends utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "setOperator", values: [string]): string;
   encodeFunctionData(
+    functionFragment: "setOracleUpdateAllowance",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setOracles",
+    values: [string[], string[]]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setTokenMaxBet",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "startRound",
-    values: [string[], BigNumberish[]]
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "tokenMaxBet",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "tokens",
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "transferOwnership",
@@ -239,8 +266,8 @@ export interface PredictionInterface extends utils.Interface {
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "wonRound",
-    values: [string, BigNumberish]
+    functionFragment: "wonLastRound",
+    values: [string]
   ): string;
 
   decodeFunctionResult(functionFragment: "BNB", data: BytesLike): Result;
@@ -264,7 +291,6 @@ export interface PredictionInterface extends utils.Interface {
     functionFragment: "claimTreasury",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "crp", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "currentEpoch",
     data: BytesLike
@@ -287,14 +313,27 @@ export interface PredictionInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "ledger", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "lostRound", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "lostLastRound",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "operatorAddress",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "oracleLatestRoundId",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "oracleUpdateAllowance",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "oracles", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "pause", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "paused", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "pred", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "predictBear",
     data: BytesLike
@@ -331,6 +370,11 @@ export interface PredictionInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "setOracleUpdateAllowance",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "setOracles", data: BytesLike): Result;
+  decodeFunctionResult(
     functionFragment: "setTokenMaxBet",
     data: BytesLike
   ): Result;
@@ -339,6 +383,7 @@ export interface PredictionInterface extends utils.Interface {
     functionFragment: "tokenMaxBet",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "tokens", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "transferOwnership",
     data: BytesLike
@@ -354,7 +399,10 @@ export interface PredictionInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "userRounds", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "wonRound", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "wonLastRound",
+    data: BytesLike
+  ): Result;
 
   events: {
     "AdminChanged(address,address)": EventFragment;
@@ -374,9 +422,9 @@ export interface PredictionInterface extends utils.Interface {
     "PredictBear(address,uint256,address,uint256)": EventFragment;
     "PredictBull(address,uint256,address,uint256)": EventFragment;
     "StartRound(uint256)": EventFragment;
-    "TokenAdded(address)": EventFragment;
+    "TokenAdded(address,address)": EventFragment;
     "TokenRecovery(address,uint256)": EventFragment;
-    "TokenRemoved(address)": EventFragment;
+    "TokenRemoved(address,address)": EventFragment;
     "TreasuryClaim(uint256)": EventFragment;
     "Unpause(uint256)": EventFragment;
     "Unpaused(address)": EventFragment;
@@ -519,7 +567,10 @@ export type StartRoundEvent = TypedEvent<[BigNumber], { epoch: BigNumber }>;
 
 export type StartRoundEventFilter = TypedEventFilter<StartRoundEvent>;
 
-export type TokenAddedEvent = TypedEvent<[string], { token: string }>;
+export type TokenAddedEvent = TypedEvent<
+  [string, string],
+  { token: string; oracle: string }
+>;
 
 export type TokenAddedEventFilter = TypedEventFilter<TokenAddedEvent>;
 
@@ -530,7 +581,10 @@ export type TokenRecoveryEvent = TypedEvent<
 
 export type TokenRecoveryEventFilter = TypedEventFilter<TokenRecoveryEvent>;
 
-export type TokenRemovedEvent = TypedEvent<[string], { token: string }>;
+export type TokenRemovedEvent = TypedEvent<
+  [string, string],
+  { token: string; oracle: string }
+>;
 
 export type TokenRemovedEventFilter = TypedEventFilter<TokenRemovedEvent>;
 
@@ -584,6 +638,7 @@ export interface Prediction extends BaseContract {
 
     addTokens(
       _tokens: string[],
+      _oracles: string[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -604,13 +659,9 @@ export interface Prediction extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    crp(overrides?: CallOverrides): Promise<[string]>;
-
     currentEpoch(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     endRound(
-      _tokens: string[],
-      prices: BigNumberish[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -627,6 +678,8 @@ export interface Prediction extends BaseContract {
         string[],
         BigNumber[],
         BigNumber[],
+        BigNumber[],
+        BigNumber[],
         BigNumber[]
       ] & {
         epoch: BigNumber;
@@ -637,6 +690,8 @@ export interface Prediction extends BaseContract {
         _tokens: string[];
         lockedPrices: BigNumber[];
         closePrices: BigNumber[];
+        lockedOracleIds: BigNumber[];
+        closeOracleIds: BigNumber[];
         bets: BigNumber[];
       }
     >;
@@ -667,13 +722,13 @@ export interface Prediction extends BaseContract {
     ): Promise<[BigNumber]>;
 
     initialize(
-      _crp: string,
       _adminAddress: string,
       _operatorAddress: string,
       _intervalSeconds: BigNumberish,
       _bufferSeconds: BigNumberish,
       _betSeconds: BigNumberish,
       _betAmount: BigNumberish,
+      _oracleUpdateAllowance: BigNumberish,
       _tokenMaxBet: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -693,13 +748,15 @@ export interface Prediction extends BaseContract {
       }
     >;
 
-    lostRound(
-      preder: string,
-      round: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
+    lostLastRound(loser: string, overrides?: CallOverrides): Promise<[boolean]>;
 
     operatorAddress(overrides?: CallOverrides): Promise<[string]>;
+
+    oracleLatestRoundId(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    oracleUpdateAllowance(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    oracles(arg0: string, overrides?: CallOverrides): Promise<[string]>;
 
     owner(overrides?: CallOverrides): Promise<[string]>;
 
@@ -708,6 +765,8 @@ export interface Prediction extends BaseContract {
     ): Promise<ContractTransaction>;
 
     paused(overrides?: CallOverrides): Promise<[boolean]>;
+
+    pred(overrides?: CallOverrides): Promise<[string]>;
 
     predictBear(
       epoch: BigNumberish,
@@ -734,8 +793,7 @@ export interface Prediction extends BaseContract {
     ): Promise<[boolean]>;
 
     removeTokens(
-      _indexes: BigNumberish[],
-      _tokens: string[],
+      _ids: BigNumberish[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -778,18 +836,29 @@ export interface Prediction extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    setOracleUpdateAllowance(
+      _oracleUpdateAllowance: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setOracles(
+      _tokens: string[],
+      _oracles: string[],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     setTokenMaxBet(
       _tokenMaxBet: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     startRound(
-      _tokens: string[],
-      prices: BigNumberish[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     tokenMaxBet(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    tokens(arg0: BigNumberish, overrides?: CallOverrides): Promise<[string]>;
 
     transferOwnership(
       newOwner: string,
@@ -819,11 +888,7 @@ export interface Prediction extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
-    wonRound(
-      preder: string,
-      round: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
+    wonLastRound(winner: string, overrides?: CallOverrides): Promise<[boolean]>;
   };
 
   BNB(overrides?: CallOverrides): Promise<string>;
@@ -832,6 +897,7 @@ export interface Prediction extends BaseContract {
 
   addTokens(
     _tokens: string[],
+    _oracles: string[],
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -852,13 +918,9 @@ export interface Prediction extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  crp(overrides?: CallOverrides): Promise<string>;
-
   currentEpoch(overrides?: CallOverrides): Promise<BigNumber>;
 
   endRound(
-    _tokens: string[],
-    prices: BigNumberish[],
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -875,6 +937,8 @@ export interface Prediction extends BaseContract {
       string[],
       BigNumber[],
       BigNumber[],
+      BigNumber[],
+      BigNumber[],
       BigNumber[]
     ] & {
       epoch: BigNumber;
@@ -885,6 +949,8 @@ export interface Prediction extends BaseContract {
       _tokens: string[];
       lockedPrices: BigNumber[];
       closePrices: BigNumber[];
+      lockedOracleIds: BigNumber[];
+      closeOracleIds: BigNumber[];
       bets: BigNumber[];
     }
   >;
@@ -915,13 +981,13 @@ export interface Prediction extends BaseContract {
   ): Promise<BigNumber>;
 
   initialize(
-    _crp: string,
     _adminAddress: string,
     _operatorAddress: string,
     _intervalSeconds: BigNumberish,
     _bufferSeconds: BigNumberish,
     _betSeconds: BigNumberish,
     _betAmount: BigNumberish,
+    _oracleUpdateAllowance: BigNumberish,
     _tokenMaxBet: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -941,13 +1007,15 @@ export interface Prediction extends BaseContract {
     }
   >;
 
-  lostRound(
-    preder: string,
-    round: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
+  lostLastRound(loser: string, overrides?: CallOverrides): Promise<boolean>;
 
   operatorAddress(overrides?: CallOverrides): Promise<string>;
+
+  oracleLatestRoundId(overrides?: CallOverrides): Promise<BigNumber>;
+
+  oracleUpdateAllowance(overrides?: CallOverrides): Promise<BigNumber>;
+
+  oracles(arg0: string, overrides?: CallOverrides): Promise<string>;
 
   owner(overrides?: CallOverrides): Promise<string>;
 
@@ -956,6 +1024,8 @@ export interface Prediction extends BaseContract {
   ): Promise<ContractTransaction>;
 
   paused(overrides?: CallOverrides): Promise<boolean>;
+
+  pred(overrides?: CallOverrides): Promise<string>;
 
   predictBear(
     epoch: BigNumberish,
@@ -982,8 +1052,7 @@ export interface Prediction extends BaseContract {
   ): Promise<boolean>;
 
   removeTokens(
-    _indexes: BigNumberish[],
-    _tokens: string[],
+    _ids: BigNumberish[],
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -1026,18 +1095,29 @@ export interface Prediction extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  setOracleUpdateAllowance(
+    _oracleUpdateAllowance: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setOracles(
+    _tokens: string[],
+    _oracles: string[],
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   setTokenMaxBet(
     _tokenMaxBet: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   startRound(
-    _tokens: string[],
-    prices: BigNumberish[],
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   tokenMaxBet(overrides?: CallOverrides): Promise<BigNumber>;
+
+  tokens(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
   transferOwnership(
     newOwner: string,
@@ -1067,18 +1147,18 @@ export interface Prediction extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
-  wonRound(
-    preder: string,
-    round: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
+  wonLastRound(winner: string, overrides?: CallOverrides): Promise<boolean>;
 
   callStatic: {
     BNB(overrides?: CallOverrides): Promise<string>;
 
     MAX_TREASURY_FEE(overrides?: CallOverrides): Promise<BigNumber>;
 
-    addTokens(_tokens: string[], overrides?: CallOverrides): Promise<void>;
+    addTokens(
+      _tokens: string[],
+      _oracles: string[],
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     adminAddress(overrides?: CallOverrides): Promise<string>;
 
@@ -1092,15 +1172,9 @@ export interface Prediction extends BaseContract {
 
     claimTreasury(overrides?: CallOverrides): Promise<void>;
 
-    crp(overrides?: CallOverrides): Promise<string>;
-
     currentEpoch(overrides?: CallOverrides): Promise<BigNumber>;
 
-    endRound(
-      _tokens: string[],
-      prices: BigNumberish[],
-      overrides?: CallOverrides
-    ): Promise<void>;
+    endRound(overrides?: CallOverrides): Promise<void>;
 
     getRound(
       _round: BigNumberish,
@@ -1115,6 +1189,8 @@ export interface Prediction extends BaseContract {
         string[],
         BigNumber[],
         BigNumber[],
+        BigNumber[],
+        BigNumber[],
         BigNumber[]
       ] & {
         epoch: BigNumber;
@@ -1125,6 +1201,8 @@ export interface Prediction extends BaseContract {
         _tokens: string[];
         lockedPrices: BigNumber[];
         closePrices: BigNumber[];
+        lockedOracleIds: BigNumber[];
+        closeOracleIds: BigNumber[];
         bets: BigNumber[];
       }
     >;
@@ -1155,13 +1233,13 @@ export interface Prediction extends BaseContract {
     ): Promise<BigNumber>;
 
     initialize(
-      _crp: string,
       _adminAddress: string,
       _operatorAddress: string,
       _intervalSeconds: BigNumberish,
       _bufferSeconds: BigNumberish,
       _betSeconds: BigNumberish,
       _betAmount: BigNumberish,
+      _oracleUpdateAllowance: BigNumberish,
       _tokenMaxBet: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -1181,19 +1259,23 @@ export interface Prediction extends BaseContract {
       }
     >;
 
-    lostRound(
-      preder: string,
-      round: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
+    lostLastRound(loser: string, overrides?: CallOverrides): Promise<boolean>;
 
     operatorAddress(overrides?: CallOverrides): Promise<string>;
+
+    oracleLatestRoundId(overrides?: CallOverrides): Promise<BigNumber>;
+
+    oracleUpdateAllowance(overrides?: CallOverrides): Promise<BigNumber>;
+
+    oracles(arg0: string, overrides?: CallOverrides): Promise<string>;
 
     owner(overrides?: CallOverrides): Promise<string>;
 
     pause(overrides?: CallOverrides): Promise<void>;
 
     paused(overrides?: CallOverrides): Promise<boolean>;
+
+    pred(overrides?: CallOverrides): Promise<string>;
 
     predictBear(
       epoch: BigNumberish,
@@ -1220,8 +1302,7 @@ export interface Prediction extends BaseContract {
     ): Promise<boolean>;
 
     removeTokens(
-      _indexes: BigNumberish[],
-      _tokens: string[],
+      _ids: BigNumberish[],
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1259,18 +1340,27 @@ export interface Prediction extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    setOracleUpdateAllowance(
+      _oracleUpdateAllowance: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setOracles(
+      _tokens: string[],
+      _oracles: string[],
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     setTokenMaxBet(
       _tokenMaxBet: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    startRound(
-      _tokens: string[],
-      prices: BigNumberish[],
-      overrides?: CallOverrides
-    ): Promise<void>;
+    startRound(overrides?: CallOverrides): Promise<void>;
 
     tokenMaxBet(overrides?: CallOverrides): Promise<BigNumber>;
+
+    tokens(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
     transferOwnership(
       newOwner: string,
@@ -1298,11 +1388,7 @@ export interface Prediction extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    wonRound(
-      preder: string,
-      round: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
+    wonLastRound(winner: string, overrides?: CallOverrides): Promise<boolean>;
   };
 
   filters: {
@@ -1428,8 +1514,11 @@ export interface Prediction extends BaseContract {
     "StartRound(uint256)"(epoch?: BigNumberish | null): StartRoundEventFilter;
     StartRound(epoch?: BigNumberish | null): StartRoundEventFilter;
 
-    "TokenAdded(address)"(token?: null): TokenAddedEventFilter;
-    TokenAdded(token?: null): TokenAddedEventFilter;
+    "TokenAdded(address,address)"(
+      token?: null,
+      oracle?: null
+    ): TokenAddedEventFilter;
+    TokenAdded(token?: null, oracle?: null): TokenAddedEventFilter;
 
     "TokenRecovery(address,uint256)"(
       token?: string | null,
@@ -1440,8 +1529,11 @@ export interface Prediction extends BaseContract {
       amount?: null
     ): TokenRecoveryEventFilter;
 
-    "TokenRemoved(address)"(token?: null): TokenRemovedEventFilter;
-    TokenRemoved(token?: null): TokenRemovedEventFilter;
+    "TokenRemoved(address,address)"(
+      token?: null,
+      oracle?: null
+    ): TokenRemovedEventFilter;
+    TokenRemoved(token?: null, oracle?: null): TokenRemovedEventFilter;
 
     "TreasuryClaim(uint256)"(amount?: null): TreasuryClaimEventFilter;
     TreasuryClaim(amount?: null): TreasuryClaimEventFilter;
@@ -1463,6 +1555,7 @@ export interface Prediction extends BaseContract {
 
     addTokens(
       _tokens: string[],
+      _oracles: string[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1483,13 +1576,9 @@ export interface Prediction extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    crp(overrides?: CallOverrides): Promise<BigNumber>;
-
     currentEpoch(overrides?: CallOverrides): Promise<BigNumber>;
 
     endRound(
-      _tokens: string[],
-      prices: BigNumberish[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1518,13 +1607,13 @@ export interface Prediction extends BaseContract {
     ): Promise<BigNumber>;
 
     initialize(
-      _crp: string,
       _adminAddress: string,
       _operatorAddress: string,
       _intervalSeconds: BigNumberish,
       _bufferSeconds: BigNumberish,
       _betSeconds: BigNumberish,
       _betAmount: BigNumberish,
+      _oracleUpdateAllowance: BigNumberish,
       _tokenMaxBet: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -1537,13 +1626,15 @@ export interface Prediction extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    lostRound(
-      preder: string,
-      round: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    lostLastRound(loser: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     operatorAddress(overrides?: CallOverrides): Promise<BigNumber>;
+
+    oracleLatestRoundId(overrides?: CallOverrides): Promise<BigNumber>;
+
+    oracleUpdateAllowance(overrides?: CallOverrides): Promise<BigNumber>;
+
+    oracles(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1552,6 +1643,8 @@ export interface Prediction extends BaseContract {
     ): Promise<BigNumber>;
 
     paused(overrides?: CallOverrides): Promise<BigNumber>;
+
+    pred(overrides?: CallOverrides): Promise<BigNumber>;
 
     predictBear(
       epoch: BigNumberish,
@@ -1578,8 +1671,7 @@ export interface Prediction extends BaseContract {
     ): Promise<BigNumber>;
 
     removeTokens(
-      _indexes: BigNumberish[],
-      _tokens: string[],
+      _ids: BigNumberish[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1611,18 +1703,29 @@ export interface Prediction extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    setOracleUpdateAllowance(
+      _oracleUpdateAllowance: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setOracles(
+      _tokens: string[],
+      _oracles: string[],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     setTokenMaxBet(
       _tokenMaxBet: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     startRound(
-      _tokens: string[],
-      prices: BigNumberish[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     tokenMaxBet(overrides?: CallOverrides): Promise<BigNumber>;
+
+    tokens(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
     transferOwnership(
       newOwner: string,
@@ -1652,11 +1755,7 @@ export interface Prediction extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    wonRound(
-      preder: string,
-      round: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    wonLastRound(winner: string, overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -1666,6 +1765,7 @@ export interface Prediction extends BaseContract {
 
     addTokens(
       _tokens: string[],
+      _oracles: string[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1686,13 +1786,9 @@ export interface Prediction extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    crp(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     currentEpoch(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     endRound(
-      _tokens: string[],
-      prices: BigNumberish[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1721,13 +1817,13 @@ export interface Prediction extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     initialize(
-      _crp: string,
       _adminAddress: string,
       _operatorAddress: string,
       _intervalSeconds: BigNumberish,
       _bufferSeconds: BigNumberish,
       _betSeconds: BigNumberish,
       _betAmount: BigNumberish,
+      _oracleUpdateAllowance: BigNumberish,
       _tokenMaxBet: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
@@ -1740,13 +1836,25 @@ export interface Prediction extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    lostRound(
-      preder: string,
-      round: BigNumberish,
+    lostLastRound(
+      loser: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     operatorAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    oracleLatestRoundId(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    oracleUpdateAllowance(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    oracles(
+      arg0: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -1755,6 +1863,8 @@ export interface Prediction extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     paused(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    pred(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     predictBear(
       epoch: BigNumberish,
@@ -1781,8 +1891,7 @@ export interface Prediction extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     removeTokens(
-      _indexes: BigNumberish[],
-      _tokens: string[],
+      _ids: BigNumberish[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1817,18 +1926,32 @@ export interface Prediction extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    setOracleUpdateAllowance(
+      _oracleUpdateAllowance: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setOracles(
+      _tokens: string[],
+      _oracles: string[],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     setTokenMaxBet(
       _tokenMaxBet: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     startRound(
-      _tokens: string[],
-      prices: BigNumberish[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     tokenMaxBet(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    tokens(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     transferOwnership(
       newOwner: string,
@@ -1858,9 +1981,8 @@ export interface Prediction extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    wonRound(
-      preder: string,
-      round: BigNumberish,
+    wonLastRound(
+      winner: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
   };

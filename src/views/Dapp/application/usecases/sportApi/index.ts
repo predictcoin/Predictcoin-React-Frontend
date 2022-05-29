@@ -28,8 +28,6 @@ export const getMatchFullDetails = async (param: Params) => {
     const link = `${sportApiEndpoint}?url=/${endpoint}&date=${yy__mm__dd}&season=${season}`;
 
     const res = await axios.get(link);
-
-    console.log("res: ", res);
     
     
     const targetMatch = res.data.response.find(

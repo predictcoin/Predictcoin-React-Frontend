@@ -1,6 +1,6 @@
 interface StakingDataModel {
     stakingRound: string;
-    crpStaked: string;
+    predStaked: string;
     coinEarnedIcon: string;
     coinEarned: string;
     earned: string;

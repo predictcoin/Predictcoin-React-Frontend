@@ -23,7 +23,7 @@ export const initPrediction = async (params: Params):
     return { currentRound } as unknown as PredictionStore;
   }
 
-  let round = await contract.getRound(currentRound.toString()) as Round;
+  let round = await contract.getRound(currentRound.toString()) as unknown as Round;
   const [, bulls, bears] = await contract.getStats(currentRound)
   round = {...round, bulls, bears};
   const betAmount = (await contract.betAmount());

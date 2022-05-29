@@ -327,6 +327,12 @@ const _abi = [
         name: "token",
         type: "address",
       },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "oracle",
+        type: "address",
+      },
     ],
     name: "TokenAdded",
     type: "event",
@@ -357,6 +363,12 @@ const _abi = [
         indexed: false,
         internalType: "address",
         name: "token",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "oracle",
         type: "address",
       },
     ],
@@ -448,6 +460,11 @@ const _abi = [
         name: "_tokens",
         type: "address[]",
       },
+      {
+        internalType: "address[]",
+        name: "_oracles",
+        type: "address[]",
+      },
     ],
     name: "addTokens",
     outputs: [],
@@ -528,19 +545,6 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "crp",
-    outputs: [
-      {
-        internalType: "contract IERC20Upgradeable",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
     name: "currentEpoch",
     outputs: [
       {
@@ -553,18 +557,7 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "address[]",
-        name: "_tokens",
-        type: "address[]",
-      },
-      {
-        internalType: "int256[]",
-        name: "prices",
-        type: "int256[]",
-      },
-    ],
+    inputs: [],
     name: "endRound",
     outputs: [],
     stateMutability: "nonpayable",
@@ -619,6 +612,16 @@ const _abi = [
         internalType: "int256[]",
         name: "closePrices",
         type: "int256[]",
+      },
+      {
+        internalType: "uint256[]",
+        name: "lockedOracleIds",
+        type: "uint256[]",
+      },
+      {
+        internalType: "uint256[]",
+        name: "closeOracleIds",
+        type: "uint256[]",
       },
       {
         internalType: "uint256[]",
@@ -755,11 +758,6 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "_crp",
-        type: "address",
-      },
-      {
-        internalType: "address",
         name: "_adminAddress",
         type: "address",
       },
@@ -786,6 +784,11 @@ const _abi = [
       {
         internalType: "uint256",
         name: "_betAmount",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_oracleUpdateAllowance",
         type: "uint256",
       },
       {
@@ -855,16 +858,11 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "preder",
+        name: "loser",
         type: "address",
       },
-      {
-        internalType: "uint256",
-        name: "round",
-        type: "uint256",
-      },
     ],
-    name: "lostRound",
+    name: "lostLastRound",
     outputs: [
       {
         internalType: "bool",
@@ -881,6 +879,51 @@ const _abi = [
     outputs: [
       {
         internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "oracleLatestRoundId",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "oracleUpdateAllowance",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "oracles",
+    outputs: [
+      {
+        internalType: "contract AggregatorV3Interface",
         name: "",
         type: "address",
       },
@@ -916,6 +959,19 @@ const _abi = [
         internalType: "bool",
         name: "",
         type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "pred",
+    outputs: [
+      {
+        internalType: "contract IERC20Upgradeable",
+        name: "",
+        type: "address",
       },
     ],
     stateMutability: "view",
@@ -1003,13 +1059,8 @@ const _abi = [
     inputs: [
       {
         internalType: "uint256[]",
-        name: "_indexes",
+        name: "_ids",
         type: "uint256[]",
-      },
-      {
-        internalType: "address[]",
-        name: "_tokens",
-        type: "address[]",
       },
     ],
     name: "removeTokens",
@@ -1129,11 +1180,11 @@ const _abi = [
     inputs: [
       {
         internalType: "uint256",
-        name: "_tokenMaxBet",
+        name: "_oracleUpdateAllowance",
         type: "uint256",
       },
     ],
-    name: "setTokenMaxBet",
+    name: "setOracleUpdateAllowance",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -1146,11 +1197,31 @@ const _abi = [
         type: "address[]",
       },
       {
-        internalType: "int256[]",
-        name: "prices",
-        type: "int256[]",
+        internalType: "address[]",
+        name: "_oracles",
+        type: "address[]",
       },
     ],
+    name: "setOracles",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_tokenMaxBet",
+        type: "uint256",
+      },
+    ],
+    name: "setTokenMaxBet",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "startRound",
     outputs: [],
     stateMutability: "nonpayable",
@@ -1164,6 +1235,25 @@ const _abi = [
         internalType: "uint256",
         name: "",
         type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "tokens",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
       },
     ],
     stateMutability: "view",
@@ -1261,16 +1351,11 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "preder",
+        name: "winner",
         type: "address",
       },
-      {
-        internalType: "uint256",
-        name: "round",
-        type: "uint256",
-      },
     ],
-    name: "wonRound",
+    name: "wonLastRound",
     outputs: [
       {
         internalType: "bool",

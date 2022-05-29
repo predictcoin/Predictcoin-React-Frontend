@@ -265,6 +265,19 @@ const _abi = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "sportPrediction",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "bytes4",

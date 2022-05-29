@@ -21,30 +21,30 @@ import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 export interface LoserPredictionInterface extends utils.Interface {
   contractName: "LoserPrediction";
   functions: {
+    "BID()": FunctionFragment;
     "BONUS_MULTIPLIER()": FunctionFragment;
-    "CRP()": FunctionFragment;
     "add(uint256)": FunctionFragment;
     "allocPoint()": FunctionFragment;
+    "bidPerBlock()": FunctionFragment;
     "deposit(uint256,uint256)": FunctionFragment;
     "emergencyWithdraw(uint256)": FunctionFragment;
     "getMultiplier(uint256,uint256)": FunctionFragment;
     "getPoolLength()": FunctionFragment;
     "initialize(address,address,address,uint256,uint256,uint256,address,address)": FunctionFragment;
     "lostRound(address,uint256)": FunctionFragment;
-    "maxCRPDeposit()": FunctionFragment;
+    "maxPredDeposit()": FunctionFragment;
     "operatorAddress()": FunctionFragment;
     "owner()": FunctionFragment;
     "pause()": FunctionFragment;
     "paused()": FunctionFragment;
-    "pendingRewardToken(uint256,address)": FunctionFragment;
+    "pendingBID(uint256,address)": FunctionFragment;
     "poolInfo(uint256)": FunctionFragment;
     "poolLength()": FunctionFragment;
+    "pred()": FunctionFragment;
     "prediction()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
-    "rewardToken()": FunctionFragment;
-    "rewardTokenPerBlock()": FunctionFragment;
     "setAllocPoint(uint256)": FunctionFragment;
-    "setMaxCRPDeposit(uint256)": FunctionFragment;
+    "setMaxPredDeposit(uint256)": FunctionFragment;
     "setOperator(address)": FunctionFragment;
     "setPoolAllocPoint(uint256)": FunctionFragment;
     "startBlock()": FunctionFragment;
@@ -61,14 +61,18 @@ export interface LoserPredictionInterface extends utils.Interface {
     "wonRound(address,uint256)": FunctionFragment;
   };
 
+  encodeFunctionData(functionFragment: "BID", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "BONUS_MULTIPLIER",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: "CRP", values?: undefined): string;
   encodeFunctionData(functionFragment: "add", values: [BigNumberish]): string;
   encodeFunctionData(
     functionFragment: "allocPoint",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "bidPerBlock",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -105,7 +109,7 @@ export interface LoserPredictionInterface extends utils.Interface {
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "maxCRPDeposit",
+    functionFragment: "maxPredDeposit",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -116,7 +120,7 @@ export interface LoserPredictionInterface extends utils.Interface {
   encodeFunctionData(functionFragment: "pause", values?: undefined): string;
   encodeFunctionData(functionFragment: "paused", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "pendingRewardToken",
+    functionFragment: "pendingBID",
     values: [BigNumberish, string]
   ): string;
   encodeFunctionData(
@@ -127,6 +131,7 @@ export interface LoserPredictionInterface extends utils.Interface {
     functionFragment: "poolLength",
     values?: undefined
   ): string;
+  encodeFunctionData(functionFragment: "pred", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "prediction",
     values?: undefined
@@ -136,19 +141,11 @@ export interface LoserPredictionInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "rewardToken",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "rewardTokenPerBlock",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
     functionFragment: "setAllocPoint",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "setMaxCRPDeposit",
+    functionFragment: "setMaxPredDeposit",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "setOperator", values: [string]): string;
@@ -196,13 +193,17 @@ export interface LoserPredictionInterface extends utils.Interface {
     values: [string, BigNumberish]
   ): string;
 
+  decodeFunctionResult(functionFragment: "BID", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "BONUS_MULTIPLIER",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "CRP", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "add", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "allocPoint", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "bidPerBlock",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "deposit", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "emergencyWithdraw",
@@ -219,7 +220,7 @@ export interface LoserPredictionInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "lostRound", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "maxCRPDeposit",
+    functionFragment: "maxPredDeposit",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -229,23 +230,13 @@ export interface LoserPredictionInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "pause", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "paused", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "pendingRewardToken",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "pendingBID", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "poolInfo", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "poolLength", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "pred", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "prediction", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "rewardToken",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "rewardTokenPerBlock",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -253,7 +244,7 @@ export interface LoserPredictionInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setMaxCRPDeposit",
+    functionFragment: "setMaxPredDeposit",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -403,9 +394,9 @@ export interface LoserPrediction extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    BONUS_MULTIPLIER(overrides?: CallOverrides): Promise<[BigNumber]>;
+    BID(overrides?: CallOverrides): Promise<[string]>;
 
-    CRP(overrides?: CallOverrides): Promise<[string]>;
+    BONUS_MULTIPLIER(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     add(
       _epoch: BigNumberish,
@@ -413,6 +404,8 @@ export interface LoserPrediction extends BaseContract {
     ): Promise<ContractTransaction>;
 
     allocPoint(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    bidPerBlock(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     deposit(
       _pid: BigNumberish,
@@ -435,11 +428,11 @@ export interface LoserPrediction extends BaseContract {
 
     initialize(
       _operator: string,
-      _CRP: string,
-      _rewardToken: string,
-      _rewardTokenPerBlock: BigNumberish,
+      _pred: string,
+      _bid: string,
+      _bidPerBlock: BigNumberish,
       _startBlock: BigNumberish,
-      _maxCRPDeposit: BigNumberish,
+      _maxPredDeposit: BigNumberish,
       _wallet: string,
       _prediction: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -451,7 +444,7 @@ export interface LoserPrediction extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
-    maxCRPDeposit(overrides?: CallOverrides): Promise<[BigNumber]>;
+    maxPredDeposit(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     operatorAddress(overrides?: CallOverrides): Promise<[string]>;
 
@@ -463,7 +456,7 @@ export interface LoserPrediction extends BaseContract {
 
     paused(overrides?: CallOverrides): Promise<[boolean]>;
 
-    pendingRewardToken(
+    pendingBID(
       _pid: BigNumberish,
       _user: string,
       overrides?: CallOverrides
@@ -476,7 +469,7 @@ export interface LoserPrediction extends BaseContract {
       [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
         allocPoint: BigNumber;
         lastRewardBlock: BigNumber;
-        accRewardTokenPerShare: BigNumber;
+        accBIDPerShare: BigNumber;
         epoch: BigNumber;
         amount: BigNumber;
       }
@@ -484,23 +477,21 @@ export interface LoserPrediction extends BaseContract {
 
     poolLength(overrides?: CallOverrides): Promise<[BigNumber]>;
 
+    pred(overrides?: CallOverrides): Promise<[string]>;
+
     prediction(overrides?: CallOverrides): Promise<[string]>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    rewardToken(overrides?: CallOverrides): Promise<[string]>;
-
-    rewardTokenPerBlock(overrides?: CallOverrides): Promise<[BigNumber]>;
-
     setAllocPoint(
       _allocPoint: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    setMaxCRPDeposit(
-      _maxCRPDeposit: BigNumberish,
+    setMaxPredDeposit(
+      _maxPredDeposit: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -571,9 +562,9 @@ export interface LoserPrediction extends BaseContract {
     ): Promise<[boolean]>;
   };
 
-  BONUS_MULTIPLIER(overrides?: CallOverrides): Promise<BigNumber>;
+  BID(overrides?: CallOverrides): Promise<string>;
 
-  CRP(overrides?: CallOverrides): Promise<string>;
+  BONUS_MULTIPLIER(overrides?: CallOverrides): Promise<BigNumber>;
 
   add(
     _epoch: BigNumberish,
@@ -581,6 +572,8 @@ export interface LoserPrediction extends BaseContract {
   ): Promise<ContractTransaction>;
 
   allocPoint(overrides?: CallOverrides): Promise<BigNumber>;
+
+  bidPerBlock(overrides?: CallOverrides): Promise<BigNumber>;
 
   deposit(
     _pid: BigNumberish,
@@ -603,11 +596,11 @@ export interface LoserPrediction extends BaseContract {
 
   initialize(
     _operator: string,
-    _CRP: string,
-    _rewardToken: string,
-    _rewardTokenPerBlock: BigNumberish,
+    _pred: string,
+    _bid: string,
+    _bidPerBlock: BigNumberish,
     _startBlock: BigNumberish,
-    _maxCRPDeposit: BigNumberish,
+    _maxPredDeposit: BigNumberish,
     _wallet: string,
     _prediction: string,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -619,7 +612,7 @@ export interface LoserPrediction extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
-  maxCRPDeposit(overrides?: CallOverrides): Promise<BigNumber>;
+  maxPredDeposit(overrides?: CallOverrides): Promise<BigNumber>;
 
   operatorAddress(overrides?: CallOverrides): Promise<string>;
 
@@ -631,7 +624,7 @@ export interface LoserPrediction extends BaseContract {
 
   paused(overrides?: CallOverrides): Promise<boolean>;
 
-  pendingRewardToken(
+  pendingBID(
     _pid: BigNumberish,
     _user: string,
     overrides?: CallOverrides
@@ -644,7 +637,7 @@ export interface LoserPrediction extends BaseContract {
     [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
       allocPoint: BigNumber;
       lastRewardBlock: BigNumber;
-      accRewardTokenPerShare: BigNumber;
+      accBIDPerShare: BigNumber;
       epoch: BigNumber;
       amount: BigNumber;
     }
@@ -652,23 +645,21 @@ export interface LoserPrediction extends BaseContract {
 
   poolLength(overrides?: CallOverrides): Promise<BigNumber>;
 
+  pred(overrides?: CallOverrides): Promise<string>;
+
   prediction(overrides?: CallOverrides): Promise<string>;
 
   renounceOwnership(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  rewardToken(overrides?: CallOverrides): Promise<string>;
-
-  rewardTokenPerBlock(overrides?: CallOverrides): Promise<BigNumber>;
-
   setAllocPoint(
     _allocPoint: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  setMaxCRPDeposit(
-    _maxCRPDeposit: BigNumberish,
+  setMaxPredDeposit(
+    _maxPredDeposit: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -739,13 +730,15 @@ export interface LoserPrediction extends BaseContract {
   ): Promise<boolean>;
 
   callStatic: {
-    BONUS_MULTIPLIER(overrides?: CallOverrides): Promise<BigNumber>;
+    BID(overrides?: CallOverrides): Promise<string>;
 
-    CRP(overrides?: CallOverrides): Promise<string>;
+    BONUS_MULTIPLIER(overrides?: CallOverrides): Promise<BigNumber>;
 
     add(_epoch: BigNumberish, overrides?: CallOverrides): Promise<void>;
 
     allocPoint(overrides?: CallOverrides): Promise<BigNumber>;
+
+    bidPerBlock(overrides?: CallOverrides): Promise<BigNumber>;
 
     deposit(
       _pid: BigNumberish,
@@ -768,11 +761,11 @@ export interface LoserPrediction extends BaseContract {
 
     initialize(
       _operator: string,
-      _CRP: string,
-      _rewardToken: string,
-      _rewardTokenPerBlock: BigNumberish,
+      _pred: string,
+      _bid: string,
+      _bidPerBlock: BigNumberish,
       _startBlock: BigNumberish,
-      _maxCRPDeposit: BigNumberish,
+      _maxPredDeposit: BigNumberish,
       _wallet: string,
       _prediction: string,
       overrides?: CallOverrides
@@ -784,7 +777,7 @@ export interface LoserPrediction extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    maxCRPDeposit(overrides?: CallOverrides): Promise<BigNumber>;
+    maxPredDeposit(overrides?: CallOverrides): Promise<BigNumber>;
 
     operatorAddress(overrides?: CallOverrides): Promise<string>;
 
@@ -794,7 +787,7 @@ export interface LoserPrediction extends BaseContract {
 
     paused(overrides?: CallOverrides): Promise<boolean>;
 
-    pendingRewardToken(
+    pendingBID(
       _pid: BigNumberish,
       _user: string,
       overrides?: CallOverrides
@@ -807,7 +800,7 @@ export interface LoserPrediction extends BaseContract {
       [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
         allocPoint: BigNumber;
         lastRewardBlock: BigNumber;
-        accRewardTokenPerShare: BigNumber;
+        accBIDPerShare: BigNumber;
         epoch: BigNumber;
         amount: BigNumber;
       }
@@ -815,21 +808,19 @@ export interface LoserPrediction extends BaseContract {
 
     poolLength(overrides?: CallOverrides): Promise<BigNumber>;
 
+    pred(overrides?: CallOverrides): Promise<string>;
+
     prediction(overrides?: CallOverrides): Promise<string>;
 
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
-
-    rewardToken(overrides?: CallOverrides): Promise<string>;
-
-    rewardTokenPerBlock(overrides?: CallOverrides): Promise<BigNumber>;
 
     setAllocPoint(
       _allocPoint: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setMaxCRPDeposit(
-      _maxCRPDeposit: BigNumberish,
+    setMaxPredDeposit(
+      _maxPredDeposit: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -968,9 +959,9 @@ export interface LoserPrediction extends BaseContract {
   };
 
   estimateGas: {
-    BONUS_MULTIPLIER(overrides?: CallOverrides): Promise<BigNumber>;
+    BID(overrides?: CallOverrides): Promise<BigNumber>;
 
-    CRP(overrides?: CallOverrides): Promise<BigNumber>;
+    BONUS_MULTIPLIER(overrides?: CallOverrides): Promise<BigNumber>;
 
     add(
       _epoch: BigNumberish,
@@ -978,6 +969,8 @@ export interface LoserPrediction extends BaseContract {
     ): Promise<BigNumber>;
 
     allocPoint(overrides?: CallOverrides): Promise<BigNumber>;
+
+    bidPerBlock(overrides?: CallOverrides): Promise<BigNumber>;
 
     deposit(
       _pid: BigNumberish,
@@ -1000,11 +993,11 @@ export interface LoserPrediction extends BaseContract {
 
     initialize(
       _operator: string,
-      _CRP: string,
-      _rewardToken: string,
-      _rewardTokenPerBlock: BigNumberish,
+      _pred: string,
+      _bid: string,
+      _bidPerBlock: BigNumberish,
       _startBlock: BigNumberish,
-      _maxCRPDeposit: BigNumberish,
+      _maxPredDeposit: BigNumberish,
       _wallet: string,
       _prediction: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -1016,7 +1009,7 @@ export interface LoserPrediction extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    maxCRPDeposit(overrides?: CallOverrides): Promise<BigNumber>;
+    maxPredDeposit(overrides?: CallOverrides): Promise<BigNumber>;
 
     operatorAddress(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1028,7 +1021,7 @@ export interface LoserPrediction extends BaseContract {
 
     paused(overrides?: CallOverrides): Promise<BigNumber>;
 
-    pendingRewardToken(
+    pendingBID(
       _pid: BigNumberish,
       _user: string,
       overrides?: CallOverrides
@@ -1038,23 +1031,21 @@ export interface LoserPrediction extends BaseContract {
 
     poolLength(overrides?: CallOverrides): Promise<BigNumber>;
 
+    pred(overrides?: CallOverrides): Promise<BigNumber>;
+
     prediction(overrides?: CallOverrides): Promise<BigNumber>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    rewardToken(overrides?: CallOverrides): Promise<BigNumber>;
-
-    rewardTokenPerBlock(overrides?: CallOverrides): Promise<BigNumber>;
-
     setAllocPoint(
       _allocPoint: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    setMaxCRPDeposit(
-      _maxCRPDeposit: BigNumberish,
+    setMaxPredDeposit(
+      _maxPredDeposit: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1124,9 +1115,9 @@ export interface LoserPrediction extends BaseContract {
   };
 
   populateTransaction: {
-    BONUS_MULTIPLIER(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    BID(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    CRP(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    BONUS_MULTIPLIER(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     add(
       _epoch: BigNumberish,
@@ -1134,6 +1125,8 @@ export interface LoserPrediction extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     allocPoint(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    bidPerBlock(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     deposit(
       _pid: BigNumberish,
@@ -1156,11 +1149,11 @@ export interface LoserPrediction extends BaseContract {
 
     initialize(
       _operator: string,
-      _CRP: string,
-      _rewardToken: string,
-      _rewardTokenPerBlock: BigNumberish,
+      _pred: string,
+      _bid: string,
+      _bidPerBlock: BigNumberish,
       _startBlock: BigNumberish,
-      _maxCRPDeposit: BigNumberish,
+      _maxPredDeposit: BigNumberish,
       _wallet: string,
       _prediction: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -1172,7 +1165,7 @@ export interface LoserPrediction extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    maxCRPDeposit(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    maxPredDeposit(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     operatorAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -1184,7 +1177,7 @@ export interface LoserPrediction extends BaseContract {
 
     paused(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    pendingRewardToken(
+    pendingBID(
       _pid: BigNumberish,
       _user: string,
       overrides?: CallOverrides
@@ -1197,16 +1190,12 @@ export interface LoserPrediction extends BaseContract {
 
     poolLength(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    pred(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     prediction(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    rewardToken(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    rewardTokenPerBlock(
-      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     setAllocPoint(
@@ -1214,8 +1203,8 @@ export interface LoserPrediction extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    setMaxCRPDeposit(
-      _maxCRPDeposit: BigNumberish,
+    setMaxPredDeposit(
+      _maxPredDeposit: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

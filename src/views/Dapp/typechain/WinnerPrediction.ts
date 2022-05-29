@@ -22,30 +22,27 @@ export interface WinnerPredictionInterface extends utils.Interface {
   contractName: "WinnerPrediction";
   functions: {
     "BONUS_MULTIPLIER()": FunctionFragment;
-    "CRP()": FunctionFragment;
-    "CRPPerBlock()": FunctionFragment;
     "add(uint256)": FunctionFragment;
     "allocPoint()": FunctionFragment;
     "deposit(uint256,uint256)": FunctionFragment;
     "emergencyWithdraw(uint256)": FunctionFragment;
     "getMultiplier(uint256,uint256)": FunctionFragment;
     "getPoolLength()": FunctionFragment;
-    "initialize(address,address,uint256,uint256,uint256,address,address)": FunctionFragment;
+    "initialize(address,uint256,uint256,uint256,address,address)": FunctionFragment;
     "lostRound(address,uint256)": FunctionFragment;
-    "maxCRPDeposit()": FunctionFragment;
-    "operatorAddress()": FunctionFragment;
+    "maxPredDeposit()": FunctionFragment;
     "owner()": FunctionFragment;
     "pause()": FunctionFragment;
     "paused()": FunctionFragment;
-    "pendingCRP(uint256,address)": FunctionFragment;
+    "pendingPred(uint256,address)": FunctionFragment;
     "poolInfo(uint256)": FunctionFragment;
     "poolLength()": FunctionFragment;
+    "pred()": FunctionFragment;
+    "predPerBlock()": FunctionFragment;
     "prediction()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "setAllocPoint(uint256)": FunctionFragment;
-    "setMaxCRPDeposit(uint256)": FunctionFragment;
-    "setOperator(address)": FunctionFragment;
-    "setPoolAllocPoint(uint256)": FunctionFragment;
+    "setMaxPredDeposit(uint256)": FunctionFragment;
     "startBlock()": FunctionFragment;
     "totalRewardDebt()": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
@@ -62,11 +59,6 @@ export interface WinnerPredictionInterface extends utils.Interface {
 
   encodeFunctionData(
     functionFragment: "BONUS_MULTIPLIER",
-    values?: undefined
-  ): string;
-  encodeFunctionData(functionFragment: "CRP", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "CRPPerBlock",
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "add", values: [BigNumberish]): string;
@@ -92,33 +84,21 @@ export interface WinnerPredictionInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "initialize",
-    values: [
-      string,
-      string,
-      BigNumberish,
-      BigNumberish,
-      BigNumberish,
-      string,
-      string
-    ]
+    values: [string, BigNumberish, BigNumberish, BigNumberish, string, string]
   ): string;
   encodeFunctionData(
     functionFragment: "lostRound",
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "maxCRPDeposit",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "operatorAddress",
+    functionFragment: "maxPredDeposit",
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(functionFragment: "pause", values?: undefined): string;
   encodeFunctionData(functionFragment: "paused", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "pendingCRP",
+    functionFragment: "pendingPred",
     values: [BigNumberish, string]
   ): string;
   encodeFunctionData(
@@ -127,6 +107,11 @@ export interface WinnerPredictionInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "poolLength",
+    values?: undefined
+  ): string;
+  encodeFunctionData(functionFragment: "pred", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "predPerBlock",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -142,12 +127,7 @@ export interface WinnerPredictionInterface extends utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "setMaxCRPDeposit",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(functionFragment: "setOperator", values: [string]): string;
-  encodeFunctionData(
-    functionFragment: "setPoolAllocPoint",
+    functionFragment: "setMaxPredDeposit",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
@@ -194,11 +174,6 @@ export interface WinnerPredictionInterface extends utils.Interface {
     functionFragment: "BONUS_MULTIPLIER",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "CRP", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "CRPPerBlock",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "add", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "allocPoint", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "deposit", data: BytesLike): Result;
@@ -217,19 +192,23 @@ export interface WinnerPredictionInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "lostRound", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "maxCRPDeposit",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "operatorAddress",
+    functionFragment: "maxPredDeposit",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "pause", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "paused", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "pendingCRP", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "pendingPred",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "poolInfo", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "poolLength", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "pred", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "predPerBlock",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "prediction", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
@@ -240,15 +219,7 @@ export interface WinnerPredictionInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setMaxCRPDeposit",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setOperator",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setPoolAllocPoint",
+    functionFragment: "setMaxPredDeposit",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "startBlock", data: BytesLike): Result;
@@ -281,7 +252,6 @@ export interface WinnerPredictionInterface extends utils.Interface {
     "BeaconUpgraded(address)": EventFragment;
     "Deposit(address,uint256,uint256)": EventFragment;
     "EmergencyWithdraw(address,uint256,uint256)": EventFragment;
-    "NewOperatorAddress(address)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "Paused(address)": EventFragment;
     "Unpaused(address)": EventFragment;
@@ -293,7 +263,6 @@ export interface WinnerPredictionInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "BeaconUpgraded"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Deposit"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "EmergencyWithdraw"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "NewOperatorAddress"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Paused"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Unpaused"): EventFragment;
@@ -326,14 +295,6 @@ export type EmergencyWithdrawEvent = TypedEvent<
 
 export type EmergencyWithdrawEventFilter =
   TypedEventFilter<EmergencyWithdrawEvent>;
-
-export type NewOperatorAddressEvent = TypedEvent<
-  [string],
-  { operator: string }
->;
-
-export type NewOperatorAddressEventFilter =
-  TypedEventFilter<NewOperatorAddressEvent>;
 
 export type OwnershipTransferredEvent = TypedEvent<
   [string, string],
@@ -392,10 +353,6 @@ export interface WinnerPrediction extends BaseContract {
   functions: {
     BONUS_MULTIPLIER(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    CRP(overrides?: CallOverrides): Promise<[string]>;
-
-    CRPPerBlock(overrides?: CallOverrides): Promise<[BigNumber]>;
-
     add(
       _epoch: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -423,11 +380,10 @@ export interface WinnerPrediction extends BaseContract {
     getPoolLength(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     initialize(
-      _operator: string,
-      _CRP: string,
-      _CRPPerBlock: BigNumberish,
+      _pred: string,
+      _predPerBlock: BigNumberish,
       _startBlock: BigNumberish,
-      _maxCRPDeposit: BigNumberish,
+      _maxPredDeposit: BigNumberish,
       _wallet: string,
       _prediction: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -439,9 +395,7 @@ export interface WinnerPrediction extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
-    maxCRPDeposit(overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    operatorAddress(overrides?: CallOverrides): Promise<[string]>;
+    maxPredDeposit(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     owner(overrides?: CallOverrides): Promise<[string]>;
 
@@ -451,7 +405,7 @@ export interface WinnerPrediction extends BaseContract {
 
     paused(overrides?: CallOverrides): Promise<[boolean]>;
 
-    pendingCRP(
+    pendingPred(
       _pid: BigNumberish,
       _user: string,
       overrides?: CallOverrides
@@ -464,13 +418,17 @@ export interface WinnerPrediction extends BaseContract {
       [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
         allocPoint: BigNumber;
         lastRewardBlock: BigNumber;
-        accCRPPerShare: BigNumber;
+        accPredPerShare: BigNumber;
         epoch: BigNumber;
         amount: BigNumber;
       }
     >;
 
     poolLength(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    pred(overrides?: CallOverrides): Promise<[string]>;
+
+    predPerBlock(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     prediction(overrides?: CallOverrides): Promise<[string]>;
 
@@ -483,18 +441,8 @@ export interface WinnerPrediction extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    setMaxCRPDeposit(
-      _maxCRPDeposit: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    setOperator(
-      _operatorAddress: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    setPoolAllocPoint(
-      _allocPoint: BigNumberish,
+    setMaxPredDeposit(
+      _maxPredDeposit: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -557,10 +505,6 @@ export interface WinnerPrediction extends BaseContract {
 
   BONUS_MULTIPLIER(overrides?: CallOverrides): Promise<BigNumber>;
 
-  CRP(overrides?: CallOverrides): Promise<string>;
-
-  CRPPerBlock(overrides?: CallOverrides): Promise<BigNumber>;
-
   add(
     _epoch: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -588,11 +532,10 @@ export interface WinnerPrediction extends BaseContract {
   getPoolLength(overrides?: CallOverrides): Promise<BigNumber>;
 
   initialize(
-    _operator: string,
-    _CRP: string,
-    _CRPPerBlock: BigNumberish,
+    _pred: string,
+    _predPerBlock: BigNumberish,
     _startBlock: BigNumberish,
-    _maxCRPDeposit: BigNumberish,
+    _maxPredDeposit: BigNumberish,
     _wallet: string,
     _prediction: string,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -604,9 +547,7 @@ export interface WinnerPrediction extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
-  maxCRPDeposit(overrides?: CallOverrides): Promise<BigNumber>;
-
-  operatorAddress(overrides?: CallOverrides): Promise<string>;
+  maxPredDeposit(overrides?: CallOverrides): Promise<BigNumber>;
 
   owner(overrides?: CallOverrides): Promise<string>;
 
@@ -616,7 +557,7 @@ export interface WinnerPrediction extends BaseContract {
 
   paused(overrides?: CallOverrides): Promise<boolean>;
 
-  pendingCRP(
+  pendingPred(
     _pid: BigNumberish,
     _user: string,
     overrides?: CallOverrides
@@ -629,13 +570,17 @@ export interface WinnerPrediction extends BaseContract {
     [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
       allocPoint: BigNumber;
       lastRewardBlock: BigNumber;
-      accCRPPerShare: BigNumber;
+      accPredPerShare: BigNumber;
       epoch: BigNumber;
       amount: BigNumber;
     }
   >;
 
   poolLength(overrides?: CallOverrides): Promise<BigNumber>;
+
+  pred(overrides?: CallOverrides): Promise<string>;
+
+  predPerBlock(overrides?: CallOverrides): Promise<BigNumber>;
 
   prediction(overrides?: CallOverrides): Promise<string>;
 
@@ -648,18 +593,8 @@ export interface WinnerPrediction extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  setMaxCRPDeposit(
-    _maxCRPDeposit: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  setOperator(
-    _operatorAddress: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  setPoolAllocPoint(
-    _allocPoint: BigNumberish,
+  setMaxPredDeposit(
+    _maxPredDeposit: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -722,10 +657,6 @@ export interface WinnerPrediction extends BaseContract {
   callStatic: {
     BONUS_MULTIPLIER(overrides?: CallOverrides): Promise<BigNumber>;
 
-    CRP(overrides?: CallOverrides): Promise<string>;
-
-    CRPPerBlock(overrides?: CallOverrides): Promise<BigNumber>;
-
     add(_epoch: BigNumberish, overrides?: CallOverrides): Promise<void>;
 
     allocPoint(overrides?: CallOverrides): Promise<BigNumber>;
@@ -750,11 +681,10 @@ export interface WinnerPrediction extends BaseContract {
     getPoolLength(overrides?: CallOverrides): Promise<BigNumber>;
 
     initialize(
-      _operator: string,
-      _CRP: string,
-      _CRPPerBlock: BigNumberish,
+      _pred: string,
+      _predPerBlock: BigNumberish,
       _startBlock: BigNumberish,
-      _maxCRPDeposit: BigNumberish,
+      _maxPredDeposit: BigNumberish,
       _wallet: string,
       _prediction: string,
       overrides?: CallOverrides
@@ -766,9 +696,7 @@ export interface WinnerPrediction extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    maxCRPDeposit(overrides?: CallOverrides): Promise<BigNumber>;
-
-    operatorAddress(overrides?: CallOverrides): Promise<string>;
+    maxPredDeposit(overrides?: CallOverrides): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<string>;
 
@@ -776,7 +704,7 @@ export interface WinnerPrediction extends BaseContract {
 
     paused(overrides?: CallOverrides): Promise<boolean>;
 
-    pendingCRP(
+    pendingPred(
       _pid: BigNumberish,
       _user: string,
       overrides?: CallOverrides
@@ -789,13 +717,17 @@ export interface WinnerPrediction extends BaseContract {
       [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
         allocPoint: BigNumber;
         lastRewardBlock: BigNumber;
-        accCRPPerShare: BigNumber;
+        accPredPerShare: BigNumber;
         epoch: BigNumber;
         amount: BigNumber;
       }
     >;
 
     poolLength(overrides?: CallOverrides): Promise<BigNumber>;
+
+    pred(overrides?: CallOverrides): Promise<string>;
+
+    predPerBlock(overrides?: CallOverrides): Promise<BigNumber>;
 
     prediction(overrides?: CallOverrides): Promise<string>;
 
@@ -806,18 +738,8 @@ export interface WinnerPrediction extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setMaxCRPDeposit(
-      _maxCRPDeposit: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setOperator(
-      _operatorAddress: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setPoolAllocPoint(
-      _allocPoint: BigNumberish,
+    setMaxPredDeposit(
+      _maxPredDeposit: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -910,11 +832,6 @@ export interface WinnerPrediction extends BaseContract {
       amount?: null
     ): EmergencyWithdrawEventFilter;
 
-    "NewOperatorAddress(address)"(
-      operator?: null
-    ): NewOperatorAddressEventFilter;
-    NewOperatorAddress(operator?: null): NewOperatorAddressEventFilter;
-
     "OwnershipTransferred(address,address)"(
       previousOwner?: string | null,
       newOwner?: string | null
@@ -948,10 +865,6 @@ export interface WinnerPrediction extends BaseContract {
   estimateGas: {
     BONUS_MULTIPLIER(overrides?: CallOverrides): Promise<BigNumber>;
 
-    CRP(overrides?: CallOverrides): Promise<BigNumber>;
-
-    CRPPerBlock(overrides?: CallOverrides): Promise<BigNumber>;
-
     add(
       _epoch: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -979,11 +892,10 @@ export interface WinnerPrediction extends BaseContract {
     getPoolLength(overrides?: CallOverrides): Promise<BigNumber>;
 
     initialize(
-      _operator: string,
-      _CRP: string,
-      _CRPPerBlock: BigNumberish,
+      _pred: string,
+      _predPerBlock: BigNumberish,
       _startBlock: BigNumberish,
-      _maxCRPDeposit: BigNumberish,
+      _maxPredDeposit: BigNumberish,
       _wallet: string,
       _prediction: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -995,9 +907,7 @@ export interface WinnerPrediction extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    maxCRPDeposit(overrides?: CallOverrides): Promise<BigNumber>;
-
-    operatorAddress(overrides?: CallOverrides): Promise<BigNumber>;
+    maxPredDeposit(overrides?: CallOverrides): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1007,7 +917,7 @@ export interface WinnerPrediction extends BaseContract {
 
     paused(overrides?: CallOverrides): Promise<BigNumber>;
 
-    pendingCRP(
+    pendingPred(
       _pid: BigNumberish,
       _user: string,
       overrides?: CallOverrides
@@ -1016,6 +926,10 @@ export interface WinnerPrediction extends BaseContract {
     poolInfo(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
     poolLength(overrides?: CallOverrides): Promise<BigNumber>;
+
+    pred(overrides?: CallOverrides): Promise<BigNumber>;
+
+    predPerBlock(overrides?: CallOverrides): Promise<BigNumber>;
 
     prediction(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1028,18 +942,8 @@ export interface WinnerPrediction extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    setMaxCRPDeposit(
-      _maxCRPDeposit: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    setOperator(
-      _operatorAddress: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    setPoolAllocPoint(
-      _allocPoint: BigNumberish,
+    setMaxPredDeposit(
+      _maxPredDeposit: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1101,10 +1005,6 @@ export interface WinnerPrediction extends BaseContract {
   populateTransaction: {
     BONUS_MULTIPLIER(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    CRP(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    CRPPerBlock(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     add(
       _epoch: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -1132,11 +1032,10 @@ export interface WinnerPrediction extends BaseContract {
     getPoolLength(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     initialize(
-      _operator: string,
-      _CRP: string,
-      _CRPPerBlock: BigNumberish,
+      _pred: string,
+      _predPerBlock: BigNumberish,
       _startBlock: BigNumberish,
-      _maxCRPDeposit: BigNumberish,
+      _maxPredDeposit: BigNumberish,
       _wallet: string,
       _prediction: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -1148,9 +1047,7 @@ export interface WinnerPrediction extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    maxCRPDeposit(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    operatorAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    maxPredDeposit(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -1160,7 +1057,7 @@ export interface WinnerPrediction extends BaseContract {
 
     paused(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    pendingCRP(
+    pendingPred(
       _pid: BigNumberish,
       _user: string,
       overrides?: CallOverrides
@@ -1173,6 +1070,10 @@ export interface WinnerPrediction extends BaseContract {
 
     poolLength(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    pred(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    predPerBlock(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     prediction(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     renounceOwnership(
@@ -1184,18 +1085,8 @@ export interface WinnerPrediction extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    setMaxCRPDeposit(
-      _maxCRPDeposit: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setOperator(
-      _operatorAddress: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setPoolAllocPoint(
-      _allocPoint: BigNumberish,
+    setMaxPredDeposit(
+      _maxPredDeposit: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

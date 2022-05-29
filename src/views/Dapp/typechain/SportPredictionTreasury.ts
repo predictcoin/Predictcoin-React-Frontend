@@ -28,6 +28,7 @@ export interface SportPredictionTreasuryInterface extends utils.Interface {
     "renounceRole(bytes32,address)": FunctionFragment;
     "revokeRole(bytes32,address)": FunctionFragment;
     "setSportPredictionAddress(address)": FunctionFragment;
+    "sportPrediction()": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "withdraw(uint256)": FunctionFragment;
     "withdrawToken(address,address,uint256)": FunctionFragment;
@@ -66,6 +67,10 @@ export interface SportPredictionTreasuryInterface extends utils.Interface {
     values: [string]
   ): string;
   encodeFunctionData(
+    functionFragment: "sportPrediction",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "supportsInterface",
     values: [BytesLike]
   ): string;
@@ -99,6 +104,10 @@ export interface SportPredictionTreasuryInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setSportPredictionAddress",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "sportPrediction",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -229,6 +238,8 @@ export interface SportPredictionTreasury extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    sportPrediction(overrides?: CallOverrides): Promise<[string]>;
+
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
@@ -282,6 +293,8 @@ export interface SportPredictionTreasury extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  sportPrediction(overrides?: CallOverrides): Promise<string>;
+
   supportsInterface(
     interfaceId: BytesLike,
     overrides?: CallOverrides
@@ -334,6 +347,8 @@ export interface SportPredictionTreasury extends BaseContract {
       _address: string,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    sportPrediction(overrides?: CallOverrides): Promise<string>;
 
     supportsInterface(
       interfaceId: BytesLike,
@@ -438,6 +453,8 @@ export interface SportPredictionTreasury extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    sportPrediction(overrides?: CallOverrides): Promise<BigNumber>;
+
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
@@ -499,6 +516,8 @@ export interface SportPredictionTreasury extends BaseContract {
       _address: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
+
+    sportPrediction(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     supportsInterface(
       interfaceId: BytesLike,

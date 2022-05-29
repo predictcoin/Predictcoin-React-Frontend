@@ -4,6 +4,7 @@
 export type { ERC20 } from "./ERC20";
 export type { LoserPrediction } from "./LoserPrediction";
 export type { MMFLpToken } from "./MMFLpToken";
+export type { PancakeRouter } from "./PancakeRouter";
 export type { Prediction } from "./Prediction";
 export type { SportOracle } from "./SportOracle";
 export type { SportPrediction } from "./SportPrediction";
@@ -15,6 +16,7 @@ export type { WinnerPrediction } from "./WinnerPrediction";
 export { ERC20__factory } from "./factories/ERC20__factory";
 export { LoserPrediction__factory } from "./factories/LoserPrediction__factory";
 export { MMFLpToken__factory } from "./factories/MMFLpToken__factory";
+export { PancakeRouter__factory } from "./factories/PancakeRouter__factory";
 export { Prediction__factory } from "./factories/Prediction__factory";
 export { SportOracle__factory } from "./factories/SportOracle__factory";
 export { SportPrediction__factory } from "./factories/SportPrediction__factory";

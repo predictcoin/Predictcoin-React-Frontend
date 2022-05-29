@@ -96,19 +96,6 @@ const _abi = [
     anonymous: false,
     inputs: [
       {
-        indexed: false,
-        internalType: "address",
-        name: "operator",
-        type: "address",
-      },
-    ],
-    name: "NewOperatorAddress",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
         indexed: true,
         internalType: "address",
         name: "previousOwner",
@@ -191,32 +178,6 @@ const _abi = [
   {
     inputs: [],
     name: "BONUS_MULTIPLIER",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "CRP",
-    outputs: [
-      {
-        internalType: "contract IERC20Upgradeable",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "CRPPerBlock",
     outputs: [
       {
         internalType: "uint256",
@@ -324,18 +285,13 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_operator",
-        type: "address",
-      },
-      {
-        internalType: "contract IERC20Upgradeable",
-        name: "_CRP",
+        internalType: "contract IBEP20",
+        name: "_pred",
         type: "address",
       },
       {
         internalType: "uint256",
-        name: "_CRPPerBlock",
+        name: "_predPerBlock",
         type: "uint256",
       },
       {
@@ -345,7 +301,7 @@ const _abi = [
       },
       {
         internalType: "uint256",
-        name: "_maxCRPDeposit",
+        name: "_maxPredDeposit",
         type: "uint256",
       },
       {
@@ -354,7 +310,7 @@ const _abi = [
         type: "address",
       },
       {
-        internalType: "contract Prediction",
+        internalType: "contract IPrediction",
         name: "_prediction",
         type: "address",
       },
@@ -390,25 +346,12 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "maxCRPDeposit",
+    name: "maxPredDeposit",
     outputs: [
       {
         internalType: "uint256",
         name: "",
         type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "operatorAddress",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
       },
     ],
     stateMutability: "view",
@@ -460,7 +403,7 @@ const _abi = [
         type: "address",
       },
     ],
-    name: "pendingCRP",
+    name: "pendingPred",
     outputs: [
       {
         internalType: "uint256",
@@ -493,7 +436,7 @@ const _abi = [
       },
       {
         internalType: "uint256",
-        name: "accCRPPerShare",
+        name: "accPredPerShare",
         type: "uint256",
       },
       {
@@ -525,10 +468,36 @@ const _abi = [
   },
   {
     inputs: [],
+    name: "pred",
+    outputs: [
+      {
+        internalType: "contract IBEP20",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "predPerBlock",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "prediction",
     outputs: [
       {
-        internalType: "contract Prediction",
+        internalType: "contract IPrediction",
         name: "",
         type: "address",
       },
@@ -560,37 +529,11 @@ const _abi = [
     inputs: [
       {
         internalType: "uint256",
-        name: "_maxCRPDeposit",
+        name: "_maxPredDeposit",
         type: "uint256",
       },
     ],
-    name: "setMaxCRPDeposit",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_operatorAddress",
-        type: "address",
-      },
-    ],
-    name: "setOperator",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "_allocPoint",
-        type: "uint256",
-      },
-    ],
-    name: "setPoolAllocPoint",
+    name: "setMaxPredDeposit",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

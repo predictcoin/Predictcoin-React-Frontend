@@ -18,8 +18,13 @@ export const PREDICTION_ADDRESSES = {
   "testnet" : ""
 }
 
-export const PANCAKW_ADDRESSES = {
+export const PANCAKE_ADDRESSES = {
   [supportedChainIds.Mainnet]: "0x10ED43C718714eb63d5aA57B78B54704E256024E",
+  [supportedChainIds.Testnet]: ""
+}
+
+export const AUTOSHARK_ADDRESSES = {
+  [supportedChainIds.Mainnet]: "0xB0EeB0632bAB15F120735e5838908378936bd484",
   [supportedChainIds.Testnet]: ""
 }
 

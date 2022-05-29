@@ -8,6 +8,7 @@ import "./appdashboard.styles.scss";
 import { Provider } from "react-redux";
 import { store } from "./application/infrastructure/redux/stores";
 import { useWalletViewModel } from "./application/controllers/walletViewModel";
+import Staking from "./pages/staking";
 
 const AppDashboard: FC = () => {
     const InternalComponent = () => {
@@ -27,6 +28,15 @@ const AppDashboard: FC = () => {
                     <Routes>
                         <Route path="/prediction/*" element={<Prediction />} />
                         <Route path="/sport-prediction/*" element={<SportPrediction />} />
+                        {["/", "/staking/*"].map((path, index) => {
+                            return (
+                                <Route
+                                    key={index}
+                                    path={path}
+                                    element={<Staking />}
+                                />
+                            );
+                        })}
                     </Routes>
 
                     <ToastContainer

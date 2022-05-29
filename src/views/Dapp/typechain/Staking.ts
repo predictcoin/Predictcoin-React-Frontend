@@ -22,8 +22,6 @@ export interface StakingInterface extends utils.Interface {
   contractName: "Staking";
   functions: {
     "BONUS_MULTIPLIER()": FunctionFragment;
-    "CRP()": FunctionFragment;
-    "CRPPerBlock()": FunctionFragment;
     "add(uint256,address,bool)": FunctionFragment;
     "compound()": FunctionFragment;
     "deposit(uint256,uint256)": FunctionFragment;
@@ -36,9 +34,11 @@ export interface StakingInterface extends utils.Interface {
     "owner()": FunctionFragment;
     "pause()": FunctionFragment;
     "paused()": FunctionFragment;
-    "pendingCRP(uint256,address)": FunctionFragment;
+    "pendingPred(uint256,address)": FunctionFragment;
     "poolInfo(uint256)": FunctionFragment;
     "poolLength()": FunctionFragment;
+    "pred()": FunctionFragment;
+    "predPerBlock()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "set(uint256,uint256,bool)": FunctionFragment;
     "setMigrator(address)": FunctionFragment;
@@ -58,11 +58,6 @@ export interface StakingInterface extends utils.Interface {
 
   encodeFunctionData(
     functionFragment: "BONUS_MULTIPLIER",
-    values?: undefined
-  ): string;
-  encodeFunctionData(functionFragment: "CRP", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "CRPPerBlock",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -99,7 +94,7 @@ export interface StakingInterface extends utils.Interface {
   encodeFunctionData(functionFragment: "pause", values?: undefined): string;
   encodeFunctionData(functionFragment: "paused", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "pendingCRP",
+    functionFragment: "pendingPred",
     values: [BigNumberish, string]
   ): string;
   encodeFunctionData(
@@ -108,6 +103,11 @@ export interface StakingInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "poolLength",
+    values?: undefined
+  ): string;
+  encodeFunctionData(functionFragment: "pred", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "predPerBlock",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -163,11 +163,6 @@ export interface StakingInterface extends utils.Interface {
     functionFragment: "BONUS_MULTIPLIER",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "CRP", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "CRPPerBlock",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "add", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "compound", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "deposit", data: BytesLike): Result;
@@ -189,9 +184,17 @@ export interface StakingInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "pause", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "paused", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "pendingCRP", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "pendingPred",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "poolInfo", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "poolLength", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "pred", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "predPerBlock",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
     data: BytesLike
@@ -335,10 +338,6 @@ export interface Staking extends BaseContract {
   functions: {
     BONUS_MULTIPLIER(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    CRP(overrides?: CallOverrides): Promise<[string]>;
-
-    CRPPerBlock(overrides?: CallOverrides): Promise<[BigNumber]>;
-
     add(
       _allocPoint: BigNumberish,
       _lpToken: string,
@@ -368,8 +367,8 @@ export interface Staking extends BaseContract {
     ): Promise<[BigNumber]>;
 
     initialize(
-      _CRP: string,
-      _CRPPerBlock: BigNumberish,
+      _pred: string,
+      _predPerBlock: BigNumberish,
       _startBlock: BigNumberish,
       _wallet: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -394,7 +393,7 @@ export interface Staking extends BaseContract {
 
     paused(overrides?: CallOverrides): Promise<[boolean]>;
 
-    pendingCRP(
+    pendingPred(
       _pid: BigNumberish,
       _user: string,
       overrides?: CallOverrides
@@ -408,11 +407,15 @@ export interface Staking extends BaseContract {
         lpToken: string;
         allocPoint: BigNumber;
         lastRewardBlock: BigNumber;
-        accCRPPerShare: BigNumber;
+        accPredPerShare: BigNumber;
       }
     >;
 
     poolLength(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    pred(overrides?: CallOverrides): Promise<[string]>;
+
+    predPerBlock(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -485,10 +488,6 @@ export interface Staking extends BaseContract {
 
   BONUS_MULTIPLIER(overrides?: CallOverrides): Promise<BigNumber>;
 
-  CRP(overrides?: CallOverrides): Promise<string>;
-
-  CRPPerBlock(overrides?: CallOverrides): Promise<BigNumber>;
-
   add(
     _allocPoint: BigNumberish,
     _lpToken: string,
@@ -518,8 +517,8 @@ export interface Staking extends BaseContract {
   ): Promise<BigNumber>;
 
   initialize(
-    _CRP: string,
-    _CRPPerBlock: BigNumberish,
+    _pred: string,
+    _predPerBlock: BigNumberish,
     _startBlock: BigNumberish,
     _wallet: string,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -544,7 +543,7 @@ export interface Staking extends BaseContract {
 
   paused(overrides?: CallOverrides): Promise<boolean>;
 
-  pendingCRP(
+  pendingPred(
     _pid: BigNumberish,
     _user: string,
     overrides?: CallOverrides
@@ -558,11 +557,15 @@ export interface Staking extends BaseContract {
       lpToken: string;
       allocPoint: BigNumber;
       lastRewardBlock: BigNumber;
-      accCRPPerShare: BigNumber;
+      accPredPerShare: BigNumber;
     }
   >;
 
   poolLength(overrides?: CallOverrides): Promise<BigNumber>;
+
+  pred(overrides?: CallOverrides): Promise<string>;
+
+  predPerBlock(overrides?: CallOverrides): Promise<BigNumber>;
 
   renounceOwnership(
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -635,10 +638,6 @@ export interface Staking extends BaseContract {
   callStatic: {
     BONUS_MULTIPLIER(overrides?: CallOverrides): Promise<BigNumber>;
 
-    CRP(overrides?: CallOverrides): Promise<string>;
-
-    CRPPerBlock(overrides?: CallOverrides): Promise<BigNumber>;
-
     add(
       _allocPoint: BigNumberish,
       _lpToken: string,
@@ -666,8 +665,8 @@ export interface Staking extends BaseContract {
     ): Promise<BigNumber>;
 
     initialize(
-      _CRP: string,
-      _CRPPerBlock: BigNumberish,
+      _pred: string,
+      _predPerBlock: BigNumberish,
       _startBlock: BigNumberish,
       _wallet: string,
       overrides?: CallOverrides
@@ -685,7 +684,7 @@ export interface Staking extends BaseContract {
 
     paused(overrides?: CallOverrides): Promise<boolean>;
 
-    pendingCRP(
+    pendingPred(
       _pid: BigNumberish,
       _user: string,
       overrides?: CallOverrides
@@ -699,11 +698,15 @@ export interface Staking extends BaseContract {
         lpToken: string;
         allocPoint: BigNumber;
         lastRewardBlock: BigNumber;
-        accCRPPerShare: BigNumber;
+        accPredPerShare: BigNumber;
       }
     >;
 
     poolLength(overrides?: CallOverrides): Promise<BigNumber>;
+
+    pred(overrides?: CallOverrides): Promise<string>;
+
+    predPerBlock(overrides?: CallOverrides): Promise<BigNumber>;
 
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
@@ -834,10 +837,6 @@ export interface Staking extends BaseContract {
   estimateGas: {
     BONUS_MULTIPLIER(overrides?: CallOverrides): Promise<BigNumber>;
 
-    CRP(overrides?: CallOverrides): Promise<BigNumber>;
-
-    CRPPerBlock(overrides?: CallOverrides): Promise<BigNumber>;
-
     add(
       _allocPoint: BigNumberish,
       _lpToken: string,
@@ -867,8 +866,8 @@ export interface Staking extends BaseContract {
     ): Promise<BigNumber>;
 
     initialize(
-      _CRP: string,
-      _CRPPerBlock: BigNumberish,
+      _pred: string,
+      _predPerBlock: BigNumberish,
       _startBlock: BigNumberish,
       _wallet: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -893,7 +892,7 @@ export interface Staking extends BaseContract {
 
     paused(overrides?: CallOverrides): Promise<BigNumber>;
 
-    pendingCRP(
+    pendingPred(
       _pid: BigNumberish,
       _user: string,
       overrides?: CallOverrides
@@ -902,6 +901,10 @@ export interface Staking extends BaseContract {
     poolInfo(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
     poolLength(overrides?: CallOverrides): Promise<BigNumber>;
+
+    pred(overrides?: CallOverrides): Promise<BigNumber>;
+
+    predPerBlock(overrides?: CallOverrides): Promise<BigNumber>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -973,10 +976,6 @@ export interface Staking extends BaseContract {
   populateTransaction: {
     BONUS_MULTIPLIER(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    CRP(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    CRPPerBlock(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     add(
       _allocPoint: BigNumberish,
       _lpToken: string,
@@ -1006,8 +1005,8 @@ export interface Staking extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     initialize(
-      _CRP: string,
-      _CRPPerBlock: BigNumberish,
+      _pred: string,
+      _predPerBlock: BigNumberish,
       _startBlock: BigNumberish,
       _wallet: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -1032,7 +1031,7 @@ export interface Staking extends BaseContract {
 
     paused(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    pendingCRP(
+    pendingPred(
       _pid: BigNumberish,
       _user: string,
       overrides?: CallOverrides
@@ -1044,6 +1043,10 @@ export interface Staking extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     poolLength(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    pred(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    predPerBlock(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }

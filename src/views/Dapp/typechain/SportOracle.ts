@@ -82,7 +82,6 @@ export interface SportOracleInterface extends utils.Interface {
     "renounceOwnership()": FunctionFragment;
     "setAdminAddress(address)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
-    "updateSportEvents(bytes32[],uint256[],uint256[])": FunctionFragment;
     "upgradeTo(address)": FunctionFragment;
     "upgradeToAndCall(address,bytes)": FunctionFragment;
   };
@@ -173,10 +172,6 @@ export interface SportOracleInterface extends utils.Interface {
     functionFragment: "transferOwnership",
     values: [string]
   ): string;
-  encodeFunctionData(
-    functionFragment: "updateSportEvents",
-    values: [BytesLike[], BigNumberish[], BigNumberish[]]
-  ): string;
   encodeFunctionData(functionFragment: "upgradeTo", values: [string]): string;
   encodeFunctionData(
     functionFragment: "upgradeToAndCall",
@@ -248,10 +243,6 @@ export interface SportOracleInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "transferOwnership",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "updateSportEvents",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "upgradeTo", data: BytesLike): Result;
@@ -484,13 +475,6 @@ export interface SportOracle extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    updateSportEvents(
-      _eventIds: BytesLike[],
-      _startTimestamps: BigNumberish[],
-      _endTimestamps: BigNumberish[],
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     upgradeTo(
       newImplementation: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -597,13 +581,6 @@ export interface SportOracle extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  updateSportEvents(
-    _eventIds: BytesLike[],
-    _startTimestamps: BigNumberish[],
-    _endTimestamps: BigNumberish[],
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   upgradeTo(
     newImplementation: string,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -705,13 +682,6 @@ export interface SportOracle extends BaseContract {
 
     transferOwnership(
       newOwner: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    updateSportEvents(
-      _eventIds: BytesLike[],
-      _startTimestamps: BigNumberish[],
-      _endTimestamps: BigNumberish[],
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -899,13 +869,6 @@ export interface SportOracle extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    updateSportEvents(
-      _eventIds: BytesLike[],
-      _startTimestamps: BigNumberish[],
-      _endTimestamps: BigNumberish[],
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     upgradeTo(
       newImplementation: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -1009,13 +972,6 @@ export interface SportOracle extends BaseContract {
 
     transferOwnership(
       newOwner: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    updateSportEvents(
-      _eventIds: BytesLike[],
-      _startTimestamps: BigNumberish[],
-      _endTimestamps: BigNumberish[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

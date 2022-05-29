@@ -99,6 +99,7 @@ export interface SportPredictionInterface extends utils.Interface {
     "claim(bytes32[])": FunctionFragment;
     "crp()": FunctionFragment;
     "eventToUserPrediction(bytes32,address)": FunctionFragment;
+    "eventToUsers(bytes32,uint256)": FunctionFragment;
     "getAllUserPredictions(address)": FunctionFragment;
     "getEvents(bytes32[])": FunctionFragment;
     "getEventsLength()": FunctionFragment;
@@ -126,6 +127,7 @@ export interface SportPredictionInterface extends utils.Interface {
     "upgradeTo(address)": FunctionFragment;
     "upgradeToAndCall(address,bytes)": FunctionFragment;
     "userPredictStatus(address,bytes32[])": FunctionFragment;
+    "userToEvents(address,uint256)": FunctionFragment;
   };
 
   encodeFunctionData(functionFragment: "claim", values: [BytesLike[]]): string;
@@ -133,6 +135,10 @@ export interface SportPredictionInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "eventToUserPrediction",
     values: [BytesLike, string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "eventToUsers",
+    values: [BytesLike, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "getAllUserPredictions",
@@ -233,11 +239,19 @@ export interface SportPredictionInterface extends utils.Interface {
     functionFragment: "userPredictStatus",
     values: [string, BytesLike[]]
   ): string;
+  encodeFunctionData(
+    functionFragment: "userToEvents",
+    values: [string, BigNumberish]
+  ): string;
 
   decodeFunctionResult(functionFragment: "claim", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "crp", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "eventToUserPrediction",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "eventToUsers",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -328,6 +342,10 @@ export interface SportPredictionInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "userPredictStatus",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "userToEvents",
     data: BytesLike
   ): Result;
 
@@ -499,6 +517,12 @@ export interface SportPrediction extends BaseContract {
       }
     >;
 
+    eventToUsers(
+      arg0: BytesLike,
+      arg1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
     getAllUserPredictions(
       _user: string,
       overrides?: CallOverrides
@@ -616,6 +640,12 @@ export interface SportPrediction extends BaseContract {
       _eventIds: BytesLike[],
       overrides?: CallOverrides
     ): Promise<[boolean[]]>;
+
+    userToEvents(
+      arg0: string,
+      arg1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
   };
 
   claim(
@@ -641,6 +671,12 @@ export interface SportPrediction extends BaseContract {
       claimed: boolean;
     }
   >;
+
+  eventToUsers(
+    arg0: BytesLike,
+    arg1: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<string>;
 
   getAllUserPredictions(
     _user: string,
@@ -760,6 +796,12 @@ export interface SportPrediction extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean[]>;
 
+  userToEvents(
+    arg0: string,
+    arg1: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
   callStatic: {
     claim(_eventIds: BytesLike[], overrides?: CallOverrides): Promise<void>;
 
@@ -790,6 +832,12 @@ export interface SportPrediction extends BaseContract {
         claimed: boolean;
       }
     >;
+
+    eventToUsers(
+      arg0: BytesLike,
+      arg1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<string>;
 
     getAllUserPredictions(
       _user: string,
@@ -906,6 +954,12 @@ export interface SportPrediction extends BaseContract {
       _eventIds: BytesLike[],
       overrides?: CallOverrides
     ): Promise<boolean[]>;
+
+    userToEvents(
+      arg0: string,
+      arg1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<string>;
   };
 
   filters: {
@@ -992,6 +1046,12 @@ export interface SportPrediction extends BaseContract {
     eventToUserPrediction(
       arg0: BytesLike,
       arg1: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    eventToUsers(
+      arg0: BytesLike,
+      arg1: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1108,6 +1168,12 @@ export interface SportPrediction extends BaseContract {
       _eventIds: BytesLike[],
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    userToEvents(
+      arg0: string,
+      arg1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -1121,6 +1187,12 @@ export interface SportPrediction extends BaseContract {
     eventToUserPrediction(
       arg0: BytesLike,
       arg1: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    eventToUsers(
+      arg0: BytesLike,
+      arg1: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1237,6 +1309,12 @@ export interface SportPrediction extends BaseContract {
     userPredictStatus(
       _user: string,
       _eventIds: BytesLike[],
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    userToEvents(
+      arg0: string,
+      arg1: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
   };
