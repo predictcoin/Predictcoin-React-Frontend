@@ -18,8 +18,8 @@ import {
   getLoserPool as getLoserPoolAction
 } from "../infrastructure/redux/actions/predictionPools"
 import StakingDataModel from "../../models/StakingDataModel";
-import MMF from "../../../../assets/pics/meerkat.png";
-import CRP from "../../../../assets/pics/CRP.png"
+import BID from "../../../../assets/icons/BID.png";
+import PRED from "../../../../assets/icons/predcoin_logo.png"
 import BigNumber from "bignumber.js";
 import { displayTokenValue } from "../../lib/utils/number";
 import { watchEvent } from "../../lib/utils/event";
@@ -98,7 +98,7 @@ export const useWinnerPredictionPoolViewModel = () => {
     return {
       stakingRound: pool.round.toString(),
       predStaked: pool.userStaked?.toFixed() || "0",
-      coinEarnedIcon: CRP,
+      coinEarnedIcon: PRED,
       coinEarned: "PRED",
       earned: pool.earned?.toFixed() || "0",
       poolType: "Winner",
@@ -211,7 +211,7 @@ export const useLoserPredictionPoolViewModel = () => {
     return {
       stakingRound: pool.round.toString(),
       predStaked: pool.userStaked?.toFixed() || "0",
-      coinEarnedIcon: MMF,
+      coinEarnedIcon: BID,
       coinEarned: "BID",
       earned: pool.earned?.toFixed() || "0",
       poolType: "Loser",

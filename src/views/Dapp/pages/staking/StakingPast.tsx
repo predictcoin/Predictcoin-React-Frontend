@@ -2,7 +2,7 @@ import { FC, useEffect } from 'react';
 import { useLoserPredictionPoolViewModel, useWinnerPredictionPoolViewModel } from '../../application/controllers/predictionPoolsViewModel';
 import { useWalletViewModel } from '../../application/controllers/walletViewModel';
 
-// import StakingTable from '../../Components/StakingTable';
+import StakingTable from '../../Components/StakingTable';
 import useNextRoundCountdown from '../../hooks/predictionPools/useCountdown';
 import { displayTokenValue } from '../../lib/utils/number';
 
@@ -63,7 +63,7 @@ const StakingPast: FC = () => {
 				</div>}
 			</div>
 
-			{/* <StakingTable /> */}
+			<StakingTable />
 		</div>
 	);
 };
