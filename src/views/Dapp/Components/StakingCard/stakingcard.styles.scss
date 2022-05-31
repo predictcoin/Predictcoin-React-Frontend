@@ -23,7 +23,7 @@ backdrop-filter: blur(24.5072px);
 
         .token__images {
             img {
-                width: 100px;
+                max-width: 100px;
                 height: 45px;
 
                 &:nth-child(2) {

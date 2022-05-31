@@ -2,7 +2,7 @@ import { Pool } from "./entity";
 import BigNumber from "bignumber.js";
 
 export const stakingPools = [0];
-export const farmingPools = [1]
+export const farmingPools = [1,2,3]
 
 export interface StakingStore {
   address: string,

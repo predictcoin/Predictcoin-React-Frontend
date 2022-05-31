@@ -1,7 +1,7 @@
 import { ethers,utils } from "ethers";
 import { AUTOSHARK_ADDRESSES, PANCAKE_ADDRESSES, TOKENS } from "../../constants/addresses";
 import { supportedChainIds } from "../../constants/chainIds";
-import { ERC20, ERC20__factory, PancakeRouter__factory } from "../../typechain"
+import { ERC20, ERC20__factory, LPToken__factory, PancakeRouter__factory } from "../../typechain"
 import { getChainId } from "./chain";
 import BigNumber from "bignumber.js";
 // import { toNumberLib } from "./number";
@@ -35,6 +35,32 @@ export const getPREDPrice = async(provider: ethers.providers.Provider | ethers.S
   const path = [PRED, BUSD]
   return getPriceWithPancakeRouter(path, provider)
 }
+
+export const getPREDLpTokenPrice = async(provider: ethers.providers.Provider | ethers.Signer, lpToken: string): Promise<BigNumber> => {
+  let tokenPrice: BigNumber, Token: ERC20;
+  const LpToken = LPToken__factory.connect(lpToken, provider);
+  
+  const getPriceWithToken = async (index: 0|1): Promise<BigNumber> => {
+    const token = await LpToken[index === 0 ? "token0" : "token1"]();
+    Token = ERC20__factory.connect(token, provider);
+    return getPriceWithPancakeRouter([token, BUSD], provider);
+  }
+
+  
+  const token0 = await LpToken.token0();
+  const predPosition = token0 === PRED ? 0 : 1
+  tokenPrice = await getPriceWithToken(predPosition);
+
+  
+
+  // @ts-ignore
+  const lpBalance = new BigNumber((await Token.balanceOf(lpToken)).toString());
+  // @ts-ignore
+  const totalLpSupply = toNumberLib(await LpToken.totalSupply());
+  return lpBalance.times(2).times(tokenPrice).div(totalLpSupply);
+}
+
+// const getMMFPrice = async
 
 
 export const getBIDPrice = async(provider: ethers.providers.Provider | ethers.Signer): Promise<BigNumber> => {
