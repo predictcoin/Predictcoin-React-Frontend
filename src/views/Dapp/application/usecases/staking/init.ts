@@ -41,7 +41,8 @@ export const farmingApr = async ({contract, pool, totalAllocPoint, PREDPrice, lp
 }
 
 export const initFarming = async ({contract, userAddress}: initPropsimport): Promise<Omit<StakingStore, "farmingAvailable" | "stakingAvailable" | "isLoadingFarming" | "isLoadingStaking" | "staking">> => {
-  const totalAllocPoint = toNumberLib(await contract.totalAllocPoint());
+    const totalAllocPoint = toNumberLib(await contract.totalAllocPoint());
+  
   const pools: {[key: number]: Pool} = {};
   const PREDPrice = await getPREDPrice(contract.provider);
 

@@ -76,7 +76,6 @@ export const useStakingViewModel = () => {
   const farmingCardData = farming?.map((pId, index): Omit<FarmingCardModel, "harvest"> => {
     const pool = pools[pId]
     const { total$Staked, user$Staked, lpTokenDecimals } = pool;
-    
     return {
       id: String(pId),
       tokenName: getTokenName(pool.lpToken),

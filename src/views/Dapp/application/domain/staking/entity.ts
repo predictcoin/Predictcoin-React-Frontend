@@ -7,7 +7,7 @@ export type Pool  =
       lpTokenDecimals: number;
       allocPoint: BigNumber;
       lastRewardBlock: BigNumber;
-      accCRPPerShare: BigNumber;
+      accPREDPerShare: BigNumber;
       apr: BigNumber;
       totalStaked: BigNumber;
       userStaked?: BigNumber;

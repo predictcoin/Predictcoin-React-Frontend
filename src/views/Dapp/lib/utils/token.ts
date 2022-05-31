@@ -3,6 +3,7 @@ import { getChainId } from "./chain";
 
 export const getTokenName = (address: string) => {
   const entries = Object.entries(TOKENS[getChainId()]);
+  
   const [name, ] = entries.filter(([_, _address]) => address === _address)[0];
   return name;
 }

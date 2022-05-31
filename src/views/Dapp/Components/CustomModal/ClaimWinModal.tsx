@@ -55,7 +55,7 @@ const ClaimWinModal: FC = () => {
                     </h2>
 
                     <p className="win__text">
-                        If you claim this win, the corresponding amount of tokens for this win will be added to your CRP wallet
+                        If you claim this win, the corresponding amount of tokens for this win will be added to your PRED wallet
                     </p>
 
                     <button

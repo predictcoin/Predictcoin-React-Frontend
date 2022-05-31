@@ -8,18 +8,18 @@ export const stakedTokenData = {
 
 export const farmingTokenData = {
   1: {
-    tokenMultiple: "10x",
-    stake: "USDT-PRED LP",
-    earn: "PRED",
-  },
-  2: {
     tokenMultiple: "5x",
     stake: "BUSD-PRED LP",
     earn: "PRED",
   },
-  3: {
+  2: {
     tokenMultiple: "5x",
     stake: "BNB-PRED LP",
+    earn: "PRED",
+  },
+  3: {
+    tokenMultiple: "10x",
+    stake: "USDT-PRED LP",
     earn: "PRED",
   }
 }

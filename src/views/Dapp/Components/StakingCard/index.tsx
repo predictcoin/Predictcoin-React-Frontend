@@ -134,19 +134,43 @@ const StakingCard: FC<Props> = ({
 						</div>
 
 						{walletUnlockStatus === 'unlocked' ? (
-							<div className='stake'>
-								<button className={`minus ${active && allowed && "active"}`} onClick={() => setStakeModal({title: "Unstake", open: true})}>
-									<span className={`${active && "active"}`}> - </span>
-								</button>
+							<div className="user__connected">
+								<div className="staked_amount_and_value">
+                                    <span className="light">STAKED PRED</span>
+                                    <span className="light">
+                                    <span className="amount">
+                                        {displayTokenValue(
+                                            staked,
+                                            decimals,
+                                            5
+                                        )}
+                                    </span>
+                                    <span className="dollar">
+                                        {" "}
+                                        ~$
+                                        {displayTokenValue(
+                                            USDStaked,
+                                            decimals,
+                                            2
+                                        )}
+                                    </span>
+                                    </span>
+                                </div>
 
-								<div className='usdt__staked'>
-									<p>CRP Staked</p>
+								<div className='stake'>
+								<div className='token_staked'>
 									<div><span className="amount">{displayTokenValue(staked, decimals, 5)}</span><span className="dollar"> ~${displayTokenValue(USDStaked, decimals, 2)}</span></div>
 								</div>
+								<div className="btn_group">
+									<button className={`minus ${active && allowed && "active"}`} onClick={() => setStakeModal({title: "Unstake", open: true})}>
+										<span className={`${active && "active"}`}> - </span>
+									</button>
 
-								<button className={`add ${active && allowed && "active"}`} onClick={() => setStakeModal({title: "Stake", open: true})}>
-									<span className={`${active && "active"}`}> + </span>
-								</button>
+									<button className={`add ${active && allowed && "active"}`} onClick={() => setStakeModal({title: "Stake", open: true})}>
+										<span className={`${active && "active"}`}> + </span>
+									</button>
+								</div>
+							</div>
 							</div>
 						) : (
 							<div className='unlock__text'>
