@@ -26,10 +26,10 @@ const Hero: FC = () => {
                             <Link to="/prediction" className="buttonout">
                                 Start Predicting
                             </Link>
-                            <Link to="/" className="buttonblue">
+                            <Link to="/staking" className="buttonblue">
                                 Earn PRED
                             </Link>
-                            <Link to="/" className="buttonred">
+                            <Link to="/staking" className="buttonred">
                                 Earn BID
                             </Link>
                         </div>

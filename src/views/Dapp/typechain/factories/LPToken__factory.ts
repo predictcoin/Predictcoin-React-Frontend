@@ -4,9 +4,15 @@
 
 import { Contract, Signer, utils } from "ethers";
 import { Provider } from "@ethersproject/providers";
-import type { MMFLpToken, MMFLpTokenInterface } from "../MMFLpToken";
+import type { LPToken, LPTokenInterface } from "../LPToken";
 
 const _abi = [
+  {
+    inputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
   {
     anonymous: false,
     inputs: [
@@ -176,6 +182,7 @@ const _abi = [
     type: "event",
   },
   {
+    constant: true,
     inputs: [],
     name: "DOMAIN_SEPARATOR",
     outputs: [
@@ -185,10 +192,12 @@ const _abi = [
         type: "bytes32",
       },
     ],
+    payable: false,
     stateMutability: "view",
     type: "function",
   },
   {
+    constant: true,
     inputs: [],
     name: "MINIMUM_LIQUIDITY",
     outputs: [
@@ -198,10 +207,12 @@ const _abi = [
         type: "uint256",
       },
     ],
-    stateMutability: "pure",
+    payable: false,
+    stateMutability: "view",
     type: "function",
   },
   {
+    constant: true,
     inputs: [],
     name: "PERMIT_TYPEHASH",
     outputs: [
@@ -211,19 +222,21 @@ const _abi = [
         type: "bytes32",
       },
     ],
-    stateMutability: "pure",
+    payable: false,
+    stateMutability: "view",
     type: "function",
   },
   {
+    constant: true,
     inputs: [
       {
         internalType: "address",
-        name: "owner",
+        name: "",
         type: "address",
       },
       {
         internalType: "address",
-        name: "spender",
+        name: "",
         type: "address",
       },
     ],
@@ -235,10 +248,12 @@ const _abi = [
         type: "uint256",
       },
     ],
+    payable: false,
     stateMutability: "view",
     type: "function",
   },
   {
+    constant: false,
     inputs: [
       {
         internalType: "address",
@@ -259,14 +274,16 @@ const _abi = [
         type: "bool",
       },
     ],
+    payable: false,
     stateMutability: "nonpayable",
     type: "function",
   },
   {
+    constant: true,
     inputs: [
       {
         internalType: "address",
-        name: "owner",
+        name: "",
         type: "address",
       },
     ],
@@ -278,10 +295,12 @@ const _abi = [
         type: "uint256",
       },
     ],
+    payable: false,
     stateMutability: "view",
     type: "function",
   },
   {
+    constant: false,
     inputs: [
       {
         internalType: "address",
@@ -302,10 +321,12 @@ const _abi = [
         type: "uint256",
       },
     ],
+    payable: false,
     stateMutability: "nonpayable",
     type: "function",
   },
   {
+    constant: true,
     inputs: [],
     name: "decimals",
     outputs: [
@@ -315,10 +336,12 @@ const _abi = [
         type: "uint8",
       },
     ],
-    stateMutability: "pure",
+    payable: false,
+    stateMutability: "view",
     type: "function",
   },
   {
+    constant: true,
     inputs: [],
     name: "factory",
     outputs: [
@@ -328,33 +351,57 @@ const _abi = [
         type: "address",
       },
     ],
+    payable: false,
     stateMutability: "view",
     type: "function",
   },
   {
+    constant: true,
     inputs: [],
     name: "getReserves",
     outputs: [
       {
         internalType: "uint112",
-        name: "reserve0",
+        name: "_reserve0",
         type: "uint112",
       },
       {
         internalType: "uint112",
-        name: "reserve1",
+        name: "_reserve1",
         type: "uint112",
       },
       {
         internalType: "uint32",
-        name: "blockTimestampLast",
+        name: "_blockTimestampLast",
         type: "uint32",
       },
     ],
+    payable: false,
     stateMutability: "view",
     type: "function",
   },
   {
+    constant: false,
+    inputs: [
+      {
+        internalType: "address",
+        name: "_token0",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_token1",
+        type: "address",
+      },
+    ],
+    name: "initialize",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    constant: true,
     inputs: [],
     name: "kLast",
     outputs: [
@@ -364,10 +411,12 @@ const _abi = [
         type: "uint256",
       },
     ],
+    payable: false,
     stateMutability: "view",
     type: "function",
   },
   {
+    constant: false,
     inputs: [
       {
         internalType: "address",
@@ -383,10 +432,12 @@ const _abi = [
         type: "uint256",
       },
     ],
+    payable: false,
     stateMutability: "nonpayable",
     type: "function",
   },
   {
+    constant: true,
     inputs: [],
     name: "name",
     outputs: [
@@ -396,14 +447,16 @@ const _abi = [
         type: "string",
       },
     ],
-    stateMutability: "pure",
+    payable: false,
+    stateMutability: "view",
     type: "function",
   },
   {
+    constant: true,
     inputs: [
       {
         internalType: "address",
-        name: "owner",
+        name: "",
         type: "address",
       },
     ],
@@ -415,10 +468,12 @@ const _abi = [
         type: "uint256",
       },
     ],
+    payable: false,
     stateMutability: "view",
     type: "function",
   },
   {
+    constant: false,
     inputs: [
       {
         internalType: "address",
@@ -458,10 +513,12 @@ const _abi = [
     ],
     name: "permit",
     outputs: [],
+    payable: false,
     stateMutability: "nonpayable",
     type: "function",
   },
   {
+    constant: true,
     inputs: [],
     name: "price0CumulativeLast",
     outputs: [
@@ -471,10 +528,12 @@ const _abi = [
         type: "uint256",
       },
     ],
+    payable: false,
     stateMutability: "view",
     type: "function",
   },
   {
+    constant: true,
     inputs: [],
     name: "price1CumulativeLast",
     outputs: [
@@ -484,10 +543,12 @@ const _abi = [
         type: "uint256",
       },
     ],
+    payable: false,
     stateMutability: "view",
     type: "function",
   },
   {
+    constant: false,
     inputs: [
       {
         internalType: "address",
@@ -497,10 +558,12 @@ const _abi = [
     ],
     name: "skim",
     outputs: [],
+    payable: false,
     stateMutability: "nonpayable",
     type: "function",
   },
   {
+    constant: false,
     inputs: [
       {
         internalType: "uint256",
@@ -525,10 +588,12 @@ const _abi = [
     ],
     name: "swap",
     outputs: [],
+    payable: false,
     stateMutability: "nonpayable",
     type: "function",
   },
   {
+    constant: true,
     inputs: [],
     name: "symbol",
     outputs: [
@@ -538,17 +603,21 @@ const _abi = [
         type: "string",
       },
     ],
-    stateMutability: "pure",
+    payable: false,
+    stateMutability: "view",
     type: "function",
   },
   {
+    constant: false,
     inputs: [],
     name: "sync",
     outputs: [],
+    payable: false,
     stateMutability: "nonpayable",
     type: "function",
   },
   {
+    constant: true,
     inputs: [],
     name: "token0",
     outputs: [
@@ -558,10 +627,12 @@ const _abi = [
         type: "address",
       },
     ],
+    payable: false,
     stateMutability: "view",
     type: "function",
   },
   {
+    constant: true,
     inputs: [],
     name: "token1",
     outputs: [
@@ -571,10 +642,12 @@ const _abi = [
         type: "address",
       },
     ],
+    payable: false,
     stateMutability: "view",
     type: "function",
   },
   {
+    constant: true,
     inputs: [],
     name: "totalSupply",
     outputs: [
@@ -584,10 +657,12 @@ const _abi = [
         type: "uint256",
       },
     ],
+    payable: false,
     stateMutability: "view",
     type: "function",
   },
   {
+    constant: false,
     inputs: [
       {
         internalType: "address",
@@ -608,10 +683,12 @@ const _abi = [
         type: "bool",
       },
     ],
+    payable: false,
     stateMutability: "nonpayable",
     type: "function",
   },
   {
+    constant: false,
     inputs: [
       {
         internalType: "address",
@@ -637,20 +714,21 @@ const _abi = [
         type: "bool",
       },
     ],
+    payable: false,
     stateMutability: "nonpayable",
     type: "function",
   },
 ];
 
-export class MMFLpToken__factory {
+export class LPToken__factory {
   static readonly abi = _abi;
-  static createInterface(): MMFLpTokenInterface {
-    return new utils.Interface(_abi) as MMFLpTokenInterface;
+  static createInterface(): LPTokenInterface {
+    return new utils.Interface(_abi) as LPTokenInterface;
   }
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
-  ): MMFLpToken {
-    return new Contract(address, _abi, signerOrProvider) as MMFLpToken;
+  ): LPToken {
+    return new Contract(address, _abi, signerOrProvider) as LPToken;
   }
 }

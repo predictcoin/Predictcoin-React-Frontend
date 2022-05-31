@@ -1,6 +1,6 @@
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import { Link, Routes, Route, useLocation } from "react-router-dom";
-// import StakingCard from "../../Components/StakingCard";
+import StakingCard from "../../Components/StakingCard";
 import StakingPast from "./StakingPast";
 import ModalConnect from "../../Components/CustomModal/ModalConnect";
 import ModalDisconnect from "../../Components/CustomModal/ModalDisconnect";
@@ -10,7 +10,7 @@ import useToken from "../../hooks/useToken";
 import { TOKENS } from "../../constants/addresses";
 import { useWalletViewModel } from "../../application/controllers/walletViewModel";
 import Header from "../../Components/Header";
-// import { useStakingViewModel } from "../../application/controllers/stakingViewModel";
+import { useStakingViewModel } from "../../application/controllers/stakingViewModel";
 import PredictionPoolCard from "../../Components/PredictionPoolCard";
 import {
     useLoserPredictionPoolViewModel,
@@ -59,8 +59,8 @@ const StakingMainContent: FC<StakingMainContentProps> = ({
     const { chainId, active, address } = useWalletViewModel();
     const { balance, decimals } = useToken(TOKENS[chainId].PRED);
     
-    // const { stakingCardData, stakingAvailable, initStaking, isLoadingStaking } =
-    //     useStakingViewModel();
+    const { stakingCardData, stakingAvailable, initStaking, isLoadingStaking } =
+        useStakingViewModel();
     const {
         available: loserAvailable,
         isLoading: isLoadingLoser,
@@ -85,9 +85,9 @@ const StakingMainContent: FC<StakingMainContentProps> = ({
     );
 
     useEffect(() => {
-        // if ((!stakingAvailable && !isLoadingStaking) || active) {
-        //     initStaking();
-        // }
+        if ((!stakingAvailable && !isLoadingStaking) || active) {
+            initStaking();
+        }
         if ((!loserAvailable && !isLoadingLoser) || active) {
             initLoserPool();
         }
@@ -140,7 +140,7 @@ const StakingMainContent: FC<StakingMainContentProps> = ({
                                     path={path}
                                     element={
                                         <div className="staking__card__container">
-                                            {/* {stakingAvailable ? (
+                                            {stakingAvailable ? (
                                                 stakingCardData.map((card) => (
                                                     <StakingCard
                                                         key={card.id}
@@ -149,7 +149,7 @@ const StakingMainContent: FC<StakingMainContentProps> = ({
                                                 ))
                                             ) : (
                                                 <StakingSkeleton />
-                                            )} */}
+                                            )}
                                             {!winnerAvailable ? (
                                                 <StakingSkeleton />
                                             ) : (

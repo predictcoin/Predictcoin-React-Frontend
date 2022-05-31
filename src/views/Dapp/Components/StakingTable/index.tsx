@@ -39,7 +39,7 @@ const StakingTable: FC = () => {
 						<TableRow>
 							<TableHead title={'Staking round'} arrow/>
 							<TableHead title={'Pool type'} arrow/>
-							<TableHead title={'CRP staked'} arrow/>
+							<TableHead title={'PRED staked'} arrow/>
 							<TableHead title={'Earned'} />
 							<TableHead title={''} />
 							<TableHead title={''} />

@@ -17,8 +17,8 @@ import { FunctionFragment, Result, EventFragment } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
-export interface MMFLpTokenInterface extends utils.Interface {
-  contractName: "MMFLpToken";
+export interface LPTokenInterface extends utils.Interface {
+  contractName: "LPToken";
   functions: {
     "DOMAIN_SEPARATOR()": FunctionFragment;
     "MINIMUM_LIQUIDITY()": FunctionFragment;
@@ -30,6 +30,7 @@ export interface MMFLpTokenInterface extends utils.Interface {
     "decimals()": FunctionFragment;
     "factory()": FunctionFragment;
     "getReserves()": FunctionFragment;
+    "initialize(address,address)": FunctionFragment;
     "kLast()": FunctionFragment;
     "mint(address)": FunctionFragment;
     "name()": FunctionFragment;
@@ -75,6 +76,10 @@ export interface MMFLpTokenInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "getReserves",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "initialize",
+    values: [string, string]
   ): string;
   encodeFunctionData(functionFragment: "kLast", values?: undefined): string;
   encodeFunctionData(functionFragment: "mint", values: [string]): string;
@@ -144,6 +149,7 @@ export interface MMFLpTokenInterface extends utils.Interface {
     functionFragment: "getReserves",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "kLast", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
@@ -239,13 +245,13 @@ export type TransferEvent = TypedEvent<
 
 export type TransferEventFilter = TypedEventFilter<TransferEvent>;
 
-export interface MMFLpToken extends BaseContract {
-  contractName: "MMFLpToken";
+export interface LPToken extends BaseContract {
+  contractName: "LPToken";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: MMFLpTokenInterface;
+  interface: LPTokenInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -274,8 +280,8 @@ export interface MMFLpToken extends BaseContract {
     PERMIT_TYPEHASH(overrides?: CallOverrides): Promise<[string]>;
 
     allowance(
-      owner: string,
-      spender: string,
+      arg0: string,
+      arg1: string,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
@@ -285,7 +291,7 @@ export interface MMFLpToken extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    balanceOf(owner: string, overrides?: CallOverrides): Promise<[BigNumber]>;
+    balanceOf(arg0: string, overrides?: CallOverrides): Promise<[BigNumber]>;
 
     burn(
       to: string,
@@ -300,11 +306,17 @@ export interface MMFLpToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<
       [BigNumber, BigNumber, number] & {
-        reserve0: BigNumber;
-        reserve1: BigNumber;
-        blockTimestampLast: number;
+        _reserve0: BigNumber;
+        _reserve1: BigNumber;
+        _blockTimestampLast: number;
       }
     >;
+
+    initialize(
+      _token0: string,
+      _token1: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
     kLast(overrides?: CallOverrides): Promise<[BigNumber]>;
 
@@ -315,7 +327,7 @@ export interface MMFLpToken extends BaseContract {
 
     name(overrides?: CallOverrides): Promise<[string]>;
 
-    nonces(owner: string, overrides?: CallOverrides): Promise<[BigNumber]>;
+    nonces(arg0: string, overrides?: CallOverrides): Promise<[BigNumber]>;
 
     permit(
       owner: string,
@@ -378,8 +390,8 @@ export interface MMFLpToken extends BaseContract {
   PERMIT_TYPEHASH(overrides?: CallOverrides): Promise<string>;
 
   allowance(
-    owner: string,
-    spender: string,
+    arg0: string,
+    arg1: string,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
@@ -389,7 +401,7 @@ export interface MMFLpToken extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
+  balanceOf(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
   burn(
     to: string,
@@ -404,11 +416,17 @@ export interface MMFLpToken extends BaseContract {
     overrides?: CallOverrides
   ): Promise<
     [BigNumber, BigNumber, number] & {
-      reserve0: BigNumber;
-      reserve1: BigNumber;
-      blockTimestampLast: number;
+      _reserve0: BigNumber;
+      _reserve1: BigNumber;
+      _blockTimestampLast: number;
     }
   >;
+
+  initialize(
+    _token0: string,
+    _token1: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   kLast(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -419,7 +437,7 @@ export interface MMFLpToken extends BaseContract {
 
   name(overrides?: CallOverrides): Promise<string>;
 
-  nonces(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
+  nonces(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
   permit(
     owner: string,
@@ -482,8 +500,8 @@ export interface MMFLpToken extends BaseContract {
     PERMIT_TYPEHASH(overrides?: CallOverrides): Promise<string>;
 
     allowance(
-      owner: string,
-      spender: string,
+      arg0: string,
+      arg1: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -493,7 +511,7 @@ export interface MMFLpToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
+    balanceOf(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     burn(
       to: string,
@@ -510,11 +528,17 @@ export interface MMFLpToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<
       [BigNumber, BigNumber, number] & {
-        reserve0: BigNumber;
-        reserve1: BigNumber;
-        blockTimestampLast: number;
+        _reserve0: BigNumber;
+        _reserve1: BigNumber;
+        _blockTimestampLast: number;
       }
     >;
+
+    initialize(
+      _token0: string,
+      _token1: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     kLast(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -522,7 +546,7 @@ export interface MMFLpToken extends BaseContract {
 
     name(overrides?: CallOverrides): Promise<string>;
 
-    nonces(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
+    nonces(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     permit(
       owner: string,
@@ -649,8 +673,8 @@ export interface MMFLpToken extends BaseContract {
     PERMIT_TYPEHASH(overrides?: CallOverrides): Promise<BigNumber>;
 
     allowance(
-      owner: string,
-      spender: string,
+      arg0: string,
+      arg1: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -660,7 +684,7 @@ export interface MMFLpToken extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
+    balanceOf(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     burn(
       to: string,
@@ -673,6 +697,12 @@ export interface MMFLpToken extends BaseContract {
 
     getReserves(overrides?: CallOverrides): Promise<BigNumber>;
 
+    initialize(
+      _token0: string,
+      _token1: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     kLast(overrides?: CallOverrides): Promise<BigNumber>;
 
     mint(
@@ -682,7 +712,7 @@ export interface MMFLpToken extends BaseContract {
 
     name(overrides?: CallOverrides): Promise<BigNumber>;
 
-    nonces(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
+    nonces(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     permit(
       owner: string,
@@ -746,8 +776,8 @@ export interface MMFLpToken extends BaseContract {
     PERMIT_TYPEHASH(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     allowance(
-      owner: string,
-      spender: string,
+      arg0: string,
+      arg1: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -758,7 +788,7 @@ export interface MMFLpToken extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     balanceOf(
-      owner: string,
+      arg0: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -773,6 +803,12 @@ export interface MMFLpToken extends BaseContract {
 
     getReserves(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    initialize(
+      _token0: string,
+      _token1: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     kLast(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     mint(
@@ -783,7 +819,7 @@ export interface MMFLpToken extends BaseContract {
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     nonces(
-      owner: string,
+      arg0: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

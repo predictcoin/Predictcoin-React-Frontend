@@ -22,13 +22,9 @@ backdrop-filter: blur(24.5072px);
         margin-bottom: 24px;
 
         .token__images {
+            
             img {
-                width: 100px;
-                height: 45px;
-
-                &:nth-child(2) {
-                    margin-left: -10px;
-                }
+                
             }
 
             .help__icon {
@@ -78,11 +74,7 @@ backdrop-filter: blur(24.5072px);
             border-radius: 8px;
             padding: 14px;
             margin-bottom: 24px;
-
-            @supports (backdrop-filter: blur(18.5547px)) {
-                -webkit-backdrop-filter: blur(18.5547px);
-                backdrop-filter: blur(18.5547px);
-            }
+            background: linear-gradient(180deg, rgba(51, 47, 103, 0.443218) 2.1%, rgba(61, 60, 125, 0.401268) 98.26%);
 
             .price,
             .stake,
@@ -120,88 +112,98 @@ backdrop-filter: blur(24.5072px);
                     margin-bottom: 4px;
                 }
             }
-
-            .stake {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 0 18px;
-                margin-bottom: 40px;
-
-                .usdt__staked {
-                    p {
-                        font-style: normal;
-                        font-weight: 500;
-                        font-size: 12px;
-                        line-height: 18px;
-                        text-transform: uppercase;
-                        color: #332f6761;
-                        margin-bottom: 2px;
-                        text-align: center;
-                    }
-
-                    div {
-                        width: 100%;
-                        max-width: 100px;
-                        text-align: center;
-                        padding: 4px;
-                        padding-right: 0;
-                        border: none;
-                        background: transparent;
-                        font-style: normal;
-                        font-weight: 500;
+            .user__connected {
+                .staked_amount_and_value {
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    .light {
+                        color: rgba(255, 255, 255, 0.6);
                         font-size: 14px;
-                        line-height: 21px;
-                        color: #FFFFFF;
-                        -moz-appearance: textfield;
-
-                        &::-webkit-outer-spin-button,
-                        &::-webkit-inner-spin-button {
-                            -webkit-appearance: none;
-                            margin: 0;
-                        }
-
-                        .dollar {
-                            color: rgba(255, 255, 255, 0.6);
-                        }
                     }
                 }
-
-                button {
-                    border: none;
-                    outline: none;
-                    width: 34px;
-                    height: 32px;
-                    background: #332f6750;
-                    border-radius: 8px;
+                .stake {
+                    width: 100%;
                     display: flex;
-                    justify-content: center;
+                    justify-content: space-between;
                     align-items: center;
-                    pointer-events: none;
-
-                    &.active {
-                        pointer-events: all;
+                    flex-wrap: wrap;
+                    color: rgba(255, 255, 255, 0.61);
+                    border-radius: 7px;
+                    margin: 1.2rem 0;
+                    background: rgba(255, 255, 255, 0.09);
+                    padding: 0.6rem;
+                    border: 0.1px solid #0E56C0;
+                    .token_staked {
+                        div {
+                            width: 100%;
+                            max-width: 100px;
+                            text-align: center;
+                            padding: 4px;
+                            padding-right: 0;
+                            border: none;
+                            background: transparent;
+                            font-style: normal;
+                            font-weight: 500;
+                            font-size: 14px;
+                            line-height: 21px;
+                            color: #FFFFFF;
+                            -moz-appearance: textfield;
+    
+                            &::-webkit-outer-spin-button,
+                            &::-webkit-inner-spin-button {
+                                -webkit-appearance: none;
+                                margin: 0;
+                            }
+    
+                            .dollar {
+                                color: rgba(255, 255, 255, 0.6);
+                            }
+                        }
                     }
-
-                    span {
+    
+                    .btn_group {
+                        display: flex;
+                    }
+    
+                    button {
+                        border: none;
+                        outline: none;
+                        width: 34px;
+                        height: 32px;
+                        background: #332f6750;
+                        border-radius: 8px;
                         display: flex;
                         justify-content: center;
                         align-items: center;
-                        width: 20px;
-                        height: 20px;
-                        border-radius: 5px;
-                        border: 1.5px solid rgba(255, 255, 255, 0.32);
-                        color: #fff;
-                        font-size: 16px;
                         pointer-events: none;
-                        cursor: not-allowed;
-
+    
                         &.active {
-                            border-color: #ffffff;
+                            pointer-events: all;
+                        }
+    
+                        span {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            width: 20px;
+                            height: 20px;
+                            border-radius: 5px;
+                            border: 1.5px solid rgba(255, 255, 255, 0.32);
+                            color: #fff;
+                            font-size: 16px;
+                            pointer-events: none;
+                            cursor: not-allowed;
+    
+                            &.active {
+                                border-color: #ffffff;
+                            }
                         }
                     }
                 }
             }
+            
 
             .unlock__text {
                 max-width: 297px;
