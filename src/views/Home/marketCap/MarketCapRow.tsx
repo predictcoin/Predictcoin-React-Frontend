@@ -35,12 +35,12 @@ const MarketCapRow: FC<Params> = ({
             </td>
             <td>
                 <span className={_24hChange < 0 ? "text-red" : "text-green"}>
-                    ${formatter.format(_24hChange)}%
+                    {formatter.format(_24hChange)}%
                 </span>
             </td>
             <td>
                 <span className={_7dChange < 0 ? "text-red" : "text-green"}>
-                    ${formatter.format(_7dChange)}%
+                    {formatter.format(_7dChange)}%
                 </span>
             </td>
             <td>$${formatter.format(market_cap)}</td>
