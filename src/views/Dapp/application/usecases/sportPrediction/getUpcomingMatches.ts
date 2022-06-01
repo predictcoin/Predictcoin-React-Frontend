@@ -25,6 +25,7 @@ export const getUpcomingMatches = async (params: Params) => {
     );
     
     
+    
     Promise.all(
         predictableEvents.map(async (match) => {
             return await getMatchFullDetails({
@@ -36,6 +37,7 @@ export const getUpcomingMatches = async (params: Params) => {
             });
         })
     ).then((results: any) => {
+        
         const upcomingMatches: UpcomingMatch[] = results.map(
             (result: any, index: number): UpcomingMatch => {
                 return {
