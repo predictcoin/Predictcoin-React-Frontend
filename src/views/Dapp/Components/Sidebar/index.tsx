@@ -70,7 +70,7 @@ const Sidebar: FC<SidebarProps> = ({
                             <div className="border__active"></div>
                         </NavLink>
                     </li>
-                    <li>
+                    {/* <li>
                         <NavLink
                             to="/sport-prediction"
                             className={({ isActive }) =>
@@ -83,7 +83,7 @@ const Sidebar: FC<SidebarProps> = ({
                             <span>Sport Prediction</span>
                             <div className="border__active"></div>
                         </NavLink>
-                    </li>
+                    </li> */}
 					
                     <li>
                         <NavLink
