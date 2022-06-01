@@ -4,7 +4,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import FarmingIcon from "../../../../assets/appSvgs/FarmingIcon";
 import StakingIcon from "../../../../assets/appSvgs/StakingIcon";
 import PredictionCoin from "../../../../assets/appSvgs/PredictionCoin";
-import SportPredictionIcon from "../../../../assets/appSvgs/SportPredictionIcon";
+// import SportPredictionIcon from "../../../../assets/appSvgs/SportPredictionIcon";
 import CACoins from "../../../../assets/appSvgs/CACoins";
 import "./sidebar.styles.scss";
 import { shortenAddress } from "../../lib/utils/address";
@@ -70,7 +70,7 @@ const Sidebar: FC<SidebarProps> = ({
                             <div className="border__active"></div>
                         </NavLink>
                     </li>
-                    <li>
+                    {/* <li>
                         <NavLink
                             to="/sport-prediction"
                             className={({ isActive }) =>
@@ -83,7 +83,7 @@ const Sidebar: FC<SidebarProps> = ({
                             <span>Sport Prediction</span>
                             <div className="border__active"></div>
                         </NavLink>
-                    </li>
+                    </li> */}
 					
                     <li>
                         <NavLink
