@@ -15,6 +15,7 @@ import useToken from "../../hooks/useToken";
 import { TOKENS } from "../../constants/addresses";
 import useSportPredictionViewModel from "../../application/controllers/sportPredictionViewModel";
 import FilledSlotsModal from "../../Components/CustomModal/FilledSlotsModal";
+import { formatEther } from "ethers/lib/utils";
 
 interface SportPredictionMainContentProps {
     isSidebarExpanded: boolean;
@@ -24,7 +25,7 @@ const SportPredictionMainContent: FC<SportPredictionMainContentProps> = ({
     setIsSidebarExpanded
 }) => {
 
-    const {getUserPastPrediction, getUpcomingMatches, getSportPredicitonData, predictMatchModal} = useSportPredictionViewModel()
+    const {getUserPastPrediction, getUpcomingMatches, getSportPredicitonData, predictMatchModal, rewardMultiplier, predictionAmount} = useSportPredictionViewModel()
 
     const { pathname } = useLocation();
     const [modalOpened, setModalOpened] = useState<boolean>(false);
@@ -71,7 +72,7 @@ const SportPredictionMainContent: FC<SportPredictionMainContentProps> = ({
             <div className="container">
                 <Header
                     title="Sport prediction"
-                    subtitle="Sport prediction with $PRED"
+                    subtitle={`Sport Prediction with ${formatEther(predictionAmount)} $PRED, earn ${Number(formatEther(predictionAmount)) * rewardMultiplier} $PRED`}
                     isSidebarExpanded
                     setIsSidebarExpanded={setIsSidebarExpanded}
                     setModalOpened={setModalOpened}
