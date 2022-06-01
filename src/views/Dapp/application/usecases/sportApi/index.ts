@@ -20,6 +20,7 @@ export const getMatchFullDetails = async (param: Params) => {
         league
     } = param;
     
+    
 
     const yy__mm__dd = new Date(startTime.toNumber() * 1000)
         .toISOString()
@@ -36,6 +37,8 @@ export const getMatchFullDetails = async (param: Params) => {
             data.teams.away.name === teamB &&
             data.league.name === league
     );
+
+    // console.log(param, res, targetMatch);
     return targetMatch;
 };
 

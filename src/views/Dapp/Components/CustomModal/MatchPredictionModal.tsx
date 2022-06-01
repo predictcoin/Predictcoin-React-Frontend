@@ -156,9 +156,9 @@ const MatchPredictionModal: FC<{predBalance: BigNumber}> = ({predBalance}) => {
                     <h2>MATCH PREDICTIONS</h2>
                     <p>{`Predict the score at the end of regular time before the match begins. You will be charged ${formatEther(
                         predictionAmount
-                    )} CRP for each match predicted and earn X${rewardMultiplier} (${
+                    )} PRED for each match predicted and earn X${rewardMultiplier} (${
                         Number(formatEther(predictionAmount)) * rewardMultiplier
-                    } CRP) when you win.`}</p>
+                    } PRED) when you win.`}</p>
 
                     <div className="modal__body">
                         <div className="team__details">
@@ -241,7 +241,7 @@ const MatchPredictionModal: FC<{predBalance: BigNumber}> = ({predBalance}) => {
                                 )}
 
                                 {predictionAmount && predBalance && predictionAmount.gt(predBalance) && 
-                                    <p className="insufficient__balance__notice">You do not have enough CRP to predict scores</p>
+                                    <p className="insufficient__balance__notice">You do not have enough PRED to predict scores</p>
                                 }
                         </form>
                     </div>

@@ -64,7 +64,6 @@ const PredictionPoolCard: FC<Props> = ({ type }) => {
         wonRound,
         round
     } = cardData;
-
     const [walletModal, setWalletModal] = useState<boolean>(false);
     const { getAllowance, allowances, approve, decimals, balance } = useToken(
         getTokenAddress(stakeToken)
@@ -202,6 +201,7 @@ const PredictionPoolCard: FC<Props> = ({ type }) => {
                 <div className="staking__card__top">
                     <div className="token__images">
                         <img
+                            className="pool_img"
                             src={type === "loser" ? bdLogo : ppLogo}
                             alt="predict-coin-logo"
                         />
@@ -277,68 +277,94 @@ const PredictionPoolCard: FC<Props> = ({ type }) => {
                         </div>
 
                         {active ? (
-                            <div className="stake">
-                                <button
-                                    className={`minus ${
-                                        eligible && allowed && "active"
-                                    }`}
-                                    onClick={() =>
-                                        setStakeModal({
-                                            title: "Unstake",
-                                            open: true
-                                        })
-                                    }
-                                >
-                                    <span
-                                        className={`${
+                            <div className="user__connected">
+                                <div className="staked_amount_and_value">
+                                    <span className="light">STAKED PRED</span>
+                                    <span className="light">
+                                    <span className="amount">
+                                        {displayTokenValue(
+                                            staked,
+                                            decimals,
+                                            5
+                                        )}
+                                    </span>
+                                    <span className="dollar">
+                                        {" "}
+                                        ~$
+                                        {displayTokenValue(
+                                            USDStaked,
+                                            decimals,
+                                            2
+                                        )}
+                                    </span>
+                                    </span>
+                                </div>
+
+                                <div className="stake">
+                                    <div className="token__staked">
+                                        <div>
+                                            <span className="amount">
+                                                {displayTokenValue(
+                                                    staked,
+                                                    decimals,
+                                                    5
+                                                )}
+                                            </span>
+                                            <span className="dollar">
+                                                {" "}
+                                                ~$
+                                                {displayTokenValue(
+                                                    USDStaked,
+                                                    decimals,
+                                                    2
+                                                )}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div className="btn_group">
+                                        <button
+                                            className={`minus ${
+                                                eligible && allowed && "active"
+                                            }`}
+                                            onClick={() =>
+                                                setStakeModal({
+                                                    title: "Unstake",
+                                                    open: true
+                                                })
+                                            }
+                                        >
+                                            <span
+                                                className={`${
+                                                    eligible && allowed && "active"
+                                                }`}
+                                            >
+                                                {" "}
+                                                -{" "}
+                                            </span>
+                                        </button>
+
+                                        <button
+                                        className={`add ${
                                             eligible && allowed && "active"
                                         }`}
+                                        onClick={() =>
+                                            setStakeModal({
+                                                title: "Stake",
+                                                open: true
+                                            })
+                                        }
                                     >
-                                        {" "}
-                                        -{" "}
-                                    </span>
-                                </button>
-                                <div className="usdt__staked">
-                                    <p>PRED Staked</p>
-                                    <div>
-                                        <span className="amount">
-                                            {displayTokenValue(
-                                                staked,
-                                                decimals,
-                                                5
-                                            )}
-                                        </span>
-                                        <span className="dollar">
+                                        <span
+                                            className={`${
+                                                eligible && allowed && "active"
+                                            }`}
+                                        >
                                             {" "}
-                                            ~$
-                                            {displayTokenValue(
-                                                USDStaked,
-                                                decimals,
-                                                2
-                                            )}
+                                            +{" "}
                                         </span>
+                                    </button>
                                     </div>
                                 </div>
-                                <button
-                                    className={`add ${
-                                        eligible && allowed && "active"
-                                    }`}
-                                    onClick={() =>
-                                        setStakeModal({
-                                            title: "Stake",
-                                            open: true
-                                        })
-                                    }
-                                >
-                                    <span
-                                        className={`${
-                                            eligible && allowed && "active"
-                                        }`}
-                                    >
-                                        {" "}
-                                        +{" "}
-                                    </span>
-                                </button>
                             </div>
                         ) : (
                             <div className="unlock__text">
