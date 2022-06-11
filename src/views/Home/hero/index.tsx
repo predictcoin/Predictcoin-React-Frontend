@@ -24,14 +24,18 @@ const Hero: FC = () => {
                         </h2>
                         <div className="wrapper">
                             <Link to="/prediction" className="buttonout">
-                                Start Predicting
+                            Price Prediction 📈
+                            </Link>
+                           
+                            <Link to="/prediction" className="buttonout">
+                            Sports Prediction ⚽️
                             </Link>
                             <Link to="/staking" className="buttonblue">
                                 Earn PRED
                             </Link>
-                            <Link to="/staking" className="buttonred">
+                            {/* <Link to="/staking" className="buttonred">
                                 Earn BID
-                            </Link>
+                            </Link> */}
                         </div>
                     </div>
                 </div>

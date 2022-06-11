@@ -107,7 +107,7 @@ const About: FC = () => {
                     PRED Whitepaper
                 </a>
             </div>
-            <div className="wpbtn2">
+            {/* <div className="wpbtn2">
                 <a
                     href="https://predictcoin.finance/BID-Whitepaper.pdf"
                     id="bidwp"
@@ -115,7 +115,7 @@ const About: FC = () => {
                     BID Whitepaper
                 </a>{" "}
                 <br />
-            </div>
+            </div> */}
             <div className="container audit pb-20" id="audit">
                 <div className="row">
                     <h1>Audit</h1>

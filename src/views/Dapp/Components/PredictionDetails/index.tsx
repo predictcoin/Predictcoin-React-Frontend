@@ -74,7 +74,6 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({
     activeCard,
     setActive
 }) => {
-    
     const {
         available,
         currentRound: _currentRound,
@@ -99,7 +98,7 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({
         ];
     const { send } = useTransaction();
     const currentRound = rounds[_currentRound];
-    
+
     const hasBet = currentRound?.user ? true : false;
 
     // let status = PREDICTIONSTATE.ROUND_ENDED_SUCCESSFULLY;
@@ -182,7 +181,7 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({
         <PredictionSkeleton active={active} />
     ) : (
         <div className="prediction__details__content">
-            <p className="title">start prediction</p>
+            <p className="title">Price prediction 📈</p>
             {/* <p className="subtitle">
                 Enter prediction pools by entering up or down price predictions
             </p> */}
@@ -285,7 +284,7 @@ const PredictionDetails: FC<PredictionDetailsProps> = ({
                                             )
                                         }
                                     >
-                                        Enable  PRED
+                                        Enable PRED
                                     </button>
                                 ) : (
                                     <div className="buttons">
