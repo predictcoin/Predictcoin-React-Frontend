@@ -27,9 +27,10 @@ const Hero: FC = () => {
                             Price Prediction 📈
                             </Link>
                            
-                            <Link to="/prediction" className="buttonout">
+                            <Link to="/sport-prediction" className="buttonout">
                             Sports Prediction ⚽️
                             </Link>
+
                             <Link to="/staking" className="buttonblue">
                                 Earn PRED
                             </Link>
