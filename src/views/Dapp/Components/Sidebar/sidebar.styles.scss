@@ -139,12 +139,14 @@
 					align-items: center;
 					cursor: pointer;
 					margin-bottom: 12px;
+					color: #fff;
+
 
 					.icon {
 						width: 26px;
 						height: 26px;
 						border-radius: 50%;
-						background: #3b4a8d90;;
+						background: #646A92;
 						display: flex;
 						justify-content: center;
 						align-items: center;
@@ -198,6 +200,9 @@
 
 					&.active {
 						// cursor: not-allowed;
+						.icon{
+							background: #8388A8
+						}
 
 						span,
 						.icon svg {
