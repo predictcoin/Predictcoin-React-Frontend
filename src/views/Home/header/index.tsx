@@ -6,6 +6,7 @@ const Header: FC = () => {
 
     useEffect(() => {
         let navbarlinks = document.querySelectorAll("#navbar .scrollto");
+
         const navbarlinksActive = () => {
             let position = window.scrollY + 200;
             navbarlinks.forEach((navbarlink) => {
@@ -23,30 +24,28 @@ const Header: FC = () => {
                 }
             });
         };
+
         window.addEventListener("load", navbarlinksActive);
         document.addEventListener("scroll", navbarlinksActive);
     }, []);
 
-
     useEffect(() => {
         let navbarlinks = document.querySelectorAll("#navbar .scrollto");
         const handler = () => {
-            if(!navbarOpen) return;
+            if (!navbarOpen) return;
             setNavbarOpen(false);
-        }
-        navbarlinks.forEach(el => {
-            el.addEventListener("click", handler)
-        })
+        };
+
+        navbarlinks.forEach((el) => {
+            el.addEventListener("click", handler);
+        });
 
         return () => {
-            navbarlinks.forEach(el => {
-                el.removeEventListener("click", handler)
-            })
-        }
-      
-    }, [navbarOpen])
-    
-    
+            navbarlinks.forEach((el) => {
+                el.removeEventListener("click", handler);
+            });
+        };
+    }, [navbarOpen]);
 
     return (
         <header id="header" className="fixed-top">
@@ -71,31 +70,37 @@ const Header: FC = () => {
                                 Market
                             </a>
                         </li>
+
                         <li>
                             <a className="nav-link scrollto" href="#about-pred">
                                 About
                             </a>
                         </li>
+
                         <li>
                             <a className="nav-link scrollto" href="#whitepaper">
                                 Whitepaper
                             </a>
                         </li>
+
                         <li>
                             <a className="nav-link scrollto" href="#audit">
                                 Audit
                             </a>
                         </li>
+
                         <li>
                             <a className="nav-link scrollto" href="#road">
                                 Roadmap
                             </a>
                         </li>
+
                         <li>
                             <a className="nav-link scrollto" href="#partners">
                                 Partners
                             </a>
                         </li>
+                        
                         <li>
                             <a className="nav-link scrollto" href="#faq">
                                 FAQ
