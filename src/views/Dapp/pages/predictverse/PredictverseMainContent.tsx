@@ -1,9 +1,7 @@
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import { Link, Routes, Route } from "react-router-dom";
 import { ethers } from "ethers";
 
-import StakingCard from "../../Components/StakingCard";
 import ModalConnect from "../../Components/CustomModal/ModalConnect";
 import ModalDisconnect from "../../Components/CustomModal/ModalDisconnect";
 import { displayDecimals } from "../../lib/utils/number";
@@ -11,15 +9,15 @@ import useToken from "../../hooks/useToken";
 import { TOKENS } from "../../constants/addresses";
 import { useWalletViewModel } from "../../application/controllers/walletViewModel";
 import Header from "../../Components/Header";
-import { useStakingViewModel } from "../../application/controllers/stakingViewModel";
-import PredictionPoolCard from "../../Components/PredictionPoolCard";
 import {
     skeletonBaseColor,
     skeletonHighlightColor
 } from "../../constants/colors";
 import PredictverseCard from "../../Components/PredictverseCard";
+import usePredictverseViewModel from "../../application/controllers/predictverseViewModel";
+import PredictverseCardModel from "../../models/PredictverseCardModel";
 
-const StakingSkeleton = () => {
+const PredictverseSkeleton = () => {
     return (
         <div className="skeleton__container">
             <SkeletonTheme
@@ -52,7 +50,15 @@ const PredictverseMainContent: FC<PredictverseMainContentProps> = ({
     setIsSidebarExpanded
 }) => {
     const [modalOpened, setModalOpened] = useState<boolean>(false);
-    const { chainId, active, address } = useWalletViewModel();
+    const { chainId, active } = useWalletViewModel();
+    const {
+        initPredictverse,
+        predictverseAvailable,
+        predictverseCardData,
+        harvest,
+        withdraw,
+        stake
+    } = usePredictverseViewModel();
     const { balance, decimals } = useToken(TOKENS[chainId].PRED);
 
     const modal = active ? (
@@ -67,6 +73,11 @@ const PredictverseMainContent: FC<PredictverseMainContentProps> = ({
         <ModalConnect closeModal={() => setModalOpened(false)} />
     );
 
+    useEffect(() => {
+        initPredictverse();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [active]);
+
     return (
         <section className="predictverse__main__content">
             {modalOpened && modal}
@@ -74,14 +85,41 @@ const PredictverseMainContent: FC<PredictverseMainContentProps> = ({
             <div className="container">
                 <Header
                     title="PredictVerse"
-                    subtitle="Stake $PRED to earn PRED and other tokens."
-                    isSidebarExpanded
+                    subtitle="Stake PRED NFTs to earn PRED and other tokens."
+                    isSidebarExpanded={isSidebarExpanded}
                     setIsSidebarExpanded={setIsSidebarExpanded}
                     setModalOpened={setModalOpened}
                 />
                 <main>
                     <div className="predictverse__card__container">
-                        <PredictverseCard id={123} />
+                        {predictverseAvailable ? (
+                            (
+                                predictverseCardData as unknown as PredictverseCardModel[]
+                            )?.map((poolCard) => (
+                                <PredictverseCard
+                                    key={poolCard.id}
+                                    id={poolCard.id}
+                                    apr={poolCard.apr}
+                                    earned={poolCard.earned}
+                                    stakedNFTs={poolCard.stakedNFTs}
+                                    totalNFTStaked={poolCard.totalNFTStaked}
+                                    contractUrl={poolCard.contractUrl}
+                                    USDStaked={poolCard.USDStaked}
+                                    walletUnlockStatus={
+                                        poolCard.walletUnlockStatus
+                                    }
+                                    USDEarned={poolCard.USDEarned}
+                                    staked={poolCard.staked}
+                                    NFTAddress={poolCard.NFTAddress}
+                                />
+                            ))
+                        ) : (
+                            <>
+                                <PredictverseSkeleton />
+                                <PredictverseSkeleton />
+                                <PredictverseSkeleton />
+                            </>
+                        )}
                     </div>
                 </main>
             </div>

@@ -11,23 +11,36 @@ import {
 } from "../../lib/utils/number";
 import { useWalletViewModel } from "../../application/controllers/walletViewModel";
 import ConnectModal from "../CustomModal/ModalConnect";
-import { STAKING_ADDRESSES } from "../../constants/addresses";
+import { PREDICTVERSE_ADDRESSES } from "../../constants/addresses";
 import StakeNFTModal from "../CustomModal/PredictverseModals/StakeNFTModal";
 import ViewStakedNFTModal from "../CustomModal/PredictverseModals/ViewStakedNFTModal";
 import "./predictversecard.styles.scss";
-
-interface Props {
-    id: number;
-}
+import usePredictverseViewModel from "../../application/controllers/predictverseViewModel";
+import useERC721 from "../../hooks/predictverse/useERC721";
+import PredictverseCardModel from "../../models/PredictverseCardModel";
 
 const contractAddress =
-    STAKING_ADDRESSES[
-        process.env.REACT_APP_ENVIRONMENT as keyof typeof STAKING_ADDRESSES
+    PREDICTVERSE_ADDRESSES[
+        process.env.REACT_APP_ENVIRONMENT as keyof typeof PREDICTVERSE_ADDRESSES
     ];
 
-const PredictverseCard: FC<Props> = ({ id }) => {
-    const { active, address } = useWalletViewModel();
-
+const PredictverseCard: FC<PredictverseCardModel> = ({
+    id,
+    apr,
+    earned,
+    stakedNFTs,
+    totalNFTStaked,
+    contractUrl,
+    USDStaked,
+    walletUnlockStatus,
+    USDEarned,
+    staked,
+    NFTAddress
+}) => {
+    const { active } = useWalletViewModel();
+    const { stake, harvest, withdraw } = usePredictverseViewModel();
+    const { balance, allowed, approve, getAllowed, getBalance } =
+        useERC721(NFTAddress);
     const [walletModal, setWalletModal] = useState<boolean>(false);
     const [showViewStakedNFTModal, setShowViewStakedNFTModal] = useState<{
         open: boolean;
@@ -37,7 +50,7 @@ const PredictverseCard: FC<Props> = ({ id }) => {
         open: boolean;
         title: string;
     }>({ open: false, title: "" });
-    const [amount, setAmount] = useState<string>();
+    const [amount, setAmount] = useState<string>("");
 
     const closeViewStakedNFTModal = (open: boolean) => {
         setShowViewStakedNFTModal({ open, title: "" });
@@ -47,7 +60,6 @@ const PredictverseCard: FC<Props> = ({ id }) => {
         setShowStakeNFTModal({ open, title: "" });
     };
 
-    const allowed = true;
     // buttons
     const unlockButton = (
         <button
@@ -58,7 +70,10 @@ const PredictverseCard: FC<Props> = ({ id }) => {
         </button>
     );
     const harvestButton = (
-        <button className={`action harvest`} onClick={() => null}>
+        <button
+            className={`action harvest ${+earned === 0 && "inactive"}`}
+            onClick={() => harvest(+id)}
+        >
             Harvest
         </button>
     );
@@ -73,14 +88,27 @@ const PredictverseCard: FC<Props> = ({ id }) => {
         </button>
     );
 
-    let mainButton = active ? (
+    const approveButton = (
+        <button
+            className={`action`}
+            onClick={() => approve(contractAddress, true)}
+        >
+            Approve
+        </button>
+    );
+
+    console.log(allowed);
+
+    let mainButton = !active ? (
         unlockButton
     ) : allowed ? (
         <>
             {harvestButton}
             {depositButton}
         </>
-    ) : null;
+    ) : (
+        approveButton
+    );
 
     return (
         <>
@@ -121,35 +149,50 @@ const PredictverseCard: FC<Props> = ({ id }) => {
                                         PRED NFT/PRED
                                     </span>
                                 </div>
-                                <div>
-                                    <span className="light">EARNINGS</span>
-                                    <span className="normal">
-                                        0.0{" "}
-                                        <span className="dollar"> ~$0.0</span>
-                                    </span>
-                                </div>
-                                <div>
-                                    <span className="light">NFTs STAKED</span>
-                                    <span className="normal">0</span>
-                                </div>
+                                {active && allowed && (
+                                    <>
+                                        <div>
+                                            <span className="light">
+                                                EARNINGS
+                                            </span>
+                                            <span className="normal">
+                                                0.0{" "}
+                                                <span className="dollar">
+                                                    {" "}
+                                                    ~$0.0
+                                                </span>
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <span className="light">
+                                                NFTs STAKED
+                                            </span>
+                                            <span className="normal">
+                                                {staked}
+                                            </span>
+                                        </div>
+                                    </>
+                                )}
                             </div>
                         </div>
 
-                        {true ? (
+                        {active && allowed && (
                             <div className="user__connected">
                                 <button
                                     className={`view__staked__nfts`}
                                     onClick={() => {
                                         setShowViewStakedNFTModal({
                                             open: true,
-                                            title: "hello"
+                                            title: ""
                                         });
                                     }}
                                 >
                                     View staked NFTs
                                 </button>
                             </div>
-                        ) : (
+                        )}
+
+                        {!active && !allowed && (
                             <div className="unlock__text">
                                 <p>unlock wallet to begin staking</p>
                                 <HiOutlineArrowDown />
@@ -158,7 +201,7 @@ const PredictverseCard: FC<Props> = ({ id }) => {
 
                         <div
                             className={`action__container ${
-                                !active && allowed ? "two" : ""
+                                active && allowed ? "two" : ""
                             }`}
                         >
                             {mainButton}
@@ -166,8 +209,8 @@ const PredictverseCard: FC<Props> = ({ id }) => {
                     </div>
 
                     <div className="stake__details">
-                        <p>Total NFT staked: {21802}</p>
-                        <a href={"#"} target="_true">
+                        <p>Total NFT staked: {totalNFTStaked}</p>
+                        <a href={contractUrl} target="_true">
                             <span>View Contract</span>
                             <ExportIcon />
                         </a>

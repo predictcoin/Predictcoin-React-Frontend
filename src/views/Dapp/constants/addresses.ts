@@ -44,6 +44,18 @@ export const WINNER_PREDICTION_POOL_ADDRESSES = {
   "staging": "0x29C06EB1320BBc32A6891889A3dF56d8422f5406"
 }
 
+export const PRED_NFT_ADDRESSES = {
+  "mainnet": "",
+  "staging": "",
+  "testnet": "0xa5A91A34CfFfD1EBa38143666D59D0deF4069166"
+}
+
+export const PREDICTVERSE_ADDRESSES = {
+  "mainnet": "",
+  "staging": "",
+  "testnet": "0x81C12A7c3938B40eaa2EEe7765cC0CfD9248cBe8"
+}
+
 export const PREDICTION_TOKEN_ADDRESSES = {
   "BNB": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
   "ETH": "0x2170Ed0880ac9A755fd29B2688956BD959F933F8",

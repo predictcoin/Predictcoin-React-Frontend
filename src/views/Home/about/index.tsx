@@ -3,7 +3,7 @@ import { FC } from "react";
 const About: FC = () => {
     return (
         <section className="about">
-            <div className="container"  id="about-pred">
+            <div className="container" id="about-pred">
                 <div className="row">
                     <div className="col-sm">
                         <h3>About Predictcoin</h3>
@@ -109,7 +109,7 @@ const About: FC = () => {
             </div>
             {/* <div className="wpbtn2">
                 <a
-                    href="https://predictcoin.finance/BID-Whitepaper.pdf"
+                    href="https://predictcoin.finance/images/BID-Whitepaper.pdf"
                     id="bidwp"
                 >
                     BID Whitepaper

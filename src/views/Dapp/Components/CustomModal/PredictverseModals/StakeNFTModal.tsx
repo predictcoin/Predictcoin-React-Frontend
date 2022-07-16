@@ -17,7 +17,7 @@ const StakeNFTModal: FC<StakeNFTModalProps> = ({ closeModal }) => {
         if (evt.target.checked) {
             newNftsToStake.push(id);
         } else {
-            newNftsToStake = newNftsToStake.filter((assetId) => assetId !== id);
+            newNftsToStake = newNftsToStake.filter((tokenId) => tokenId !== id);
         }
 
         setNFTsToStake(newNftsToStake);

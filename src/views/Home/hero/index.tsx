@@ -24,11 +24,11 @@ const Hero: FC = () => {
                         </h2>
                         <div className="wrapper">
                             <Link to="/prediction" className="buttonout">
-                            Price Prediction 📈
+                                Price Prediction 📈
                             </Link>
-                           
+
                             <Link to="/sport-prediction" className="buttonout">
-                            Sports Prediction ⚽️
+                                Sports Prediction ⚽️
                             </Link>
 
                             <Link to="/farming" className="buttonblue">
