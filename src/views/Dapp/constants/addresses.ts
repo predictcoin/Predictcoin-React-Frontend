@@ -53,7 +53,7 @@ export const PRED_NFT_ADDRESSES = {
 export const PREDICTVERSE_ADDRESSES = {
   "mainnet": "",
   "staging": "",
-  "testnet": "0x81C12A7c3938B40eaa2EEe7765cC0CfD9248cBe8"
+  "testnet": "0x1d7dd6f6B293E3418E164C118A77E3Dd43cf714B"
 }
 
 export const PREDICTION_TOKEN_ADDRESSES = {
