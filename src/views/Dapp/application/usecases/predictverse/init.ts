@@ -51,7 +51,6 @@ export const initPredictverseUsecase = async ({
         delete pool.nft;
         pool.pId = predictversePools[i];
         pool.totalNFTStaked = await getPId_TotalNFTStaked(pool.NFTAddress);
-        console.log(pool, 'pool');
 
         // pool.apr = await stakingApr({ contract, pool, totalAllocPoint });
 

@@ -3,7 +3,10 @@ import { FC } from "react";
 import "./nftcard.styles.scss";
 
 interface NFTCardProps {
-    nftDetails: any;
+    nftDetails: {
+        tokenId: number;
+        imgUrl: string;
+    };
 }
 
 const NFTCard: FC<NFTCardProps> = ({ nftDetails }) => {
@@ -12,16 +15,16 @@ const NFTCard: FC<NFTCardProps> = ({ nftDetails }) => {
             <div className="nft__card__image__container">
                 <figure>
                     <img
-                        src={"/assets/img/partners/desert-big.png"}
-                        alt={"Shitty preview"}
+                        src={nftDetails.imgUrl}
+                        alt={`NFT ${nftDetails.tokenId}'s avatar`}
                     />
                 </figure>
             </div>
             <section className="nft__card__details">
                 <p className="w-full truncate text-[20px] text-main-500 hover:underline">
-                    My BoredApe
+                    NFT {nftDetails.tokenId}
                 </p>
-                <p>20PRED</p>
+                {/* <p>20PRED</p> */}
             </section>
         </div>
     );

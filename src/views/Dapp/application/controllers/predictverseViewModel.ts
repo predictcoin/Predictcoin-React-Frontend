@@ -2,7 +2,7 @@ import { useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 import { PREDICTVERSE_ADDRESSES } from "../../constants/addresses";
-import { NODE_ENV } from "../../hooks/predictverse/useERC721";
+import useERC721, { NODE_ENV } from "../../hooks/predictverse/useERC721";
 import useTransaction from "../../hooks/useTransaction";
 import { watchEvent } from "../../lib/utils/event";
 import PredictverseCardModel, {
@@ -145,14 +145,28 @@ const usePredictverseViewModel = () => {
         ) {
             contract.removeAllListeners();
             //events
-            watchEvent(contract, "Deposit", [], (user, pid, amount, event) => {
-                if (predictversePools.indexOf(pid.toNumber()) === -1) return;
-                getPredictversePool(pid.toNumber());
-            });
-            watchEvent(contract, "Withdraw", [], (user, pid, amount, event) => {
-                if (predictversePools.indexOf(pid.toNumber()) === -1) return;
-                getPredictversePool(pid.toNumber());
-            });
+            watchEvent(
+                contract,
+                "Deposit",
+                [],
+                async (user, pid, amount, event) => {
+                    if (predictversePools.indexOf(pid.toNumber()) === -1)
+                        return;
+                    await getUserPoolDetails(pid.toNumber());
+                    getPredictversePool(pid.toNumber());
+                }
+            );
+            watchEvent(
+                contract,
+                "Withdraw",
+                [],
+                async (user, pid, amount, event) => {
+                    if (predictversePools.indexOf(pid.toNumber()) === -1)
+                        return;
+                    await getPredictversePool(pid.toNumber());
+                    getUserPoolDetails(pid.toNumber());
+                }
+            );
             watchingPredictverse = true;
         }
 

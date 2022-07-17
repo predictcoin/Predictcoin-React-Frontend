@@ -1,23 +1,20 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { HiOutlineArrowDown } from "react-icons/hi";
-import BigNumber from "bignumber.js";
-import { constants, utils } from "ethers";
 
 import ExportIcon from "../../../../assets/appSvgs/ExportIcon";
 import {
-    displayDecimals,
     displayTokenValue,
-    toNumberLib
 } from "../../lib/utils/number";
 import { useWalletViewModel } from "../../application/controllers/walletViewModel";
 import ConnectModal from "../CustomModal/ModalConnect";
-import { PREDICTVERSE_ADDRESSES } from "../../constants/addresses";
+import { PREDICTVERSE_ADDRESSES, TOKENS } from "../../constants/addresses";
 import StakeNFTModal from "../CustomModal/PredictverseModals/StakeNFTModal";
 import ViewStakedNFTModal from "../CustomModal/PredictverseModals/ViewStakedNFTModal";
 import "./predictversecard.styles.scss";
 import usePredictverseViewModel from "../../application/controllers/predictverseViewModel";
 import useERC721 from "../../hooks/predictverse/useERC721";
 import PredictverseCardModel from "../../models/PredictverseCardModel";
+import useToken from "../../hooks/useToken";
 
 const contractAddress =
     PREDICTVERSE_ADDRESSES[
@@ -37,10 +34,11 @@ const PredictverseCard: FC<PredictverseCardModel> = ({
     staked,
     NFTAddress
 }) => {
-    const { active } = useWalletViewModel();
+    const { active, chainId } = useWalletViewModel();
     const { stake, harvest, withdraw } = usePredictverseViewModel();
-    const { balance, allowed, approve, getAllowed, getBalance } =
+    const { allowed, approve, userNFTs } =
         useERC721(NFTAddress);
+    const { decimals } = useToken(TOKENS[chainId].PRED);
     const [walletModal, setWalletModal] = useState<boolean>(false);
     const [showViewStakedNFTModal, setShowViewStakedNFTModal] = useState<{
         open: boolean;
@@ -50,7 +48,6 @@ const PredictverseCard: FC<PredictverseCardModel> = ({
         open: boolean;
         title: string;
     }>({ open: false, title: "" });
-    const [amount, setAmount] = useState<string>("");
 
     const closeViewStakedNFTModal = (open: boolean) => {
         setShowViewStakedNFTModal({ open, title: "" });
@@ -97,8 +94,6 @@ const PredictverseCard: FC<PredictverseCardModel> = ({
         </button>
     );
 
-    console.log(allowed);
-
     let mainButton = !active ? (
         unlockButton
     ) : allowed ? (
@@ -113,10 +108,20 @@ const PredictverseCard: FC<PredictverseCardModel> = ({
     return (
         <>
             {showStakeNFTModal.open && (
-                <StakeNFTModal closeModal={closeStakedNFTModal} />
+                <StakeNFTModal
+                    closeModal={closeStakedNFTModal}
+                    userNFTs={userNFTs}
+                    stake={stake}
+                    pId={id}
+                />
             )}
             {showViewStakedNFTModal.open && (
-                <ViewStakedNFTModal closeModal={closeViewStakedNFTModal} />
+                <ViewStakedNFTModal
+                    closeModal={closeViewStakedNFTModal}
+                    stakedNFTs={stakedNFTs}
+                    withdraw={withdraw}
+                    pId={id}
+                />
             )}
             {walletModal && <ConnectModal closeModal={setWalletModal} />}
 
@@ -156,10 +161,20 @@ const PredictverseCard: FC<PredictverseCardModel> = ({
                                                 EARNINGS
                                             </span>
                                             <span className="normal">
-                                                0.0{" "}
+                                                {displayTokenValue(
+                                                    earned,
+                                                    18,
+                                                    5
+                                                )}{" "}
+                                                PRED
                                                 <span className="dollar">
                                                     {" "}
-                                                    ~$0.0
+                                                    ~$
+                                                    {displayTokenValue(
+                                                        USDEarned,
+                                                        decimals,
+                                                        2
+                                                    )}
                                                 </span>
                                             </span>
                                         </div>

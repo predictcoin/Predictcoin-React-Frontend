@@ -7,12 +7,33 @@ import "./stakenftmodal.styles.scss";
 
 interface StakeNFTModalProps {
     closeModal: (open: boolean) => void;
+    userNFTs: {
+        [tokenId: number]: {
+            tokenId: number;
+            imgUrl: string;
+        };
+    };
+    stake: (
+        tokenIds: number[],
+        pId: number,
+        callbacks?:
+            | {
+                  [key: string]: () => void;
+              }
+            | undefined
+    ) => void;
+    pId: number;
 }
 
-const StakeNFTModal: FC<StakeNFTModalProps> = ({ closeModal }) => {
-    const [nftsToStake, setNFTsToStake] = useState<string[]>([]);
+const StakeNFTModal: FC<StakeNFTModalProps> = ({
+    closeModal,
+    userNFTs,
+    stake,
+    pId
+}) => {
+    const [nftsToStake, setNFTsToStake] = useState<number[]>([]);
 
-    const toggleNFTStake = (evt: ChangeEvent<HTMLInputElement>, id: string) => {
+    const toggleNFTStake = (evt: ChangeEvent<HTMLInputElement>, id: number) => {
         let newNftsToStake = [...nftsToStake];
         if (evt.target.checked) {
             newNftsToStake.push(id);
@@ -42,63 +63,42 @@ const StakeNFTModal: FC<StakeNFTModalProps> = ({ closeModal }) => {
                 <h4>Stake PRED NFTs</h4>
 
                 <div className="nft__cards__container">
-                    <div className="nft__card__container">
-                        <div className="checkbox__container">
-                            <CustomCheckbox
-                                id={`remove-me`}
-                                name={`remove-me`}
-                                color="#2d173f"
-                                size="20px"
-                                strokeColor="transparent"
-                                checkedColor="transparent"
-                                checkedStrokeColor="#2d173f"
-                                // onChange={(evt) =>
-                                //     toggleNFTStake(evt, asset.asset_id)
-                                // }
-                            />
+                    {Object.values(userNFTs)?.map((NFT) => (
+                        <div className="nft__card__container" key={NFT.tokenId}>
+                            <div className="checkbox__container">
+                                <CustomCheckbox
+                                    id={`remove-${NFT.tokenId}`}
+                                    name={`remove-${NFT.tokenId}`}
+                                    color="#2d173f"
+                                    size="20px"
+                                    strokeColor="transparent"
+                                    checkedColor="transparent"
+                                    checkedStrokeColor="#2d173f"
+                                    checked={nftsToStake.includes(NFT.tokenId)}
+                                    onChange={(evt) =>
+                                        toggleNFTStake(evt, NFT.tokenId)
+                                    }
+                                />
+                            </div>
+                            <NFTCard nftDetails={NFT} />
                         </div>
-                        <NFTCard nftDetails={{}} />
-                    </div>
-                    <div className="nft__card__container">
-                        <div className="checkbox__container">
-                            <CustomCheckbox
-                                id={`remove-me1`}
-                                name={`remove-me1`}
-                                color="#2d173f"
-                                size="20px"
-                                strokeColor="transparent"
-                                checkedColor="transparent"
-                                checkedStrokeColor="#2d173f"
-                                // onChange={(evt) =>
-                                //     toggleNFTStake(evt, asset.asset_id)
-                                // }
-                            />
-                        </div>
-                        <NFTCard nftDetails={{}} />
-                    </div>
-                    <div className="nft__card__container">
-                        <div className="checkbox__container">
-                            <CustomCheckbox
-                                id={`remove-me2`}
-                                name={`remove-me2`}
-                                color="#2d173f"
-                                size="20px"
-                                strokeColor="transparent"
-                                checkedColor="transparent"
-                                checkedStrokeColor="#2d173f"
-                                // onChange={(evt) =>
-                                //     toggleNFTStake(evt, asset.asset_id)
-                                // }
-                            />
-                        </div>
-                        <NFTCard nftDetails={{}} />
-                    </div>
+                    ))}
                 </div>
 
                 <div className="buttons">
-                    <button className="cancel">Cancel</button>
+                    <button
+                        className="cancel"
+                        onClick={() => setNFTsToStake([])}
+                    >
+                        Cancel
+                    </button>
                     &nbsp;&nbsp;
-                    <button className={"confirm active"}>Stake</button>
+                    <button
+                        className={"confirm active"}
+                        onClick={() => stake(nftsToStake, pId)}
+                    >
+                        Stake
+                    </button>
                 </div>
             </CustomModal>
         </div>

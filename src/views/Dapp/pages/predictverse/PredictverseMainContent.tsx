@@ -55,9 +55,6 @@ const PredictverseMainContent: FC<PredictverseMainContentProps> = ({
         initPredictverse,
         predictverseAvailable,
         predictverseCardData,
-        harvest,
-        withdraw,
-        stake
     } = usePredictverseViewModel();
     const { balance, decimals } = useToken(TOKENS[chainId].PRED);
 

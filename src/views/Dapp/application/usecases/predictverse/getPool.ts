@@ -31,7 +31,6 @@ export const getUserPoolDetailsUsecase = async (
         (await contract.pendingPred(pool.pId, userAddress)).toString()
     );
     pool.$userEarnings = pool.userEarnings.times(PREDPrice);
-
     return pool;
 };
 
@@ -59,10 +58,10 @@ export const getPredictversePoolUsecase = async (
         return totalNFTStaked;
     };
 
-    const pool: Pool = propertiesToNumberLib(
-        await contract.poolInfo(pId)
-    ) as Pool;
+    const pool = propertiesToNumberLib(await contract.poolInfo(pId));
     pool.pId = pId;
+    pool.NFTAddress = pool.nft;
+    delete pool.nft;
     pool.totalNFTStaked = await getPId_TotalNFTStaked(pool.NFTAddress);
     // pool.apr = await stakingApr({ contract, pool, totalAllocPoint });
 
@@ -81,6 +80,6 @@ export const getPredictversePoolUsecase = async (
         );
         pool.$userEarnings = pool.userEarnings.times(PREDPrice);
     }
-
+    console.log(pool, "pool");
     return pool;
 };

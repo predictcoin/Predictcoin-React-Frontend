@@ -23,6 +23,13 @@ const Checkbox = styled.div<CheckboxProps>`
         -webkit-user-select: none;
         user-select: none;
         cursor: pointer;
+
+        label{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
         span {
             display: inline-block;
             vertical-align: middle;
@@ -124,6 +131,7 @@ interface CustomCheckboxProps {
     checkedColor?: string;
     checkedStrokeColor?: string;
     onChange?: (evt: any) => void;
+    checked?:boolean;
 }
 
 const CustomCheckbox = forwardRef<HTMLInputElement, CustomCheckboxProps>(
@@ -140,7 +148,8 @@ const CustomCheckbox = forwardRef<HTMLInputElement, CustomCheckboxProps>(
             strokeColor,
             checkedColor,
             checkedStrokeColor,
-            onChange
+            onChange,
+            checked
         },
         ref
     ) => {
@@ -164,10 +173,11 @@ const CustomCheckbox = forwardRef<HTMLInputElement, CustomCheckboxProps>(
                     type="checkbox"
                     style={{ display: "none" }}
                     onChange={onChange}
+                    checked={checked}
                     disabled={disabled}
                 />
                 <label className="checkboxx">
-                    <label htmlFor={id} className="flex items-center">
+                    <label htmlFor={id}>
                         <span className="demo-check cursor-pointer">
                             <svg width="12px" height="10px" viewBox="0 0 12 10">
                                 <polyline points="1.5 6 4.5 9 10.5 1"></polyline>

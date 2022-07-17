@@ -20,7 +20,6 @@ const useERC721 = (address: string) => {
         address: userAddress,
         active
     } = useWalletViewModel();
-    console.log(address, 'from erc721');
     const contract = ERC721__factory.connect(address, signer || provider);
 
     const [userNFTs, setUserNFTs] = useState<{
@@ -36,10 +35,13 @@ const useERC721 = (address: string) => {
         if (!active) {
             throw new Error("Please connect your wallet");
         }
-
-        const result = await contract.balanceOf(userAddress);
-        setBalance(result);
-        return result;
+        if (Boolean(balance.toNumber() === 0)) {
+            const result = await contract.balanceOf(userAddress);
+            setBalance(result);
+            return result;
+        } else {
+            return balance;
+        }
     };
 
     const getAllowed = async (operator: string) => {
@@ -57,9 +59,8 @@ const useERC721 = (address: string) => {
         }
         const tokenIndexes = [];
         let userNFTBalance = balance;
-        if (!balance) {
-            userNFTBalance = await getBalance();
-        }
+
+        userNFTBalance = await getBalance();
 
         for (let i = 0; i < userNFTBalance.toNumber(); i++) {
             tokenIndexes.push(i);
@@ -80,6 +81,7 @@ const useERC721 = (address: string) => {
             ERC__721abi,
             tokenIds as number[]
         );
+
         setUserNFTs(userNFTs);
         return userNFTs;
     };
@@ -115,6 +117,15 @@ const useERC721 = (address: string) => {
                     getAllowed(spender);
                 }
             );
+
+            watchEvent(
+                contract,
+                "Transfers",
+                [userAddress],
+                (owner, spender, value, event) => {
+                    getAllowed(spender);
+                }
+            );
         }
 
         return () => {
@@ -129,7 +140,7 @@ const useERC721 = (address: string) => {
         approve,
         getAllowed,
         userNFTs,
-        getNFTs,
+        getUserNFTs,
         getBalance
     };
 };
