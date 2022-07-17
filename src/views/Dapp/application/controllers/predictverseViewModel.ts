@@ -2,7 +2,7 @@ import { useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 import { PREDICTVERSE_ADDRESSES } from "../../constants/addresses";
-import useERC721, { NODE_ENV } from "../../hooks/predictverse/useERC721";
+import { NODE_ENV } from "../../hooks/predictverse/useERC721";
 import useTransaction from "../../hooks/useTransaction";
 import { watchEvent } from "../../lib/utils/event";
 import PredictverseCardModel, {
