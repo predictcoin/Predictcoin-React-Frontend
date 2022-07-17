@@ -80,6 +80,5 @@ export const getPredictversePoolUsecase = async (
         );
         pool.$userEarnings = pool.userEarnings.times(PREDPrice);
     }
-    console.log(pool, "pool");
     return pool;
 };

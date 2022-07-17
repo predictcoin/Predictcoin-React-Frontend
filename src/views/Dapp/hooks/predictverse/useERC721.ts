@@ -120,10 +120,16 @@ const useERC721 = (address: string) => {
 
             watchEvent(
                 contract,
-                "Transfers",
-                [userAddress],
+                "Transfer",
+                [],
                 (owner, spender, value, event) => {
-                    getAllowed(spender);
+                    if (
+                        owner.toLowerCase() ===
+                            userAddress.toLocaleLowerCase() ||
+                        spender.toLowerCase() === userAddress.toLowerCase()
+                    ) {
+                        getUserNFTs();
+                    }
                 }
             );
         }

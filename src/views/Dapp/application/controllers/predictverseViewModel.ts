@@ -152,7 +152,6 @@ const usePredictverseViewModel = () => {
                 async (user, pid, amount, event) => {
                     if (predictversePools.indexOf(pid.toNumber()) === -1)
                         return;
-                    await getUserPoolDetails(pid.toNumber());
                     getPredictversePool(pid.toNumber());
                 }
             );
@@ -163,8 +162,7 @@ const usePredictverseViewModel = () => {
                 async (user, pid, amount, event) => {
                     if (predictversePools.indexOf(pid.toNumber()) === -1)
                         return;
-                    await getPredictversePool(pid.toNumber());
-                    getUserPoolDetails(pid.toNumber());
+                    getPredictversePool(pid.toNumber());
                 }
             );
             watchingPredictverse = true;

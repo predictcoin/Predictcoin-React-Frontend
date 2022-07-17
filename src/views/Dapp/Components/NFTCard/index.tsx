@@ -22,7 +22,7 @@ const NFTCard: FC<NFTCardProps> = ({ nftDetails }) => {
             </div>
             <section className="nft__card__details">
                 <p className="w-full truncate text-[20px] text-main-500 hover:underline">
-                    NFT {nftDetails.tokenId}
+                    {`NFT #${nftDetails.tokenId}`}
                 </p>
                 {/* <p>20PRED</p> */}
             </section>
