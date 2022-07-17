@@ -45,13 +45,13 @@ export const WINNER_PREDICTION_POOL_ADDRESSES = {
 }
 
 export const PRED_NFT_ADDRESSES = {
-  "mainnet": "",
+  "mainnet": "0x87aeCaCc249985C305A569930a2058D08218F2Fc",
   "staging": "",
   "testnet": "0xa5A91A34CfFfD1EBa38143666D59D0deF4069166"
 }
 
 export const PREDICTVERSE_ADDRESSES = {
-  "mainnet": "",
+  "mainnet": "0xBf5036d29F9EF09C42d667742b68Ddfa1C82095a",
   "staging": "",
   "testnet": "0x1d7dd6f6B293E3418E164C118A77E3Dd43cf714B"
 }
