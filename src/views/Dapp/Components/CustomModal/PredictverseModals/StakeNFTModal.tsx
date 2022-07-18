@@ -71,7 +71,7 @@ const StakeNFTModal: FC<StakeNFTModalProps> = ({
     return (
         <div id="stake__nft__modal">
             <CustomModal>
-                <h4>Stake {`${nameSymbol.name}/${nameSymbol.symbol}`} NFTs</h4>
+                <h4>Stake {`${nameSymbol.symbol}`} NFTs</h4>
 
                 <div
                     className={`nft__cards__container ${

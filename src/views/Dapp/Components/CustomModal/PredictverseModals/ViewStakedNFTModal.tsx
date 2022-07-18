@@ -76,7 +76,7 @@ const ViewStakedNFTModal: FC<ViewStakedNFTModalProps> = ({
         <div id="view__staked__nft__modal">
             <CustomModal>
                 <h4>
-                    Staked {`${nameSymbol.name}/${nameSymbol.symbol}`} NFTs
+                    Staked {`${nameSymbol.symbol}`} NFTs
                 </h4>
 
                 <div
