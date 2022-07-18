@@ -7,9 +7,13 @@ interface NFTCardProps {
         tokenId: number;
         imgUrl: string;
     };
+    nameSymbol: {
+        name: string;
+        symbol: string;
+    };
 }
 
-const NFTCard: FC<NFTCardProps> = ({ nftDetails }) => {
+const NFTCard: FC<NFTCardProps> = ({ nftDetails, nameSymbol }) => {
     return (
         <div className="nft__card">
             <div className="nft__card__image__container">
@@ -22,7 +26,7 @@ const NFTCard: FC<NFTCardProps> = ({ nftDetails }) => {
             </div>
             <section className="nft__card__details">
                 <p className="w-full truncate text-[20px] text-main-500 hover:underline">
-                    {`NFT #${nftDetails.tokenId}`}
+                    {`${nameSymbol.name} / ${nameSymbol.symbol}`} &nbsp; {`#${nftDetails.tokenId}`}
                 </p>
                 {/* <p>20PRED</p> */}
             </section>

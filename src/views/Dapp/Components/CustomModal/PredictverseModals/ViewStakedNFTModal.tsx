@@ -23,16 +23,20 @@ interface ViewStakedNFTModalProps {
             | undefined
     ) => void;
     pId: number;
+    nameSymbol: {
+        name: string;
+        symbol: string;
+    };
 }
 
 const ViewStakedNFTModal: FC<ViewStakedNFTModalProps> = ({
     closeModal,
     stakedNFTs,
     withdraw,
-    pId
+    pId,
+    nameSymbol
 }) => {
     const [nFtsToWithdraw, setNFTsToWithdraw] = useState<number[]>([]);
-
     const toggleNFTsToWithdraw = (
         evt: ChangeEvent<HTMLInputElement>,
         id: number
@@ -53,6 +57,12 @@ const ViewStakedNFTModal: FC<ViewStakedNFTModalProps> = ({
         if (e.target?.id === "custom__modal") closeModal(false);
     };
 
+    const withdrawNFTs = async () => {
+        await withdraw(nFtsToWithdraw, pId);
+        setNFTsToWithdraw([]);
+        closeModal(false);
+    };
+
     useEffect(() => {
         window.addEventListener("click", (e) => closeModalFunc(e));
 
@@ -65,9 +75,17 @@ const ViewStakedNFTModal: FC<ViewStakedNFTModalProps> = ({
     return (
         <div id="view__staked__nft__modal">
             <CustomModal>
-                <h4>Staked PRED NFTs</h4>
+                <h4>
+                    Staked {`${nameSymbol.name}/${nameSymbol.symbol}`} NFTs
+                </h4>
 
-                <div className="nft__cards__container">
+                <div
+                    className={`nft__cards__container ${
+                        Boolean(Object.values(stakedNFTs).length)
+                            ? "content"
+                            : ""
+                    } `}
+                >
                     {Object.values(stakedNFTs)?.map((NFT) => (
                         <div className="nft__card__container" key={NFT.tokenId}>
                             <div className="checkbox__container">
@@ -84,15 +102,22 @@ const ViewStakedNFTModal: FC<ViewStakedNFTModalProps> = ({
                                     }
                                 />
                             </div>
-                            <NFTCard nftDetails={NFT} />
+                            <NFTCard nftDetails={NFT} nameSymbol={nameSymbol} />
                         </div>
                     ))}
                 </div>
 
+                {!Boolean(Object.values(stakedNFTs).length) && (
+                    <div className="no__nft">
+                        <p>You currently do not have any staked NFTs</p>
+                    </div>
+                )}
+
                 <div className="buttons">
                     <button
                         className={"confirm active"}
-                        onClick={() => withdraw(nFtsToWithdraw, pId)}
+                        onClick={withdrawNFTs}
+                        disabled={!Boolean(nFtsToWithdraw.length)}
                     >
                         Withdraw
                     </button>

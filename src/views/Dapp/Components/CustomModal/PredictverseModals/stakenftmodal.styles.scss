@@ -28,12 +28,15 @@
         }
 
         .nft__cards__container {
-            flex: auto;
             overflow-y: auto;
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             place-items: center;
             gap: 16px;
+
+            &.content {
+                flex: auto;
+            }
 
             .nft__card__container {
                 position: relative;
@@ -57,6 +60,18 @@
             }
         }
 
+        .no__nft {
+            flex: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            p {
+                font-size: 16px;
+                color: rgb(239, 229, 229);
+            }
+        }
+
         .buttons {
             margin-top: 1.5rem;
             text-align: center;
@@ -66,6 +81,11 @@
                 color: #ffffff;
                 padding: 1rem 3rem;
                 border-radius: 5px;
+
+                &:disabled {
+                    opacity: 0.5;
+                    cursor: not-allowed;
+                }
 
                 &.cancel {
                     background-color: #c8304d;

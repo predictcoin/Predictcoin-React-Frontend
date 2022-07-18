@@ -2,19 +2,17 @@ import { FC, useState } from "react";
 import { HiOutlineArrowDown } from "react-icons/hi";
 
 import ExportIcon from "../../../../assets/appSvgs/ExportIcon";
-import {
-    displayTokenValue,
-} from "../../lib/utils/number";
+import { displayTokenValue } from "../../lib/utils/number";
 import { useWalletViewModel } from "../../application/controllers/walletViewModel";
 import ConnectModal from "../CustomModal/ModalConnect";
 import { PREDICTVERSE_ADDRESSES, TOKENS } from "../../constants/addresses";
 import StakeNFTModal from "../CustomModal/PredictverseModals/StakeNFTModal";
 import ViewStakedNFTModal from "../CustomModal/PredictverseModals/ViewStakedNFTModal";
-import "./predictversecard.styles.scss";
 import usePredictverseViewModel from "../../application/controllers/predictverseViewModel";
 import useERC721 from "../../hooks/predictverse/useERC721";
 import PredictverseCardModel from "../../models/PredictverseCardModel";
 import useToken from "../../hooks/useToken";
+import "./predictversecard.styles.scss";
 
 const contractAddress =
     PREDICTVERSE_ADDRESSES[
@@ -36,8 +34,7 @@ const PredictverseCard: FC<PredictverseCardModel> = ({
 }) => {
     const { active, chainId } = useWalletViewModel();
     const { stake, harvest, withdraw } = usePredictverseViewModel();
-    const { allowed, approve, userNFTs } =
-        useERC721(NFTAddress);
+    const { allowed, approve, userNFTs, nameSymbol } = useERC721(NFTAddress);
     const { decimals } = useToken(TOKENS[chainId].PRED);
     const [walletModal, setWalletModal] = useState<boolean>(false);
     const [showViewStakedNFTModal, setShowViewStakedNFTModal] = useState<{
@@ -113,6 +110,7 @@ const PredictverseCard: FC<PredictverseCardModel> = ({
                     userNFTs={userNFTs}
                     stake={stake}
                     pId={id}
+                    nameSymbol={nameSymbol}
                 />
             )}
             {showViewStakedNFTModal.open && (
@@ -121,6 +119,7 @@ const PredictverseCard: FC<PredictverseCardModel> = ({
                     stakedNFTs={stakedNFTs}
                     withdraw={withdraw}
                     pId={id}
+                    nameSymbol={nameSymbol}
                 />
             )}
             {walletModal && <ConnectModal closeModal={setWalletModal} />}
@@ -202,7 +201,7 @@ const PredictverseCard: FC<PredictverseCardModel> = ({
                                         });
                                     }}
                                 >
-                                    View staked NFTs
+                                    View my staked NFTs
                                 </button>
                             </div>
                         )}

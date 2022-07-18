@@ -28,6 +28,13 @@ const useERC721 = (address: string) => {
             imgUrl: string;
         };
     }>({});
+    const [nameSymbol, setNameSymbol] = useState<{
+        name: string;
+        symbol: string;
+    }>({
+        name: "",
+        symbol: ""
+    });
     const [balance, setBalance] = useState(ethers.BigNumber.from(0));
     const [allowed, setAllowed] = useState<boolean>(false);
 
@@ -51,6 +58,16 @@ const useERC721 = (address: string) => {
         const result = await contract.isApprovedForAll(userAddress, operator);
         setAllowed(result);
         return result;
+    };
+
+    const getNameSymbol = async () => {
+        if (!active) {
+            return;
+        }
+        const name = await contract.name();
+        const symbol = await contract.symbol();
+
+        setNameSymbol({ name, symbol });
     };
 
     const getUserNFTs = async () => {
@@ -105,6 +122,7 @@ const useERC721 = (address: string) => {
                     ]
                 );
                 await getBalance();
+                await getNameSymbol();
                 getUserNFTs();
             })();
 
@@ -145,6 +163,7 @@ const useERC721 = (address: string) => {
         allowed,
         approve,
         getAllowed,
+        nameSymbol,
         userNFTs,
         getUserNFTs,
         getBalance

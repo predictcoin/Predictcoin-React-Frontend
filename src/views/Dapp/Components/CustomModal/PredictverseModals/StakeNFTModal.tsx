@@ -23,13 +23,18 @@ interface StakeNFTModalProps {
             | undefined
     ) => void;
     pId: number;
+    nameSymbol: {
+        name: string;
+        symbol: string;
+    };
 }
 
 const StakeNFTModal: FC<StakeNFTModalProps> = ({
     closeModal,
     userNFTs,
     stake,
-    pId
+    pId,
+    nameSymbol
 }) => {
     const [nftsToStake, setNFTsToStake] = useState<number[]>([]);
 
@@ -48,6 +53,12 @@ const StakeNFTModal: FC<StakeNFTModalProps> = ({
         if (e.target?.id === "custom__modal") closeModal(false);
     };
 
+    const stakeNFTs = async () => {
+        await stake(nftsToStake, pId);
+        setNFTsToStake([]);
+        closeModal(false);
+    };
+
     useEffect(() => {
         window.addEventListener("click", (e) => closeModalFunc(e));
 
@@ -60,9 +71,13 @@ const StakeNFTModal: FC<StakeNFTModalProps> = ({
     return (
         <div id="stake__nft__modal">
             <CustomModal>
-                <h4>Stake PRED NFTs</h4>
+                <h4>Stake {`${nameSymbol.name}/${nameSymbol.symbol}`} NFTs</h4>
 
-                <div className="nft__cards__container">
+                <div
+                    className={`nft__cards__container ${
+                        Boolean(Object.values(userNFTs).length) ? "content" : ""
+                    } `}
+                >
                     {Object.values(userNFTs)?.map((NFT) => (
                         <div className="nft__card__container" key={NFT.tokenId}>
                             <div className="checkbox__container">
@@ -80,22 +95,30 @@ const StakeNFTModal: FC<StakeNFTModalProps> = ({
                                     }
                                 />
                             </div>
-                            <NFTCard nftDetails={NFT} />
+                            <NFTCard nftDetails={NFT} nameSymbol={nameSymbol} />
                         </div>
                     ))}
                 </div>
+
+                {!Boolean(Object.values(userNFTs).length) && (
+                    <div className="no__nft">
+                        <p>You currently do not have any NFTs in your wallet</p>
+                    </div>
+                )}
 
                 <div className="buttons">
                     <button
                         className="cancel"
                         onClick={() => setNFTsToStake([])}
+                        disabled={!Boolean(nftsToStake.length)}
                     >
                         Cancel
                     </button>
                     &nbsp;&nbsp;
                     <button
                         className={"confirm active"}
-                        onClick={() => stake(nftsToStake, pId)}
+                        onClick={stakeNFTs}
+                        disabled={!Boolean(nftsToStake.length)}
                     >
                         Stake
                     </button>
