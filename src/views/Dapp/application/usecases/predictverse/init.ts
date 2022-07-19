@@ -31,7 +31,6 @@ export const predictverseApr = async ({
     const predPerBlock = toNumberLib(
         (await contract.predPerBlock()).mul(BONUS_MULTIPLIER)
     );
-    console.log(BONUS_MULTIPLIER.toString());
     const totalPREDPerYr = predPerBlock.times(28800).times(365);
     const poolPREDPerYr = allocPoint.times(totalPREDPerYr);
     const numerator = poolPREDPerYr.times(PREDPrice).times(100);
