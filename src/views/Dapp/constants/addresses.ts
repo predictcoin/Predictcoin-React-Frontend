@@ -76,9 +76,9 @@ export const TOKENS = {
     "BID": "0xf9C86001C92fE30Be5Aa5eB3EF4cd191eAE205e4",
   },
   [supportedChainIds.Testnet]: {
-    "PRED": "",
+    "PRED": "0xB2d7b35539A543bbE4c74965488fFE33c6721f0d",
     "BUSD": "",
-    "Predcoin": "",
+    "Predcoin": "0xB2d7b35539A543bbE4c74965488fFE33c6721f0d",
     "WBNB": "",
     "BUSD-PRED LP": "",
     "BNB-PRED LP": "",
