@@ -1,10 +1,11 @@
 import { ERC721__factory, Predictverse } from "../../../typechain";
-import { propertiesToNumberLib } from "../../../lib/utils/number";
+import { propertiesToNumberLib, toNumberLib } from "../../../lib/utils/number";
 import { getPREDPrice } from "../../../lib/utils/price";
 import BigNumber from "bignumber.js";
 import { Pool } from "../../domain/predictverse/entity";
 import getNFTs from "../../../lib/utils/getNFTs";
 import ERC__721abi from "../../../abis/ERC721.json";
+import { predictverseApr } from "./init";
 
 interface ParamsA {
     pool: Pool;
@@ -45,6 +46,7 @@ export const getPredictversePoolUsecase = async (
 ): Promise<Pool> => {
     const { contract, pId, userAddress } = params;
     const PREDPrice = await getPREDPrice(contract.provider);
+    const totalAllocPoint = toNumberLib(await contract.totalAllocPoint());
 
     const getPId_TotalNFTStaked = async (poolNFTAddress: string) => {
         const predNFTContract = ERC721__factory.connect(
@@ -63,7 +65,12 @@ export const getPredictversePoolUsecase = async (
     pool.NFTAddress = pool.nft;
     delete pool.nft;
     pool.totalNFTStaked = await getPId_TotalNFTStaked(pool.NFTAddress);
-    // pool.apr = await stakingApr({ contract, pool, totalAllocPoint });
+    pool.apr = await predictverseApr({
+        contract,
+        pool,
+        totalAllocPoint,
+        PREDPrice
+    });
 
     if (userAddress) {
         const userInfo = await contract.getUserInfo(userAddress, pool.pId);

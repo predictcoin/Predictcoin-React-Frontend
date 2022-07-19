@@ -2,7 +2,7 @@ import { FC, useState } from "react";
 import { HiOutlineArrowDown } from "react-icons/hi";
 
 import ExportIcon from "../../../../assets/appSvgs/ExportIcon";
-import { displayTokenValue } from "../../lib/utils/number";
+import { displayDecimals, displayTokenValue } from "../../lib/utils/number";
 import { useWalletViewModel } from "../../application/controllers/walletViewModel";
 import ConnectModal from "../CustomModal/ModalConnect";
 import { PREDICTVERSE_ADDRESSES, TOKENS } from "../../constants/addresses";
@@ -145,7 +145,12 @@ const PredictverseCard: FC<PredictverseCardModel> = ({
                             <div className="section">
                                 <div>
                                     <span className="light">APR</span>
-                                    <span className="normal">100%</span>
+                                    <span className="normal">
+                                        {apr === "Infinity"
+                                            ? "100000"
+                                            : displayDecimals(apr, 2)}
+                                        %
+                                    </span>
                                 </div>
                                 <div>
                                     <span className="light">STAKE/EARN</span>

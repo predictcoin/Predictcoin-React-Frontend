@@ -1,6 +1,6 @@
 import BigNumber from "bignumber.js";
 
-import { propertiesToNumberLib } from "../../../lib/utils/number";
+import { propertiesToNumberLib, toNumberLib } from "../../../lib/utils/number";
 import { getPREDPrice } from "../../../lib/utils/price";
 import { Predictverse, ERC721__factory } from "../../../typechain";
 import { Pool } from "../../domain/predictverse/entity";
@@ -10,6 +10,36 @@ import {
 } from "../../domain/predictverse/predictverseStore";
 import ERC__721abi from "../../../abis/ERC721.json";
 import getNFTs from "../../../lib/utils/getNFTs";
+
+interface PredictverseAprProps {
+    contract: Predictverse;
+    pool: Pool;
+    totalAllocPoint: BigNumber;
+    PREDPrice: BigNumber;
+}
+
+export const predictverseApr = async ({
+    contract,
+    pool,
+    totalAllocPoint,
+    PREDPrice
+}: PredictverseAprProps): Promise<BigNumber> => {
+    const BONUS_MULTIPLIER = await contract.BONUS_MULTIPLIER();
+    const NFTTokenPrice = new BigNumber(10).pow(18);
+    const { totalNFTStaked, allocPoint } = pool;
+    const bigTotalNFTStaked = new BigNumber(totalNFTStaked);
+    const predPerBlock = toNumberLib(
+        (await contract.predPerBlock()).mul(BONUS_MULTIPLIER)
+    );
+    console.log(BONUS_MULTIPLIER.toString());
+    const totalPREDPerYr = predPerBlock.times(28800).times(365);
+    const poolPREDPerYr = allocPoint.times(totalPREDPerYr);
+    const numerator = poolPREDPerYr.times(PREDPrice).times(100);
+    const denominator = bigTotalNFTStaked
+        .times(totalAllocPoint)
+        .times(NFTTokenPrice);
+    return numerator.div(denominator);
+};
 
 export const initPredictverseUsecase = async ({
     predictverseContract,
@@ -30,6 +60,9 @@ export const initPredictverseUsecase = async ({
         [key: number]: Pool;
     } = {};
     const PREDPrice = await getPREDPrice(predictverseContract.provider);
+    const totalAllocPoint = toNumberLib(
+        await predictverseContract.totalAllocPoint()
+    );
 
     const getPId_TotalNFTStaked = async (poolNFTAddress: string) => {
         const predNFTContract = ERC721__factory.connect(
@@ -51,8 +84,12 @@ export const initPredictverseUsecase = async ({
         delete pool.nft;
         pool.pId = predictversePools[i];
         pool.totalNFTStaked = await getPId_TotalNFTStaked(pool.NFTAddress);
-
-        // pool.apr = await stakingApr({ contract, pool, totalAllocPoint });
+        pool.apr = await predictverseApr({
+            contract: predictverseContract,
+            pool,
+            totalAllocPoint,
+            PREDPrice
+        });
 
         if (userAddress) {
             const userInfo = await predictverseContract.getUserInfo(
