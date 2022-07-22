@@ -1,4 +1,5 @@
 import { ChangeEvent, FC, useEffect, useState } from "react";
+import { AiOutlineClose } from "react-icons/ai";
 
 import CustomModal from "..";
 import CustomCheckbox from "../../CustomCheckbox";
@@ -71,6 +72,10 @@ const StakeNFTModal: FC<StakeNFTModalProps> = ({
     return (
         <div id="stake__nft__modal">
             <CustomModal>
+                <div className="close" onClick={() => closeModal(false)}>
+                    <AiOutlineClose />
+                </div>
+
                 <h4>Stake {`${nameSymbol.symbol}`} NFTs</h4>
 
                 <div
@@ -102,7 +107,10 @@ const StakeNFTModal: FC<StakeNFTModalProps> = ({
 
                 {!Boolean(Object.values(userNFTs).length) && (
                     <div className="no__nft">
-                        <p>You currently do not have any NFTs in your wallet</p>
+                        <p>
+                            You currently do not have any {`${nameSymbol.name}`}{" "}
+                            NFTs in your wallet
+                        </p>
                     </div>
                 )}
 
