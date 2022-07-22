@@ -90,7 +90,7 @@ const usePredictverseViewModel = () => {
 
                 return {
                     id: pId,
-                    apr: pool?.apr?.toFixed() ?? 0,
+                    apr: apr?.toFixed() ?? 0,
                     stakedNFTs,
                     USDStaked: user$Staked ? user$Staked.toFixed() : "0",
                     staked: userStaked ? userStaked.toFixed() : "0",
