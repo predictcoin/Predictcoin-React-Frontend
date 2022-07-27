@@ -8,7 +8,7 @@ import { getTokenAddress } from '../../lib/utils/token';
 import { constants, utils } from 'ethers';
 import { displayDecimals, displayTokenValue, toNumberLib } from '../../lib/utils/number';
 import { useWalletViewModel } from '../../application/controllers/walletViewModel';
-import ConnectModal from "../../Components/CustomModal/ModalConnect";
+import ConnectModal from "../CustomModal/ModalConnect";
 import { STAKING_ADDRESSES } from '../../constants/addresses';
 import { StakeModal } from '../CustomModal/StakeModal';
 import BigNumber from "bignumber.js";
