@@ -10,6 +10,7 @@ import { store } from "./application/infrastructure/redux/stores";
 import { useWalletViewModel } from "./application/controllers/walletViewModel";
 import Staking from "./pages/staking";
 import Farming from "./pages/farming";
+import Predictverse from "./pages/predictverse";
 
 const AppDashboard: FC = () => {
     const InternalComponent = () => {
@@ -28,8 +29,15 @@ const AppDashboard: FC = () => {
                 <div className="app__dashboard">
                     <Routes>
                         <Route path="/prediction/*" element={<Prediction />} />
-                        <Route path="/sport-prediction/*" element={<SportPrediction />} />
+                        <Route
+                            path="/sport-prediction/*"
+                            element={<SportPrediction />}
+                        />
                         <Route path="/farming" element={<Farming />} />
+                        <Route
+                            path="/predictverse"
+                            element={<Predictverse />}
+                        />
                         {["/", "/staking/*"].map((path, index) => {
                             return (
                                 <Route

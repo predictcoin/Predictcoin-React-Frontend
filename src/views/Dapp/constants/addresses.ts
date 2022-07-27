@@ -44,6 +44,18 @@ export const WINNER_PREDICTION_POOL_ADDRESSES = {
   "staging": "0x29C06EB1320BBc32A6891889A3dF56d8422f5406"
 }
 
+export const PRED_NFT_ADDRESSES = {
+  "mainnet": "0x87aeCaCc249985C305A569930a2058D08218F2Fc",
+  "staging": "",
+  "testnet": "0xa5A91A34CfFfD1EBa38143666D59D0deF4069166"
+}
+
+export const PREDICTVERSE_ADDRESSES = {
+  "mainnet": "0xBf5036d29F9EF09C42d667742b68Ddfa1C82095a",
+  "staging": "",
+  "testnet": "0x1d7dd6f6B293E3418E164C118A77E3Dd43cf714B"
+}
+
 export const PREDICTION_TOKEN_ADDRESSES = {
   "BNB": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
   "ETH": "0x2170Ed0880ac9A755fd29B2688956BD959F933F8",
@@ -64,9 +76,9 @@ export const TOKENS = {
     "BID": "0xf9C86001C92fE30Be5Aa5eB3EF4cd191eAE205e4",
   },
   [supportedChainIds.Testnet]: {
-    "PRED": "",
+    "PRED": "0xB2d7b35539A543bbE4c74965488fFE33c6721f0d",
     "BUSD": "",
-    "Predcoin": "",
+    "Predcoin": "0xB2d7b35539A543bbE4c74965488fFE33c6721f0d",
     "WBNB": "",
     "BUSD-PRED LP": "",
     "BNB-PRED LP": "",

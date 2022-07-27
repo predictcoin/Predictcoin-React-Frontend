@@ -11,6 +11,9 @@ const CustomModal: FC = ({ children }) => {
 				<div className='background'>
 					<img src={ConnectModalIcon} alt="connect-modal" />
 				</div>
+				{/* <div className='close'>
+					<AiOutlineClose />
+				</div> */}
 				{children}
 			</div>
 		</section>
