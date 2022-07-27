@@ -8,11 +8,15 @@ import { FaAngleRight } from "react-icons/fa";
 import { RiArrowRightUpFill, RiArrowRightDownFill } from "react-icons/ri";
 import { outcome } from "../../models/MySportPredictionModel";
 import useCollapse from "react-collapsed";
-import { UserPrediction, status } from "../../application/domain/sportPrediction/entity";
+import {
+    UserPrediction,
+    status
+} from "../../application/domain/sportPrediction/entity";
 import { useDispatch } from "react-redux";
 import { setClaimModal } from "../../application/infrastructure/redux/actions/sportPrediction";
 import { STATUS, ToastBody, TYPE } from "../Toast";
 import { toast } from "react-toastify";
+import useSportPredictionViewModel from "../../application/controllers/sportPredictionViewModel";
 
 interface MySportPredictionTableRowProps {
     prediction: UserPrediction;
@@ -21,28 +25,48 @@ interface MySportPredictionTableRowProps {
 
 const MySportPredictionTableRow: FC<MySportPredictionTableRowProps> = ({
     prediction,
-    maxPredictions,
+    maxPredictions
 }) => {
     const { getCollapseProps, getToggleProps, isExpanded, setExpanded } =
         useCollapse({
-          duration: 300
+            duration: 300
         });
 
     const pendingToast = useRef("" as ReactText);
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
     const onClaimClick = (e: any) => {
-        e.stopPropagation()
-        if(prediction.claimed === false) {
-            return setClaimModal(true, prediction.id)(dispatch)
-        }  else {
-            const body = ToastBody("You alredy claimed the reward for this prediction!", STATUS.ERROR, TYPE.ERROR)
+        e.stopPropagation();
+        if (prediction.claimed === false) {
+            return setClaimModal(true, prediction.id)(dispatch);
+        } else {
+            const body = ToastBody(
+                "You alredy claimed the reward for this prediction!",
+                STATUS.ERROR,
+                TYPE.ERROR
+            );
             toast.dismiss(pendingToast.current);
             toast(body);
         }
-        
-    }
+    };
+
+    const onRefundClick = (e: any) => {
+        e.stopPropagation();
+        if (prediction.claimed === false) {
+            return claim([prediction.id]);
+        } else {
+            const body = ToastBody(
+                "You alredy claimed the pred for this cancelled match",
+                STATUS.ERROR,
+                TYPE.ERROR
+            );
+            toast.dismiss(pendingToast.current);
+            toast(body);
+        }
+    };
+
+    const { claim } = useSportPredictionViewModel();
 
     return (
         <>
@@ -77,9 +101,7 @@ const MySportPredictionTableRow: FC<MySportPredictionTableRowProps> = ({
                         <div className="team__two">
                             <img
                                 src={prediction.teamBLogoUri}
-                                alt={
-                                    prediction.teamB + " logo"
-                                }
+                                alt={prediction.teamB + " logo"}
                             />
                             <span>{prediction.teamB}</span>
                         </div>
@@ -97,7 +119,9 @@ const MySportPredictionTableRow: FC<MySportPredictionTableRowProps> = ({
                 </TableData>
                 <TableData text={""}>
                     <span
-                        className={`outcome__${String(prediction.outcome).toLocaleLowerCase()}`}
+                        className={`outcome__${String(
+                            prediction.outcome
+                        ).toLocaleLowerCase()}`}
                     >
                         {prediction.outcome === outcome.UNDETERMINED
                             ? "-"
@@ -105,7 +129,22 @@ const MySportPredictionTableRow: FC<MySportPredictionTableRowProps> = ({
                     </span>
                 </TableData>
                 <TableData text={""}>
-                    {prediction.outcome === outcome.WON && <button onClick={onClaimClick} className="cliam__win__btn">Claim win</button>}
+                    {prediction.outcome === outcome.WON && (
+                        <button
+                            onClick={onClaimClick}
+                            className="cliam__win__btn"
+                        >
+                            Claim win
+                        </button>
+                    )}
+                    {prediction.status === status.CANCELLED && (
+                        <button
+                            onClick={onRefundClick}
+                            className="cliam__win__btn"
+                        >
+                            Claim refund
+                        </button>
+                    )}
                 </TableData>
             </TableRow>
             <tr {...getCollapseProps()}>
