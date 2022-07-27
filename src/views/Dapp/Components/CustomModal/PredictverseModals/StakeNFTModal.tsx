@@ -122,7 +122,6 @@ const StakeNFTModal: FC<StakeNFTModalProps> = ({
                     >
                         Cancel
                     </button>
-                    &nbsp;&nbsp;
                     <button
                         className={"confirm active"}
                         onClick={stakeNFTs}
