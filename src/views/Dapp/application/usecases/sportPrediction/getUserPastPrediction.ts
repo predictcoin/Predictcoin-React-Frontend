@@ -1,3 +1,4 @@
+import BigNumber from "bignumber.js";
 import { toUtf8String } from "ethers/lib/utils";
 import {
     formatMatchUIDate,
@@ -186,7 +187,11 @@ export const getUserPastPrediction = async (params: Params) => {
                 ) as unknown as status,
                 claimed: userPredictions[index].claimed,
                 startTimestamp:
-                    allPredictedMatches[index].startTimestamp.toNumber()
+                    allPredictedMatches[index].startTimestamp.toNumber(),
+                predictionAmount: userPredictions[index]
+                    .amount as unknown as BigNumber,
+                rewardAmount: userPredictions[index]
+                    .reward as unknown as BigNumber
             };
         }
     );
