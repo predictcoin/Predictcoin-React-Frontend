@@ -1,9 +1,9 @@
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
 import Header from "../../Components/Header";
-import LiveMatches from "../../Components/LiveMatches"
+import LiveMatches from "../../Components/LiveMatches";
 import Mypredictions from "./Mypredictions";
-import UpcomingMatches from './UpcomingMatches'
+import UpcomingMatches from "./UpcomingMatches";
 // import PopularMatches from "../../Components/PopularMatches";
 import ModalConnect from "../../Components/CustomModal/ModalConnect";
 import ModalDisconnect from "../../Components/CustomModal/ModalDisconnect";
@@ -24,28 +24,30 @@ interface SportPredictionMainContentProps {
 const SportPredictionMainContent: FC<SportPredictionMainContentProps> = ({
     setIsSidebarExpanded
 }) => {
-
-    const {getUserPastPrediction, getUpcomingMatches, getSportPredicitonData, predictMatchModal, rewardMultiplier, predictionAmount} = useSportPredictionViewModel()
+    const {
+        getUserPastPrediction,
+        getUpcomingMatches,
+        getSportPredicitonData,
+        predictMatchModal,
+        rewardMultiplier,
+        predictionAmount
+    } = useSportPredictionViewModel();
 
     const { pathname } = useLocation();
     const [modalOpened, setModalOpened] = useState<boolean>(false);
     const { active, chainId, address } = useWalletViewModel();
     const { balance, decimals } = useToken(TOKENS[chainId].PRED);
-    
 
     useEffect(() => {
-        getSportPredicitonData()
-        getUpcomingMatches()
+        getSportPredicitonData();
+        getUpcomingMatches();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, []);
 
     useEffect(() => {
-        getUserPastPrediction()
+        getUserPastPrediction();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [address, active])
-    
-
-   
+    }, [address, active]);
 
     const modal = active ? (
         <ModalDisconnect
@@ -59,20 +61,24 @@ const SportPredictionMainContent: FC<SportPredictionMainContentProps> = ({
         <ModalConnect closeModal={() => setModalOpened(false)} />
     );
 
-    
-    
-    
-
     return (
         <section className="sport__prediction__main__content">
             {modalOpened && modal}
-            {predictMatchModal.id && !predictMatchModal.isFilled && <MatchPredictionModal predBalance = {balance} />}
-            {predictMatchModal.id && predictMatchModal.isFilled && <FilledSlotsModal />}
-            
+            {predictMatchModal.id && !predictMatchModal.isFilled && (
+                <MatchPredictionModal predBalance={balance} />
+            )}
+            {predictMatchModal.id && predictMatchModal.isFilled && (
+                <FilledSlotsModal />
+            )}
+
             <div className="container">
                 <Header
                     title="Sport prediction"
-                    subtitle={`Sport Prediction with ${formatEther(predictionAmount)} $PRED, earn ${Number(formatEther(predictionAmount)) * rewardMultiplier} $PRED`}
+                    subtitle={`Sport Prediction with ${Number(
+                        formatEther(predictionAmount)
+                    )} $PRED, earn ${
+                        Number(formatEther(predictionAmount)) * rewardMultiplier
+                    } $PRED`}
                     isSidebarExpanded
                     setIsSidebarExpanded={setIsSidebarExpanded}
                     setModalOpened={setModalOpened}
@@ -90,7 +96,8 @@ const SportPredictionMainContent: FC<SportPredictionMainContentProps> = ({
                                 to="upcoming-matches"
                                 className={`${
                                     pathname === "/sport-prediction" ||
-                                    pathname === "/sport-prediction/upcoming-matches"
+                                    pathname ===
+                                        "/sport-prediction/upcoming-matches"
                                         ? "active"
                                         : ""
                                 }`}
@@ -100,7 +107,8 @@ const SportPredictionMainContent: FC<SportPredictionMainContentProps> = ({
                             <Link
                                 to="my-predictions"
                                 className={`${
-                                    pathname === "/sport-prediction/my-predictions"
+                                    pathname ===
+                                    "/sport-prediction/my-predictions"
                                         ? "active"
                                         : ""
                                 }`}
@@ -115,9 +123,7 @@ const SportPredictionMainContent: FC<SportPredictionMainContentProps> = ({
                                     <Route
                                         key={index}
                                         path={path}
-                                        element={
-                                            <UpcomingMatches />
-                                        }
+                                        element={<UpcomingMatches />}
                                     />
                                 );
                             })}
