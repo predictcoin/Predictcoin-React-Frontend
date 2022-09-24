@@ -1,0 +1,120 @@
+#borrow__nft__modal {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+
+    .custom__modal__content {
+        width: 90%;
+        height: 90%;
+        max-width: 807px;
+        min-height: 381px;
+        max-height: 700px;
+        padding: 2rem 1rem;
+        display: flex;
+        flex-direction: column;
+
+        h4 {
+            color: #fff;
+            font-size: 20px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .background {
+            display: none;
+        }
+
+        .nft__cards__container {
+            overflow-y: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            place-items: center;
+            gap: 16px;
+
+            &.content {
+                flex: auto;
+            }
+
+            .nft__card__container {
+                position: relative;
+                width: 100%;
+                min-width: 250px;
+                max-width: 350px;
+
+                .checkbox__container {
+                    display: flex;
+                    width: 40px;
+                    height: 40px;
+                    position: absolute;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 8px;
+                    right: 0;
+                    z-index: 22;
+                    background: rgba(153, 126, 175, 0.7);
+                    backdrop-filter: blur(8px);
+                }
+            }
+        }
+
+        .no__nft {
+            flex: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            p {
+                font-size: 16px;
+                color: rgb(239, 229, 229);
+                text-align: center;
+            }
+        }
+
+        .buttons {
+            margin-top: 1.5rem;
+            text-align: center;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 12px 8px;
+
+            button {
+                border: none;
+                color: #ffffff;
+                padding: 1rem 3rem;
+                border-radius: 5px;
+                width: 100%;
+                max-width: 300px;
+
+                @media screen and (min-width: 520px) {
+                    max-width: 200px;
+                }
+
+                &:disabled {
+                    opacity: 0.5;
+                    cursor: not-allowed;
+                }
+
+                &.cancel {
+                    background-color: #c8304d;
+                    border: 1px solid #c8304d;
+                }
+
+                &.confirm {
+                    background-color: #0e56c0;
+                    border: 1px solid #0e56c0;
+
+                    &:not(.active) {
+                        background-color: #908fc2;
+                        cursor: not-allowed !important;
+                        pointer-events: none;
+                    }
+                }
+            }
+        }
+    }
+}
