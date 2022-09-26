@@ -56,6 +56,12 @@ export const PREDICTVERSE_ADDRESSES = {
   "testnet": "0x1d7dd6f6B293E3418E164C118A77E3Dd43cf714B"
 }
 
+export const MARKET_ADDRESSES = {
+  "mainnet": "",
+  "staging": "",
+  "testnet": "0x51cAC3cC4CDbe104062a474De77ddD0bb58f788f"
+}
+
 export const PREDICTION_TOKEN_ADDRESSES = {
   "BNB": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
   "ETH": "0x2170Ed0880ac9A755fd29B2688956BD959F933F8",
