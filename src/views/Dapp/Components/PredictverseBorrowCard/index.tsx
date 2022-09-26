@@ -2,56 +2,59 @@ import { FC, useState } from "react";
 import { HiOutlineArrowDown } from "react-icons/hi";
 
 import ExportIcon from "../../../../assets/appSvgs/ExportIcon";
-import { displayDecimals, displayTokenValue } from "../../lib/utils/number";
 import { useWalletViewModel } from "../../application/controllers/walletViewModel";
 import ConnectModal from "../CustomModal/ModalConnect";
-import { PREDICTVERSE_ADDRESSES, TOKENS } from "../../constants/addresses";
-import StakeNFTModal from "../CustomModal/PredictverseModals/StakeNFTModal";
-import ViewStakedNFTModal from "../CustomModal/PredictverseModals/ViewStakedNFTModal";
-import usePredictverseViewModel from "../../application/controllers/predictverseViewModel";
+import {
+    PREDICTVERSE_MARKET_ADDRESSES,
+} from "../../constants/addresses";
+import BorrowNFTModal from "../CustomModal/PredictverseModals/BorrowNFTModal";
+import ViewBorrowedNFTModal from "../CustomModal/PredictverseModals/ViewBorrowedNFTModal";
 import useERC721 from "../../hooks/predictverse/useERC721";
-import PredictverseCardModel from "../../models/PredictverseCardModel";
-import useToken from "../../hooks/useToken";
 import "./predictverseborrowcard.styles.scss";
+import usePredictverseMarketViewModel from "../../application/controllers/predictverseMarketViewModel";
+import PredictverseBorrowCardModel from "../../models/PredictverseBorrowCardModel";
 
 const contractAddress =
-    PREDICTVERSE_ADDRESSES[
-        process.env.REACT_APP_ENVIRONMENT as keyof typeof PREDICTVERSE_ADDRESSES
+    PREDICTVERSE_MARKET_ADDRESSES[
+        process.env
+            .REACT_APP_ENVIRONMENT as keyof typeof PREDICTVERSE_MARKET_ADDRESSES
     ];
 
-const PredictverseBorrowCard: FC<PredictverseCardModel> = ({
-    id,
-    apr,
-    earned,
-    stakedNFTs,
-    totalNFTStaked,
+const PredictverseBorrowCard: FC<PredictverseBorrowCardModel> = ({
+    borrowedNFTs,
+    totalPREDCollateral,
     contractUrl,
-    USDStaked,
     walletUnlockStatus,
-    USDEarned,
-    staked,
+    availableNFTs,
+    noOfAvailableNFTs,
+    noOfBorrowedNFTs,
     NFTAddress
 }) => {
     const { active, chainId } = useWalletViewModel();
-    const { stake, harvest, withdraw } = usePredictverseViewModel();
-    const { allowed, approve, userNFTs, nameSymbol } = useERC721(NFTAddress);
-    const { decimals } = useToken(TOKENS[chainId].PRED);
+    const { borrow, withdraw } = usePredictverseMarketViewModel();
+    const {
+        allowed: withdrawAllowed,
+        approve: approveWithdraw,
+        nameSymbol
+    } = useERC721(NFTAddress);
+    const { allowed: borrowAllowed, approve: approveBorrow } =
+        useERC721(NFTAddress);
     const [walletModal, setWalletModal] = useState<boolean>(false);
-    const [showViewStakedNFTModal, setShowViewStakedNFTModal] = useState<{
+    const [showViewBorrowedNFTModal, setShowViewBorrowedNFTModal] = useState<{
         open: boolean;
         title: string;
     }>({ open: false, title: "" });
-    const [showStakeNFTModal, setShowStakeNFTModal] = useState<{
+    const [showBorrowNFTModal, setShowBorrowNFTModal] = useState<{
         open: boolean;
         title: string;
     }>({ open: false, title: "" });
 
-    const closeViewStakedNFTModal = (open: boolean) => {
-        setShowViewStakedNFTModal({ open, title: "" });
+    const closeViewBorrowedNFTModal = (open: boolean) => {
+        setShowViewBorrowedNFTModal({ open, title: "" });
     };
 
-    const closeStakedNFTModal = (open: boolean) => {
-        setShowStakeNFTModal({ open, title: "" });
+    const closeBorrowedNFTModal = (open: boolean) => {
+        setShowBorrowNFTModal({ open, title: "" });
     };
 
     // buttons
@@ -63,29 +66,42 @@ const PredictverseBorrowCard: FC<PredictverseCardModel> = ({
             Unlock Wallet
         </button>
     );
-    const harvestButton = (
+
+    const withdrawButton = (
         <button
-            className={`action harvest ${+earned === 0 && "inactive"}`}
-            onClick={() => harvest(+id)}
-        >
-            Harvest
-        </button>
-    );
-    const depositButton = (
-        <button
-            className={`action`}
+            className={`action harvest ${noOfBorrowedNFTs === 0 && "inactive"}`}
             onClick={() => {
-                setShowStakeNFTModal({ open: true, title: "hello" });
+                setShowViewBorrowedNFTModal({ open: true, title: "" });
             }}
         >
-            Deposit
+            Withdraw
         </button>
     );
 
-    const approveButton = (
+    const borrowButton = (
         <button
             className={`action`}
-            onClick={() => approve(contractAddress, true)}
+            onClick={() => {
+                setShowBorrowNFTModal({ open: true, title: "" });
+            }}
+        >
+            Borrow
+        </button>
+    );
+
+    const approveWithdrawButton = (
+        <button
+            className={`action`}
+            onClick={() => approveWithdraw(contractAddress, true)}
+        >
+            Approve
+        </button>
+    );
+
+    const approveBorrowButton = (
+        <button
+            className={`action`}
+            onClick={() => approveBorrow(contractAddress, true)}
         >
             Approve
         </button>
@@ -93,32 +109,28 @@ const PredictverseBorrowCard: FC<PredictverseCardModel> = ({
 
     let mainButton = !active ? (
         unlockButton
-    ) : allowed ? (
-        <>
-            {harvestButton}
-            {depositButton}
-        </>
     ) : (
-        approveButton
+        <>
+            {withdrawButton}
+            {borrowButton}
+        </>
     );
 
     return (
         <>
-            {showStakeNFTModal.open && (
-                <StakeNFTModal
-                    closeModal={closeStakedNFTModal}
-                    userNFTs={userNFTs}
-                    stake={stake}
-                    pId={id}
+            {showBorrowNFTModal.open && (
+                <BorrowNFTModal
+                    closeModal={closeBorrowedNFTModal}
+                    predNFTsToBorrow={availableNFTs}
+                    borrow={borrow}
                     nameSymbol={nameSymbol}
                 />
             )}
-            {showViewStakedNFTModal.open && (
-                <ViewStakedNFTModal
-                    closeModal={closeViewStakedNFTModal}
-                    stakedNFTs={stakedNFTs}
+            {showViewBorrowedNFTModal.open && (
+                <ViewBorrowedNFTModal
+                    closeModal={closeViewBorrowedNFTModal}
+                    borrowedNFTs={borrowedNFTs}
                     withdraw={withdraw}
-                    pId={id}
                     nameSymbol={nameSymbol}
                 />
             )}
@@ -140,56 +152,33 @@ const PredictverseBorrowCard: FC<PredictverseCardModel> = ({
                 </div>
 
                 <div className="predictverse__borrow__card__content">
-                    <div className="price__stake">
+                    <div className="price__borrow">
                         <div className="price">
                             <div className="section">
                                 <div>
-                                    <span className="light">NFTs Borrowed</span>
-                                    <span className="normal">
-                                        {apr === "Infinity"
-                                            ? "100000"
-                                            : displayDecimals(apr, 2)}
-                                        %
-                                    </span>
-                                </div>
-                                <div>
                                     <span className="light">
-                                        PRED Deposited (collateral)
+                                        NFTs Available
                                     </span>
                                     <span className="normal">
-                                        PRED NFT/PRED
+                                        {noOfAvailableNFTs}
                                     </span>
                                 </div>
-                                {active && allowed && (
+                                {active && (
                                     <>
                                         <div>
                                             <span className="light">
-                                                EARNINGS
+                                                NFTs Borrowed
                                             </span>
                                             <span className="normal">
-                                                {displayTokenValue(
-                                                    earned,
-                                                    18,
-                                                    5
-                                                )}{" "}
-                                                PRED
-                                                <span className="dollar">
-                                                    {" "}
-                                                    ~$
-                                                    {displayTokenValue(
-                                                        USDEarned,
-                                                        decimals,
-                                                        2
-                                                    )}
-                                                </span>
+                                                {noOfBorrowedNFTs}
                                             </span>
                                         </div>
                                         <div>
                                             <span className="light">
-                                                NFTs STAKED
+                                                PRED Deposited (collateral)
                                             </span>
                                             <span className="normal">
-                                                {staked}
+                                                PRED NFT/PRED
                                             </span>
                                         </div>
                                     </>
@@ -197,40 +186,40 @@ const PredictverseBorrowCard: FC<PredictverseCardModel> = ({
                             </div>
                         </div>
 
-                        {active && allowed && (
+                        {active && (
                             <div className="user__connected">
                                 <button
-                                    className={`view__staked__nfts`}
+                                    className={`view__borrowed__nfts`}
                                     onClick={() => {
-                                        setShowViewStakedNFTModal({
+                                        setShowViewBorrowedNFTModal({
                                             open: true,
                                             title: ""
                                         });
                                     }}
                                 >
-                                    View my staked NFTs
+                                    View borrowed NFTs
                                 </button>
                             </div>
                         )}
 
-                        {!active && !allowed && (
+                        {!active && (
                             <div className="unlock__text">
-                                <p>unlock wallet to begin staking</p>
+                                <p>unlock wallet to begin borrowing</p>
                                 <HiOutlineArrowDown />
                             </div>
                         )}
 
                         <div
                             className={`action__container ${
-                                active && allowed ? "two" : ""
+                                active ? "two" : ""
                             }`}
                         >
                             {mainButton}
                         </div>
                     </div>
 
-                    <div className="stake__details">
-                        <p>Total PRED Deposited: {totalNFTStaked}</p>
+                    <div className="borrow__details">
+                        <p>Total PRED (Collateral): {totalPREDCollateral}</p>
                         <a href={contractUrl} target="_true">
                             <span>View Contract</span>
                             <ExportIcon />

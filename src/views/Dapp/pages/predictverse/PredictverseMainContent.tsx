@@ -18,6 +18,7 @@ import PredictverseCard from "../../Components/PredictverseCard";
 import usePredictverseViewModel from "../../application/controllers/predictverseViewModel";
 import PredictverseCardModel from "../../models/PredictverseCardModel";
 import PredictverseBorrowCard from "../../Components/PredictverseBorrowCard";
+import usePredictverseMarketViewModel from "../../application/controllers/predictverseMarketViewModel";
 
 const PredictverseSkeleton = () => {
     return (
@@ -56,6 +57,11 @@ const PredictverseMainContent: FC<PredictverseMainContentProps> = ({
     const { chainId, active } = useWalletViewModel();
     const { initPredictverse, predictverseAvailable, predictverseCardData } =
         usePredictverseViewModel();
+    const {
+        initPredictverseMarket,
+        predictverseMarketAvailable,
+        predictverseBorrowCardData
+    } = usePredictverseMarketViewModel();
     const { balance, decimals } = useToken(TOKENS[chainId].PRED);
 
     const modal = active ? (
@@ -72,6 +78,7 @@ const PredictverseMainContent: FC<PredictverseMainContentProps> = ({
 
     useEffect(() => {
         initPredictverse();
+        initPredictverseMarket();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [active]);
 
@@ -117,31 +124,33 @@ const PredictverseMainContent: FC<PredictverseMainContentProps> = ({
                             path={"/borrow"}
                             element={
                                 <div className="predictverse__card__container">
-                                    {predictverseAvailable ? (
-                                        (
-                                            predictverseCardData as unknown as PredictverseCardModel[]
-                                        )?.map((poolCard) => (
-                                            <PredictverseBorrowCard
-                                                key={poolCard.id}
-                                                id={poolCard.id}
-                                                apr={poolCard.apr}
-                                                earned={poolCard.earned}
-                                                stakedNFTs={poolCard.stakedNFTs}
-                                                totalNFTStaked={
-                                                    poolCard.totalNFTStaked
-                                                }
-                                                contractUrl={
-                                                    poolCard.contractUrl
-                                                }
-                                                USDStaked={poolCard.USDStaked}
-                                                walletUnlockStatus={
-                                                    poolCard.walletUnlockStatus
-                                                }
-                                                USDEarned={poolCard.USDEarned}
-                                                staked={poolCard.staked}
-                                                NFTAddress={poolCard.NFTAddress}
-                                            />
-                                        ))
+                                    {predictverseMarketAvailable ? (
+                                        <PredictverseBorrowCard
+                                            borrowedNFTs={
+                                                predictverseBorrowCardData.borrowedNFTs
+                                            }
+                                            availableNFTs={
+                                                predictverseBorrowCardData.availableNFTs
+                                            }
+                                            totalPREDCollateral={
+                                                predictverseBorrowCardData.totalPREDCollateral
+                                            }
+                                            contractUrl={
+                                                predictverseBorrowCardData.contractUrl
+                                            }
+                                            noOfBorrowedNFTs={
+                                                predictverseBorrowCardData.noOfBorrowedNFTs
+                                            }
+                                            noOfAvailableNFTs={
+                                                predictverseBorrowCardData.noOfAvailableNFTs
+                                            }
+                                            walletUnlockStatus={
+                                                predictverseBorrowCardData.walletUnlockStatus
+                                            }
+                                            NFTAddress={
+                                                predictverseBorrowCardData.NFTAddress
+                                            }
+                                        />
                                     ) : (
                                         <>
                                             <PredictverseSkeleton />

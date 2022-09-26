@@ -16,14 +16,12 @@ interface ViewBorrowedNFTModalProps {
     };
     withdraw: (
         tokenIds: number[],
-        pId: number,
         callbacks?:
             | {
                   [key: string]: () => void;
               }
             | undefined
     ) => void;
-    pId: number;
     nameSymbol: {
         name: string;
         symbol: string;
@@ -34,7 +32,6 @@ const ViewBorrowedNFTModal: FC<ViewBorrowedNFTModalProps> = ({
     closeModal,
     borrowedNFTs,
     withdraw,
-    pId,
     nameSymbol
 }) => {
     const [nFtsToWithdraw, setNFTsToWithdraw] = useState<number[]>([]);
@@ -59,7 +56,7 @@ const ViewBorrowedNFTModal: FC<ViewBorrowedNFTModalProps> = ({
     };
 
     const withdrawNFTs = async () => {
-        await withdraw(nFtsToWithdraw, pId);
+        await withdraw(nFtsToWithdraw);
         setNFTsToWithdraw([]);
         closeModal(false);
     };

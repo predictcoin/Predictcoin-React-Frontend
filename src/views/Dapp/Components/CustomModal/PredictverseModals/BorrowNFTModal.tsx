@@ -16,14 +16,12 @@ interface BorrowNFTModalProps {
     };
     borrow: (
         tokenIds: number[],
-        pId: number,
         callbacks?:
             | {
                   [key: string]: () => void;
               }
             | undefined
     ) => void;
-    pId: number;
     nameSymbol: {
         name: string;
         symbol: string;
@@ -34,7 +32,6 @@ const BorrowNFTModal: FC<BorrowNFTModalProps> = ({
     closeModal,
     predNFTsToBorrow,
     borrow,
-    pId,
     nameSymbol
 }) => {
     const [nftsToBorrow, setNFTsToBorrow] = useState<number[]>([]);
@@ -60,7 +57,7 @@ const BorrowNFTModal: FC<BorrowNFTModalProps> = ({
     };
 
     const BorrowNFTs = async () => {
-        await borrow(nftsToBorrow, pId);
+        await borrow(nftsToBorrow);
         setNFTsToBorrow([]);
         closeModal(false);
     };
