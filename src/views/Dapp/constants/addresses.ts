@@ -59,7 +59,7 @@ export const PREDICTVERSE_ADDRESSES = {
 export const MARKET_ADDRESSES = {
   "mainnet": "",
   "staging": "",
-  "testnet": "0x51cAC3cC4CDbe104062a474De77ddD0bb58f788f"
+  "testnet": "0xB745C869db3748fA89831fF2da702EE254535B8b"
 }
 
 export const PREDICTION_TOKEN_ADDRESSES = {
