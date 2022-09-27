@@ -76,12 +76,23 @@
         .buttons {
             margin-top: 1.5rem;
             text-align: center;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 12px 8px;
 
             button {
                 border: none;
                 color: #ffffff;
                 padding: 1rem 3rem;
                 border-radius: 5px;
+                width: 100%;
+                max-width: 300px;
+
+                @media screen and (min-width: 520px) {
+                    max-width: 200px;
+                }
 
                 &:disabled {
                     opacity: 0.5;

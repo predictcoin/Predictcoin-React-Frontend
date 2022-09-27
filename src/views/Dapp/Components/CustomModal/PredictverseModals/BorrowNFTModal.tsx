@@ -26,13 +26,21 @@ interface BorrowNFTModalProps {
         name: string;
         symbol: string;
     };
+    justView: boolean;
+    approved: boolean;
+    approveBorrow: (operator: string, approved: boolean) => Promise<void>;
+    contractAddress: string;
 }
 
 const BorrowNFTModal: FC<BorrowNFTModalProps> = ({
     closeModal,
     predNFTsToBorrow,
     borrow,
-    nameSymbol
+    nameSymbol,
+    justView,
+    approved,
+    approveBorrow,
+    contractAddress
 }) => {
     const [nftsToBorrow, setNFTsToBorrow] = useState<number[]>([]);
 
@@ -78,7 +86,7 @@ const BorrowNFTModal: FC<BorrowNFTModalProps> = ({
                     <AiOutlineClose />
                 </div>
 
-                <h4>borrow {`${nameSymbol.symbol}`} NFTs</h4>
+                <h4>Borrow {`${nameSymbol.symbol}`} NFTs</h4>
 
                 <div
                     className={`nft__cards__container ${
@@ -89,21 +97,25 @@ const BorrowNFTModal: FC<BorrowNFTModalProps> = ({
                 >
                     {Object.values(predNFTsToBorrow)?.map((NFT) => (
                         <div className="nft__card__container" key={NFT.tokenId}>
-                            <div className="checkbox__container">
-                                <CustomCheckbox
-                                    id={`remove-${NFT.tokenId}`}
-                                    name={`remove-${NFT.tokenId}`}
-                                    color="#2d173f"
-                                    size="20px"
-                                    strokeColor="transparent"
-                                    checkedColor="transparent"
-                                    checkedStrokeColor="#2d173f"
-                                    checked={nftsToBorrow.includes(NFT.tokenId)}
-                                    onChange={(evt) =>
-                                        toggleNFTBorrrow(evt, NFT.tokenId)
-                                    }
-                                />
-                            </div>
+                            {!justView && (
+                                <div className="checkbox__container">
+                                    <CustomCheckbox
+                                        id={`remove-${NFT.tokenId}`}
+                                        name={`remove-${NFT.tokenId}`}
+                                        color="#2d173f"
+                                        size="20px"
+                                        strokeColor="transparent"
+                                        checkedColor="transparent"
+                                        checkedStrokeColor="#2d173f"
+                                        checked={nftsToBorrow.includes(
+                                            NFT.tokenId
+                                        )}
+                                        onChange={(evt) =>
+                                            toggleNFTBorrrow(evt, NFT.tokenId)
+                                        }
+                                    />
+                                </div>
+                            )}
                             <NFTCard nftDetails={NFT} nameSymbol={nameSymbol} />
                         </div>
                     ))}
@@ -118,22 +130,35 @@ const BorrowNFTModal: FC<BorrowNFTModalProps> = ({
                     </div>
                 )}
 
-                <div className="buttons">
-                    <button
-                        className="cancel"
-                        onClick={() => setNFTsToBorrow([])}
-                        disabled={!Boolean(nftsToBorrow.length)}
-                    >
-                        Cancel
-                    </button>
-                    <button
-                        className={"confirm active"}
-                        onClick={BorrowNFTs}
-                        disabled={!Boolean(nftsToBorrow.length)}
-                    >
-                        Borrow
-                    </button>
-                </div>
+                {!justView && (
+                    <div className="buttons">
+                        <button
+                            className="cancel"
+                            onClick={() => setNFTsToBorrow([])}
+                            disabled={!Boolean(nftsToBorrow.length)}
+                        >
+                            Cancel
+                        </button>
+                        {approved ? (
+                            <button
+                                className={"confirm active"}
+                                onClick={BorrowNFTs}
+                                disabled={!Boolean(nftsToBorrow.length)}
+                            >
+                                Borrow
+                            </button>
+                        ) : (
+                            <button
+                                className={"confirm active"}
+                                onClick={() =>
+                                    approveBorrow(contractAddress, true)
+                                }
+                            >
+                                Approve
+                            </button>
+                        )}
+                    </div>
+                )}
             </CustomModal>
         </div>
     );

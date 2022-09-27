@@ -26,13 +26,19 @@ interface ViewBorrowedNFTModalProps {
         name: string;
         symbol: string;
     };
+    approved: boolean;
+    approveWithdraw: (operator: string, approved: boolean) => Promise<void>;
+    contractAddress: string;
 }
 
 const ViewBorrowedNFTModal: FC<ViewBorrowedNFTModalProps> = ({
     closeModal,
     borrowedNFTs,
     withdraw,
-    nameSymbol
+    nameSymbol,
+    approved,
+    approveWithdraw,
+    contractAddress
 }) => {
     const [nFtsToWithdraw, setNFTsToWithdraw] = useState<number[]>([]);
     const toggleNFTsToWithdraw = (
@@ -124,13 +130,24 @@ const ViewBorrowedNFTModal: FC<ViewBorrowedNFTModalProps> = ({
                     >
                         Cancel
                     </button>
-                    <button
-                        className={"confirm active"}
-                        onClick={withdrawNFTs}
-                        disabled={!Boolean(nFtsToWithdraw.length)}
-                    >
-                        Withdraw
-                    </button>
+                    {approved ? (
+                        <button
+                            className={"confirm active"}
+                            onClick={withdrawNFTs}
+                            disabled={!Boolean(nFtsToWithdraw.length)}
+                        >
+                            Withdraw
+                        </button>
+                    ) : (
+                        <button
+                            className={"confirm active"}
+                            onClick={() =>
+                                approveWithdraw(contractAddress, true)
+                            }
+                        >
+                            Approve
+                        </button>
+                    )}
                 </div>
             </CustomModal>
         </div>

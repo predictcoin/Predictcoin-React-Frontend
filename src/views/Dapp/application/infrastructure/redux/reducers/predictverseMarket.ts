@@ -37,14 +37,14 @@ export const predictverseMarketReducer = (
         case actionType.INIT_PREDICTVERSE_MARKET_SUCCESS:
             return {
                 ...state,
-                predictverseAvailable: true,
+                predictverseMarketAvailable: true,
                 isLoadingPredictverseMarket: false,
                 ...action.data
             };
         case actionType.SET_MARKET_DETAILS_DATA:
             return {
                 ...state,
-                predictverseAvailable: true,
+                predictverseMarketAvailable: true,
                 isLoadingPredictverseMarket: false,
                 marketDetails: {
                     ...state.marketDetails,

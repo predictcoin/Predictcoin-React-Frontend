@@ -49,14 +49,15 @@ const PredictverseBorrowCard: FC<PredictverseBorrowCardModel> = ({
     const [showBorrowNFTModal, setShowBorrowNFTModal] = useState<{
         open: boolean;
         title: string;
-    }>({ open: false, title: "" });
+        justView: boolean;
+    }>({ open: false, title: "", justView: true });
 
     const closeViewBorrowedNFTModal = (open: boolean) => {
         setShowViewBorrowedNFTModal({ open, title: "" });
     };
 
     const closeBorrowedNFTModal = (open: boolean) => {
-        setShowBorrowNFTModal({ open, title: "" });
+        setShowBorrowNFTModal({ open, title: "", justView: true });
     };
 
     // buttons
@@ -84,28 +85,14 @@ const PredictverseBorrowCard: FC<PredictverseBorrowCardModel> = ({
         <button
             className={`action`}
             onClick={() => {
-                setShowBorrowNFTModal({ open: true, title: "" });
+                setShowBorrowNFTModal({
+                    open: true,
+                    title: "",
+                    justView: false
+                });
             }}
         >
             Borrow
-        </button>
-    );
-
-    const approveWithdrawButton = (
-        <button
-            className={`action`}
-            onClick={() => approveWithdraw(contractAddress, true)}
-        >
-            Approve
-        </button>
-    );
-
-    const approveBorrowButton = (
-        <button
-            className={`action`}
-            onClick={() => approveBorrow(contractAddress, true)}
-        >
-            Approve
         </button>
     );
 
@@ -126,6 +113,10 @@ const PredictverseBorrowCard: FC<PredictverseBorrowCardModel> = ({
                     predNFTsToBorrow={availableNFTs}
                     borrow={borrow}
                     nameSymbol={nameSymbol}
+                    justView={showBorrowNFTModal.justView}
+                    approved={borrowAllowed}
+                    approveBorrow={approveBorrow}
+                    contractAddress={contractAddress}
                 />
             )}
             {showViewBorrowedNFTModal.open && (
@@ -134,6 +125,9 @@ const PredictverseBorrowCard: FC<PredictverseBorrowCardModel> = ({
                     borrowedNFTs={borrowedNFTs}
                     withdraw={withdraw}
                     nameSymbol={nameSymbol}
+                    approved={withdrawAllowed}
+                    approveWithdraw={approveWithdraw}
+                    contractAddress={contractAddress}
                 />
             )}
             {walletModal && <ConnectModal closeModal={setWalletModal} />}
@@ -205,10 +199,26 @@ const PredictverseBorrowCard: FC<PredictverseBorrowCardModel> = ({
                         )}
 
                         {!active && (
-                            <div className="unlock__text">
-                                <p>unlock wallet to begin borrowing</p>
-                                <HiOutlineArrowDown />
-                            </div>
+                            <>
+                                <div className="user__connected">
+                                    <button
+                                        className={`view__borrowed__nfts`}
+                                        onClick={() => {
+                                            setShowBorrowNFTModal({
+                                                open: true,
+                                                title: "",
+                                                justView: true
+                                            });
+                                        }}
+                                    >
+                                        View available NFTs
+                                    </button>
+                                </div>
+                                <div className="unlock__text">
+                                    <p>unlock wallet to begin borrowing</p>
+                                    <HiOutlineArrowDown />
+                                </div>
+                            </>
                         )}
 
                         <div

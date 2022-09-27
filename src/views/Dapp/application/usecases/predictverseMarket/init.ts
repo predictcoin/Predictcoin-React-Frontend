@@ -4,7 +4,7 @@ import { PRED_NFT_ADDRESSES } from "../../../constants/addresses";
 import ERC__721abi from "../../../abis/ERC721.json";
 import getNFTs from "../../../lib/utils/getNFTs";
 import { BorrowedNFT } from "../../domain/predictverseMarket/entity";
-import BigNumber from "bignumber.js";
+import getMultiCallResults from "../../../lib/utils/getMultiCallResults";
 
 export const initPredictverseMarketUsecase = async ({
     predictverseMarketContract,
@@ -30,17 +30,29 @@ export const initPredictverseMarketUsecase = async ({
         predictverseMarketContract.provider
     );
 
-    const availableNFTsInfo = await predictverseMarketContract.getMarketNFTs();
+    const tokenIndexes: number[] = [];
+    const noOfAvailableNFTs = Number(
+        await predNFTContract.balanceOf(predictverseMarketContract.address)
+    );
+
+    for (let i = 0; i < noOfAvailableNFTs; i++) {
+        tokenIndexes.push(i);
+    }
+
+    const tokenIds = (await getMultiCallResults(
+        predictverseMarketContract.provider,
+        predNFTAddress,
+        ERC__721abi,
+        tokenIndexes,
+        "tokenOfOwnerByIndex",
+        [predictverseMarketContract.address]
+    ));
 
     const availableNFTs = await getNFTs(
         predictverseMarketContract.provider,
         predNFTAddress,
         ERC__721abi,
-        availableNFTsInfo.map((token) => token.toNumber())
-    );
-
-    const noOfAvailableNFTs = Number(
-        await predNFTContract.balanceOf(predictverseMarketContract.address)
+        tokenIds as number[]
     );
 
     let userBorrowedNFTs: {

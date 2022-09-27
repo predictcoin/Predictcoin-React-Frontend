@@ -6,6 +6,7 @@ import { SendParams } from "../../../hooks/useTransaction";
 import getNFTs from "../../../lib/utils/getNFTs";
 import { ERC721__factory, PredictverseMarket } from "../../../typechain";
 import { BorrowedNFT } from "../../domain/predictverseMarket/entity";
+import getMultiCallResults from "../../../lib/utils/getMultiCallResults";
 
 interface BorrowParams {
     contract: PredictverseMarket;
@@ -67,17 +68,29 @@ export const getMarketDetailsUsecase = async (
         contract.provider
     );
 
-    const availableNFTsInfo = await contract.getMarketNFTs();
+    const tokenIndexes: number[] = [];
+    const noOfAvailableNFTs = Number(
+        await predNFTContract.balanceOf(contract.address)
+    );
+
+    for (let i = 0; i < noOfAvailableNFTs; i++) {
+        tokenIndexes.push(i);
+    }
+
+    const tokenIds = await getMultiCallResults(
+        contract.provider,
+        predNFTAddress,
+        ERC__721abi,
+        tokenIndexes,
+        "tokenOfOwnerByIndex",
+        [contract.address]
+    );
 
     const availableNFTs = await getNFTs(
         contract.provider,
         predNFTAddress,
         ERC__721abi,
-        availableNFTsInfo.map((token) => token.toNumber())
-    );
-
-    const noOfAvailableNFTs = Number(
-        await predNFTContract.balanceOf(contract.address)
+        tokenIds as number[]
     );
 
     let userBorrowedNFTs: {
