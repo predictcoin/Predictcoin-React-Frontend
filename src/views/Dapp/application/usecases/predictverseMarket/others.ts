@@ -97,8 +97,16 @@ export const getMarketDetailsUsecase = async (
         [tokenId: number]: BorrowedNFT;
     } = {};
 
+    let userPREDCollateral: number = 0;
+
+    const singleNFTCollateral = await contract.collateral();
+
     if (userAddress) {
         const userInfo = await contract.getBorrowData(userAddress);
+
+        userInfo.forEach(
+            (info) => userPREDCollateral + info.collateral.toNumber()
+        );
 
         userBorrowedNFTs = await getNFTs(
             contract.provider,
@@ -113,7 +121,9 @@ export const getMarketDetailsUsecase = async (
         noOfAvailableNFTs,
         NFTAddress: predNFTAddress,
         userBorrowedNFTs,
-        userNoOfBorrowedNFTs: Object.keys(userBorrowedNFTs).length
+        userNoOfBorrowedNFTs: Object.keys(userBorrowedNFTs).length,
+        userPREDCollateral,
+        singleNFTCollateral: singleNFTCollateral
     };
 
     return marketDetails;

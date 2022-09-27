@@ -1,5 +1,6 @@
+import { BigNumber } from "ethers";
 import { ChangeEvent, FC, useEffect, useState } from "react";
-import { AiOutlineClose } from "react-icons/ai";
+import { AiOutlineClose, AiOutlineInfoCircle } from "react-icons/ai";
 
 import CustomModal from "..";
 import CustomCheckbox from "../../CustomCheckbox";
@@ -27,9 +28,12 @@ interface BorrowNFTModalProps {
         symbol: string;
     };
     justView: boolean;
-    approved: boolean;
-    approveBorrow: (operator: string, approved: boolean) => Promise<void>;
+    approved: {
+        [key: string]: BigNumber;
+    };
+    approveBorrow: (spender: string, amount: string) => Promise<void>;
     contractAddress: string;
+    singleNFTCollateral: BigNumber;
 }
 
 const BorrowNFTModal: FC<BorrowNFTModalProps> = ({
@@ -40,9 +44,13 @@ const BorrowNFTModal: FC<BorrowNFTModalProps> = ({
     justView,
     approved,
     approveBorrow,
-    contractAddress
+    contractAddress,
+    singleNFTCollateral
 }) => {
     const [nftsToBorrow, setNFTsToBorrow] = useState<number[]>([]);
+    const [borrowCollateral, setBorrowCollateral] = useState<BigNumber>(
+        BigNumber.from(0)
+    );
 
     const toggleNFTBorrrow = (
         evt: ChangeEvent<HTMLInputElement>,
@@ -79,6 +87,11 @@ const BorrowNFTModal: FC<BorrowNFTModalProps> = ({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    useEffect(() => {
+        setBorrowCollateral(singleNFTCollateral.mul(nftsToBorrow.length));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [nftsToBorrow]);
+
     return (
         <div id="borrow__nft__modal">
             <CustomModal>
@@ -87,6 +100,15 @@ const BorrowNFTModal: FC<BorrowNFTModalProps> = ({
                 </div>
 
                 <h4>Borrow {`${nameSymbol.symbol}`} NFTs</h4>
+
+                {!justView && (
+                    <p className="pred__collateral__amount">
+                        <AiOutlineInfoCircle size={18} color={"white"} />
+                        <span>
+                            PRED Collateral: {borrowCollateral.toString()}
+                        </span>
+                    </p>
+                )}
 
                 <div
                     className={`nft__cards__container ${
@@ -130,35 +152,41 @@ const BorrowNFTModal: FC<BorrowNFTModalProps> = ({
                     </div>
                 )}
 
-                {!justView && (
-                    <div className="buttons">
-                        <button
-                            className="cancel"
-                            onClick={() => setNFTsToBorrow([])}
-                            disabled={!Boolean(nftsToBorrow.length)}
-                        >
-                            Cancel
-                        </button>
-                        {approved ? (
+                {!justView &&
+                    Boolean(Object.values(predNFTsToBorrow).length > 0) && (
+                        <div className="buttons">
                             <button
-                                className={"confirm active"}
-                                onClick={BorrowNFTs}
+                                className="cancel"
+                                onClick={() => setNFTsToBorrow([])}
                                 disabled={!Boolean(nftsToBorrow.length)}
                             >
-                                Borrow
+                                Cancel
                             </button>
-                        ) : (
-                            <button
-                                className={"confirm active"}
-                                onClick={() =>
-                                    approveBorrow(contractAddress, true)
-                                }
-                            >
-                                Approve
-                            </button>
-                        )}
-                    </div>
-                )}
+                            {approved?.[contractAddress]?.gt(
+                                borrowCollateral
+                            ) ? (
+                                <button
+                                    className={"confirm active"}
+                                    onClick={BorrowNFTs}
+                                    disabled={!Boolean(nftsToBorrow.length)}
+                                >
+                                    Borrow
+                                </button>
+                            ) : (
+                                <button
+                                    className={"confirm active"}
+                                    onClick={() =>
+                                        approveBorrow(
+                                            contractAddress,
+                                            Number.MAX_SAFE_INTEGER.toString()
+                                        )
+                                    }
+                                >
+                                    Approve
+                                </button>
+                            )}
+                        </div>
+                    )}
             </CustomModal>
         </div>
     );

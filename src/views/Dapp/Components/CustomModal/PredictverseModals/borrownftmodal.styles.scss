@@ -27,6 +27,17 @@
             display: none;
         }
 
+        .pred__collateral__amount {
+            color: #fff;
+            font-size: 16px;
+            font-weight: 500;
+            padding-left: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
         .nft__cards__container {
             overflow-y: auto;
             display: grid;

@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { HiOutlineArrowDown } from "react-icons/hi";
 
 import ExportIcon from "../../../../assets/appSvgs/ExportIcon";
@@ -29,19 +29,25 @@ const PredictverseBorrowCard: FC<PredictverseBorrowCardModel> = ({
     availableNFTs,
     noOfAvailableNFTs,
     noOfBorrowedNFTs,
-    NFTAddress
+    NFTAddress,
+    userPREDCollateral,
+    singleNFTCollateral
 }) => {
     const { active, chainId } = useWalletViewModel();
-    const { balance: totalPREDCollateral } = useToken(TOKENS[chainId].PRED);
+    const { balance, getAddressBalance } = useToken(TOKENS[chainId].PRED);
     const { borrow, withdraw } = usePredictverseMarketViewModel();
     const {
         allowed: withdrawAllowed,
         approve: approveWithdraw,
         nameSymbol
     } = useERC721(NFTAddress);
-    const { allowed: borrowAllowed, approve: approveBorrow } =
-        useERC721(NFTAddress);
+    const {
+        allowances: borrowAllowed,
+        getAllowance,
+        approve: approveBorrow
+    } = useToken(TOKENS[chainId].PRED);
     const [walletModal, setWalletModal] = useState<boolean>(false);
+    const [totalPREDCollateral, setTotalPREDCollateral] = useState<string>("0");
     const [showViewBorrowedNFTModal, setShowViewBorrowedNFTModal] = useState<{
         open: boolean;
         title: string;
@@ -58,6 +64,11 @@ const PredictverseBorrowCard: FC<PredictverseBorrowCardModel> = ({
 
     const closeBorrowedNFTModal = (open: boolean) => {
         setShowBorrowNFTModal({ open, title: "", justView: true });
+    };
+
+    const getTotalPREDCollateral = async () => {
+        const newTotalPREDCollateral = await getAddressBalance(contractAddress);
+        setTotalPREDCollateral(newTotalPREDCollateral.toString());
     };
 
     // buttons
@@ -105,6 +116,12 @@ const PredictverseBorrowCard: FC<PredictverseBorrowCardModel> = ({
         </>
     );
 
+    useEffect(() => {
+        getAllowance(contractAddress);
+        getTotalPREDCollateral();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [balance]);
+
     return (
         <>
             {showBorrowNFTModal.open && (
@@ -117,6 +134,7 @@ const PredictverseBorrowCard: FC<PredictverseBorrowCardModel> = ({
                     approved={borrowAllowed}
                     approveBorrow={approveBorrow}
                     contractAddress={contractAddress}
+                    singleNFTCollateral={singleNFTCollateral}
                 />
             )}
             {showViewBorrowedNFTModal.open && (
@@ -174,7 +192,7 @@ const PredictverseBorrowCard: FC<PredictverseBorrowCardModel> = ({
                                                 PRED Deposited (collateral)
                                             </span>
                                             <span className="normal">
-                                                PRED NFT/PRED
+                                                {userPREDCollateral}
                                             </span>
                                         </div>
                                     </>
@@ -233,7 +251,7 @@ const PredictverseBorrowCard: FC<PredictverseBorrowCardModel> = ({
                     <div className="borrow__details">
                         <p>
                             Total PRED (Collateral):{" "}
-                            {totalPREDCollateral.toNumber()}
+                            {totalPREDCollateral.toString()}
                         </p>
                         <a href={contractUrl} target="_true">
                             <span>View Contract</span>

@@ -1,3 +1,4 @@
+import { BigNumber } from "ethers";
 import { BorrowedNFT } from "./entity";
 
 export interface PredictverseMarketStore {
@@ -14,5 +15,7 @@ export interface PredictverseMarketStore {
         userNoOfBorrowedNFTs: number;
         noOfAvailableNFTs: number;
         NFTAddress: string;
+        userPREDCollateral: number;
+        singleNFTCollateral: BigNumber;
     };
 }

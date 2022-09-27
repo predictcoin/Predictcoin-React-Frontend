@@ -77,7 +77,9 @@ const usePredictverseMarketViewModel = () => {
             ? WalletStatus.unlocked
             : WalletStatus.locked,
         contractUrl: `${Explorers[chainId]}address/${contract.address}`,
-        NFTAddress: marketDetails.NFTAddress
+        NFTAddress: marketDetails.NFTAddress,
+        userPREDCollateral: marketDetails.userPREDCollateral,
+        singleNFTCollateral: marketDetails.singleNFTCollateral,
     };
 
     const initPredictverseMarket = useCallback(

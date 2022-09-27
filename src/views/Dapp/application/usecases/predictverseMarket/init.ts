@@ -39,14 +39,14 @@ export const initPredictverseMarketUsecase = async ({
         tokenIndexes.push(i);
     }
 
-    const tokenIds = (await getMultiCallResults(
+    const tokenIds = await getMultiCallResults(
         predictverseMarketContract.provider,
         predNFTAddress,
         ERC__721abi,
         tokenIndexes,
         "tokenOfOwnerByIndex",
         [predictverseMarketContract.address]
-    ));
+    );
 
     const availableNFTs = await getNFTs(
         predictverseMarketContract.provider,
@@ -59,9 +59,17 @@ export const initPredictverseMarketUsecase = async ({
         [tokenId: number]: BorrowedNFT;
     } = {};
 
+    let userPREDCollateral: number = 0;
+
+    const singleNFTCollateral = await predictverseMarketContract.collateral();
+
     if (userAddress) {
         const userInfo = await predictverseMarketContract.getBorrowData(
             userAddress
+        );
+
+        userInfo.forEach(
+            (info) => userPREDCollateral += info.collateral.toNumber()
         );
 
         userBorrowedNFTs = await getNFTs(
@@ -77,7 +85,9 @@ export const initPredictverseMarketUsecase = async ({
         noOfAvailableNFTs,
         NFTAddress: predNFTAddress,
         userBorrowedNFTs,
-        userNoOfBorrowedNFTs: Object.keys(userBorrowedNFTs).length
+        userNoOfBorrowedNFTs: Object.keys(userBorrowedNFTs).length,
+        userPREDCollateral,
+        singleNFTCollateral: singleNFTCollateral
     };
 
     return { marketDetails };
