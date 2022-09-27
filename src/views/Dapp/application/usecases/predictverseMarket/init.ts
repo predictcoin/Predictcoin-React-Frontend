@@ -5,6 +5,7 @@ import ERC__721abi from "../../../abis/ERC721.json";
 import getNFTs from "../../../lib/utils/getNFTs";
 import { BorrowedNFT } from "../../domain/predictverseMarket/entity";
 import getMultiCallResults from "../../../lib/utils/getMultiCallResults";
+import { BigNumber } from "ethers";
 
 export const initPredictverseMarketUsecase = async ({
     predictverseMarketContract,
@@ -31,9 +32,12 @@ export const initPredictverseMarketUsecase = async ({
     );
 
     const tokenIndexes: number[] = [];
-    const noOfAvailableNFTs = Number(
-        await predNFTContract.balanceOf(predictverseMarketContract.address)
+
+    const noOfAvailableNFTsBig = await predNFTContract.balanceOf(
+        predictverseMarketContract.address
     );
+
+    const noOfAvailableNFTs = noOfAvailableNFTsBig.toNumber();
 
     for (let i = 0; i < noOfAvailableNFTs; i++) {
         tokenIndexes.push(i);
@@ -59,17 +63,18 @@ export const initPredictverseMarketUsecase = async ({
         [tokenId: number]: BorrowedNFT;
     } = {};
 
-    let userPREDCollateral: number = 0;
+    let userPREDCollateral: BigNumber = BigNumber.from(0);
 
     const singleNFTCollateral = await predictverseMarketContract.collateral();
 
-    if (userAddress) {git 
+    if (userAddress) {
         const userInfo = await predictverseMarketContract.getBorrowData(
             userAddress
         );
 
         userInfo.forEach(
-            (info) => userPREDCollateral += info.collateral.toNumber()
+            (info) =>
+                (userPREDCollateral = userPREDCollateral.add(info.collateral))
         );
 
         userBorrowedNFTs = await getNFTs(
@@ -89,6 +94,5 @@ export const initPredictverseMarketUsecase = async ({
         userPREDCollateral,
         singleNFTCollateral: singleNFTCollateral
     };
-
     return { marketDetails };
 };

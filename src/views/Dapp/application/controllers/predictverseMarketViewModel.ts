@@ -79,7 +79,7 @@ const usePredictverseMarketViewModel = () => {
         contractUrl: `${Explorers[chainId]}address/${contract.address}`,
         NFTAddress: marketDetails.NFTAddress,
         userPREDCollateral: marketDetails.userPREDCollateral,
-        singleNFTCollateral: marketDetails.singleNFTCollateral,
+        singleNFTCollateral: marketDetails.singleNFTCollateral
     };
 
     const initPredictverseMarket = useCallback(
@@ -95,6 +95,7 @@ const usePredictverseMarketViewModel = () => {
         if (
             active &&
             predictverseMarketAvailable &&
+            address &&
             !isLoadingPredictverseMarket
         ) {
             getMarketDetailsData();

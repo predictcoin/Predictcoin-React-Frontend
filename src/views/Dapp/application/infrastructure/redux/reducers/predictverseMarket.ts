@@ -2,6 +2,7 @@ import { PREDICTVERSE_MARKET_ADDRESSES } from "../../../../constants/addresses";
 import * as actionType from "../actionTypes/predictverseMarket";
 import { NODE_ENV } from "../../../../hooks/predictverse/useERC721";
 import { PredictverseMarketStore } from "../../../domain/predictverseMarket/predictverseMarketStore";
+import { BigNumber } from "ethers";
 
 const initialState: Pick<
     PredictverseMarketStore,
@@ -21,7 +22,9 @@ const initialState: Pick<
         userBorrowedNFTs: {},
         userNoOfBorrowedNFTs: 0,
         noOfAvailableNFTs: 0,
-        NFTAddress: ""
+        NFTAddress: "",
+        userPREDCollateral: BigNumber.from(0),
+        singleNFTCollateral: BigNumber.from(0)
     }
 };
 
@@ -39,16 +42,18 @@ export const predictverseMarketReducer = (
                 ...state,
                 predictverseMarketAvailable: true,
                 isLoadingPredictverseMarket: false,
-                ...action.data
+                ...action.data,
+                marketDetails: {
+                    ...state.marketDetails,
+                    ...action.data?.marketDetails
+                }
             };
         case actionType.SET_MARKET_DETAILS_DATA:
             return {
                 ...state,
-                predictverseMarketAvailable: true,
-                isLoadingPredictverseMarket: false,
                 marketDetails: {
                     ...state.marketDetails,
-                    ...action.data
+                    ...action.data.marketDetails
                 }
             };
         default:

@@ -1,4 +1,4 @@
-import { BigNumberish } from "ethers";
+import { BigNumber, BigNumberish } from "ethers";
 
 import { PRED_NFT_ADDRESSES } from "../../../constants/addresses";
 import ERC__721abi from "../../../abis/ERC721.json";
@@ -97,7 +97,7 @@ export const getMarketDetailsUsecase = async (
         [tokenId: number]: BorrowedNFT;
     } = {};
 
-    let userPREDCollateral: number = 0;
+    let userPREDCollateral: BigNumber = BigNumber.from(0);
 
     const singleNFTCollateral = await contract.collateral();
 
@@ -105,7 +105,8 @@ export const getMarketDetailsUsecase = async (
         const userInfo = await contract.getBorrowData(userAddress);
 
         userInfo.forEach(
-            (info) => userPREDCollateral + info.collateral.toNumber()
+            (info) =>
+                (userPREDCollateral = userPREDCollateral.add(info.collateral))
         );
 
         userBorrowedNFTs = await getNFTs(

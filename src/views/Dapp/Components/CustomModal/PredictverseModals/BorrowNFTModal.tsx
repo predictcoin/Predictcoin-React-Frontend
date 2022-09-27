@@ -1,8 +1,9 @@
-import { BigNumber } from "ethers";
+import { BigNumber, constants, ethers } from "ethers";
 import { ChangeEvent, FC, useEffect, useState } from "react";
 import { AiOutlineClose, AiOutlineInfoCircle } from "react-icons/ai";
 
 import CustomModal from "..";
+import { displayDecimals } from "../../../lib/utils/number";
 import CustomCheckbox from "../../CustomCheckbox";
 import NFTCard from "../../NFTCard";
 import "./borrownftmodal.styles.scss";
@@ -31,9 +32,13 @@ interface BorrowNFTModalProps {
     approved: {
         [key: string]: BigNumber;
     };
-    approveBorrow: (spender: string, amount: string) => Promise<void>;
+    approveBorrow: (
+        spender: string,
+        amount: string | BigNumber
+    ) => Promise<void>;
     contractAddress: string;
     singleNFTCollateral: BigNumber;
+    decimals: number;
 }
 
 const BorrowNFTModal: FC<BorrowNFTModalProps> = ({
@@ -45,7 +50,8 @@ const BorrowNFTModal: FC<BorrowNFTModalProps> = ({
     approved,
     approveBorrow,
     contractAddress,
-    singleNFTCollateral
+    singleNFTCollateral,
+    decimals
 }) => {
     const [nftsToBorrow, setNFTsToBorrow] = useState<number[]>([]);
     const [borrowCollateral, setBorrowCollateral] = useState<BigNumber>(
@@ -105,7 +111,14 @@ const BorrowNFTModal: FC<BorrowNFTModalProps> = ({
                     <p className="pred__collateral__amount">
                         <AiOutlineInfoCircle size={18} color={"white"} />
                         <span>
-                            PRED Collateral: {borrowCollateral.toString()}
+                            PRED Collateral:{" "}
+                            {displayDecimals(
+                                ethers.utils.formatUnits(
+                                    borrowCollateral,
+                                    decimals
+                                ),
+                                5
+                            )}
                         </span>
                     </p>
                 )}
@@ -178,7 +191,7 @@ const BorrowNFTModal: FC<BorrowNFTModalProps> = ({
                                     onClick={() =>
                                         approveBorrow(
                                             contractAddress,
-                                            Number.MAX_SAFE_INTEGER.toString()
+                                            constants.MaxUint256
                                         )
                                     }
                                 >

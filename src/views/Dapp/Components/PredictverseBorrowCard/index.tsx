@@ -15,6 +15,8 @@ import "./predictverseborrowcard.styles.scss";
 import usePredictverseMarketViewModel from "../../application/controllers/predictverseMarketViewModel";
 import PredictverseBorrowCardModel from "../../models/PredictverseBorrowCardModel";
 import useToken from "../../hooks/useToken";
+import { ethers } from "ethers";
+import { displayDecimals } from "../../lib/utils/number";
 
 const contractAddress =
     PREDICTVERSE_MARKET_ADDRESSES[
@@ -44,7 +46,8 @@ const PredictverseBorrowCard: FC<PredictverseBorrowCardModel> = ({
     const {
         allowances: borrowAllowed,
         getAllowance,
-        approve: approveBorrow
+        approve: approveBorrow,
+        decimals
     } = useToken(TOKENS[chainId].PRED);
     const [walletModal, setWalletModal] = useState<boolean>(false);
     const [totalPREDCollateral, setTotalPREDCollateral] = useState<string>("0");
@@ -135,6 +138,7 @@ const PredictverseBorrowCard: FC<PredictverseBorrowCardModel> = ({
                     approveBorrow={approveBorrow}
                     contractAddress={contractAddress}
                     singleNFTCollateral={singleNFTCollateral}
+                    decimals={decimals}
                 />
             )}
             {showViewBorrowedNFTModal.open && (
@@ -192,7 +196,13 @@ const PredictverseBorrowCard: FC<PredictverseBorrowCardModel> = ({
                                                 PRED Deposited (collateral)
                                             </span>
                                             <span className="normal">
-                                                {userPREDCollateral}
+                                                {displayDecimals(
+                                                    ethers.utils.formatUnits(
+                                                        userPREDCollateral,
+                                                        decimals
+                                                    ),
+                                                    5
+                                                )}
                                             </span>
                                         </div>
                                     </>
@@ -251,7 +261,13 @@ const PredictverseBorrowCard: FC<PredictverseBorrowCardModel> = ({
                     <div className="borrow__details">
                         <p>
                             Total PRED (Collateral):{" "}
-                            {totalPREDCollateral.toString()}
+                            {displayDecimals(
+                                ethers.utils.formatUnits(
+                                    totalPREDCollateral,
+                                    decimals
+                                ),
+                                5
+                            )}
                         </p>
                         <a href={contractUrl} target="_true">
                             <span>View Contract</span>

@@ -15,7 +15,7 @@ export interface PredictverseMarketStore {
         userNoOfBorrowedNFTs: number;
         noOfAvailableNFTs: number;
         NFTAddress: string;
-        userPREDCollateral: number;
+        userPREDCollateral: BigNumber;
         singleNFTCollateral: BigNumber;
     };
 }
