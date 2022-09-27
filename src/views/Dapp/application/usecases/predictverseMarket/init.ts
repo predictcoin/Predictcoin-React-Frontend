@@ -63,7 +63,7 @@ export const initPredictverseMarketUsecase = async ({
 
     const singleNFTCollateral = await predictverseMarketContract.collateral();
 
-    if (userAddress) {
+    if (userAddress) {git 
         const userInfo = await predictverseMarketContract.getBorrowData(
             userAddress
         );
