@@ -8,37 +8,48 @@ const initialState: Pick<
     | "predictverseMarketAvailable"
     | "isLoadingPredictverseMarket"
     | "predictverseMarketAddress"
+    | "marketDetails"
 > = {
     predictverseMarketAddress:
         PREDICTVERSE_MARKET_ADDRESSES[
             process.env.REACT_APP_ENVIRONMENT as NODE_ENV
         ],
     predictverseMarketAvailable: false,
-    isLoadingPredictverseMarket: false
+    isLoadingPredictverseMarket: false,
+    marketDetails: {
+        availableNFTs: {},
+        userBorrowedNFTs: {},
+        userNoOfBorrowedNFTs: 0,
+        noOfAvailableNFTs: 0,
+        NFTAddress: ""
+    }
 };
 
-export const predictverseReducer = (
+export const predictverseMarketReducer = (
     state = initialState,
     action: { type: string; data?: any }
 ) => {
     switch (action.type) {
         case actionType.INIT_PREDICTVERSE_MARKET:
-            return { ...state, isLoadingPredictverse: true };
+            return { ...state, isLoadingPredictverseMarket: true };
         case actionType.INIT_PREDICTVERSE_MARKET_FAILED:
-            return { ...state, isLoadingPredictverse: false };
+            return { ...state, isLoadingPredictverseMarket: false };
         case actionType.INIT_PREDICTVERSE_MARKET_SUCCESS:
             return {
                 ...state,
                 predictverseAvailable: true,
-                isLoadingPredictverse: false,
+                isLoadingPredictverseMarket: false,
                 ...action.data
             };
-        case actionType.SET_BORROWED_DATA:
+        case actionType.SET_MARKET_DETAILS_DATA:
             return {
                 ...state,
                 predictverseAvailable: true,
-                isLoadingPredictverse: false,
-                ...action.data
+                isLoadingPredictverseMarket: false,
+                marketDetails: {
+                    ...state.marketDetails,
+                    ...action.data
+                }
             };
         default:
             return state;

@@ -5,12 +5,14 @@ export interface PredictverseMarketStore {
     predictverseMarketAvailable: boolean;
     isLoadingPredictverseMarket: boolean;
     marketDetails: {
+        availableNFTs: {
+            [tokenId: number]: BorrowedNFT;
+        };
         userBorrowedNFTs: {
             [tokenId: number]: BorrowedNFT;
         };
         userNoOfBorrowedNFTs: number;
-        NFTsAvailable: number;
-        totalPREDCollateral: number;
+        noOfAvailableNFTs: number;
         NFTAddress: string;
     };
 }

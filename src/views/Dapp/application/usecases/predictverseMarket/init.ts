@@ -4,6 +4,7 @@ import { PRED_NFT_ADDRESSES } from "../../../constants/addresses";
 import ERC__721abi from "../../../abis/ERC721.json";
 import getNFTs from "../../../lib/utils/getNFTs";
 import { BorrowedNFT } from "../../domain/predictverseMarket/entity";
+import BigNumber from "bignumber.js";
 
 export const initPredictverseMarketUsecase = async ({
     predictverseMarketContract,
@@ -28,7 +29,17 @@ export const initPredictverseMarketUsecase = async ({
         predNFTAddress,
         predictverseMarketContract.provider
     );
-    const NFTsAvailable = Number(
+
+    const availableNFTsInfo = await predictverseMarketContract.getMarketNFTs();
+
+    const availableNFTs = await getNFTs(
+        predictverseMarketContract.provider,
+        predNFTAddress,
+        ERC__721abi,
+        availableNFTsInfo.map((token) => token.toNumber())
+    );
+
+    const noOfAvailableNFTs = Number(
         await predNFTContract.balanceOf(predictverseMarketContract.address)
     );
 
@@ -50,11 +61,11 @@ export const initPredictverseMarketUsecase = async ({
     }
 
     const marketDetails = {
-        NFTsAvailable,
+        availableNFTs,
+        noOfAvailableNFTs,
         NFTAddress: predNFTAddress,
         userBorrowedNFTs,
-        userNoOfBorrowedNFTs: Object.keys(userBorrowedNFTs).length,
-        totalPREDCollateral: 0
+        userNoOfBorrowedNFTs: Object.keys(userBorrowedNFTs).length
     };
 
     return { marketDetails };

@@ -18,7 +18,7 @@ import { FunctionFragment, Result, EventFragment } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
-export declare namespace PredictcoinSquadMarket {
+export declare namespace PredictverseMarket {
   export type ReturnBorrowDataStruct = {
     index: BigNumberish;
     collateral: BigNumberish;
@@ -32,12 +32,13 @@ export declare namespace PredictcoinSquadMarket {
   ] & { index: BigNumber; collateral: BigNumber; lockEnd: BigNumber };
 }
 
-export interface MarketInterface extends utils.Interface {
-  contractName: "Market";
+export interface PredictverseMarketInterface extends utils.Interface {
+  contractName: "PredictverseMarket";
   functions: {
     "borrow(uint256[])": FunctionFragment;
     "collateral()": FunctionFragment;
     "getBorrowData(address)": FunctionFragment;
+    "getMarketNFTs()": FunctionFragment;
     "initialize(uint256,address,address,uint256)": FunctionFragment;
     "lockPeriod()": FunctionFragment;
     "onERC721Received(address,address,uint256,bytes)": FunctionFragment;
@@ -69,6 +70,10 @@ export interface MarketInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "getBorrowData",
     values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getMarketNFTs",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "initialize",
@@ -132,6 +137,10 @@ export interface MarketInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "collateral", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getBorrowData",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getMarketNFTs",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
@@ -274,12 +283,12 @@ export type WithdrawEvent = TypedEvent<
 export type WithdrawEventFilter = TypedEventFilter<WithdrawEvent>;
 
 export interface PredictverseMarket extends BaseContract {
-  contractName: "Market";
+  contractName: "PredictverseMarket";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: MarketInterface;
+  interface: PredictverseMarketInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -311,7 +320,9 @@ export interface PredictverseMarket extends BaseContract {
     getBorrowData(
       preder: string,
       overrides?: CallOverrides
-    ): Promise<[PredictcoinSquadMarket.ReturnBorrowDataStructOutput[]]>;
+    ): Promise<[PredictverseMarket.ReturnBorrowDataStructOutput[]]>;
+
+    getMarketNFTs(overrides?: CallOverrides): Promise<[BigNumber[]]>;
 
     initialize(
       collateral_: BigNumberish,
@@ -328,8 +339,8 @@ export interface PredictverseMarket extends BaseContract {
       from: string,
       tokenId: BigNumberish,
       data: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
     owner(overrides?: CallOverrides): Promise<[string]>;
 
@@ -400,7 +411,9 @@ export interface PredictverseMarket extends BaseContract {
   getBorrowData(
     preder: string,
     overrides?: CallOverrides
-  ): Promise<PredictcoinSquadMarket.ReturnBorrowDataStructOutput[]>;
+  ): Promise<PredictverseMarket.ReturnBorrowDataStructOutput[]>;
+
+  getMarketNFTs(overrides?: CallOverrides): Promise<BigNumber[]>;
 
   initialize(
     collateral_: BigNumberish,
@@ -417,8 +430,8 @@ export interface PredictverseMarket extends BaseContract {
     from: string,
     tokenId: BigNumberish,
     data: BytesLike,
-    overrides?: CallOverrides
-  ): Promise<string>;
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   owner(overrides?: CallOverrides): Promise<string>;
 
@@ -486,7 +499,9 @@ export interface PredictverseMarket extends BaseContract {
     getBorrowData(
       preder: string,
       overrides?: CallOverrides
-    ): Promise<PredictcoinSquadMarket.ReturnBorrowDataStructOutput[]>;
+    ): Promise<PredictverseMarket.ReturnBorrowDataStructOutput[]>;
+
+    getMarketNFTs(overrides?: CallOverrides): Promise<BigNumber[]>;
 
     initialize(
       collateral_: BigNumberish,
@@ -646,6 +661,8 @@ export interface PredictverseMarket extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getMarketNFTs(overrides?: CallOverrides): Promise<BigNumber>;
+
     initialize(
       collateral_: BigNumberish,
       predictcoinSquad_: string,
@@ -661,7 +678,7 @@ export interface PredictverseMarket extends BaseContract {
       from: string,
       tokenId: BigNumberish,
       data: BytesLike,
-      overrides?: CallOverrides
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
@@ -736,6 +753,8 @@ export interface PredictverseMarket extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    getMarketNFTs(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     initialize(
       collateral_: BigNumberish,
       predictcoinSquad_: string,
@@ -751,7 +770,7 @@ export interface PredictverseMarket extends BaseContract {
       from: string,
       tokenId: BigNumberish,
       data: BytesLike,
-      overrides?: CallOverrides
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;

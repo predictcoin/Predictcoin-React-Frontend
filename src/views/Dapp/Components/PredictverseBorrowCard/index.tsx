@@ -6,6 +6,7 @@ import { useWalletViewModel } from "../../application/controllers/walletViewMode
 import ConnectModal from "../CustomModal/ModalConnect";
 import {
     PREDICTVERSE_MARKET_ADDRESSES,
+    TOKENS
 } from "../../constants/addresses";
 import BorrowNFTModal from "../CustomModal/PredictverseModals/BorrowNFTModal";
 import ViewBorrowedNFTModal from "../CustomModal/PredictverseModals/ViewBorrowedNFTModal";
@@ -13,6 +14,7 @@ import useERC721 from "../../hooks/predictverse/useERC721";
 import "./predictverseborrowcard.styles.scss";
 import usePredictverseMarketViewModel from "../../application/controllers/predictverseMarketViewModel";
 import PredictverseBorrowCardModel from "../../models/PredictverseBorrowCardModel";
+import useToken from "../../hooks/useToken";
 
 const contractAddress =
     PREDICTVERSE_MARKET_ADDRESSES[
@@ -22,7 +24,6 @@ const contractAddress =
 
 const PredictverseBorrowCard: FC<PredictverseBorrowCardModel> = ({
     borrowedNFTs,
-    totalPREDCollateral,
     contractUrl,
     walletUnlockStatus,
     availableNFTs,
@@ -31,6 +32,7 @@ const PredictverseBorrowCard: FC<PredictverseBorrowCardModel> = ({
     NFTAddress
 }) => {
     const { active, chainId } = useWalletViewModel();
+    const { balance: totalPREDCollateral } = useToken(TOKENS[chainId].PRED);
     const { borrow, withdraw } = usePredictverseMarketViewModel();
     const {
         allowed: withdrawAllowed,
@@ -219,7 +221,10 @@ const PredictverseBorrowCard: FC<PredictverseBorrowCardModel> = ({
                     </div>
 
                     <div className="borrow__details">
-                        <p>Total PRED (Collateral): {totalPREDCollateral}</p>
+                        <p>
+                            Total PRED (Collateral):{" "}
+                            {totalPREDCollateral.toNumber()}
+                        </p>
                         <a href={contractUrl} target="_true">
                             <span>View Contract</span>
                             <ExportIcon />

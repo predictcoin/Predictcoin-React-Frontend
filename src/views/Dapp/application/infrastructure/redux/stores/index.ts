@@ -15,6 +15,7 @@ import {
     winnerPoolReducer
 } from "../reducers/predictionPools";
 import { predictverseReducer } from "../reducers/predictverse";
+import { predictverseMarketReducer } from "../reducers/predictverseMarket";
 import { sportPredictionReducer } from "../reducers/sportPrediction";
 import { stakingReducer } from "../reducers/staking";
 import { walletReducer } from "../reducers/wallet";
@@ -36,6 +37,7 @@ export const store = configureStore({
         prediction: predictionReducer,
         sportPrediction: sportPredictionReducer,
         predictverse: predictverseReducer,
+        predictverseMarket: predictverseMarketReducer,
         staking: stakingReducer,
         winnerPredictionPool: winnerPoolReducer,
         loserPredictionPool: loserPoolReducer

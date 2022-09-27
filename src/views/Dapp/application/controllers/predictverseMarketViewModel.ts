@@ -10,7 +10,7 @@ import PredictverseBorrowCardModel, {
 } from "../../models/PredictverseBorrowCardModel";
 import { PredictverseMarket__factory } from "../../typechain";
 import {
-    getBorrowAction,
+    getMarketDetailsAction,
     initPredictverseMarketAction
 } from "../infrastructure/redux/actions/predictverseMarket";
 import {
@@ -29,8 +29,11 @@ const chainId = getChainId();
 
 const usePredictverseMarketViewModel = () => {
     const predictverseMarketStore = usePredictverseMarketStore();
-    const { predictverseMarketAvailable, isLoadingPredictverseMarket, predictverseMarketAddress, marketDetails } =
-        predictverseMarketStore;
+    const {
+        predictverseMarketAvailable,
+        isLoadingPredictverseMarket,
+        marketDetails
+    } = predictverseMarketStore;
     const { provider, active, address, signer } = useWalletViewModel();
     const contract = PredictverseMarket__factory.connect(
         PREDICTVERSE_MARKET_ADDRESSES[
@@ -66,22 +69,23 @@ const usePredictverseMarketViewModel = () => {
     };
 
     let predictverseBorrowCardData: PredictverseBorrowCardModel = {
-        NFTsAvailableToBorrow: 0,
-        NFTsBorrowed: 0,
-        totalPREDCollateral: totalPREDCollateral ? totalPREDCollateral : "0",
+        availableNFTs: marketDetails.availableNFTs,
+        borrowedNFTs: marketDetails.userBorrowedNFTs,
+        noOfAvailableNFTs: marketDetails.noOfAvailableNFTs,
+        noOfBorrowedNFTs: marketDetails.userNoOfBorrowedNFTs,
         walletUnlockStatus: active
             ? WalletStatus.unlocked
             : WalletStatus.locked,
         contractUrl: `${Explorers[chainId]}address/${contract.address}`,
-        NFTAddress: marketDetails.NFTAddress,
+        NFTAddress: marketDetails.NFTAddress
     };
 
     const initPredictverseMarket = useCallback(
         () => initPredictverseMarketAction(contract, address, active)(dispatch),
         [dispatch, contract, address, active]
     );
-    const getBorrowedData = useCallback(
-        (pId: number) => getBorrowAction(contract, address)(dispatch),
+    const getMarketDetailsData = useCallback(
+        () => getMarketDetailsAction(contract, address)(dispatch),
         [dispatch, contract, address]
     );
 
@@ -91,6 +95,7 @@ const usePredictverseMarketViewModel = () => {
             predictverseMarketAvailable &&
             !isLoadingPredictverseMarket
         ) {
+            getMarketDetailsData();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [address, active]);
@@ -103,24 +108,15 @@ const usePredictverseMarketViewModel = () => {
         ) {
             contract.removeAllListeners();
             //events
-            watchEvent(
-                contract,
-                "Borrow",
-                [],
-                async (user, pid, amount, event) => {
-                    if (predictversePools.indexOf(pid.toNumber()) === -1)
-                        return;
-                    getPredictversePool(pid.toNumber());
-                }
-            );
+            watchEvent(contract, "Borrow", [], async (user, amount, event) => {
+                getMarketDetailsData();
+            });
             watchEvent(
                 contract,
                 "Withdraw",
                 [],
-                async (user, pid, amount, event) => {
-                    if (predictversePools.indexOf(pid.toNumber()) === -1)
-                        return;
-                    getPredictversePool(pid.toNumber());
+                async (user, amount, event) => {
+                    getMarketDetailsData();
                 }
             );
             watchingPredictverseMarket = true;

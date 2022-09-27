@@ -18,7 +18,6 @@ export interface PredictverseBorrowCardModel {
     };
     noOfAvailableNFTs: number;
     noOfBorrowedNFTs: number;
-    totalPREDCollateral: number;
     walletUnlockStatus: WalletStatus.locked | WalletStatus.unlocked;
     contractUrl: string;
     NFTAddress: string;

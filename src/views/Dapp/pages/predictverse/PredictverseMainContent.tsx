@@ -82,6 +82,8 @@ const PredictverseMainContent: FC<PredictverseMainContentProps> = ({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [active]);
 
+    console.log(predictverseBorrowCardData, "borrow card");
+
     return (
         <section className="predictverse__main__content">
             {modalOpened && modal}
@@ -131,9 +133,6 @@ const PredictverseMainContent: FC<PredictverseMainContentProps> = ({
                                             }
                                             availableNFTs={
                                                 predictverseBorrowCardData.availableNFTs
-                                            }
-                                            totalPREDCollateral={
-                                                predictverseBorrowCardData.totalPREDCollateral
                                             }
                                             contractUrl={
                                                 predictverseBorrowCardData.contractUrl

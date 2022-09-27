@@ -1,6 +1,11 @@
 import { BigNumberish } from "ethers";
+
+import { PRED_NFT_ADDRESSES } from "../../../constants/addresses";
+import ERC__721abi from "../../../abis/ERC721.json";
 import { SendParams } from "../../../hooks/useTransaction";
-import { PredictverseMarket } from "../../../typechain";
+import getNFTs from "../../../lib/utils/getNFTs";
+import { ERC721__factory, PredictverseMarket } from "../../../typechain";
+import { BorrowedNFT } from "../../domain/predictverseMarket/entity";
 
 interface BorrowParams {
     contract: PredictverseMarket;
@@ -37,12 +42,66 @@ interface ParamsA {
     userAddress: string;
 }
 
-export const getUserBorrowDataUsecase = async (
+export const getMarketDetailsUsecase = async (
     params: ParamsA
-): Promise<> => {
+): Promise<{
+    availableNFTs: {
+        [tokenId: number]: BorrowedNFT;
+    };
+    userBorrowedNFTs: {
+        [tokenId: number]: BorrowedNFT;
+    };
+    userNoOfBorrowedNFTs: number;
+    noOfAvailableNFTs: number;
+    NFTAddress: string;
+}> => {
     const { contract, userAddress } = params;
 
-    const userInfo = await contract.getBorrowData(userAddress);
-    
-    return pool;
+    const predNFTAddress: string =
+        PRED_NFT_ADDRESSES[
+            process.env.REACT_APP_ENVIRONMENT as keyof typeof PRED_NFT_ADDRESSES
+        ];
+
+    const predNFTContract = ERC721__factory.connect(
+        predNFTAddress,
+        contract.provider
+    );
+
+    const availableNFTsInfo = await contract.getMarketNFTs();
+
+    const availableNFTs = await getNFTs(
+        contract.provider,
+        predNFTAddress,
+        ERC__721abi,
+        availableNFTsInfo.map((token) => token.toNumber())
+    );
+
+    const noOfAvailableNFTs = Number(
+        await predNFTContract.balanceOf(contract.address)
+    );
+
+    let userBorrowedNFTs: {
+        [tokenId: number]: BorrowedNFT;
+    } = {};
+
+    if (userAddress) {
+        const userInfo = await contract.getBorrowData(userAddress);
+
+        userBorrowedNFTs = await getNFTs(
+            contract.provider,
+            predNFTAddress,
+            ERC__721abi,
+            userInfo.map((token) => token.index.toNumber())
+        );
+    }
+
+    const marketDetails = {
+        availableNFTs,
+        noOfAvailableNFTs,
+        NFTAddress: predNFTAddress,
+        userBorrowedNFTs,
+        userNoOfBorrowedNFTs: Object.keys(userBorrowedNFTs).length
+    };
+
+    return marketDetails;
 };

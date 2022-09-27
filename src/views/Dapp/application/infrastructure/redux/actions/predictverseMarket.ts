@@ -3,7 +3,7 @@ import { Dispatch } from "react";
 import * as actionTypes from "../actionTypes/predictverseMarket";
 import { PredictverseMarket } from "../../../../typechain";
 import { initPredictverseMarketUsecase } from "../../../usecases/predictverseMarket/init";
-import { getUserBorrowDataUsecase } from "../../../usecases/predictverseMarket/others";
+import { getMarketDetailsUsecase } from "../../../usecases/predictverseMarket/others";
 
 export const initPredictverseMarketAction =
     (
@@ -34,17 +34,17 @@ export const initPredictverseMarketAction =
         }
     };
 
-export const getBorrowAction =
+export const getMarketDetailsAction =
     (contract: PredictverseMarket, address: string) =>
     async (dispatch: Dispatch<{ type: string; data?: any }>) => {
-        const _userBorrowData = await getUserBorrowDataUsecase({
+        const _marketDetails = await getMarketDetailsUsecase({
             contract,
             userAddress: address
         });
         dispatch({
-            type: actionTypes.SET_BORROWED_DATA,
+            type: actionTypes.SET_MARKET_DETAILS_DATA,
             data: {
-                userBorrowData: _userBorrowData
+                marketDetails: _marketDetails
             }
         });
     };

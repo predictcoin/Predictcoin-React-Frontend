@@ -42,7 +42,7 @@ const Header: FC<HeaderProps> = ({
                 >
                     <div
                         id="nav-icon1"
-                        className={!isSidebarExpanded ? "open" : ""}
+                        className={isSidebarExpanded ? "open" : ""}
                     >
                         <span></span>
                         <span></span>

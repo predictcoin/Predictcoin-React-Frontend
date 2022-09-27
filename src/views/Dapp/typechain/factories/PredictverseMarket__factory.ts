@@ -4,7 +4,10 @@
 
 import { Contract, Signer, utils } from "ethers";
 import { Provider } from "@ethersproject/providers";
-import type { PredictverseMarket, MarketInterface } from "../PredictverseMarket";
+import type {
+  PredictverseMarket,
+  PredictverseMarketInterface,
+} from "../PredictverseMarket";
 
 const _abi = [
   {
@@ -252,9 +255,22 @@ const _abi = [
             type: "uint128",
           },
         ],
-        internalType: "struct PredictcoinSquadMarket.ReturnBorrowData[]",
+        internalType: "struct PredictverseMarket.ReturnBorrowData[]",
         name: "",
         type: "tuple[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getMarketNFTs",
+    outputs: [
+      {
+        internalType: "uint256[]",
+        name: "",
+        type: "uint256[]",
       },
     ],
     stateMutability: "view",
@@ -332,7 +348,7 @@ const _abi = [
         type: "bytes4",
       },
     ],
-    stateMutability: "pure",
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -521,10 +537,13 @@ const _abi = [
 
 export class PredictverseMarket__factory {
   static readonly abi = _abi;
-  static createInterface(): MarketInterface {
-    return new utils.Interface(_abi) as MarketInterface;
+  static createInterface(): PredictverseMarketInterface {
+    return new utils.Interface(_abi) as PredictverseMarketInterface;
   }
-  static connect(address: string, signerOrProvider: Signer | Provider): PredictverseMarket {
+  static connect(
+    address: string,
+    signerOrProvider: Signer | Provider
+  ): PredictverseMarket {
     return new Contract(address, _abi, signerOrProvider) as PredictverseMarket;
   }
 }
