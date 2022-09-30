@@ -20,7 +20,6 @@ export const initPredictverseMarketAction =
                 predictverseMarketContract,
                 userAddress: address
             });
-            console.log(initState, "changed");
             dispatch({
                 type: actionTypes.INIT_PREDICTVERSE_MARKET_SUCCESS,
                 data: address
