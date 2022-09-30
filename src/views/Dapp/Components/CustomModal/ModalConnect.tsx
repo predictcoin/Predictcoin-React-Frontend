@@ -28,6 +28,7 @@ const ModalConnect: FC<ModalConnectProps> = ({ closeModal }) => {
 
     useEffect(() => {
         if (active) closeModal(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [active]);
 
     return (
