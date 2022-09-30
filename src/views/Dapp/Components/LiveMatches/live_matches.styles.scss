@@ -25,6 +25,8 @@
         cursor: pointer;
         min-width: 260px;
         width: 260px;
+        height: 125px;
+        overflow: hidden;
         background: rgba(226, 235, 247, 0.04);
         box-shadow: 0px 2px 10px rgba(32, 30, 66, 0.506567);
         border-radius: 8px;
@@ -123,7 +125,7 @@
     border-radius: 8px;
     padding: 0px;
     margin-right: 14px;
-    height: 100px;
+    height: 125px;
    
 }
 

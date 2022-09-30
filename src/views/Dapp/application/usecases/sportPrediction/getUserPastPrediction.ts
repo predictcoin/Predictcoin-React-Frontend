@@ -1,5 +1,9 @@
+import BigNumber from "bignumber.js";
 import { toUtf8String } from "ethers/lib/utils";
-import { formatMatchUIDate, formatMatchUITime } from "../../../lib/utils/formatMatchUIDateAndTime";
+import {
+    formatMatchUIDate,
+    formatMatchUITime
+} from "../../../lib/utils/formatMatchUIDateAndTime";
 import { SportPrediction } from "../../../typechain";
 import { ISportPrediction } from "../../../typechain/SportOracle";
 import {
@@ -12,20 +16,16 @@ import { getMatchFullDetails, getBallPossessions } from "../sportApi";
 interface Params {
     contract: SportPrediction;
     address: string;
-    dispatch: (data:any) => void;
+    dispatch: (data: any) => void;
 }
 export const getUserPastPrediction = async (params: Params) => {
-    
     const { contract, dispatch, address } = params;
 
-    if(!address)
-        return dispatch({ userPastPredictions: [] });
-        
+    if (!address) return dispatch({ userPastPredictions: [] });
 
     // array of user prediction structs
     const userPredictions: SportPrediction.PredictionStruct[] =
         await contract.getAllUserPredictions(address);
-        
 
     // array of ids of events the user predicted on
     let predictedEventsIds = userPredictions.map(
@@ -35,7 +35,7 @@ export const getUserPastPrediction = async (params: Params) => {
     // for every of the user's event, get a list of all predictions that have been made for that event
     const matchpredictionsList = await Promise.all(
         predictedEventsIds.map(async (eventId) => {
-            return await contract.getPredictions(eventId); 
+            return await contract.getPredictions(eventId);
         })
     );
 
@@ -68,7 +68,6 @@ export const getUserPastPrediction = async (params: Params) => {
     // array of the actual sport events user predicted on
     const allPredictedMatches: ISportPrediction.SportEventStructOutput[] =
         await contract.getEvents(predictedEventsIds);
-
 
     const getOutcome = (
         outcomeNum: number,
@@ -135,7 +134,6 @@ export const getUserPastPrediction = async (params: Params) => {
             return await getBallPossessions(matchDetail.fixture.id);
         })
     );
-    
 
     const data: UserPrediction[] = userPredictions.map(
         (
@@ -148,9 +146,7 @@ export const getUserPastPrediction = async (params: Params) => {
                     allPredictedMatches[index].realTeamAScore,
                     allPredictedMatches[index].realTeamBScore
                 );
-                
-                
-                
+
             return {
                 id: prediction.eventId as string,
                 teamA: matchDetailsArr[index].teams.home.name,
@@ -190,14 +186,18 @@ export const getUserPastPrediction = async (params: Params) => {
                     matchDetailsArr[index].fixture.status.short
                 ) as unknown as status,
                 claimed: userPredictions[index].claimed,
-                startTimestamp: allPredictedMatches[index].startTimestamp.toNumber()
+                startTimestamp:
+                    allPredictedMatches[index].startTimestamp.toNumber(),
+                predictionAmount: userPredictions[index]
+                    .amount as unknown as BigNumber,
+                rewardAmount: userPredictions[index]
+                    .reward as unknown as BigNumber
             };
         }
     );
 
     // sort in ascending start time order
-    const sortedData = data.sort((a,b) => b.startTimestamp - a.startTimestamp)
-    
+    const sortedData = data.sort((a, b) => b.startTimestamp - a.startTimestamp);
 
     dispatch({ userPastPredictions: sortedData });
 };

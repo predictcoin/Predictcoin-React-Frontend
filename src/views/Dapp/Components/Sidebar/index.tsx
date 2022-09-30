@@ -1,5 +1,6 @@
 import { Dispatch, FC, SetStateAction, useRef } from "react";
 import { NavLink, useLocation } from "react-router-dom";
+import {GiWorld} from 'react-icons/gi';
 
 import FarmingIcon from "../../../../assets/appSvgs/FarmingIcon";
 import StakingIcon from "../../../../assets/appSvgs/StakingIcon";
@@ -84,7 +85,22 @@ const Sidebar: FC<SidebarProps> = ({
                             <div className="border__active"></div>
                         </NavLink>
                     </li>
-					
+
+                    <li>
+                        <NavLink
+                            to="/predictverse"
+                            className={({ isActive }) =>
+                                isActive ? "active" : ""
+                            }
+                        >
+                            <div className="icon">
+                                <GiWorld size={16}/>
+                            </div>
+                            <span>PredictVerse</span>
+                            <div className="border__active"></div>
+                        </NavLink>
+                    </li>
+
                     <li>
                         <NavLink
                             to="/staking"
@@ -193,7 +209,7 @@ const Sidebar: FC<SidebarProps> = ({
                     </div>
                     <div className="CA__section__content">
                         <p id="address" className="address hidden">
-                        0xbdD2E3fdb879AA42748E9D47b7359323f226BA22
+                            0xbdD2E3fdb879AA42748E9D47b7359323f226BA22
                         </p>
                         <p className="address">
                             {shortenAddress(
@@ -207,7 +223,10 @@ const Sidebar: FC<SidebarProps> = ({
                         >
                             click to copy CA
                         </button>
-                        <img src= "/assets/img/predcoin_logo.png" alt="predict-logo-sidebar" />
+                        <img
+                            src="/assets/img/predcoin_logo.png"
+                            alt="predict-logo-sidebar"
+                        />
                     </div>
                 </div>
             </nav>
