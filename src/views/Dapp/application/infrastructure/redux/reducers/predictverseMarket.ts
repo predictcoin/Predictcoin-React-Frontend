@@ -45,7 +45,7 @@ export const predictverseMarketReducer = (
                 ...action.data,
                 marketDetails: {
                     ...state.marketDetails,
-                    ...action.data?.marketDetails
+                    ...action.data.marketDetails
                 }
             };
         case actionType.SET_MARKET_DETAILS_DATA:
