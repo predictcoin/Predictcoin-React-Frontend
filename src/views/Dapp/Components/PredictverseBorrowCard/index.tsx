@@ -42,7 +42,7 @@ const PredictverseBorrowCard: FC<PredictverseBorrowCardModel> = ({
         allowed: paybackAllowed,
         approve: approvePayback,
         nameSymbol
-    } = useERC721(NFTAddress);
+    } = useERC721(NFTAddress, contractAddress);
     const {
         allowances: borrowAllowed,
         getAllowance,

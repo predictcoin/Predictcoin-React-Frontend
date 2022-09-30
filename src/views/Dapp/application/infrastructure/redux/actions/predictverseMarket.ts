@@ -20,13 +20,23 @@ export const initPredictverseMarketAction =
                 predictverseMarketContract,
                 userAddress: address
             });
-            if (address)
-                dispatch({
-                    type: actionTypes.INIT_PREDICTVERSE_MARKET_SUCCESS,
-                    data: {
-                        ...initState
-                    }
-                });
+            console.log(initState, "changed");
+            dispatch({
+                type: actionTypes.INIT_PREDICTVERSE_MARKET_SUCCESS,
+                data: address
+                    ? { ...initState }
+                    : {
+                          marketDetails: {
+                              NFTAddress: initState.marketDetails.NFTAddress,
+                              availableNFTs:
+                                  initState.marketDetails.availableNFTs,
+                              noOfAvailableNFTs:
+                                  initState.marketDetails.noOfAvailableNFTs,
+                              singleNFTCollateral:
+                                  initState.marketDetails.singleNFTCollateral
+                          }
+                      }
+            });
         } catch (err) {
             console.log(err);
             dispatch({
