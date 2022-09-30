@@ -122,33 +122,35 @@ const ViewBorrowedNFTModal: FC<ViewBorrowedNFTModalProps> = ({
                     </div>
                 )}
 
-                <div className="buttons">
-                    <button
-                        className="cancel"
-                        onClick={() => setNFTsToWithdraw([])}
-                        disabled={!Boolean(nFtsToWithdraw.length)}
-                    >
-                        Cancel
-                    </button>
-                    {approved ? (
+                {Boolean(Object.values(borrowedNFTs).length > 0) && (
+                    <div className="buttons">
                         <button
-                            className={"confirm active"}
-                            onClick={withdrawNFTs}
+                            className="cancel"
+                            onClick={() => setNFTsToWithdraw([])}
                             disabled={!Boolean(nFtsToWithdraw.length)}
                         >
-                            Withdraw
+                            Cancel
                         </button>
-                    ) : (
-                        <button
-                            className={"confirm active"}
-                            onClick={() =>
-                                approveWithdraw(contractAddress, true)
-                            }
-                        >
-                            Approve
-                        </button>
-                    )}
-                </div>
+                        {approved ? (
+                            <button
+                                className={"confirm active"}
+                                onClick={withdrawNFTs}
+                                disabled={!Boolean(nFtsToWithdraw.length)}
+                            >
+                                Withdraw
+                            </button>
+                        ) : (
+                            <button
+                                className={"confirm active"}
+                                onClick={() =>
+                                    approveWithdraw(contractAddress, true)
+                                }
+                            >
+                                Approve
+                            </button>
+                        )}
+                    </div>
+                )}
             </CustomModal>
         </div>
     );

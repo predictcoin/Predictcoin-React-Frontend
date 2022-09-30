@@ -20,12 +20,13 @@ export const initPredictverseMarketAction =
                 predictverseMarketContract,
                 userAddress: address
             });
-            dispatch({
-                type: actionTypes.INIT_PREDICTVERSE_MARKET_SUCCESS,
-                data: {
-                    ...initState
-                }
-            });
+            if (address)
+                dispatch({
+                    type: actionTypes.INIT_PREDICTVERSE_MARKET_SUCCESS,
+                    data: {
+                        ...initState
+                    }
+                });
         } catch (err) {
             console.log(err);
             dispatch({
