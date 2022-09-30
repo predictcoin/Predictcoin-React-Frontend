@@ -83,6 +83,13 @@ export const initPredictverseMarketUsecase = async ({
             ERC__721abi,
             userInfo.map((token) => token.index.toNumber())
         );
+
+        for (let key of Object.keys(userBorrowedNFTs)) {
+            let token = userInfo.filter(
+                (info) => info.index.toNumber() === Number(key)
+            );
+            userBorrowedNFTs[Number(key)].collateral = token[0].collateral;
+        }
     }
 
     const marketDetails = {

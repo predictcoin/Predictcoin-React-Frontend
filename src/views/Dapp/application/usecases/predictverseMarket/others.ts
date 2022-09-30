@@ -23,18 +23,18 @@ export const borrow = (params: BorrowParams) => {
     send({ method, methodParams, message, callbacks });
 };
 
-interface WithdrawParams {
+interface PaybackParams {
     contract: PredictverseMarket;
     tokenIds: BigNumberish[];
     send: (params: SendParams) => Promise<void>;
     callbacks?: { [key: string]: () => void };
 }
 
-export const withdraw = (params: WithdrawParams) => {
+export const payback = (params: PaybackParams) => {
     const { contract, tokenIds, send, callbacks } = params;
     const method = contract.withdraw;
     const methodParams = [tokenIds];
-    const message = `Withdrawing PRED Collateral`;
+    const message = `Payback NFTs`;
     send({ method, methodParams, message, callbacks });
 };
 
@@ -115,6 +115,13 @@ export const getMarketDetailsUsecase = async (
             ERC__721abi,
             userInfo.map((token) => token.index.toNumber())
         );
+
+        for (let key of Object.keys(userBorrowedNFTs)) {
+            let token = userInfo.filter(
+                (info) => info.index.toNumber() === Number(key)
+            );
+            userBorrowedNFTs[Number(key)].collateral = token[0].collateral;
+        }
     }
 
     const marketDetails = {

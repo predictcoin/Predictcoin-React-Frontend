@@ -107,21 +107,30 @@ const BorrowNFTModal: FC<BorrowNFTModalProps> = ({
 
                 <h4>Borrow {`${nameSymbol.symbol}`} NFTs</h4>
 
-                {!justView && (
-                    <p className="pred__collateral__amount">
-                        <AiOutlineInfoCircle size={18} color={"white"} />
-                        <span>
-                            PRED Collateral:{" "}
-                            {displayDecimals(
-                                ethers.utils.formatUnits(
-                                    borrowCollateral,
-                                    decimals
-                                ),
-                                5
-                            )}
-                        </span>
-                    </p>
-                )}
+                {!justView &&
+                    Boolean(Object.values(predNFTsToBorrow).length > 0) && (
+                        <p className="pred__collateral__amount">
+                            <div className="pred__tooltip">
+                                <AiOutlineInfoCircle
+                                    size={18}
+                                    color={"white"}
+                                />
+                                <span className="tooltiptext">
+                                    PRED collateral needed to borrow select NFTs
+                                </span>
+                            </div>
+                            <span>
+                                PRED Collateral:{" "}
+                                {displayDecimals(
+                                    ethers.utils.formatUnits(
+                                        borrowCollateral,
+                                        decimals
+                                    ),
+                                    5
+                                )}
+                            </span>
+                        </p>
+                    )}
 
                 <div
                     className={`nft__cards__container ${
@@ -194,6 +203,7 @@ const BorrowNFTModal: FC<BorrowNFTModalProps> = ({
                                             constants.MaxUint256
                                         )
                                     }
+                                    disabled={!Boolean(nftsToBorrow.length)}
                                 >
                                     Approve
                                 </button>

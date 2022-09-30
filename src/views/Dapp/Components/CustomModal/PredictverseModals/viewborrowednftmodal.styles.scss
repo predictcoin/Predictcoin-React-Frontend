@@ -27,6 +27,58 @@
             display: none;
         }
 
+        .pred__payout__amount {
+            color: #fff;
+            font-size: 16px;
+            font-weight: 500;
+            padding-left: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+
+            .pred__tooltip {
+                position: relative;
+                display: flex;
+                align-items: center;
+
+                .tooltiptext {
+                    font-size: 12px;
+                    visibility: hidden;
+                    background-color: #13102b;
+                    color: #fff;
+                    text-align: center;
+                    padding: 5px 0;
+                    border-radius: 6px;
+                    position: absolute;
+                    z-index: 1000;
+                    opacity: 0;
+                    transition: opacity 1s;
+                    width: 280px;
+                    top: 150%;
+                    left: 50%;
+                    margin-left: -15px;
+
+                    &::after {
+                        content: " ";
+                        position: absolute;
+                        bottom: 100%; /* At the top of the tooltip */
+                        left: 50%;
+                        margin-left: -5px;
+                        border-width: 5px;
+                        border-style: solid;
+                        border-color: transparent transparent #13102b
+                            transparent;
+                    }
+                }
+
+                &:hover .tooltiptext {
+                    visibility: visible;
+                    opacity: 1;
+                }
+            }
+        }
+
         .nft__cards__container {
             overflow-y: auto;
             display: grid;

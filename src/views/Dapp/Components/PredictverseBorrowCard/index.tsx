@@ -37,10 +37,10 @@ const PredictverseBorrowCard: FC<PredictverseBorrowCardModel> = ({
 }) => {
     const { active, chainId } = useWalletViewModel();
     const { balance, getAddressBalance } = useToken(TOKENS[chainId].PRED);
-    const { borrow, withdraw } = usePredictverseMarketViewModel();
+    const { borrow, payback } = usePredictverseMarketViewModel();
     const {
-        allowed: withdrawAllowed,
-        approve: approveWithdraw,
+        allowed: paybackAllowed,
+        approve: approvePayback,
         nameSymbol
     } = useERC721(NFTAddress);
     const {
@@ -84,14 +84,14 @@ const PredictverseBorrowCard: FC<PredictverseBorrowCardModel> = ({
         </button>
     );
 
-    const withdrawButton = (
+    const paybackButton = (
         <button
             className={`action harvest ${noOfBorrowedNFTs === 0 && "inactive"}`}
             onClick={() => {
                 setShowViewBorrowedNFTModal({ open: true, title: "" });
             }}
         >
-            Withdraw
+            Payback
         </button>
     );
 
@@ -114,7 +114,7 @@ const PredictverseBorrowCard: FC<PredictverseBorrowCardModel> = ({
         unlockButton
     ) : (
         <>
-            {withdrawButton}
+            {paybackButton}
             {borrowButton}
         </>
     );
@@ -145,11 +145,12 @@ const PredictverseBorrowCard: FC<PredictverseBorrowCardModel> = ({
                 <ViewBorrowedNFTModal
                     closeModal={closeViewBorrowedNFTModal}
                     borrowedNFTs={borrowedNFTs}
-                    withdraw={withdraw}
+                    payback={payback}
                     nameSymbol={nameSymbol}
-                    approved={withdrawAllowed}
-                    approveWithdraw={approveWithdraw}
+                    approved={paybackAllowed}
+                    approvePayback={approvePayback}
                     contractAddress={contractAddress}
+                    decimals={decimals}
                 />
             )}
             {walletModal && <ConnectModal closeModal={setWalletModal} />}
@@ -260,7 +261,7 @@ const PredictverseBorrowCard: FC<PredictverseBorrowCardModel> = ({
 
                     <div className="borrow__details">
                         <p>
-                            Total PRED (Collateral):{" "}
+                            Total PRED Collateral:{" "}
                             {displayDecimals(
                                 ethers.utils.formatUnits(
                                     totalPREDCollateral,

@@ -15,7 +15,7 @@ import {
 } from "../infrastructure/redux/actions/predictverseMarket";
 import {
     borrow as borrowUsecase,
-    withdraw as withdrawUsecase
+    payback as paybackUsecase
 } from "../usecases/predictverseMarket/others";
 
 import { useWalletViewModel } from "./walletViewModel";
@@ -56,11 +56,11 @@ const usePredictverseMarketViewModel = () => {
         });
     };
 
-    const withdraw = (
+    const payback = (
         tokenIds: number[],
         callbacks?: { [key: string]: () => void }
     ) => {
-        withdrawUsecase({
+        paybackUsecase({
             contract,
             tokenIds,
             send,
@@ -138,7 +138,7 @@ const usePredictverseMarketViewModel = () => {
         initPredictverseMarket,
         predictverseBorrowCardData,
         borrow,
-        withdraw
+        payback
     };
 };
 

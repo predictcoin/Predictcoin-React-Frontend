@@ -1,7 +1,10 @@
+import { BigNumber, ethers } from "ethers";
 import { ChangeEvent, FC, useEffect, useState } from "react";
-import { AiOutlineClose } from "react-icons/ai";
+import { AiOutlineClose, AiOutlineInfoCircle } from "react-icons/ai";
 
 import CustomModal from "..";
+import { BorrowedNFT } from "../../../application/domain/predictverseMarket/entity";
+import { displayDecimals } from "../../../lib/utils/number";
 import CustomCheckbox from "../../CustomCheckbox";
 import NFTCard from "../../NFTCard";
 import "./viewborrowednftmodal.styles.scss";
@@ -9,12 +12,9 @@ import "./viewborrowednftmodal.styles.scss";
 interface ViewBorrowedNFTModalProps {
     closeModal: (open: boolean) => void;
     borrowedNFTs: {
-        [tokenId: number]: {
-            tokenId: number;
-            imgUrl: string;
-        };
+        [tokenId: number]: BorrowedNFT;
     };
-    withdraw: (
+    payback: (
         tokenIds: number[],
         callbacks?:
             | {
@@ -27,43 +27,52 @@ interface ViewBorrowedNFTModalProps {
         symbol: string;
     };
     approved: boolean;
-    approveWithdraw: (operator: string, approved: boolean) => Promise<void>;
+    approvePayback: (operator: string, approved: boolean) => Promise<void>;
     contractAddress: string;
+    decimals: number;
 }
 
 const ViewBorrowedNFTModal: FC<ViewBorrowedNFTModalProps> = ({
     closeModal,
     borrowedNFTs,
-    withdraw,
+    payback,
     nameSymbol,
     approved,
-    approveWithdraw,
-    contractAddress
+    approvePayback,
+    contractAddress,
+    decimals
 }) => {
-    const [nFtsToWithdraw, setNFTsToWithdraw] = useState<number[]>([]);
-    const toggleNFTsToWithdraw = (
+    const [nFtsToPayback, setNFTsToPayback] = useState<number[]>([]);
+    const [predPayout, setPredPayout] = useState<BigNumber>(BigNumber.from(0));
+
+    const toggleNFTsToPayback = (
         evt: ChangeEvent<HTMLInputElement>,
-        id: number
+        id: number,
+        collateral: BigNumber
     ) => {
-        let newNFtsToWithdraw = [...nFtsToWithdraw];
+        let newNFtsToPayback = [...nFtsToPayback];
+        let newPredPayout = predPayout;
         if (evt.target.checked) {
-            newNFtsToWithdraw.push(id);
+            newNFtsToPayback.push(id);
+            newPredPayout = newPredPayout.add(collateral);
         } else {
-            newNFtsToWithdraw = newNFtsToWithdraw.filter(
+            newNFtsToPayback = newNFtsToPayback.filter(
                 (tokenId) => tokenId !== id
             );
+            newPredPayout = newPredPayout.sub(collateral);
         }
 
-        setNFTsToWithdraw(newNFtsToWithdraw);
+        setNFTsToPayback(newNFtsToPayback);
+        setPredPayout(newPredPayout);
     };
 
     const closeModalFunc = (e: any) => {
         if (e.target?.id === "custom__modal") closeModal(false);
     };
 
-    const withdrawNFTs = async () => {
-        await withdraw(nFtsToWithdraw);
-        setNFTsToWithdraw([]);
+    const paybackNFTs = async () => {
+        await payback(nFtsToPayback);
+        setNFTsToPayback([]);
         closeModal(false);
     };
 
@@ -85,6 +94,25 @@ const ViewBorrowedNFTModal: FC<ViewBorrowedNFTModalProps> = ({
 
                 <h4>Borrowed {`${nameSymbol.symbol}`} NFTs</h4>
 
+                {Boolean(Object.values(borrowedNFTs).length > 0) && (
+                    <div className="pred__payout__amount">
+                        <div className="pred__tooltip">
+                            <AiOutlineInfoCircle size={18} color={"white"} />
+                            <span className="tooltiptext">
+                                PRED amount withdrawn when you payback selected
+                                NFTs
+                            </span>
+                        </div>
+                        <span>
+                            PRED Payout:{" "}
+                            {displayDecimals(
+                                ethers.utils.formatUnits(predPayout, decimals),
+                                5
+                            )}
+                        </span>
+                    </div>
+                )}
+
                 <div
                     className={`nft__cards__container ${
                         Boolean(Object.values(borrowedNFTs).length)
@@ -104,7 +132,11 @@ const ViewBorrowedNFTModal: FC<ViewBorrowedNFTModalProps> = ({
                                     checkedColor="transparent"
                                     checkedStrokeColor="#2d173f"
                                     onChange={(evt) =>
-                                        toggleNFTsToWithdraw(evt, NFT.tokenId)
+                                        toggleNFTsToPayback(
+                                            evt,
+                                            NFT.tokenId,
+                                            NFT.collateral as BigNumber
+                                        )
                                     }
                                 />
                             </div>
@@ -115,10 +147,7 @@ const ViewBorrowedNFTModal: FC<ViewBorrowedNFTModalProps> = ({
 
                 {!Boolean(Object.values(borrowedNFTs).length) && (
                     <div className="no__nft">
-                        <p>
-                            You currently do not have any borrowed NFTs, return
-                            borrowed NFTs to withdraw PRED
-                        </p>
+                        <p>You currently do not have any borrowed NFTs.</p>
                     </div>
                 )}
 
@@ -126,25 +155,26 @@ const ViewBorrowedNFTModal: FC<ViewBorrowedNFTModalProps> = ({
                     <div className="buttons">
                         <button
                             className="cancel"
-                            onClick={() => setNFTsToWithdraw([])}
-                            disabled={!Boolean(nFtsToWithdraw.length)}
+                            onClick={() => setNFTsToPayback([])}
+                            disabled={!Boolean(nFtsToPayback.length)}
                         >
                             Cancel
                         </button>
                         {approved ? (
                             <button
                                 className={"confirm active"}
-                                onClick={withdrawNFTs}
-                                disabled={!Boolean(nFtsToWithdraw.length)}
+                                onClick={paybackNFTs}
+                                disabled={!Boolean(nFtsToPayback.length)}
                             >
-                                Withdraw
+                                Payback
                             </button>
                         ) : (
                             <button
                                 className={"confirm active"}
                                 onClick={() =>
-                                    approveWithdraw(contractAddress, true)
+                                    approvePayback(contractAddress, true)
                                 }
+                                disabled={!Boolean(nFtsToPayback.length)}
                             >
                                 Approve
                             </button>
