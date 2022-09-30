@@ -99,6 +99,7 @@ const CoinTab: FC<CoinTabProps> = ({ id, coinName, active, setActive }) => {
                         }`}
                     >
                         {!loadingChart && (
+                            //@ts-ignore
                             <ResponsiveLine
                                 data={[
                                     {
