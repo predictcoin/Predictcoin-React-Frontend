@@ -120,7 +120,7 @@ const PredictverseBorrowCard: FC<PredictverseBorrowCardModel> = ({
     );
 
     useEffect(() => {
-        getAllowance(contractAddress);
+        if(active) getAllowance(contractAddress);
         getTotalPREDCollateral();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [balance]);
@@ -166,7 +166,6 @@ const PredictverseBorrowCard: FC<PredictverseBorrowCardModel> = ({
 
                     <div className="token__title">
                         <p className="name">PREDNFTs</p>
-                        <p className="multiple">6x</p>
                     </div>
                 </div>
 
