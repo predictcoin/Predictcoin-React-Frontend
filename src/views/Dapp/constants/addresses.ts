@@ -57,7 +57,7 @@ export const PREDICTVERSE_ADDRESSES = {
 };
 
 export const PREDICTVERSE_MARKET_ADDRESSES = {
-    mainnet: "",
+    mainnet: "0xE77c8eEFc98465fC803882FDE2e8DDa2346862EC",
     staging: "",
     testnet: "0xB745C869db3748fA89831fF2da702EE254535B8b"
 };
