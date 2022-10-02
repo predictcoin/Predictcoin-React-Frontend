@@ -3,7 +3,7 @@ import { InjectedConnector } from '@web3-react/injected-connector';
 import { NetworkConnector } from '@web3-react/network-connector';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { DeFiWeb3Connector } from "deficonnect";
-import { supportedChainIds } from '../../../constants/chainIds';
+import { supportedChainIds, currentValidChainIds } from '../../../constants/chainIds';
 import { RPC_URLS } from '../../../constants/rpcURLs';
 import { Explorers } from '../../../constants/explorers';
 import { getChainId } from '../../../lib/utils/chain';
@@ -103,10 +103,10 @@ export const connect = async (name: string) =>{
     await connector.activate();
     const chainId = Number(await connector.getChainId()) as keyof typeof Explorers;
     const provider =  await connector.getProvider(); 
-    if(!Object.values(supportedChainIds).includes(chainId) && name === "injected"){
+    if(!Object.values(currentValidChainIds).includes(chainId) && name === "injected"){
       await addNetwork(provider);
     }
-    if(!Object.values(supportedChainIds).includes(chainId)){
+    if(!Object.values(currentValidChainIds).includes(chainId)){
       return undefined;
     }
 
