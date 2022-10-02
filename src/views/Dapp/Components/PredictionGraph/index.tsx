@@ -30,6 +30,7 @@ const PredictionGraph: FC<PredictionGraphProps> = ({
             <Loader />
         </div>
     ) : (
+        // @ts-ignore
         <ResponsiveLine
             data={data}
             yScale={{

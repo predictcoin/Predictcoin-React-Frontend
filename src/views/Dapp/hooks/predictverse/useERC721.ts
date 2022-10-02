@@ -12,7 +12,7 @@ import getNFTs from "../../lib/utils/getNFTs";
 
 export type NODE_ENV = "mainnet" | "testnet" | "staging";
 
-const useERC721 = (address: string) => {
+const useERC721 = (address: string, addressToCheckAllowed?: string) => {
     const { send: sendTransaction } = useTransaction();
     const {
         provider,
@@ -117,9 +117,10 @@ const useERC721 = (address: string) => {
         if (active) {
             (async () => {
                 await getAllowed(
-                    PREDICTVERSE_ADDRESSES[
-                        process.env.REACT_APP_ENVIRONMENT as NODE_ENV
-                    ]
+                    addressToCheckAllowed ??
+                        PREDICTVERSE_ADDRESSES[
+                            process.env.REACT_APP_ENVIRONMENT as NODE_ENV
+                        ]
                 );
                 await getBalance();
                 await getNameSymbol();

@@ -35,7 +35,7 @@ const AppDashboard: FC = () => {
                         />
                         <Route path="/farming" element={<Farming />} />
                         <Route
-                            path="/predictverse"
+                            path="/predictverse/*"
                             element={<Predictverse />}
                         />
                         {["/", "/staking/*"].map((path, index) => {

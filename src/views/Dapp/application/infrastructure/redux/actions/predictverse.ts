@@ -4,7 +4,10 @@ import * as actionTypes from "../actionTypes/predictverse";
 import { Predictverse } from "../../../../typechain";
 import { initPredictverseUsecase } from "../../../usecases/predictverse/init";
 import { Pool } from "../../../domain/predictverse/entity";
-import { getPredictversePoolUsecase, getUserPoolDetailsUsecase } from "../../../usecases/predictverse/getPool";
+import {
+    getPredictversePoolUsecase,
+    getUserPoolDetailsUsecase
+} from "../../../usecases/predictverse/getPool";
 
 export const initPredictverseAction =
     (predictverseContract: Predictverse, address: string, active: boolean) =>
