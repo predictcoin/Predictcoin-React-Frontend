@@ -3,6 +3,9 @@ import { ChangeEvent, FC, useEffect, useState } from "react";
 import { AiOutlineClose, AiOutlineInfoCircle } from "react-icons/ai";
 
 import CustomModal from "..";
+import { TOKENS } from "../../../constants/addresses";
+import useToken from "../../../hooks/useToken";
+import { getChainId } from "../../../lib/utils/chain";
 import { displayDecimals } from "../../../lib/utils/number";
 import CustomCheckbox from "../../CustomCheckbox";
 import NFTCard from "../../NFTCard";
@@ -54,6 +57,7 @@ const BorrowNFTModal: FC<BorrowNFTModalProps> = ({
     decimals
 }) => {
     const [nftsToBorrow, setNFTsToBorrow] = useState<number[]>([]);
+    const { balance } = useToken(TOKENS[getChainId()].PRED);
     const [borrowCollateral, setBorrowCollateral] = useState<BigNumber>(
         BigNumber.from(0)
     );
@@ -109,27 +113,37 @@ const BorrowNFTModal: FC<BorrowNFTModalProps> = ({
 
                 {!justView &&
                     Boolean(Object.values(predNFTsToBorrow).length > 0) && (
-                        <p className="pred__collateral__amount">
-                            <div className="pred__tooltip">
-                                <AiOutlineInfoCircle
-                                    size={18}
-                                    color={"white"}
-                                />
-                                <span className="tooltiptext">
-                                    PRED collateral needed to borrow select NFTs
+                        <>
+                            <p className="pred__collateral__amount">
+                                <div className="pred__tooltip">
+                                    <AiOutlineInfoCircle
+                                        size={18}
+                                        color={"white"}
+                                    />
+                                    <span className="tooltiptext">
+                                        PRED collateral needed to borrow select
+                                        NFTs
+                                    </span>
+                                </div>
+                                <span>
+                                    PRED Collateral:{" "}
+                                    {displayDecimals(
+                                        ethers.utils.formatUnits(
+                                            borrowCollateral,
+                                            decimals
+                                        ),
+                                        5
+                                    )}
                                 </span>
-                            </div>
-                            <span>
-                                PRED Collateral:{" "}
-                                {displayDecimals(
-                                    ethers.utils.formatUnits(
-                                        borrowCollateral,
-                                        decimals
-                                    ),
-                                    5
-                                )}
-                            </span>
-                        </p>
+                            </p>
+
+                            {Boolean(borrowCollateral.gt(balance)) && (
+                                <p className="borrow__insufficient__balance">
+                                    Insufficient balance, you do not have enough
+                                    PRED to borrow!
+                                </p>
+                            )}
+                        </>
                     )}
 
                 <div
@@ -190,7 +204,10 @@ const BorrowNFTModal: FC<BorrowNFTModalProps> = ({
                                 <button
                                     className={"confirm active"}
                                     onClick={BorrowNFTs}
-                                    disabled={!Boolean(nftsToBorrow.length)}
+                                    disabled={
+                                        !Boolean(nftsToBorrow.length) ||
+                                        Boolean(borrowCollateral.gt(balance))
+                                    }
                                 >
                                     Borrow
                                 </button>
