@@ -61,9 +61,6 @@ const useERC721 = (address: string, addressToCheckAllowed?: string) => {
     };
 
     const getNameSymbol = async () => {
-        if (!active) {
-            return;
-        }
         const name = await contract.name();
         const symbol = await contract.symbol();
 
@@ -114,6 +111,8 @@ const useERC721 = (address: string, addressToCheckAllowed?: string) => {
     };
 
     useEffect(() => {
+        getNameSymbol();
+
         if (active) {
             (async () => {
                 await getAllowed(
@@ -123,7 +122,6 @@ const useERC721 = (address: string, addressToCheckAllowed?: string) => {
                         ]
                 );
                 await getBalance();
-                await getNameSymbol();
                 getUserNFTs();
             })();
 
